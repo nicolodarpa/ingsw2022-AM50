@@ -2,6 +2,9 @@ package it.polimi.ingsw;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
+/**
+ * Game contains all the metods that implements the match
+ */
 
 public class Game {
 

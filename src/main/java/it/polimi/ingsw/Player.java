@@ -1,5 +1,9 @@
 package it.polimi.ingsw;
 
+/**
+ * Player contains all method that allows player to play a match
+ */
+
 public class Player {
     private  String name;
     private int order;
@@ -22,6 +26,9 @@ public class Player {
             dashboard.addStudentToHall(student);
         }
 
+
+    }
+    public void chooseDeck(Deck d){
 
     }
 

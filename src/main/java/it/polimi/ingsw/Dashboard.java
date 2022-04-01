@@ -6,6 +6,7 @@ import java.util.ArrayList;
  * classroom contains your student, hall the ones you con move to classroom
  */
 public class Dashboard {
+    private int id;
     private Student[][] classroom = new Student[5][10];
     private ArrayList<Student> hall = new ArrayList<>(7);
     private int towerNumber;
