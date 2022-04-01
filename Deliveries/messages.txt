@@ -1,0 +1,102 @@
+
+MOVE STUDENTS
+Client---->Server
+{"action": "moveStudentToClassroom",
+"student":studentIndex
+}
+
+---->
+{"action": "moveStudentToIsland",
+"destination":islanId,
+"student":studentIndex
+}
+
+<-----
+on ok 
+{"status":1,
+"text":"Student moved fom "origin" to "destination""}
+
+<-----
+on error
+{"status":0,
+"text":"not you turn, wait for player to finish"}
+
+<----
+on error
+{"status":0,
+"text":"invalid move"}
+
+
+
+
+PLAY ASSISTENT CARD
+c---->S
+{"action":"PlayAssistentCard";
+"assistent":assistentCardNumber}
+
+<----
+on ok
+{"status":1,
+"text", "Assistent Card played, you can move MN by # moves"}
+
+<----
+on error
+{"staut":0,
+"text":"Assistent Card already played by another player, chose a different one"}
+
+
+<----
+on error
+{"status":0,
+"text":"invalid action"}
+
+
+CHOSE CC
+C--->S
+{"action":"choseCloudCard",
+"cloudCardNumber":number}
+
+<----
+on ok
+{"status":1,
+"text":"Student moved to your hall"}
+
+<----
+on error
+{"status":0,
+"text":"invlid action"}
+
+
+MOVE MOTHER NATURE
+C---->S
+{"action":"moveMotherNature",
+"numberOfMoves": number}
+
+<----
+on ok
+{"status":1,
+"text":"Mother nature has been moved"}
+
+<----
+on error
+{"status":0,
+"text":"to many moves, you can move mother nature of n moves"}
+
+
+
+PLAY SPECIAL CARD
+C---->S
+{"action":"playSpecialCard",
+"specialCardNumber":speciaCardNUmber
+}
+
+<----
+on ok
+{"status":1,
+"text":"Special Card played"}
+
+<----
+on error
+{"status":0,
+"text":"not enough money to play this card"}
+
