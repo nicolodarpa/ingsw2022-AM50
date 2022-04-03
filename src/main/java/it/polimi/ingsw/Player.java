@@ -13,6 +13,7 @@ public class Player {
     private String towerColor;
     private Wallet wallet = new Wallet();
     private Dashboard dashboard = new Dashboard();
+    private Deck d;
 
 
     public Player(String name){
@@ -35,4 +36,28 @@ public class Player {
     public String getName() {
         return name;
     }
+
+    public int getOrder() {
+        return order;
+    }
+
+    public int getMovesOfMN() {
+        return movesOfMN;
+    }
+
+    public void setDeck(Deck d){
+        this.d = d;
+        d.setHasChoosen(true);
+    }
+
+    public Deck getD() {
+        return d;
+    }
+
+    public void playAssistantCard(Player p, int n){
+        p.d.AssistantCardList(p.d);
+        p.order = d.getCardsList().get(n).getOrder();
+        p.movesOfMN = d.getCardsList().get(n).getMovesOfMN();
+    }
+
 }

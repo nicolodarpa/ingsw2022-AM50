@@ -4,10 +4,19 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 /**
  * Game contains all the metods that implements the match
+ *
+ * Implemented methods allows to do the following operation:
+ *<ul>
+ *     <li>addPlayer add a new player to the match</li>
+ *     <li>moveStudentsToHall move the students from the Entrance to the hall of the dashboard</li>
+ *     <li>setupGame start a new game</li>
+ *     <li>checkPlayer check that there is the correct number of players to start a new match or print that the game is waiting new players</li>
+ *</ul>
+ * @author Nicolò D'Arpa, Zarlene Justrem De Mesa, Alessandro Costantini
+ * @since 1.0
  */
 
-public class Game {
-
+public class Game{
     private int id;
     private boolean gameStatus;
     private int round;

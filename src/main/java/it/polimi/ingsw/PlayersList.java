@@ -2,6 +2,10 @@ package it.polimi.ingsw;
 
 import java.util.ArrayList;
 
+/**
+ * This class contains the players list that are playing a match
+ */
+
 public class PlayersList {
 
     private static ArrayList<Player> players;
@@ -22,6 +26,10 @@ public class PlayersList {
     }
 
     public static void addPlayer(String name) {
+        /**
+         * This method add new player to the playersList
+         */
+
         allocate();
         Player p = new Player(name);
         players.add(p);
