@@ -11,7 +11,7 @@ public class Dashboard {
     private Student[][] classroom = new Student[5][10];
     private ArrayList<Student> hall = new ArrayList<>(7);
     private int towerNumber;
-    private ArrayList<Teacher> teacherList;
+    private ArrayList<Teacher> teacherList = new ArrayList<Teacher>();
 
 
 
@@ -52,8 +52,7 @@ public class Dashboard {
         return teacherList;
     }
 
-    public void addTeacher(Teacher t){
-        teacherList.add(t);
+    public void addTeacher(Teacher teacher){
+        teacherList.add(teacher);
     }
-
 }

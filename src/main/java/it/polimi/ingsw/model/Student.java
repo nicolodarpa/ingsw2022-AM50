@@ -25,6 +25,7 @@ public class Student {
     public Student(){
         this.color = "WHITE";
     }
+
     public Student(String color){
         this.color = color;
     }

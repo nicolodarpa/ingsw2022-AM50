@@ -1,10 +1,10 @@
 package it.polimi.ingsw.model;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public class Teacher {
     private String color;
-
 
     public Teacher(String color) {
         this.color = color;
@@ -18,7 +18,6 @@ public class Teacher {
         this.color = color;
     }
 
-    public void moveTeacherToDashboard(Teacher t, Dashboard d){
-        d.addTeacher(t);
+    public void moveTeacherToDashboard(Dashboard d){
     }
 }
