@@ -1,4 +1,7 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.model;
+
+import it.polimi.ingsw.EchoServerClientHandler;
+import it.polimi.ingsw.PlayersList;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
