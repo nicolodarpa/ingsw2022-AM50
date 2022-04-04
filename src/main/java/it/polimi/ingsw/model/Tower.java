@@ -6,9 +6,9 @@ public class Tower {
     private boolean positionInGame;
 
 
-    public Tower(int id, String color, boolean positionInGame) {
+    public Tower(int id, String color) {
         this.id = id;
         this.color = color;
-        this.positionInGame = positionInGame;
+        this.positionInGame = true;
     }
 }

@@ -5,6 +5,9 @@ import it.polimi.ingsw.PlayersList;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Game contains all the metods that implements the match
  *
@@ -30,6 +33,7 @@ public class Game{
     private final PlayersList plist = new PlayersList();
     private StudentsBag studentsBag = new StudentsBag();
     private ArrayList<CloudCard> cloudCards = new ArrayList<>();
+    private Map<Integer, Deck> map = new HashMap<Integer, Deck>();
 
 
     public int getNumberOfPlayers() {
@@ -67,6 +71,7 @@ public class Game{
         fillStudentsBag();
         cloudCardCreation();
         cloudCardFill();
+        createDecks();
 
     }
 
@@ -126,5 +131,22 @@ public class Game{
 
     public void removePlayer(String name) {
         plist.removePlayer(name);
+    }
+
+    public void createDecks(){
+        /**
+         * create the assistant card's deck:
+         * <ul>
+         *     <li>Wizard 1</li>
+         *     <li>Wizard 2</li>
+         *     <li>Wizard 3</li>
+         *     <li>Wizard 4</li>
+         * </ul>
+         */
+
+        map.put(1, new Deck(1));
+        map.put(2, new Deck(2));
+        map.put(3, new Deck(3));
+        map.put(4, new Deck(4));
     }
 }

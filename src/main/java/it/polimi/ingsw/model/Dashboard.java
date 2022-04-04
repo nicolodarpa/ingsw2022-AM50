@@ -5,6 +5,7 @@ import java.util.ArrayList;
 /**
  * classroom contains your student, hall the ones you con move to classroom
  */
+
 public class Dashboard {
     private int id;
     private Student[][] classroom = new Student[5][10];
@@ -45,6 +46,14 @@ public class Dashboard {
 
     public void addStudentToClassroom(int row, int col, Student student) {
         classroom[row][col] = student;
+    }
+
+    public ArrayList<Teacher> getTeacherList() {
+        return teacherList;
+    }
+
+    public void addTeacher(Teacher t){
+        teacherList.add(t);
     }
 
 }

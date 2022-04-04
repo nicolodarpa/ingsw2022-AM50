@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import java.util.ArrayList;
+
 public class Teacher {
     private String color;
 
@@ -16,7 +18,7 @@ public class Teacher {
         this.color = color;
     }
 
-    public void moveTeacherToDashboard(){
-
+    public void moveTeacherToDashboard(Teacher t, Dashboard d){
+        d.addTeacher(t);
     }
 }
