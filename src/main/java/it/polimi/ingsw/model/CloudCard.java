@@ -21,4 +21,15 @@ public class CloudCard {
 
     }
 
+
+    public ArrayList<Student> getAllStudents(){
+        ArrayList<Student> tempStudents = new ArrayList<>();
+        for (Student st:students){
+            Student student = st;
+            tempStudents.add(st);
+            students.remove(student);
+        }
+        return tempStudents;
+    }
+
 }

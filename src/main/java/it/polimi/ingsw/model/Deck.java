@@ -4,13 +4,13 @@ import java.util.ArrayList;
 
 public class Deck {
     private int id;
-    private boolean hasChoosen;
+    private boolean hasChosen;
     private ArrayList<AssistantCard> cardsList = new ArrayList<AssistantCard>();
 
 
     public Deck(int id){
         this.id = id;
-        this.hasChoosen = false;
+        this.hasChosen = false;
         cardsList.add(new AssistantCard(1,1));
         cardsList.add(new AssistantCard(2,1));
         cardsList.add(new AssistantCard(3,2));
@@ -27,16 +27,16 @@ public class Deck {
         return id;
     }
 
-    public boolean isHasChoosen() {
-        return hasChoosen;
+    public boolean isHasChosen() {
+        return hasChosen;
     }
 
     public void setId(int id) {
         this.id = id;
     }
 
-    public void setHasChoosen(boolean hasChoosen) {
-        this.hasChoosen = hasChoosen;
+    public void setHasChosen(boolean hasChosen) {
+        this.hasChosen = hasChosen;
     }
 
     public ArrayList<AssistantCard> getCardsList() {

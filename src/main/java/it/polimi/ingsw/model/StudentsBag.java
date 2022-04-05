@@ -1,7 +1,5 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.Student;
-
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -11,13 +9,13 @@ public class StudentsBag {
     private final String[] colors = {"CYAN","MAGENTA","YELLOW","RED","GREEN" } ;
 
     public void fillBag(int i){
-        bag = new ArrayList<>(i);
-        for (int j = 0; j<i; j++){
-            bag.add(new Student(colors[1]));
+        bag = new ArrayList<>();
+        for (int j = 1; j<i+1; j++){
+            bag.add(new Student(colors[j%5]));
         }
     }
 
-    public Student casualEstraction(){
+    public Student casualExtraction(){
         Random random = new Random();
         Student randomStudent = bag.get(random.nextInt(bag.size()));
         bag.remove(randomStudent);

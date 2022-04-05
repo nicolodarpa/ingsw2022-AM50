@@ -29,7 +29,6 @@ public class Game{
     private int numberOfPlayers = 3;
     private int orderOfGame;
     private int numberOfIslands;
-    private static PrintWriter out;
     private final PlayersList plist = new PlayersList();
     private StudentsBag studentsBag = new StudentsBag();
     private ArrayList<CloudCard> cloudCards = new ArrayList<>();
@@ -92,7 +91,7 @@ public class Game{
     }
 
     /**
-     * Create 4 CloudCard in cloudCards and fill them with the correct amount of students
+     * Create 3 or 4 CloudCard in cloudCards and fill them with the correct amount of students
      */
     private void cloudCardCreation() {
         if (numberOfPlayers == 2) {
@@ -116,11 +115,11 @@ public class Game{
         for (CloudCard cl : cloudCards) {
             if (numberOfPlayers == 2) {
                 for (int i = 0; i < 3; i++) {
-                    cl.addStudent(studentsBag.casualEstraction());
+                    cl.addStudent(studentsBag.casualExtraction());
                 }
             } else {
                 for (int i = 0; i < 4; i++) {
-                    cl.addStudent(studentsBag.casualEstraction());
+                    cl.addStudent(studentsBag.casualExtraction());
                 }
             }
         }

@@ -12,7 +12,7 @@ public class EchoServerClientHandler extends Thread {
 
     private final Socket socket;
     private static ArrayList<EchoServerClientHandler> threadList;
-    private final ClientUI clientUI;
+    private static ClientUI clientUI = null;
     private Game game;
 
 
@@ -87,9 +87,7 @@ public class EchoServerClientHandler extends Thread {
     }
 
     public static void printToAllClients(String outputString) {
-        /**for (EchoServerClientHandler cl : threadList) {
-         cl.out.println(outputString);
-         }**/
+
         System.out.println("print to all, game starting");
     }
 

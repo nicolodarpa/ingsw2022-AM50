@@ -23,7 +23,7 @@ public class Player {
 
     public void moveStudentsToHall(StudentsBag bag){
         for (int i = 0; i<7;i++){
-            Student student = bag.casualEstraction();
+            Student student = bag.casualExtraction();
             dashboard.addStudentToHall(student);
         }
 
@@ -44,7 +44,7 @@ public class Player {
 
     public void setDeck(Deck deck){
         this.deck = deck;
-        deck.setHasChoosen(true);
+        deck.setHasChosen(true);
     }
 
     public Deck getDeck() {

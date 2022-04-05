@@ -11,8 +11,8 @@ public class MultiEchoServer {
     private int port;
 
 
-    public MultiEchoServer(String port) {
-        this.port = Integer.parseInt(port);
+    public MultiEchoServer(int port) {
+        this.port = port;
     }
 
     public void startServer() {
@@ -26,13 +26,13 @@ public class MultiEchoServer {
             return;
         }
         System.out.println("Server ready on port: " + port);
-        while(true){
-            try{
+        while (true) {
+            try {
                 Socket socket = serverSocket.accept();
                 EchoServerClientHandler serverThread = new EchoServerClientHandler(socket, threadList, game);
                 threadList.add(serverThread);
                 serverThread.start();
-            }catch (IOException e){
+            } catch (IOException e) {
                 break;
             }
         }

@@ -13,6 +13,7 @@ public class GameTest extends TestCase {
         game.setupGame();
         game.moveStudentsToHall();
         assertEquals(114-14, game.getStudentsInBag());
+
     }
 
     public void testSetupGame() {
