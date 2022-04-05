@@ -25,7 +25,7 @@ public class Game{
     private int id;
     private boolean gameStatus;
     private int round;
-    private int numberOfPlayers = 3;
+    private int numberOfPlayers;
     private int orderOfGame;
     private int numberOfIslands;
     private final PlayersList plist = new PlayersList();

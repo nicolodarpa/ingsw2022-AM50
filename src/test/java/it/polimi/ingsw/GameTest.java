@@ -4,9 +4,9 @@ import it.polimi.ingsw.model.Game;
 import junit.framework.TestCase;
 
 public class GameTest extends TestCase {
-    Game game = new Game();
-    public void testMoveStudentsToHall() {
 
+    public void testMoveStudentsToHall() {
+        Game game = new Game();
         game.setNumberOfPlayers(2);
         LoginManager.login("ale", game);
         LoginManager.login("nic", game);
@@ -17,6 +17,7 @@ public class GameTest extends TestCase {
     }
 
     public void testSetupGame() {
+        Game game = new Game();
         game.setNumberOfPlayers(2);
         LoginManager.login("ale", game);
         LoginManager.login("nic", game);
@@ -24,9 +25,4 @@ public class GameTest extends TestCase {
         assertEquals(114, game.getStudentsInBag());
     }
 
-    public void testFillStudentsBag() {
-    }
-
-    public void testCloudCardFill() {
-    }
 }
