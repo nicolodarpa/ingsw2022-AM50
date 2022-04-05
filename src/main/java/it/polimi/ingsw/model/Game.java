@@ -3,7 +3,6 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.EchoServerClientHandler;
 import it.polimi.ingsw.PlayersList;
 
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -151,10 +150,10 @@ public class Game{
     }
 
     public void createTeachers(){
-        Teacher t1 = new Teacher(Color.CYAN);
-        Teacher t2 = new Teacher(Color.GREEN);
-        Teacher t3 = new Teacher(Color.MAGENTA);
-        Teacher t4 = new Teacher(Color.YELLOW);
-        Teacher t5 = new Teacher(Color.RED);
+        Teacher t1 = new Teacher(ColorPawn.CYAN);
+        Teacher t2 = new Teacher(ColorPawn.GREEN);
+        Teacher t3 = new Teacher(ColorPawn.MAGENTA);
+        Teacher t4 = new Teacher(ColorPawn.YELLOW);
+        Teacher t5 = new Teacher(ColorPawn.RED);
     }
 }

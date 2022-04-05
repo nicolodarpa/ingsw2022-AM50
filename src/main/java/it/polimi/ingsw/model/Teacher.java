@@ -1,20 +1,17 @@
 package it.polimi.ingsw.model;
 
-import java.util.ArrayList;
-import java.util.Map;
-
 public class Teacher {
-    private Color color;
+    private ColorPawn color;
 
-    public Teacher(Color color) {
+    public Teacher(ColorPawn color) {
         this.color = color;
     }
 
-    public Color getColor() {
+    public ColorPawn getColor() {
         return color;
     }
 
-    public void setColor(Color color) {
+    public void setColor(ColorPawn color) {
         this.color = color;
     }
 

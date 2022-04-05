@@ -1,5 +1,5 @@
 package it.polimi.ingsw.model;
 
-public enum Color {
+public enum ColorPawn {
     CYAN, RED, GREEN, YELLOW, MAGENTA;
 }
