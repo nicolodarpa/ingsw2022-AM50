@@ -71,6 +71,7 @@ public class Game{
         cloudCardCreation();
         cloudCardFill();
         createDecks();
+        createTeachers();
 
     }
 
@@ -147,5 +148,13 @@ public class Game{
         map.put(2, new Deck(2));
         map.put(3, new Deck(3));
         map.put(4, new Deck(4));
+    }
+
+    public void createTeachers(){
+        Teacher t1 = new Teacher(Color.blue);
+        Teacher t2 = new Teacher(Color.green);
+        Teacher t3 = new Teacher(Color.pink);
+        Teacher t4 = new Teacher(Color.red);
+        Teacher t5 = new Teacher(Color.yellow);
     }
 }

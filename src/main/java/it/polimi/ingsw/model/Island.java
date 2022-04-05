@@ -73,7 +73,7 @@ public class Island {
         this.owner = owner;
     }
 
-    public int calcInfluence(Student s){
+    public int calcInfluence(Player player){
         return 1;
     }
 }

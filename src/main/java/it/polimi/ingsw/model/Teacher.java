@@ -4,17 +4,17 @@ import java.util.ArrayList;
 import java.util.Map;
 
 public class Teacher {
-    private String color;
+    private Color color;
 
-    public Teacher(String color) {
+    public Teacher(Color color) {
         this.color = color;
     }
 
-    public String getColor() {
+    public Color getColor() {
         return color;
     }
 
-    public void setColor(String color) {
+    public void setColor(Color color) {
         this.color = color;
     }
 
