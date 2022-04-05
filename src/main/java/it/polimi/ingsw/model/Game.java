@@ -32,6 +32,7 @@ public class Game{
     private StudentsBag studentsBag = new StudentsBag();
     private ArrayList<CloudCard> cloudCards = new ArrayList<>();
     private Map<Integer, Deck> map = new HashMap<Integer, Deck>();
+    private ArrayList<Island> islands= new ArrayList<>(12);
 
 
     public int getNumberOfPlayers() {
@@ -71,14 +72,19 @@ public class Game{
         cloudCardFill();
         createDecks();
         createTeachers();
+        createIslands();
 
     }
 
-    public void checkPlayers() {
+    private void createIslands() {
+        for ( int i=1;i<=12;i++){
+            islands.add(new Island(i));
+        }
+    }
 
+    public void checkPlayers() {
         while (plist.getCurrentNumberOfPlayers() != numberOfPlayers) {
             EchoServerClientHandler.printToAllClients("waiting for players");
-
         }
     }
 

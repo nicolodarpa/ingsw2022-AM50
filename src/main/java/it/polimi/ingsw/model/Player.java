@@ -15,6 +15,13 @@ public class Player {
     private Dashboard dashboard = new Dashboard();
     private Deck deck;
 
+    public Dashboard getDashboard() {
+        return dashboard;
+    }
+
+    public void setDashboard(Dashboard dashboard) {
+        this.dashboard = dashboard;
+    }
 
     public Player(String name){
         this.name = name;

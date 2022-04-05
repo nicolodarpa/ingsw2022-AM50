@@ -11,11 +11,9 @@ public class Island {
     private ArrayList<Student> studentList;
     private Player owner;
 
-
     public Island(int id) {
         this.id = id;
     }
-
 
     public int getId() {
         return id;
