@@ -151,10 +151,10 @@ public class Game{
     }
 
     public void createTeachers(){
-        Teacher t1 = new Teacher(Color.blue);
-        Teacher t2 = new Teacher(Color.green);
-        Teacher t3 = new Teacher(Color.pink);
-        Teacher t4 = new Teacher(Color.red);
-        Teacher t5 = new Teacher(Color.yellow);
+        Teacher t1 = new Teacher(Color.CYAN);
+        Teacher t2 = new Teacher(Color.GREEN);
+        Teacher t3 = new Teacher(Color.MAGENTA);
+        Teacher t4 = new Teacher(Color.YELLOW);
+        Teacher t5 = new Teacher(Color.RED);
     }
 }

@@ -53,8 +53,8 @@ public class Player {
 
     public void playAssistantCard(int n){
         order = deck.getCardsList().get(n).getOrder();
-        movesOfMN = deck.getCardsList().get(n).getMovesOfMN();
-        deck.getCardsList().get(n).setHasPlayed(true);
+        movesOfMN = deck.getCardsList().get(n).getMoveOfMN();
+        deck.getCardsList().remove(deck.getCardsList().get(n));
     }
 
 }
