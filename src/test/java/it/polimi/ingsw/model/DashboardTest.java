@@ -1,12 +1,7 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.Dashboard;
-import it.polimi.ingsw.model.Student;
-import it.polimi.ingsw.model.StudentsBag;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import java.lang.annotation.Annotation;
 
 
 public class DashboardTest{
@@ -22,7 +17,7 @@ public class DashboardTest{
                 Student student = studentsBag.casualExtraction();
                 System.out.print(i + ": ");
                 student.draw();
-                System.out.println("");
+                System.out.println(" ");
                 testD.addStudentToHall(student);
             }
             testD.drawDashboard();
@@ -51,7 +46,8 @@ public class DashboardTest{
         }
 
         @Test
-        @Disabled("Not implemented yet")
         public void testDrawDashboard() {
+            Dashboard dashboard = new Dashboard();
+            dashboard.drawDashboard();
         }
 }

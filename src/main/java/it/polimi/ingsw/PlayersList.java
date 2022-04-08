@@ -19,6 +19,7 @@ public class PlayersList {
         }
     }
 
+
     public static boolean contains(String name) {
         for (Player p : players) {
             if (p.getName().equals(name)) {

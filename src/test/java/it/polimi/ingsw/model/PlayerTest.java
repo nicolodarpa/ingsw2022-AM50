@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.LoginManager;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -27,6 +27,30 @@ public class PlayerTest{
         p.playAssistantCard(4);
         assertEquals(5, p.getOrder());
         assertEquals(3, p.getMovesOfMN());
+    }
+
+    @Test
+    public void testMoveStudentToClassroom(){
+        Player player = new Player("jaz");
+        StudentsBag s = new StudentsBag();
+        s.fillBag(120);
+        player.moveStudentsToHall(s);
+        player.moveStudentToClassroom(3);
+        player.getDashboard().drawDashboard();
+    }
+
+    @Test
+    public void testMoveStudentToIsland(){
+        Game game = new Game();
+        game.setNumberOfPlayers(2);
+        LoginManager.login("ale", game);
+        LoginManager.login("nic", game);
+        game.setupGame();
+        Player player = new Player("jaz");
+        player.moveStudentsToHall(game.getStudentsBag());
+        player.moveStudentToIsland(game.getIslands().get(2), 3);
+        assertEquals(1,game.getIslands().get(2).getStudentList().size());
+        player.getDashboard().drawDashboard();
     }
 }
 

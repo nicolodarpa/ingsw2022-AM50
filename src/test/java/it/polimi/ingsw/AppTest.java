@@ -7,7 +7,4 @@ package it.polimi.ingsw;
  */
 public class AppTest 
 {
-    /**
-     * Rigorous Test :-)
-     */
     }

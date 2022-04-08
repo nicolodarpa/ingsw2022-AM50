@@ -59,14 +59,31 @@ public class Player {
         return deck;
     }
 
-    public void playAssistantCard(int n){
-        order = deck.getCardsList().get(n).getOrder();
-        movesOfMN = deck.getCardsList().get(n).getMoveOfMN();
-        deck.getCardsList().remove(deck.getCardsList().get(n));
+    /**
+     * The player choose based on the number of the card of its deck which one to play
+     * @param numberOfCard
+     */
+    public void playAssistantCard(int numberOfCard){
+        order = deck.getCardsList().get(numberOfCard).getOrder();
+        movesOfMN = deck.getCardsList().get(numberOfCard).getMoveOfMN();
+        deck.getCardsList().remove(deck.getCardsList().get(numberOfCard));
     }
 
-    public void moveStudentToIsland(Island island, Student student){
-        island.addStudent(student);
+    /**
+     * The player choose based on the position of the student from the DashboardHall which one to move to the selected Island
+     * @param island
+     * @param position
+     */
+    public void moveStudentToIsland(Island island, int position){
+        island.addStudent(dashboard.getStudentFromHall(position));
+    }
+
+    /**
+     * The player choose based on the position of the student from the DashboardHall which one to move to the classroom
+     * @param position
+     */
+    public void moveStudentToClassroom(int position){
+        dashboard.addStudentToClassroom(dashboard.getStudentFromHall(position));
     }
 
     public int[] countStudentRow() {

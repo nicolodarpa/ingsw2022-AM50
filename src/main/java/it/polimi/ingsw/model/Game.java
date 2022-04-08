@@ -39,8 +39,16 @@ public class Game{
         return numberOfPlayers;
     }
 
+    public PlayersList getPlist() {
+        return plist;
+    }
+
     public int getCurrentNumberOfPlayers() {
         return plist.getCurrentNumberOfPlayers();
+    }
+
+    public StudentsBag getStudentsBag() {
+        return studentsBag;
     }
 
     public ArrayList<Island> getIslands() {
@@ -63,14 +71,13 @@ public class Game{
 
     public void addPlayer(String name) {
         plist.addPlayer(name);
-        if (getNumberOfPlayers() == getCurrentNumberOfPlayers()) {
-            startGame();
-        }
+        //if (getNumberOfPlayers() == getCurrentNumberOfPlayers()) {
+          //  startGame();
+    //    }
     }
 
     public void moveStudentsToHall(){
         plist.moveStudentsToHall(studentsBag);
-
     }
 
     public void setupGame() {

@@ -12,7 +12,7 @@ public class LoginManagerTest{
     public void testLogin() {
 
         Game game = new Game();
-        game.setNumberOfPlayers(3); ;
+        game.setNumberOfPlayers(3);
         LoginManager.login("ale", game);
         LoginManager.login("nic", game);
         assertEquals(2, LoginManager.login("nic", game));

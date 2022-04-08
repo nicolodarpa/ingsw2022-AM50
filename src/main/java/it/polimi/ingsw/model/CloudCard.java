@@ -18,9 +18,11 @@ public class CloudCard {
 
     public void addStudent(Student student) {
         students.add(student);
-
     }
 
+    public ArrayList<Student> getStudents() {
+        return students;
+    }
 
     public ArrayList<Student> getAllStudents(){
         ArrayList<Student> tempStudents = new ArrayList<>();
