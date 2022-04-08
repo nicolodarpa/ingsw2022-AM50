@@ -1,10 +1,13 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.LoginManager;
 import it.polimi.ingsw.model.Game;
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Test;
 
-public class GameTest extends TestCase {
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
+public class GameTest{
+    @Test
     public void testMoveStudentsToHall() {
         Game game = new Game();
         game.setNumberOfPlayers(2);
@@ -15,7 +18,7 @@ public class GameTest extends TestCase {
         assertEquals(114-14, game.getStudentsInBag());
 
     }
-
+    @Test
     public void testSetupGame() {
         Game game = new Game();
         game.setNumberOfPlayers(2);

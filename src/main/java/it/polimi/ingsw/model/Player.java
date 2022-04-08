@@ -1,5 +1,8 @@
 package it.polimi.ingsw.model;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 /**
  * Player contains all method that allows player to play a match
  */
@@ -62,4 +65,34 @@ public class Player {
         deck.getCardsList().remove(deck.getCardsList().get(n));
     }
 
+    public void moveStudentToIsland(Island island, Student student){
+        island.addStudent(student);
+    }
+
+    public int[] countStudentRow() {
+        int[] colorList = new int[5];
+        int red = 0, cyan = 0, magenta = 0, yellow = 0, green = 0;
+        Student[] list = new Student[10];
+        list = dashboard.getHall();
+        colorList[0] = red;
+        colorList[1] = cyan;
+        colorList[2] = magenta;
+        colorList[3] = yellow;
+        colorList[4] = green;
+
+        for (int i = 0; i < 10; i++) {
+            if (list[i].getColor() == "RED")
+                colorList[0]++;
+            else if (list[i].getColor() == "CYAN")
+                colorList[1]++;
+            else if (list[i].getColor() == "MAGENTA")
+                colorList[2]++;
+            else if (list[i].getColor() == "YELLOW")
+                colorList[3]++;
+            else if (list[i].getColor() == "GREEN")
+                colorList[4]++;
+        }
+        return colorList;
+    }
 }
+

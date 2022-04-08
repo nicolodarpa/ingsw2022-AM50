@@ -8,8 +8,9 @@ public class Island {
     private int idGroup;
     private boolean towerStatus;
     private String towerColor;
-    private ArrayList<Student> studentList;
+    private ArrayList<Student> studentList = new ArrayList<>();
     private Player owner;
+
 
     public Island(int id) {
         this.id = id;
@@ -72,6 +73,18 @@ public class Island {
     }
 
     public int calcInfluence(Player player){
+        return 1;
+    }
+
+    public void addStudent(Student s){
+        studentList.add(s);
+    }
+
+    public int countStudentColor(){
+        String color;
+        for( Student s : studentList){
+            s.getColor();
+        }
         return 1;
     }
 }

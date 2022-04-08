@@ -1,10 +1,14 @@
 package it.polimi.ingsw;
 
 import it.polimi.ingsw.model.Game;
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Test;
 
-public class LoginManagerTest extends TestCase {
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
+public class LoginManagerTest{
+
+    @Test
     public void testLogin() {
 
         Game game = new Game();

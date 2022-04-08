@@ -17,6 +17,10 @@ public class Dashboard {
         return hall;
     }
 
+    public void setHall(Student[] hall) {
+        this.hall = hall;
+    }
+
     public void drawDashboard() {
         System.out.print("Hall: ");
         for (Student student : hall) {
