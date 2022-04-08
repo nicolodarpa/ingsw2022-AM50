@@ -3,12 +3,15 @@ package it.polimi.ingsw;
 import it.polimi.ingsw.model.Dashboard;
 import it.polimi.ingsw.model.Student;
 import it.polimi.ingsw.model.StudentsBag;
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Test;
 
-public class DashboardTest extends TestCase {
+
+// NOO public class DashboardTest extends TestCase {
+public class DashboardTest  {
 
     Dashboard testD = new Dashboard();
 
+    @Test
     public void testAddStudentToHall() {
 
         StudentsBag studentsBag = new StudentsBag();
