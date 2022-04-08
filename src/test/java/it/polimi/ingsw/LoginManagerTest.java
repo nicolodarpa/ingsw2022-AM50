@@ -1,15 +1,12 @@
 package it.polimi.ingsw;
 
 import it.polimi.ingsw.model.Game;
-import org.junit.jupiter.api.Test;
+import junit.framework.TestCase;
 
+public class LoginManagerTest extends TestCase {
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-public class LoginManagerTest{
-    @Test
     public void testLogin() {
+
         Game game = new Game();
         game.setNumberOfPlayers(3); ;
         LoginManager.login("ale", game);
@@ -18,7 +15,7 @@ public class LoginManagerTest{
         LoginManager.login("bob", game);
         assertEquals(1, LoginManager.login("bob", game));
         System.out.println("# of players: " + PlayersList.getCurrentNumberOfPlayers());
-        assertEquals(true, PlayersList.contains("ale"));
+        assertTrue(PlayersList.contains("ale"));
     }
 
 

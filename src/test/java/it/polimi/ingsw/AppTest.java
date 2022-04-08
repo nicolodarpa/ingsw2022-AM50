@@ -1,19 +1,15 @@
 package it.polimi.ingsw;
 
+import static org.junit.Assert.assertTrue;
 
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 /**
  * Unit test for simple App.
  */
-
-
 public class AppTest 
 {
-    @Test
-    @Disabled("Not implemented yet")
-    public void testSomething(){
-
-    }
+    /**
+     * Rigorous Test :-)
+     */
     }
