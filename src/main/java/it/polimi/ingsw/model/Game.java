@@ -43,6 +43,13 @@ public class Game{
         return plist.getCurrentNumberOfPlayers();
     }
 
+    public ArrayList<Island> getIslands() {
+        return islands;
+    }
+
+    public ArrayList<CloudCard> getCloudCards() {
+        return cloudCards;
+    }
 
     public void setNumberOfPlayers(int numberOfPlayers) {
         this.numberOfPlayers = numberOfPlayers;
@@ -73,10 +80,9 @@ public class Game{
         createDecks();
         createTeachers();
         createIslands();
-
     }
 
-    private void createIslands() {
+    public void createIslands() {
         for ( int i=1;i<=12;i++){
             islands.add(new Island(i));
         }
@@ -99,7 +105,7 @@ public class Game{
     /**
      * Create 3 or 4 CloudCard in cloudCards and fill them with the correct amount of students
      */
-    private void cloudCardCreation() {
+    public void cloudCardCreation() {
         if (numberOfPlayers == 2) {
             for (int i = 0; i < 2; i++) {
                 cloudCards.add(new CloudCard(numberOfPlayers));

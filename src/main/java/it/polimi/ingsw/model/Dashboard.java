@@ -13,6 +13,9 @@ public class Dashboard {
     private int towerNumber;
     private ArrayList<Teacher> teacherList = new ArrayList<Teacher>();
 
+    public Student[] getHall() {
+        return hall;
+    }
 
     public void drawDashboard() {
         System.out.print("Hall: ");

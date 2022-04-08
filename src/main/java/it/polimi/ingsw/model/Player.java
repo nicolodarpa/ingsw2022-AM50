@@ -33,8 +33,6 @@ public class Player {
             Student student = bag.casualExtraction();
             dashboard.addStudentToHall(student);
         }
-
-
     }
 
     public String getName() {
