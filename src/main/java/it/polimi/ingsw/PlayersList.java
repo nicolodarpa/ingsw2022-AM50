@@ -19,6 +19,9 @@ public class PlayersList {
         }
     }
 
+    public static ArrayList<Player> getPlayers() {
+        return players;
+    }
 
     public static boolean contains(String name) {
         for (Player p : players) {

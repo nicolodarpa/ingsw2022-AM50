@@ -1,13 +1,16 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.PlayersList;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Island {
     private int id;
     private boolean islandConquered;
     private int idGroup;
-    private boolean towerStatus;
-    private String towerColor;
+    private int towerNumber;
+    private TowerColor towerColor;
     private ArrayList<Student> studentList = new ArrayList<>();
     private Player owner;
 
@@ -28,8 +31,8 @@ public class Island {
         return idGroup;
     }
 
-    public boolean isTowerStatus() {
-        return towerStatus;
+    public int getTowerNumber() {
+        return towerNumber;
     }
 
     public Player getOwner() {
@@ -40,7 +43,7 @@ public class Island {
         return studentList;
     }
 
-    public String getTowerColor() {
+    public TowerColor getTowerColor() {
         return towerColor;
     }
 
@@ -56,11 +59,11 @@ public class Island {
         this.idGroup = idGroup;
     }
 
-    public void setTowerStatus(boolean towerStatus) {
-        this.towerStatus = towerStatus;
+    public void setTowerNumber(int towerNumber) {
+        this.towerNumber = towerNumber;
     }
 
-    public void setTowerColor(String towerColor) {
+    public void setTowerColor(TowerColor towerColor) {
         this.towerColor = towerColor;
     }
 
@@ -80,12 +83,82 @@ public class Island {
         studentList.add(s);
     }
 
-    public int countStudentColor(){
-        String color;
+    /**
+     * count the number of students of each color
+     * @return
+     */
+
+    public int[] countStudentByColor(){
+        int cyan = PawnColor.CYAN.ordinal();
+        int magenta = PawnColor.MAGENTA.ordinal();
+        int yellow = PawnColor.YELLOW.ordinal();
+        int red = PawnColor.RED.ordinal();
+        int green = PawnColor.GREEN.ordinal();
+        int[] color = new int[5];
         for( Student s : studentList){
-            s.getColor();
+            PawnColor pawnColor = s.getColor();
+            if(pawnColor.equals(PawnColor.CYAN)){
+                color[cyan]++;
+            }
+            else if(pawnColor.equals(PawnColor.MAGENTA)){
+                color[magenta]++;
+            }
+            else if(pawnColor.equals(PawnColor.YELLOW)){
+                color[yellow]++;
+            }
+            else if(pawnColor.equals(PawnColor.RED)){
+                color[red]++;
+            }
+            else if(pawnColor.equals(PawnColor.GREEN)){
+                color[green]++;
+            }
         }
-        return 1;
+        return color;
+    }
+
+
+    public PawnColor mostColorInfluence(){
+        PawnColor mostColor = null;
+        int[] colors = new int[5];
+        int posMax = 0;
+        colors = countStudentByColor();
+        posMax = ArrayMaxPosition.findMaxPosition(colors);
+        if(posMax == PawnColor.CYAN.ordinal()){
+            mostColor = PawnColor.CYAN;
+        }
+        else if(posMax == PawnColor.RED.ordinal()){
+            mostColor = PawnColor.RED;
+        }
+        else if(posMax == PawnColor.MAGENTA.ordinal()){
+            mostColor = PawnColor.MAGENTA;
+        }
+        else if(posMax == PawnColor.YELLOW.ordinal()){
+            mostColor = PawnColor.YELLOW;
+        }
+        else if(posMax == PawnColor.GREEN.ordinal()){
+            mostColor = PawnColor.GREEN;
+        }
+        return mostColor;
+    }
+
+
+    public void addTower(){
+        towerNumber++;
+        Dashboard ownerDashboard = owner.getDashboard();
+        int size = ownerDashboard.getTowers().size();
+        Tower t = ownerDashboard.getTowers().get(size-1);
+        ownerDashboard.removeTower(t);
+    }
+
+
+    public void calcInfluence(PlayersList players){
+        PawnColor mostColor = null;
+        mostColor = mostColorInfluence();
+        for(Player p : PlayersList.getPlayers()){
+            if(p.getDashboard().getTeacherTable()[mostColor.ordinal()] != null)
+                this.owner = p;
+        }
+        addTower();
     }
 }
 

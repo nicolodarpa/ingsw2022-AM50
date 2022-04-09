@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+
 import it.polimi.ingsw.EchoServerClientHandler;
 import it.polimi.ingsw.PlayersList;
 
@@ -21,8 +22,7 @@ import java.util.Map;
  * @since 1.0
  */
 
-public class Game{
-    private int id;
+public class Game {
     private boolean gameStatus;
     private int round;
     private int numberOfPlayers;
@@ -32,7 +32,7 @@ public class Game{
     private StudentsBag studentsBag = new StudentsBag();
     private ArrayList<CloudCard> cloudCards = new ArrayList<>();
     private Map<Integer, Deck> map = new HashMap<Integer, Deck>();
-    private ArrayList<Island> islands= new ArrayList<>(12);
+    private ArrayList<Island> islands = new ArrayList<>(12);
 
 
     public int getNumberOfPlayers() {
@@ -71,12 +71,12 @@ public class Game{
 
     public void addPlayer(String name) {
         plist.addPlayer(name);
-        //if (getNumberOfPlayers() == getCurrentNumberOfPlayers()) {
-          //  startGame();
-    //    }
+        if (getNumberOfPlayers() == getCurrentNumberOfPlayers()) {
+          startGame();
+        }
     }
 
-    public void moveStudentsToHall(){
+    public void moveStudentsToHall() {
         plist.moveStudentsToHall(studentsBag);
     }
 
@@ -87,10 +87,11 @@ public class Game{
         createDecks();
         createTeachers();
         createIslands();
+        this.round = 0;
     }
 
     public void createIslands() {
-        for ( int i=1;i<=12;i++){
+        for (int i = 1; i <= 12; i++) {
             islands.add(new Island(i));
         }
     }
@@ -151,7 +152,7 @@ public class Game{
         plist.removePlayer(name);
     }
 
-    public void createDecks(){
+    public void createDecks() {
         /**
          * create the assistant card's deck:
          * <ul>
@@ -168,11 +169,29 @@ public class Game{
         map.put(4, new Deck(4));
     }
 
-    public void createTeachers(){
-        Teacher t1 = new Teacher(ColorPawn.CYAN);
-        Teacher t2 = new Teacher(ColorPawn.GREEN);
-        Teacher t3 = new Teacher(ColorPawn.MAGENTA);
-        Teacher t4 = new Teacher(ColorPawn.YELLOW);
-        Teacher t5 = new Teacher(ColorPawn.RED);
+    public void createTeachers() {
+        Teacher teacher_cyan = new Teacher(PawnColor.CYAN);
+        Teacher teacher_magenta = new Teacher(PawnColor.MAGENTA);
+        Teacher teacher_yellow = new Teacher(PawnColor.YELLOW);
+        Teacher teacher_red = new Teacher(PawnColor.RED);
+        Teacher teacher_green = new Teacher(PawnColor.GREEN);
+    }
+
+    public void assignTeacher(Teacher teacher) {
+        if (numberOfPlayers == 2) {
+            Dashboard d1 = PlayersList.getPlayers().get(0).getDashboard();
+            Dashboard d2 = PlayersList.getPlayers().get(1).getDashboard();
+            if (d1.countStudentByColor(teacher.getColor()) > d2.countStudentByColor(teacher.getColor())) {
+                d1.addTeacherToTable(teacher);
+            }
+        } else if (numberOfPlayers == 3) {
+            Dashboard d1 = PlayersList.getPlayers().get(0).getDashboard();
+            Dashboard d2 = PlayersList.getPlayers().get(1).getDashboard();
+            Dashboard d3 = PlayersList.getPlayers().get(2).getDashboard();
+            if ((d1.countStudentByColor(teacher.getColor()) > d2.countStudentByColor(teacher.getColor())) && (d1.countStudentByColor(teacher.getColor()) > d3.countStudentByColor(teacher.getColor()))) {
+                d1.addTeacherToTable(teacher);
+            }
+
+        }
     }
 }
