@@ -1,8 +1,6 @@
 package it.polimi.ingsw.model;
 
-/**
- * NOT IMPLEMENTED YET
- */
+
 
 public class Pawn {
     private PawnColor color;
@@ -14,9 +12,6 @@ public class Pawn {
     public static final String ANSI_GREEN = "\u001B[32m";
 
 
-    public Pawn(PawnColor color){
-        this.color = color;
-    }
 
     public PawnColor getColor() {
         return color;
@@ -24,6 +19,24 @@ public class Pawn {
 
     public void setColor(PawnColor color) {
         this.color = color;
+    }
+
+
+    public void draw() {
+        PawnColor color = getColor();
+        if (color == PawnColor.CYAN) {
+            System.out.print(ANSI_CYAN + "+++");
+        } else if (color == PawnColor.MAGENTA) {
+            System.out.print(ANSI_MAGENTA + "+++");
+        } else if (color == PawnColor.YELLOW) {
+            System.out.print(ANSI_YELLOW + "+++");
+        } else if (color == PawnColor.RED) {
+            System.out.print(ANSI_RED + "+++");
+        } else if (color == PawnColor.GREEN) {
+            System.out.print(ANSI_GREEN + "+++");
+        }
+        System.out.print(ANSI_RESET);
+
     }
 
 

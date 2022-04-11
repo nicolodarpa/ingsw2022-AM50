@@ -2,19 +2,18 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.LoginManager;
 import it.polimi.ingsw.PlayersList;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class IslandTest {
 
-    private Island islandTest = new Island(1);
-    private Student cyan = new Student(PawnColor.CYAN);
-    private Student yellow = new Student(PawnColor.YELLOW);
-    private Student red = new Student(PawnColor.RED);
-    private Student green = new Student(PawnColor.GREEN);
-    private Student magenta = new Student(PawnColor.MAGENTA);
+    private final Island islandTest = new Island(1);
+    private final Student cyan = new Student(PawnColor.CYAN);
+    private final Student yellow = new Student(PawnColor.YELLOW);
+    private final Student red = new Student(PawnColor.RED);
+    private final Student green = new Student(PawnColor.GREEN);
+    private final Student magenta = new Student(PawnColor.MAGENTA);
 
 
 
@@ -43,26 +42,29 @@ public class IslandTest {
 
     @Test
     @DisplayName(" Calculate the influence ")
-    @Disabled
     public void calcInfluenceTest(){
-        Game game = new Game();
-        game.setNumberOfPlayers(2);
-        LoginManager.login("ale", game);
-        LoginManager.login("nic", game);
-        game.getStudentsBag().fillBag(120);
-        game.setupGame();
-        game.moveStudentsToHall();
-        PlayersList players = game.getPlist();
-        Player p = players.getPlayers().get(0);
-        PawnColor studentColor = null;
-        studentColor = p.getDashboard().getHall()[2].getColor();
-        p.moveStudentToClassroom(2);
-        Teacher t = new Teacher(studentColor);
-        game.assignTeacher(t);
-        Student s = new Student(studentColor);
-        game.getIslands().get(1).addStudent(s);
-        game.getIslands().get(1).calcInfluence(players);
-        assertEquals(p,game.getIslands().get(1).getOwner());
+        Game gameTest = new Game();
+        gameTest.setNumberOfPlayers(2);
+        LoginManager.login("ale", gameTest);
+        LoginManager.login("nic", gameTest);
+        gameTest.setupGame();
+        gameTest.getPlist().moveStudentsToHall(gameTest.getStudentsBag());
+
+        Player plyr_one = PlayersList.getPlayers().get(0);
+        Dashboard dashboard_one = plyr_one.getDashboard();
+
+
+        PawnColor color = dashboard_one.getHall()[2].getColor();
+        plyr_one.moveStudentToClassroom(2);
+        gameTest.assignTeacher();
+        dashboard_one.drawDashboard();
+        gameTest.getIslands().get(1).addStudent(new Student(color));
+        gameTest.getIslands().get(1).calcInfluence(gameTest.getPlist());
+        assertEquals(plyr_one,gameTest.getIslands().get(1).getOwner());
+
+
+
+
     }
 
     @Test

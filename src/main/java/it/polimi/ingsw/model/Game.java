@@ -33,6 +33,8 @@ public class Game {
     private ArrayList<CloudCard> cloudCards = new ArrayList<>();
     private Map<Integer, Deck> map = new HashMap<Integer, Deck>();
     private ArrayList<Island> islands = new ArrayList<>(12);
+    private Teacher[] teachers = {new Teacher(PawnColor.CYAN), new Teacher(PawnColor.MAGENTA), new Teacher(PawnColor.YELLOW), new Teacher(PawnColor.RED), new Teacher(PawnColor.GREEN)};
+
 
 
     public int getNumberOfPlayers() {
@@ -42,6 +44,7 @@ public class Game {
     public PlayersList getPlist() {
         return plist;
     }
+
 
     public int getCurrentNumberOfPlayers() {
         return plist.getCurrentNumberOfPlayers();
@@ -85,14 +88,15 @@ public class Game {
         cloudCardCreation();
         cloudCardFill();
         createDecks();
-        createTeachers();
         createIslands();
+        moveStudentsToHall();
         this.round = 0;
     }
 
     public void createIslands() {
         for (int i = 1; i <= 12; i++) {
-            islands.add(new Island(i));
+            Island island = new Island(i);
+            islands.add(island);
         }
     }
 
@@ -169,22 +173,28 @@ public class Game {
         map.put(4, new Deck(4));
     }
 
-    public void createTeachers() {
-        Teacher teacher_cyan = new Teacher(PawnColor.CYAN);
-        Teacher teacher_magenta = new Teacher(PawnColor.MAGENTA);
-        Teacher teacher_yellow = new Teacher(PawnColor.YELLOW);
-        Teacher teacher_red = new Teacher(PawnColor.RED);
-        Teacher teacher_green = new Teacher(PawnColor.GREEN);
-    }
 
-    public void assignTeacher(Teacher teacher) {
+    public void assignTeacher() {
         if (numberOfPlayers == 2) {
             Dashboard d1 = PlayersList.getPlayers().get(0).getDashboard();
             Dashboard d2 = PlayersList.getPlayers().get(1).getDashboard();
-            if (d1.countStudentByColor(teacher.getColor()) > d2.countStudentByColor(teacher.getColor())) {
-                d1.addTeacherToTable(teacher);
+            for(int i = 0; i < 5; i++){
+                if (d1.countStudentByColor(teachers[i].getColor()) > d2.countStudentByColor(teachers[i].getColor())) {
+                    d1.addTeacherToTable(teachers[i]);
+                    if(d2.getTeacherTable()[i] != null)
+                        d2.removeTeacherFromTable(teachers[i]);
+                }
+
+                else if(d2.countStudentByColor(teachers[i].getColor()) > d1.countStudentByColor(teachers[i].getColor())){
+                    d2.addTeacherToTable(teachers[i]);
+                    if(d1.getTeacherTable()[i] != null)
+                        d1.removeTeacherFromTable(teachers[i]);
+                }
             }
-        } else if (numberOfPlayers == 3) {
+
+        }
+
+        /**else if (numberOfPlayers == 3) {
             Dashboard d1 = PlayersList.getPlayers().get(0).getDashboard();
             Dashboard d2 = PlayersList.getPlayers().get(1).getDashboard();
             Dashboard d3 = PlayersList.getPlayers().get(2).getDashboard();
@@ -193,5 +203,6 @@ public class Game {
             }
 
         }
+         */
     }
 }

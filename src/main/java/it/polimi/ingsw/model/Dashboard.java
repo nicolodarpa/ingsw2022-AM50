@@ -105,6 +105,12 @@ public class Dashboard {
         teacherTable[color.ordinal()] = teacher;
     }
 
+    public void removeTeacherFromTable(Teacher teacher){
+        PawnColor color = teacher.getColor();
+        teacherTable[color.ordinal()] = null;
+    }
+
+
     public Teacher[] getTeacherTable() {
         return teacherTable;
     }
@@ -115,6 +121,7 @@ public class Dashboard {
      * @param color
      * @return
      */
+
     public int countStudentByColor(PawnColor color){
         int numberOfStudent = 0;
 

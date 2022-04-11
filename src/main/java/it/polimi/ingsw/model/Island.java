@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.PlayersList;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -151,14 +152,13 @@ public class Island {
     }
 
 
-    public void calcInfluence(PlayersList players){
-        PawnColor mostColor = null;
-        mostColor = mostColorInfluence();
+    public void calcInfluence(@NotNull PlayersList playersList){
+        PawnColor mostColor = mostColorInfluence();
         for(Player p : PlayersList.getPlayers()){
             if(p.getDashboard().getTeacherTable()[mostColor.ordinal()] != null)
                 this.owner = p;
         }
-        addTower();
+        //addTower();
     }
 }
 
