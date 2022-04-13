@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.PlayersList;
-import org.jetbrains.annotations.NotNull;
 
 
 import java.util.ArrayList;
@@ -166,7 +165,7 @@ public class Island {
 
 
 
-    public void calcInfluence(@NotNull PlayersList playersList){
+    public void calcInfluence(PlayersList playersList){
         //PawnColor mostColor = mostColorInfluence();
         int[] colorStudentOne = new int[5], colorStudentTwo = new int[5];
         int max_1, max_2;
