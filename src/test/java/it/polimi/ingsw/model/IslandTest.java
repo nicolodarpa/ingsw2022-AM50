@@ -46,9 +46,10 @@ public class IslandTest {
         Game gameTest = new Game();
         gameTest.setNumberOfPlayers(2);
         LoginManager.login("ale", gameTest);
-        LoginManager.login("nic", gameTest);
+        LoginManager.login("jaz", gameTest);
         gameTest.setupGame();
-        gameTest.getPlist().moveStudentsToHall(gameTest.getStudentsBag());
+        Table tableTest = new Table(gameTest.getCloudCards(), gameTest.getIslands());
+      
 
         Player plyr_one = PlayersList.getPlayers().get(0);
         Dashboard dashboard_one = plyr_one.getDashboard();
@@ -61,6 +62,7 @@ public class IslandTest {
         gameTest.getIslands().get(1).addStudent(new Student(color));
         gameTest.getIslands().get(1).calcInfluence(gameTest.getPlist());
         assertEquals(plyr_one,gameTest.getIslands().get(1).getOwner());
+        tableTest.drawTable();
 
 
 

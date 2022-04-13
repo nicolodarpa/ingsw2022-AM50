@@ -7,7 +7,6 @@ import java.util.ArrayList;
  */
 
 public class Dashboard {
-    private int id;
     private Student[][] classroom = new Student[5][10];
     private Student[] hall = new Student[7];
     private Teacher[] teacherTable = new Teacher[5];
@@ -118,8 +117,8 @@ public class Dashboard {
 
     /**
      * count the number of students of one color in the classroom
-     * @param color
-     * @return
+     * @param color is the color of the student, that we search
+     * @return the number of the students of one color
      */
 
     public int countStudentByColor(PawnColor color){

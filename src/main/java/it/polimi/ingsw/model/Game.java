@@ -7,6 +7,7 @@ import it.polimi.ingsw.PlayersList;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 /**
  * Game contains all the metods that implements the match
@@ -24,16 +25,16 @@ import java.util.Map;
 
 public class Game {
     private boolean gameStatus;
-    private int round;
+    private int round = 0;
     private int numberOfPlayers;
-    private int orderOfGame;
-    private int numberOfIslands;
+    private Player actualPlayer;
+    private int numberOfIslands = 12;
     private final PlayersList plist = new PlayersList();
     private StudentsBag studentsBag = new StudentsBag();
     private ArrayList<CloudCard> cloudCards = new ArrayList<>();
-    private Map<Integer, Deck> map = new HashMap<Integer, Deck>();
+    private Map<Integer, Deck> map = new HashMap<>();
     private ArrayList<Island> islands = new ArrayList<>(12);
-    private Teacher[] teachers = {new Teacher(PawnColor.CYAN), new Teacher(PawnColor.MAGENTA), new Teacher(PawnColor.YELLOW), new Teacher(PawnColor.RED), new Teacher(PawnColor.GREEN)};
+    private final Teacher[] teachers = {new Teacher(PawnColor.CYAN), new Teacher(PawnColor.MAGENTA), new Teacher(PawnColor.YELLOW), new Teacher(PawnColor.RED), new Teacher(PawnColor.GREEN)};
 
 
 
@@ -47,7 +48,7 @@ public class Game {
 
 
     public int getCurrentNumberOfPlayers() {
-        return plist.getCurrentNumberOfPlayers();
+        return PlayersList.getCurrentNumberOfPlayers();
     }
 
     public StudentsBag getStudentsBag() {
@@ -73,7 +74,7 @@ public class Game {
     }
 
     public void addPlayer(String name) {
-        plist.addPlayer(name);
+        PlayersList.addPlayer(name);
         if (getNumberOfPlayers() == getCurrentNumberOfPlayers()) {
           startGame();
         }
@@ -90,18 +91,53 @@ public class Game {
         createDecks();
         createIslands();
         moveStudentsToHall();
-        this.round = 0;
+        addMotherNatureToIsland();
+        addStudentToIsland();
+        assignTower();
     }
 
     public void createIslands() {
-        for (int i = 1; i <= 12; i++) {
+        for (int i = 1; i <= numberOfIslands; i++) {
             Island island = new Island(i);
             islands.add(island);
         }
     }
 
+    /**
+     * add Mother Nature to a random Island, at the beginning of a new match
+     */
+    public void addMotherNatureToIsland(){
+        Random random = new Random();
+        int upperBound = 12;
+        int id_random = random.nextInt(upperBound);
+        int id_opposite;
+        if(id_random <= 5)
+            id_opposite = id_random + 6;
+        else {
+            id_opposite = id_random - 6;
+        }
+        islands.get(id_random).addMotherNature();
+        islands.get(id_opposite).setOppositeMN(true);
+    }
+
+    /**
+     * add Two students of each color on every island(except the island where there is Mother Nature and its opposite)
+     */
+    public void addStudentToIsland(){
+        StudentsBag studentsBag_setup = new StudentsBag();
+        studentsBag_setup.fillBag(10);
+        for(Island i : islands){
+            if(!i.getPresenceMN() && !i.getOppositeMN()){
+                Student student = studentsBag_setup.casualExtraction();
+                i.addStudent(student);
+            }
+        }
+    }
+
+
+
     public void checkPlayers() {
-        while (plist.getCurrentNumberOfPlayers() != numberOfPlayers) {
+        while (PlayersList.getCurrentNumberOfPlayers() != numberOfPlayers) {
             EchoServerClientHandler.printToAllClients("waiting for players");
         }
     }
@@ -153,7 +189,7 @@ public class Game {
 
 
     public void removePlayer(String name) {
-        plist.removePlayer(name);
+        PlayersList.removePlayer(name);
     }
 
     public void createDecks() {
@@ -173,6 +209,13 @@ public class Game {
         map.put(4, new Deck(4));
     }
 
+
+    public void connectIsland(){
+        for(int i = 0; i < 12; i++){
+            Island isl_1 = islands.get(i);
+        }
+
+    }
 
     public void assignTeacher() {
         if (numberOfPlayers == 2) {
@@ -204,5 +247,21 @@ public class Game {
 
         }
          */
+    }
+
+    public void assignTower(){
+        int i = 0;
+        if(numberOfPlayers == 2){
+            for(Player p : PlayersList.getPlayers()){
+                p.getDashboard().addTower(8,TowerColor.values()[i]);
+                i++;
+            }
+        }
+        else if(numberOfPlayers == 3){
+            for(Player p : PlayersList.getPlayers()){
+                p.getDashboard().addTower(6,TowerColor.values()[i]);
+                i++;
+            }
+        }
     }
 }

@@ -1,10 +1,11 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.PlayersList;
-import org.jetbrains.annotations.NotNull;
+
 
 import java.util.ArrayList;
-import java.util.Arrays;
+
+
 
 public class Island {
     private int id;
@@ -14,7 +15,16 @@ public class Island {
     private TowerColor towerColor;
     private ArrayList<Student> studentList = new ArrayList<>();
     private Player owner;
+    private boolean presenceMN = false; //true if there is Mother Nature on the Island
+    private boolean oppositeMN = false; //true if the Island is opposite to The island where there is Mother Nature
 
+    public void setPresenceMN(boolean presenceMN) {
+        this.presenceMN = presenceMN;
+    }
+
+    public void setOppositeMN(boolean oppositeMN) {
+        this.oppositeMN = oppositeMN;
+    }
 
     public Island(int id) {
         this.id = id;
@@ -48,21 +58,19 @@ public class Island {
         return towerColor;
     }
 
+    public boolean getPresenceMN(){
+        return presenceMN;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
 
-    public void setIslandConquered(boolean islandConquered) {
-        this.islandConquered = islandConquered;
-    }
 
     public void setIdGroup(int idGroup) {
         this.idGroup = idGroup;
     }
 
-    public void setTowerNumber(int towerNumber) {
-        this.towerNumber = towerNumber;
-    }
 
     public void setTowerColor(TowerColor towerColor) {
         this.towerColor = towerColor;
@@ -76,9 +84,6 @@ public class Island {
         this.owner = owner;
     }
 
-    public int calcInfluence(Player player){
-        return 1;
-    }
 
     public void addStudent(Student s){
         studentList.add(s);
@@ -117,13 +122,20 @@ public class Island {
         return color;
     }
 
+    public int countStudentOfAColor(PawnColor color){
+        int colorNumber = 0;
+        for(Student s : studentList){
+            if(s.getColor() == color)
+                colorNumber++;
+        }
+        return colorNumber;
+    }
+
 
     public PawnColor mostColorInfluence(){
         PawnColor mostColor = null;
-        int[] colors = new int[5];
-        int posMax = 0;
-        colors = countStudentByColor();
-        posMax = ArrayMaxPosition.findMaxPosition(colors);
+        int[] colors = countStudentByColor();
+        int posMax = ArrayMaxPosition.findMaxPosition(colors);
         if(posMax == PawnColor.CYAN.ordinal()){
             mostColor = PawnColor.CYAN;
         }
@@ -152,13 +164,51 @@ public class Island {
     }
 
 
-    public void calcInfluence(@NotNull PlayersList playersList){
-        PawnColor mostColor = mostColorInfluence();
-        for(Player p : PlayersList.getPlayers()){
-            if(p.getDashboard().getTeacherTable()[mostColor.ordinal()] != null)
-                this.owner = p;
+    public void calcInfluence(PlayersList playersList){
+        //PawnColor mostColor = mostColorInfluence();
+        int[] colorStudentOne = new int[5], colorStudentTwo = new int[5];
+        int max_1, max_2;
+        Player p1 = PlayersList.getPlayers().get(0);
+        Player p2 = PlayersList.getPlayers().get(1);
+        Teacher[] teacherColorOne = p1.getDashboard().getTeacherTable();
+        Teacher[] teacherColorTwo = p2.getDashboard().getTeacherTable();
+
+        for(int i = 0; i < teacherColorOne.length; i++){
+            if(teacherColorOne[i] != null){
+                colorStudentOne[i] = countStudentOfAColor(teacherColorOne[i].getColor());
+            }
         }
-        //addTower();
+        for(int i = 0; i < teacherColorTwo.length; i++){
+            if(teacherColorTwo[i] != null){
+                colorStudentTwo[i] = countStudentOfAColor(teacherColorTwo[i].getColor());
+            }
+        }
+        max_1 = ArrayMaxPosition.findMaxOfArray(colorStudentOne);
+        max_2 = ArrayMaxPosition.findMaxOfArray(colorStudentTwo);
+        if(max_1 > max_2){
+            this.owner = p1;
+            islandConquered = true;
+        }
+        else if(max_1 < max_2){
+            this.owner = p2;
+            islandConquered = true;
+        }
+        else {
+            this.owner = null;
+        }
+    }
+
+
+    public void addMotherNature(){
+        presenceMN = true;
+    }
+
+    public boolean getOppositeMN() {
+        return oppositeMN;
+    }
+
+    public void connectIsland(){
+
     }
 }
 

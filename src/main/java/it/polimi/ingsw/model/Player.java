@@ -9,9 +9,7 @@ public class Player {
     private  String name;
     private int order;
     private int movesOfMN;
-    private boolean statusPlayer;
     private int numberOfTowers;
-    private TowerColor towerColor;
     private Wallet wallet = new Wallet();
     private Dashboard dashboard = new Dashboard();
     private Deck deck;
@@ -59,7 +57,7 @@ public class Player {
 
     /**
      * The player choose based on the number of the card of its deck which one to play
-     * @param numberOfCard
+     * @param numberOfCard indicate the order of the card
      */
     public void playAssistantCard(int numberOfCard){
         order = deck.getCardsList().get(numberOfCard).getOrder();
@@ -69,8 +67,8 @@ public class Player {
 
     /**
      * The player choose based on the position of the student from the DashboardHall which one to move to the selected Island
-     * @param island
-     * @param position
+     * @param island indicate the island where we want to move the student
+     * @param position indicate the position of the student in the DashboardHall
      */
     public void moveStudentToIsland(Island island, int position){
         island.addStudent(dashboard.getStudentFromHall(position));
@@ -78,7 +76,7 @@ public class Player {
 
     /**
      * The player choose based on the position of the student from the DashboardHall which one to move to the classroom
-     * @param position
+     * @param position indicate the position of the student in the DashboardHall
      */
     public void moveStudentToClassroom(int position){
         dashboard.addStudentToClassroom(dashboard.getStudentFromHall(position));

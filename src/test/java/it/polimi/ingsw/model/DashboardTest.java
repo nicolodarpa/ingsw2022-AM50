@@ -78,9 +78,7 @@ public class DashboardTest{
         public void countStudentByColorTest(){
             StudentsBag studentsBag = new StudentsBag();
             studentsBag.fillBag(120);
-            /**
-             * fill the classroom
-             */
+            // fill the classroom
             for (int i = 0; i < 120; i++) {
                 testD.addStudentToClassroom(studentsBag.casualExtraction());
             }
