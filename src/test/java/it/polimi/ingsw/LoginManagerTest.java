@@ -7,10 +7,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class LoginManagerTest{
-
     @Test
     public void testLogin() {
-
         Game game = new Game();
         game.setNumberOfPlayers(3);
         LoginManager.login("ale", game);
