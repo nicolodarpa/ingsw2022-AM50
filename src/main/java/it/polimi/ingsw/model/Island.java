@@ -4,7 +4,7 @@ import it.polimi.ingsw.PlayersList;
 
 
 import java.util.ArrayList;
-
+import java.util.stream.IntStream;
 
 
 public class Island {
@@ -164,38 +164,76 @@ public class Island {
     }
 
 
-
     public void calcInfluence(PlayersList playersList){
-        //PawnColor mostColor = mostColorInfluence();
-        int[] colorStudentOne = new int[5], colorStudentTwo = new int[5];
-        int max_1, max_2;
-        Player p1 = PlayersList.getPlayers().get(0);
-        Player p2 = PlayersList.getPlayers().get(1);
-        Teacher[] teacherColorOne = p1.getDashboard().getTeacherTable();
-        Teacher[] teacherColorTwo = p2.getDashboard().getTeacherTable();
+        final int numberOfColor = 5;
+        int [] colorStudentOne = new int[numberOfColor], colorStudentTwo = new int[numberOfColor], colorStudentThree = new int[numberOfColor];
+        int max_1, max_2, max_3;
+        if (PlayersList.getPlayers().size() == 2) {
 
-        for(int i = 0; i < teacherColorOne.length; i++){
-            if(teacherColorOne[i] != null){
-                colorStudentOne[i] = countStudentOfAColor(teacherColorOne[i].getColor());
+            Player p1 = PlayersList.getPlayers().get(0);
+            Player p2 = PlayersList.getPlayers().get(1);
+            Teacher[] teacherColorOne = p1.getDashboard().getTeacherTable();
+            Teacher[] teacherColorTwo = p2.getDashboard().getTeacherTable();
+
+            for (int i = 0; i < teacherColorOne.length; i++) {
+                if (teacherColorOne[i] != null) {
+                    colorStudentOne[i] = countStudentOfAColor(teacherColorOne[i].getColor());
+                }
             }
-        }
-        for(int i = 0; i < teacherColorTwo.length; i++){
-            if(teacherColorTwo[i] != null){
-                colorStudentTwo[i] = countStudentOfAColor(teacherColorTwo[i].getColor());
+            for (int i = 0; i < teacherColorTwo.length; i++) {
+                if (teacherColorTwo[i] != null) {
+                    colorStudentTwo[i] = countStudentOfAColor(teacherColorTwo[i].getColor());
+                }
             }
-        }
-        max_1 = ArrayMaxPosition.findMaxOfArray(colorStudentOne);
-        max_2 = ArrayMaxPosition.findMaxOfArray(colorStudentTwo);
-        if(max_1 > max_2){
-            this.owner = p1;
-            islandConquered = true;
-        }
-        else if(max_1 < max_2){
-            this.owner = p2;
-            islandConquered = true;
-        }
-        else {
-            this.owner = null;
+            max_1 = IntStream.of(colorStudentOne).sum();
+            max_2 = IntStream.of(colorStudentTwo).sum();
+            if (max_1 > max_2) {
+                this.owner = p1;
+                islandConquered = true;
+            } else if (max_1 < max_2) {
+                this.owner = p2;
+                islandConquered = true;
+            } else {
+                this.owner = null;
+            }
+        } else if (PlayersList.getPlayers().size() == 3){
+
+                Player p1 = PlayersList.getPlayers().get(0);
+                Player p2 = PlayersList.getPlayers().get(1);
+                Player p3 = PlayersList.getPlayers().get(2);
+                Teacher[] teacherColorOne = p1.getDashboard().getTeacherTable();
+                Teacher[] teacherColorTwo = p2.getDashboard().getTeacherTable();
+                Teacher[] teacherColorThree= p3.getDashboard().getTeacherTable();
+
+                for (int i = 0; i < teacherColorOne.length; i++) {
+                    if (teacherColorOne[i] != null) {
+                        colorStudentOne[i] = countStudentOfAColor(teacherColorOne[i].getColor());
+                    }
+                }
+                for (int i = 0; i < teacherColorTwo.length; i++) {
+                    if (teacherColorTwo[i] != null) {
+                        colorStudentTwo[i] = countStudentOfAColor(teacherColorTwo[i].getColor());
+                    }
+                }
+                for (int i = 0; i < teacherColorTwo.length; i++) {
+                    if (teacherColorThree[i] != null) {
+                        colorStudentThree[i] = countStudentOfAColor(teacherColorThree[i].getColor());
+                    }
+                }
+                max_1 = IntStream.of(colorStudentOne).sum();
+                max_2 = IntStream.of(colorStudentTwo).sum();
+                max_3 = IntStream.of(colorStudentThree).sum();
+                if (max_1 > max_2 && max_1 > max_3) {
+                    this.owner = p1;
+                    islandConquered = true;
+                } else if (max_2 > max_1 && max_2 > max_3) {
+                    this.owner = p2;
+                    islandConquered = true;
+                } else if (max_3 > max_1 && max_3 > max_2) {
+                    this.owner = p3;
+                    islandConquered = true;
+                }
+
         }
     }
 

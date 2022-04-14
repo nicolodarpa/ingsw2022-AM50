@@ -44,29 +44,45 @@ public class IslandTest {
     @DisplayName(" Calculate the influence ")
     public void calcInfluenceTest(){
         Game gameTest = new Game();
-        gameTest.setNumberOfPlayers(2);
+        gameTest.setNumberOfPlayers(3);
         LoginManager.login("ale", gameTest);
         LoginManager.login("jaz", gameTest);
+        LoginManager.login("nic", gameTest);
         gameTest.setupGame();
         Table tableTest = new Table(gameTest.getCloudCards(), gameTest.getIslands());
-      
 
-        Player plyr_one = PlayersList.getPlayers().get(0);
-        Dashboard dashboard_one = plyr_one.getDashboard();
+        Player plyr_1 = PlayersList.getPlayers().get(0);
+        Player plyr_2 = PlayersList.getPlayers().get(1);
+        Player plyr_3 = PlayersList.getPlayers().get(2);
+
+        Dashboard dashboard_1 = plyr_1.getDashboard();
+        Dashboard dashboard_2 = plyr_2.getDashboard();
+        Dashboard dashboard_3 = plyr_3.getDashboard();
 
 
-        PawnColor color = dashboard_one.getHall()[2].getColor();
-        plyr_one.moveStudentToClassroom(2);
+        PawnColor color = dashboard_1.getHall()[2].getColor();
+        plyr_1.moveStudentToClassroom(2);
         gameTest.assignTeacher();
-        dashboard_one.drawDashboard();
+        plyr_2.moveStudentToClassroom(1);
+        gameTest.assignTeacher();
+        plyr_3.moveStudentToClassroom(4);
+        gameTest.assignTeacher();
+        plyr_2.moveStudentToIsland(gameTest.getIslands().get(8), 2);
+        dashboard_1.drawDashboard();
+        dashboard_2.drawDashboard();
+        dashboard_3.drawDashboard();
         gameTest.getIslands().get(1).addStudent(new Student(color));
+        //plyr_2.moveStudentToIsland(gameTest.getIslands().get(3),2);
+        //plyr_3.moveStudentToIsland(gameTest.getIslands().get(2),3);
         gameTest.getIslands().get(1).calcInfluence(gameTest.getPlist());
-        assertEquals(plyr_one,gameTest.getIslands().get(1).getOwner());
+        try{
+            if(gameTest.getIslands().get(1).getOwner() != null)
+            assertEquals(plyr_1,gameTest.getIslands().get(1).getOwner());
+            System.out.println("The owner is : " + gameTest.getIslands().get(1).getOwner().getName());
+        } catch (Exception e){
+            System.out.println("No one has the influence on this island");
+        }
         tableTest.drawTable();
-
-
-
-
     }
 
     @Test
