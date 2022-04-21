@@ -5,6 +5,8 @@ import it.polimi.ingsw.PlayersList;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.Objects;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class IslandTest {
@@ -75,11 +77,12 @@ public class IslandTest {
         //plyr_2.moveStudentToIsland(gameTest.getIslands().get(3),2);
         //plyr_3.moveStudentToIsland(gameTest.getIslands().get(2),3);
         gameTest.getIslands().get(1).calcInfluence(gameTest.getPlist());
-        try{
-            if(gameTest.getIslands().get(1).getOwner() != null)
-            assertEquals(plyr_1,gameTest.getIslands().get(1).getOwner());
-            System.out.println("The owner is : " + gameTest.getIslands().get(1).getOwner().getName());
-        } catch (Exception e){
+        try {
+            if (!Objects.equals(gameTest.getIslands().get(1).getOwner(), "free")){
+                assertEquals(plyr_1.getName(), gameTest.getIslands().get(1).getOwner());
+                System.out.println("The owner is : " + gameTest.getIslands().get(1).getOwner());
+            }
+        } catch (Exception e) {
             System.out.println("No one has the influence on this island");
         }
         tableTest.drawTable();

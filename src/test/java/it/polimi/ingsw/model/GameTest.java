@@ -15,6 +15,7 @@ public class GameTest {
 
     @Test
     public void testMoveStudentsToHall() {
+        gameTest = new Game();
         gameTest.setNumberOfPlayers(2);
         LoginManager.login("ale", gameTest);
         LoginManager.login("nic", gameTest);
@@ -25,6 +26,7 @@ public class GameTest {
     @Test
     @DisplayName("testing the setup of a new match")
     public void testSetupGame() {
+        gameTest = new Game();
         gameTest.setNumberOfPlayers(2);
         LoginManager.login("ale", gameTest);
         LoginManager.login("nic", gameTest);
