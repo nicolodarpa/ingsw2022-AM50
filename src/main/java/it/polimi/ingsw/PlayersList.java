@@ -3,6 +3,8 @@ package it.polimi.ingsw;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.StudentsBag;
 
+import java.io.IOException;
+import java.net.Socket;
 import java.util.ArrayList;
 
 /**
@@ -32,13 +34,13 @@ public class PlayersList {
         return false;
     }
 
-    public static void addPlayer(String name) {
+    public static void addPlayer(String name, Socket socket) {
         /**
          * This method add new player to the playersList
          */
 
         allocate();
-        Player p = new Player(name);
+        Player p = new Player(name, socket);
         players.add(p);
         /**System.out.println("Plist");
          for (Player q : players) {
@@ -47,7 +49,7 @@ public class PlayersList {
 
     }
 
-    public static void removePlayer(String name) {
+    public static synchronized void removePlayer(String name) {
         for (Player q : players) {
             if (q.getName().equals(name)) {
                 players.remove(q);

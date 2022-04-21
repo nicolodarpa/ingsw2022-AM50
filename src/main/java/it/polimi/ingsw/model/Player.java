@@ -1,12 +1,15 @@
 package it.polimi.ingsw.model;
 
 
+import java.net.Socket;
+
 /**
  * Player contains all method that allows player to play a match
  */
 
 public class Player {
-    private  String name;
+    private String name;
+    private Socket socket;
     private int order;
     private int movesOfMN;
     private int numberOfTowers;
@@ -14,21 +17,25 @@ public class Player {
     private Dashboard dashboard = new Dashboard();
     private Deck deck;
 
-    public Dashboard getDashboard() {
-        return dashboard;
-    }
 
     public void setDashboard(Dashboard dashboard) {
         this.dashboard = dashboard;
     }
 
-    public Player(String name){
+    public Player(String name) {
         this.name = name;
         wallet.setCoins(1);
     }
 
-    public void moveStudentsToHall(StudentsBag bag){
-        for (int i = 0; i<7;i++){
+    public Player(String name, Socket socket) {
+        this.name = name;
+        this.socket = socket;
+        wallet.setCoins(1);
+    }
+
+
+    public void moveStudentsToHall(StudentsBag bag) {
+        for (int i = 0; i < 7; i++) {
             Student student = bag.casualExtraction();
             dashboard.addStudentToHall(student);
         }
@@ -36,6 +43,10 @@ public class Player {
 
     public String getName() {
         return name;
+    }
+
+    public Socket getSocket() {
+        return socket;
     }
 
     public int getOrder() {
@@ -46,9 +57,13 @@ public class Player {
         return movesOfMN;
     }
 
-    public void setDeck(Deck deck){
+    public Dashboard getDashboard() {
+        return dashboard;
+    }
+
+    public void setDeck(Deck deck) {
         this.deck = deck;
-        deck.setHasChosen(true);
+        deck.setChosen(true);
     }
 
     public Deck getDeck() {
@@ -57,9 +72,10 @@ public class Player {
 
     /**
      * The player choose based on the number of the card of its deck which one to play
+     *
      * @param numberOfCard indicate the order of the card
      */
-    public void playAssistantCard(int numberOfCard){
+    public void playAssistantCard(int numberOfCard) {
         order = deck.getCardsList().get(numberOfCard).getOrder();
         movesOfMN = deck.getCardsList().get(numberOfCard).getMoveOfMN();
         deck.getCardsList().remove(deck.getCardsList().get(numberOfCard));
@@ -67,18 +83,20 @@ public class Player {
 
     /**
      * The player choose based on the position of the student from the DashboardHall which one to move to the selected Island
-     * @param island indicate the island where we want to move the student
+     *
+     * @param island   indicate the island where we want to move the student
      * @param position indicate the position of the student in the DashboardHall
      */
-    public void moveStudentToIsland(Island island, int position){
+    public void moveStudentToIsland(Island island, int position) {
         island.addStudent(dashboard.getStudentFromHall(position));
     }
 
     /**
      * The player choose based on the position of the student from the DashboardHall which one to move to the classroom
+     *
      * @param position indicate the position of the student in the DashboardHall
      */
-    public void moveStudentToClassroom(int position){
+    public void moveStudentToClassroom(int position) {
         dashboard.addStudentToClassroom(dashboard.getStudentFromHall(position));
     }
 }

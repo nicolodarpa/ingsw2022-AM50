@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model;
 
-public class Student extends Pawn{
+public class Student extends Pawn {
 
     private PawnColor color;
 
@@ -12,6 +12,7 @@ public class Student extends Pawn{
     public PawnColor getColor() {
         return color;
     }
+
 
     public Student() {
         this.color = PawnColor.WHITE;

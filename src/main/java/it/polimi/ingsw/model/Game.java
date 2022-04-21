@@ -1,32 +1,31 @@
 package it.polimi.ingsw.model;
 
 
-import it.polimi.ingsw.EchoServerClientHandler;
 import it.polimi.ingsw.PlayersList;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import java.net.Socket;
+import java.util.*;
 
 /**
- * Game contains all the metods that implements the match
- *
+ * Game contains all the methods that implements the match
+ * <p>
  * Implemented methods allows to do the following operation:
- *<ul>
+ * <ul>
  *     <li>addPlayer add a new player to the match</li>
  *     <li>moveStudentsToHall move the students from the Entrance to the hall of the dashboard</li>
  *     <li>setupGame start a new game</li>
  *     <li>checkPlayer check that there is the correct number of players to start a new match or print that the game is waiting new players</li>
- *</ul>
+ * </ul>
+ *
  * @author Nicolò D'Arpa, Zarlene Justrem De Mesa, Alessandro Costantini
  * @since 1.0
  */
 
 public class Game {
+
     private boolean gameStatus;
     private int round = 0;
-    private int numberOfPlayers;
+    private int numberOfPlayers = 3;
     private Player actualPlayer;
     private int numberOfIslands = 12;
     private final PlayersList plist = new PlayersList();
@@ -35,7 +34,6 @@ public class Game {
     private Map<Integer, Deck> map = new HashMap<>();
     private ArrayList<Island> islands = new ArrayList<>(12);
     private final Teacher[] teachers = {new Teacher(PawnColor.CYAN), new Teacher(PawnColor.MAGENTA), new Teacher(PawnColor.YELLOW), new Teacher(PawnColor.RED), new Teacher(PawnColor.GREEN)};
-
 
 
     public int getNumberOfPlayers() {
@@ -69,14 +67,12 @@ public class Game {
 
     public void startGame() {
         System.out.println("Game starting");
-        EchoServerClientHandler.printToAllClients("The game is starting...");
-
     }
 
-    public void addPlayer(String name) {
-        PlayersList.addPlayer(name);
+    public void addPlayer(String name, Socket socket) {
+        PlayersList.addPlayer(name, socket);
         if (getNumberOfPlayers() == getCurrentNumberOfPlayers()) {
-          startGame();
+            startGame();
         }
     }
 
@@ -85,15 +81,16 @@ public class Game {
     }
 
     public void setupGame() {
+        createIslands();
+        addMotherNatureToIsland();
+        studentsBag.fillBag(10);
+        addStudentToIsland();
         fillStudentsBag();
         cloudCardCreation();
         cloudCardFill();
         createDecks();
-        createIslands();
-        moveStudentsToHall();
-        addMotherNatureToIsland();
-        addStudentToIsland();
         assignTower();
+        moveStudentsToHall();
     }
 
     public void createIslands() {
@@ -106,12 +103,12 @@ public class Game {
     /**
      * add Mother Nature to a random Island, at the beginning of a new match
      */
-    public void addMotherNatureToIsland(){
+    public void addMotherNatureToIsland() {
         Random random = new Random();
         int upperBound = 12;
         int id_random = random.nextInt(upperBound);
         int id_opposite;
-        if(id_random <= 5)
+        if (id_random <= 5)
             id_opposite = id_random + 6;
         else {
             id_opposite = id_random - 6;
@@ -123,22 +120,14 @@ public class Game {
     /**
      * add Two students of each color on every island(except the island where there is Mother Nature and its opposite)
      */
-    public void addStudentToIsland(){
+    public void addStudentToIsland() {
         StudentsBag studentsBag_setup = new StudentsBag();
         studentsBag_setup.fillBag(10);
-        for(Island i : islands){
-            if(!i.getPresenceMN() && !i.getOppositeMN()){
+        for (Island i : islands) {
+            if (!i.getPresenceMN() && !i.getOppositeMN()) {
                 Student student = studentsBag_setup.casualExtraction();
                 i.addStudent(student);
             }
-        }
-    }
-
-
-
-    public void checkPlayers() {
-        while (PlayersList.getCurrentNumberOfPlayers() != numberOfPlayers) {
-            EchoServerClientHandler.printToAllClients("waiting for players");
         }
     }
 
@@ -210,9 +199,18 @@ public class Game {
     }
 
 
-    public void connectIsland(){
-        for(int i = 0; i < 12; i++){
-            Island isl_1 = islands.get(i);
+    public void connectIsland() {
+        for (int i = 1; i < 11; i++) {
+            Island curr = islands.get(i);
+            Island next = islands.get(i+1);
+            if(Objects.equals(next.getOwner(), curr.getOwner()) && !Objects.equals(curr.getOwner(), "free")  && !Objects.equals(next.getIdGroup(), curr.getIdGroup())){
+                next.setIdGroup(curr.getIdGroup());
+                for (int j = i+2; j < 12; j++){
+                    islands.get(j).setIdGroup(islands.get(j).getIdGroup()-1);
+                }
+
+            }
+
         }
 
     }
@@ -221,16 +219,14 @@ public class Game {
         if (numberOfPlayers == 2) {
             Dashboard d1 = PlayersList.getPlayers().get(0).getDashboard();
             Dashboard d2 = PlayersList.getPlayers().get(1).getDashboard();
-            for(int i = 0; i < 5; i++){
+            for (int i = 0; i < 5; i++) {
                 if (d1.countStudentByColor(teachers[i].getColor()) > d2.countStudentByColor(teachers[i].getColor())) {
                     d1.addTeacherToTable(teachers[i]);
-                    if(d2.getTeacherTable()[i] != null)
+                    if (d2.getTeacherTable()[i] != null)
                         d2.removeTeacherFromTable(teachers[i]);
-                }
-
-                else if(d2.countStudentByColor(teachers[i].getColor()) > d1.countStudentByColor(teachers[i].getColor())){
+                } else if (d2.countStudentByColor(teachers[i].getColor()) > d1.countStudentByColor(teachers[i].getColor())) {
                     d2.addTeacherToTable(teachers[i]);
-                    if(d1.getTeacherTable()[i] != null)
+                    if (d1.getTeacherTable()[i] != null)
                         d1.removeTeacherFromTable(teachers[i]);
                 }
             }
@@ -238,28 +234,27 @@ public class Game {
         }
 
         /**else if (numberOfPlayers == 3) {
-            Dashboard d1 = PlayersList.getPlayers().get(0).getDashboard();
-            Dashboard d2 = PlayersList.getPlayers().get(1).getDashboard();
-            Dashboard d3 = PlayersList.getPlayers().get(2).getDashboard();
-            if ((d1.countStudentByColor(teacher.getColor()) > d2.countStudentByColor(teacher.getColor())) && (d1.countStudentByColor(teacher.getColor()) > d3.countStudentByColor(teacher.getColor()))) {
-                d1.addTeacherToTable(teacher);
-            }
+         Dashboard d1 = PlayersList.getPlayers().get(0).getDashboard();
+         Dashboard d2 = PlayersList.getPlayers().get(1).getDashboard();
+         Dashboard d3 = PlayersList.getPlayers().get(2).getDashboard();
+         if ((d1.countStudentByColor(teacher.getColor()) > d2.countStudentByColor(teacher.getColor())) && (d1.countStudentByColor(teacher.getColor()) > d3.countStudentByColor(teacher.getColor()))) {
+         d1.addTeacherToTable(teacher);
+         }
 
-        }
+         }
          */
     }
 
-    public void assignTower(){
+    public void assignTower() {
         int i = 0;
-        if(numberOfPlayers == 2){
-            for(Player p : PlayersList.getPlayers()){
-                p.getDashboard().addTower(8,TowerColor.values()[i]);
+        if (numberOfPlayers == 2) {
+            for (Player p : PlayersList.getPlayers()) {
+                p.getDashboard().addTower(8, TowerColor.values()[i]);
                 i++;
             }
-        }
-        else if(numberOfPlayers == 3){
-            for(Player p : PlayersList.getPlayers()){
-                p.getDashboard().addTower(6,TowerColor.values()[i]);
+        } else if (numberOfPlayers == 3) {
+            for (Player p : PlayersList.getPlayers()) {
+                p.getDashboard().addTower(6, TowerColor.values()[i]);
                 i++;
             }
         }

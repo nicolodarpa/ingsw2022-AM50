@@ -29,7 +29,7 @@ public class MultiEchoServer {
         while (true) {
             try {
                 Socket socket = serverSocket.accept();
-                EchoServerClientHandler serverThread = new EchoServerClientHandler(socket, threadList, game);
+                EchoServerClientHandler serverThread = new EchoServerClientHandler(socket, game);
                 threadList.add(serverThread);
                 serverThread.start();
             } catch (IOException e) {

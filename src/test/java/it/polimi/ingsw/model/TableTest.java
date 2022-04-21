@@ -7,28 +7,28 @@ import org.junit.jupiter.api.Test;
 
 public class TableTest {
 
-    private Game gameTes = new Game();
-    private Table tableTest = new Table(gameTes.getCloudCards(), gameTes.getIslands());
+    private Game gameTest = new Game();
+    private Table tableTest = new Table(gameTest.getCloudCards(), gameTest.getIslands());
 
 
     @Test
     @DisplayName("Draw the table at the beginning of the match")
     public void drawTableTest(){
-        gameTes.setNumberOfPlayers(2);
-        LoginManager.login("jaz", gameTes);
-        LoginManager.login("nic", gameTes);
-        gameTes.setupGame();
+        gameTest.setNumberOfPlayers(2);
+        LoginManager.login("jaz", gameTest);
+        LoginManager.login("nic", gameTest);
+        gameTest.setupGame();
         tableTest.drawTable();
     }
 
     @Test
     @DisplayName("Add a student to an Island")
     public void addStudentTest(){
-        gameTes.setNumberOfPlayers(2);
-        LoginManager.login("jaz", gameTes);
-        LoginManager.login("nic", gameTes);
-        gameTes.setupGame();
-        Island islandTest = gameTes.getIslands().get(0);
+        gameTest.setNumberOfPlayers(2);
+        LoginManager.login("jaz", gameTest);
+        LoginManager.login("nic", gameTest);
+        gameTest.setupGame();
+        Island islandTest = gameTest.getIslands().get(0);
         Player player_one = PlayersList.getPlayers().get(0);
         player_one.moveStudentToIsland(islandTest,2);
         player_one.getDashboard().drawDashboard();

@@ -6,11 +6,16 @@ public class CloudCard {
 
     private ArrayList<Student> students;
 
+    private int capacity;
+
     public CloudCard(int numberOfPlayers) {
+
         if (numberOfPlayers == 2) {
-            students = new ArrayList<>(3);
+            capacity = 3;
+            students = new ArrayList<>(capacity);
         } else if (numberOfPlayers == 3) {
-            students = new ArrayList<>(4);
+            capacity = 4;
+            students = new ArrayList<>(capacity);
         }
 
     }
@@ -24,14 +29,14 @@ public class CloudCard {
         return students;
     }
 
-    public ArrayList<Student> getAllStudents(){
-        ArrayList<Student> tempStudents = new ArrayList<>();
-        for (Student st:students){
-            Student student = st;
-            tempStudents.add(st);
-            students.remove(student);
-        }
-        return tempStudents;
+    public ArrayList<Student> getAllStudents() {
+        ArrayList<Student> temp = new ArrayList<>(capacity);
+        temp.addAll(students);
+        if (capacity > 0) {
+         students.subList(0, capacity).clear();
+         }
+
+        return temp;
     }
 
 }

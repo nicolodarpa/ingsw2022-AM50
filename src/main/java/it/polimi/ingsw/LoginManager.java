@@ -2,46 +2,33 @@ package it.polimi.ingsw;
 
 import it.polimi.ingsw.model.Game;
 
+import java.net.Socket;
+
 public class LoginManager {
 
-
-    /**
-     * private static int numPlayers = 3;
-     * <p>
-     * public static void setNumPlayers(int num) {
-     * numPlayers = num;
-     * }
-     * <p>
-     * public static int getNumPlayers() {
-     * return numPlayers;
-     * }
-     * <p>
-     * <p>
-     * static ArrayList<String> nicknames;
-     * <p>
-     * static void allocate() {
-     * if (nicknames == null) {
-     * nicknames = new ArrayList<String>();
-     * }
-     * <p>
-     * }
-     **/
-
-    public static int login(String name, Game game) {
-        //allocate();
-        //System.out.println("Started login for " + name);
+    public static int login(String name, Game game, Socket socket) {
         int count = PlayersList.getCurrentNumberOfPlayers();
-        //System.out.println("count: " + count);
+
         if (count >= game.getNumberOfPlayers()) //max number of player reached
             return 1;
         else if (PlayersList.contains(name)) //name already in use
             return 2;
-        game.addPlayer(name);
+        game.addPlayer(name, socket);
         System.out.println(name + " logged in");
-
-
         return 0;
     }
+    public static int login(String name, Game game) {
+        Socket socket = new Socket();
+        int count = PlayersList.getCurrentNumberOfPlayers();
+        if (count >= game.getNumberOfPlayers()) //max number of player reached
+            return 1;
+        else if (PlayersList.contains(name)) //name already in use
+            return 2;
+        game.addPlayer(name, socket);
+        System.out.println(name + " logged in");
+        return 0;
+    }
+
 
 
 }

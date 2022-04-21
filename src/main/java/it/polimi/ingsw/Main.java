@@ -18,7 +18,7 @@ public class Main {
                 echoServer.startServer();
             }
         } else {
-            LineClient client = new LineClient("127.0.0.1", port);
+            LineClient client = new LineClient(getIp(args), port);
             try {
                 client.startClient();
 
@@ -39,4 +39,14 @@ public class Main {
         return 1337;  //default port
 
     }
+
+    public static String getIp(String[] args){
+        for (int i = 0; i<args.length; i++){
+            if (Objects.equals(args[i], "-ip")){
+                return args[i+1];
+            }
+        }
+        return "127.0.0.1";  //default ip
+    }
+
 }

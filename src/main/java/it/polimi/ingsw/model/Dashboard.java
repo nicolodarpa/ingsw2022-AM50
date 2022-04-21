@@ -17,7 +17,6 @@ public class Dashboard {
         return towers;
     }
 
-
     public Student[] getHall() {
         return hall;
     }
@@ -50,7 +49,7 @@ public class Dashboard {
             }
             System.out.println(" ");
         }
-        System.out.print("TeacherTable: ");
+        System.out.print("Teacher Table: ");
         for (Teacher teacher : teacherTable) {
             System.out.print("-");
             if (teacher != null) {
@@ -59,7 +58,7 @@ public class Dashboard {
         }
         System.out.println(" ");
 
-        System.out.print("Tower: ");
+        System.out.print("Towers: ");
         for (Tower tower : towers) {
             System.out.print("-");
             if (tower != null) {

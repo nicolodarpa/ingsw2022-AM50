@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class Island {
     private int id;
-    private boolean islandConquered;
+    private boolean islandConquered = false;
     private int idGroup;
     private int towerNumber;
     private TowerColor towerColor;
@@ -28,6 +28,7 @@ public class Island {
 
     public Island(int id) {
         this.id = id;
+        this.idGroup = id;
     }
 
     public int getId() {
@@ -46,8 +47,11 @@ public class Island {
         return towerNumber;
     }
 
-    public Player getOwner() {
-        return owner;
+    public String getOwner() {
+        if (owner!=null){
+            return owner.getName();
+        } else return "free";
+
     }
 
     public ArrayList<Student> getStudentList() {

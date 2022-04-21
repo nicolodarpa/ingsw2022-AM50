@@ -3,6 +3,8 @@ package it.polimi.ingsw.model;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 public class StudentTest {
 
     private Student red = new Student(PawnColor.RED);
@@ -19,5 +21,17 @@ public class StudentTest {
         cyan.draw();
         green.draw();
         magenta.draw();
+    }
+
+    @Test
+    void setColor() {
+        Student student = new Student();
+        student.setColor(PawnColor.YELLOW);
+        assertEquals(student.getColor(),PawnColor.YELLOW);
+    }
+
+    @Test
+    void getColor() {
+        assertEquals(cyan.getColor(), PawnColor.CYAN);
     }
 }

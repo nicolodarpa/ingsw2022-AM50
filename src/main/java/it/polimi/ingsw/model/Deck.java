@@ -27,7 +27,7 @@ public class Deck {
         return id;
     }
 
-    public boolean isHasChosen() {
+    public boolean getChosen() {
         return hasChosen;
     }
 
@@ -35,7 +35,7 @@ public class Deck {
         this.id = id;
     }
 
-    public void setHasChosen(boolean hasChosen) {
+    public void setChosen(boolean hasChosen) {
         this.hasChosen = hasChosen;
     }
 
