@@ -233,16 +233,33 @@ public class Game {
 
         }
 
-        /**else if (numberOfPlayers == 3) {
-         Dashboard d1 = PlayersList.getPlayers().get(0).getDashboard();
-         Dashboard d2 = PlayersList.getPlayers().get(1).getDashboard();
-         Dashboard d3 = PlayersList.getPlayers().get(2).getDashboard();
-         if ((d1.countStudentByColor(teacher.getColor()) > d2.countStudentByColor(teacher.getColor())) && (d1.countStudentByColor(teacher.getColor()) > d3.countStudentByColor(teacher.getColor()))) {
-         d1.addTeacherToTable(teacher);
-         }
+        else if (numberOfPlayers == 3) {
+            Dashboard d1 = PlayersList.getPlayers().get(0).getDashboard();
+            Dashboard d2 = PlayersList.getPlayers().get(1).getDashboard();
+            Dashboard d3 = PlayersList.getPlayers().get(2).getDashboard();
+            for (int i = 0; i < 5; i++) {
+                if (d1.countStudentByColor(teachers[i].getColor()) > d2.countStudentByColor(teachers[i].getColor()) && d1.countStudentByColor(teachers[i].getColor()) > d3.countStudentByColor(teachers[i].getColor())) {
+                    d1.addTeacherToTable(teachers[i]);
+                    if (d2.getTeacherTable()[i] != null)
+                        d2.removeTeacherFromTable(teachers[i]);
+                    else if (d3.getTeacherTable()[i] != null)
+                        d3.removeTeacherFromTable(teachers[i]);
+                } else if (d2.countStudentByColor(teachers[i].getColor()) > d1.countStudentByColor(teachers[i].getColor()) && d2.countStudentByColor(teachers[i].getColor()) > d3.countStudentByColor(teachers[i].getColor())) {
+                    d2.addTeacherToTable(teachers[i]);
+                    if (d1.getTeacherTable()[i] != null)
+                        d1.removeTeacherFromTable(teachers[i]);
+                    else if (d3.getTeacherTable()[i] != null)
+                        d3.removeTeacherFromTable(teachers[i]);
+                } else if (d3.countStudentByColor(teachers[i].getColor()) > d1.countStudentByColor(teachers[i].getColor()) && d3.countStudentByColor(teachers[i].getColor()) > d2.countStudentByColor(teachers[i].getColor())) {
+                    d3.addTeacherToTable(teachers[i]);
+                    if (d1.getTeacherTable()[i] != null)
+                        d1.removeTeacherFromTable(teachers[i]);
+                    else if (d2.getTeacherTable()[i] != null)
+                        d2.removeTeacherFromTable(teachers[i]);
+                }
 
-         }
-         */
+            }
+        }
     }
 
     public void assignTower() {
