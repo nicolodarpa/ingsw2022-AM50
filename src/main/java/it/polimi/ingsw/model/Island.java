@@ -172,10 +172,10 @@ public class Island {
         final int numberOfColor = 5;
         int [] colorStudentOne = new int[numberOfColor], colorStudentTwo = new int[numberOfColor], colorStudentThree = new int[numberOfColor];
         int max_1, max_2, max_3;
-        if (PlayersList.getPlayers().size() == 2) {
+        if (playersList.getPlayers().size() == 2) {
 
-            Player p1 = PlayersList.getPlayers().get(0);
-            Player p2 = PlayersList.getPlayers().get(1);
+            Player p1 = playersList.getPlayers().get(0);
+            Player p2 = playersList.getPlayers().get(1);
             Teacher[] teacherColorOne = p1.getDashboard().getTeacherTable();
             Teacher[] teacherColorTwo = p2.getDashboard().getTeacherTable();
 
@@ -200,11 +200,11 @@ public class Island {
             } else {
                 this.owner = null;
             }
-        } else if (PlayersList.getPlayers().size() == 3){
+        } else if (playersList.getPlayers().size() == 3){
 
-                Player p1 = PlayersList.getPlayers().get(0);
-                Player p2 = PlayersList.getPlayers().get(1);
-                Player p3 = PlayersList.getPlayers().get(2);
+                Player p1 = playersList.getPlayers().get(0);
+                Player p2 = playersList.getPlayers().get(1);
+                Player p3 = playersList.getPlayers().get(2);
                 Teacher[] teacherColorOne = p1.getDashboard().getTeacherTable();
                 Teacher[] teacherColorTwo = p2.getDashboard().getTeacherTable();
                 Teacher[] teacherColorThree= p3.getDashboard().getTeacherTable();

@@ -1,6 +1,8 @@
 package it.polimi.ingsw.model;
 
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.Socket;
 
 /**
@@ -10,6 +12,9 @@ import java.net.Socket;
 public class Player {
     private String name;
     private Socket socket;
+
+    private PrintWriter out;
+
     private int order;
     private int movesOfMN;
     private int numberOfTowers;
@@ -46,12 +51,31 @@ public class Player {
     }
 
     public Socket getSocket() {
+        if (socket == null) {
+            try {
+                socket = new Socket("127.0.0.1", 1337);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
         return socket;
+    }
+
+    public PrintWriter getOut() {
+        if (out == null) {
+            try {
+                out = new PrintWriter(getSocket().getOutputStream(), true);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return out;
     }
 
     public int getOrder() {
         return order;
     }
+
 
     public int getMovesOfMN() {
         return movesOfMN;
@@ -64,6 +88,15 @@ public class Player {
     public void setDeck(Deck deck) {
         this.deck = deck;
         deck.setChosen(true);
+    }
+
+    public void setSocket(Socket socket) {
+        this.socket = socket;
+
+    }
+
+    public void printToCLI(String message) {
+        getOut().println(message);
     }
 
     public Deck getDeck() {

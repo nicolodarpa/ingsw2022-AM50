@@ -1,6 +1,8 @@
 package it.polimi.ingsw;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.NoSuchElementException;
@@ -8,8 +10,8 @@ import java.util.Scanner;
 
 public class LineClient {
 
-    private String ip;
-    private int port;
+    private final String ip;
+    private final int port;
 
     public LineClient(String ip, int port) {
         this.ip = ip;
@@ -18,10 +20,11 @@ public class LineClient {
 
 
     public void startClient() throws IOException {
+        System.out.println("====Eriantys CLI Client====");
         Socket socket = new Socket(ip, port);
         System.out.println("Connection established");
         System.out.println("Enter your name");
-        Scanner socketIn = new Scanner(socket.getInputStream());
+        BufferedReader socketIn = new BufferedReader(new InputStreamReader((socket.getInputStream())));
         PrintWriter socketOut = new PrintWriter(socket.getOutputStream());
         Scanner stdin = new Scanner(System.in);
 
@@ -31,8 +34,9 @@ public class LineClient {
                 String inputLine = stdin.nextLine();
                 socketOut.println(inputLine);
                 socketOut.flush();
-                String socketLine = socketIn.nextLine();
+                String socketLine = socketIn.readLine();
                 System.out.println(socketLine);
+
             }
         } catch (NoSuchElementException e) {
             System.out.println("Connection closed");

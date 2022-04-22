@@ -4,7 +4,7 @@ import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.StudentsBag;
 
 import java.io.IOException;
-import java.net.Socket;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 /**
@@ -13,19 +13,22 @@ import java.util.ArrayList;
 
 public class PlayersList {
 
-    private static ArrayList<Player> players;
+    private final ArrayList<Player> players = new ArrayList<Player>();
 
-    private static void allocate() {
-        if (players == null) {
-            players = new ArrayList<Player>();
-        }
-    }
-
-    public static ArrayList<Player> getPlayers() {
+    public ArrayList<Player> getPlayers() {
         return players;
     }
 
-    public static boolean contains(String name) {
+    public Player getPlayerByName(String name) {
+        for (Player p : players) {
+            if (p.getName().equals(name)) {
+                return p;
+            }
+        }
+        return null;
+    }
+
+    public boolean containsByName(String name) {
         for (Player p : players) {
             if (p.getName().equals(name)) {
                 return true;
@@ -34,22 +37,17 @@ public class PlayersList {
         return false;
     }
 
-    public static void addPlayer(String name, Socket socket) {
-        /**
-         * This method add new player to the playersList
-         */
 
-        allocate();
-        Player p = new Player(name, socket);
+    /**
+     * This method add new player to the playersList
+     */
+    public void addPlayer(String name) {
+        Player p = new Player(name);
         players.add(p);
-        /**System.out.println("Plist");
-         for (Player q : players) {
-         System.out.println("- " + q.getName() + " -");
-         }**/
 
     }
 
-    public static synchronized void removePlayer(String name) {
+    public synchronized void removePlayer(String name) {
         for (Player q : players) {
             if (q.getName().equals(name)) {
                 players.remove(q);
@@ -59,15 +57,22 @@ public class PlayersList {
         }
     }
 
-    public void moveStudentsToHall(StudentsBag studentsBag){
-        for (Player player: players){
+    public void moveStudentsToHall(StudentsBag studentsBag) {
+        for (Player player : players) {
             player.moveStudentsToHall(studentsBag);
         }
     }
 
 
-    public static int getCurrentNumberOfPlayers() {
-        allocate();
+    public int getCurrentNumberOfPlayers() {
+
         return players.size();
+    }
+
+    public void printToClient(String message) throws IOException {
+        for (Player player : players) {
+            PrintWriter out = new PrintWriter(player.getSocket().getOutputStream(), true);
+            out.println(message);
+        }
     }
 }

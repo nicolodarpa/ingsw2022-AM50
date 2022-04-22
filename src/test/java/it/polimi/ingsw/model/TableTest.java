@@ -29,7 +29,7 @@ public class TableTest {
         LoginManager.login("nic", gameTest);
         gameTest.setupGame();
         Island islandTest = gameTest.getIslands().get(0);
-        Player player_one = PlayersList.getPlayers().get(0);
+        Player player_one = gameTest.getPlist().getPlayers().get(0);
         player_one.moveStudentToIsland(islandTest,2);
         player_one.getDashboard().drawDashboard();
         tableTest.drawTable();

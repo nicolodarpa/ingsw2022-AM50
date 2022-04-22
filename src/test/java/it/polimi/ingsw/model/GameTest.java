@@ -5,13 +5,11 @@ import it.polimi.ingsw.PlayersList;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class GameTest {
 
-    private Game gameTest = new Game();
+    private Game gameTest;
 
     @Test
     public void testMoveStudentsToHall() {
@@ -20,7 +18,7 @@ public class GameTest {
         LoginManager.login("ale", gameTest);
         LoginManager.login("nic", gameTest);
         gameTest.setupGame();
-        assertEquals(100, gameTest.getStudentsInBag());
+        assertEquals(100, gameTest.getStudentsInBag() );
     }
 
     @Test
@@ -41,6 +39,7 @@ public class GameTest {
     @Test
     @DisplayName(" Test that there are 12 Islands")
     public void createIslandTest() {
+        gameTest = new Game();
         gameTest.createIslands();
         assertEquals(12, gameTest.getIslands().size());
     }
@@ -53,8 +52,8 @@ public class GameTest {
         LoginManager.login("jaz", gameTest);
         LoginManager.login("nic", gameTest);
         gameTest.setupGame();
-        Player player_one = PlayersList.getPlayers().get(0);
-        Player player_two = PlayersList.getPlayers().get(1);
+        Player player_one = gameTest.getPlist().getPlayers().get(0);
+        Player player_two = gameTest.getPlist().getPlayers().get(1);
         PawnColor color = player_one.getDashboard().getHall()[2].getColor();
         player_one.getDashboard().drawDashboard();
         player_one.moveStudentToClassroom(2);
@@ -68,6 +67,7 @@ public class GameTest {
     @Test
     @DisplayName(" add student on the islands at the beginning of a new match")
     public void addStudentToIslandTest() {
+        gameTest = new Game();
         gameTest.setNumberOfPlayers(2);
         LoginManager.login("jaz", gameTest);
         LoginManager.login("nic", gameTest);
@@ -82,12 +82,13 @@ public class GameTest {
     @Test
     @DisplayName(" Connect two island with the same owner")
     public void connectIslandTest() {
+        gameTest = new Game();
         gameTest.setNumberOfPlayers(2);
         LoginManager.login("jaz", gameTest);
         LoginManager.login("nic", gameTest);
         gameTest.setupGame();
-        Player p = PlayersList.getPlayers().get(0);
-        Player q = PlayersList.getPlayers().get(1);
+        Player p = gameTest.getPlist().getPlayers().get(0);
+        Player q = gameTest.getPlist().getPlayers().get(1);
         for (Island i : gameTest.getIslands()) {
             System.out.println("Numero isola: " + i.getId() + " - group: " + i.getIdGroup() + ", owner: " + i.getOwner());
         }

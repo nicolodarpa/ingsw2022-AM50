@@ -47,7 +47,7 @@ public class PlayerTest{
         LoginManager.login("ale", game);
         LoginManager.login("nic", game);
         game.setupGame();
-        Player player = PlayersList.getPlayers().get(0);
+        Player player = game.getPlist().getPlayers().get(0);
         player.moveStudentToIsland(game.getIslands().get(2), 3);
         if(game.getIslands().get(2).getOppositeMN() || game.getIslands().get(2).getPresenceMN())
             assertEquals(1,game.getIslands().get(2).getStudentList().size());

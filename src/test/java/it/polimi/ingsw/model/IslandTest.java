@@ -53,9 +53,9 @@ public class IslandTest {
         gameTest.setupGame();
         Table tableTest = new Table(gameTest.getCloudCards(), gameTest.getIslands());
 
-        Player plyr_1 = PlayersList.getPlayers().get(0);
-        Player plyr_2 = PlayersList.getPlayers().get(1);
-        Player plyr_3 = PlayersList.getPlayers().get(2);
+        Player plyr_1 = gameTest.getPlist().getPlayers().get(0);
+        Player plyr_2 = gameTest.getPlist().getPlayers().get(1);
+        Player plyr_3 = gameTest.getPlist().getPlayers().get(2);
 
         Dashboard dashboard_1 = plyr_1.getDashboard();
         Dashboard dashboard_2 = plyr_2.getDashboard();

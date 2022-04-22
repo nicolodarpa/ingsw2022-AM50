@@ -15,6 +15,8 @@ public class EchoServerClientHandler extends Thread {
     private final Socket socket;
     private final Game game;
 
+    private PrintWriter out;
+    private BufferedReader in;
 
     public EchoServerClientHandler(Socket socket, Game game) throws IOException {
         this.socket = socket;
@@ -22,11 +24,16 @@ public class EchoServerClientHandler extends Thread {
 
     }
 
+    public void sendMessage(String string) {
+        out.println(string);
+
+    }
+
     public void run() {
 
         try {
-            PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-            BufferedReader in = new BufferedReader(
+
+            in = new BufferedReader(
                     new InputStreamReader(socket.getInputStream())
             );
 
@@ -34,10 +41,12 @@ public class EchoServerClientHandler extends Thread {
 
             boolean check = true;
             while (check) {
-                switch (LoginManager.login(name, game, socket)) {
+                switch (LoginManager.login(name, game)) {
                     case 0 -> {
+                        game.getPlist().getPlayerByName(name).setSocket(socket);
+                        out = game.getPlist().getPlayerByName(name).getOut();
                         if (game.getCurrentNumberOfPlayers() == 1) {
-                            out.println("Welcome " + name + ", choose number of players, 2 or 3 allowed:");
+                            out.println("Welcome " + name + " Choose number of players, 2 or 3 allowed:");
                             String numPlayers;
                             numPlayers = in.readLine();
                             while (!Objects.equals(numPlayers, "2") && !Objects.equals(numPlayers, "3")) {
@@ -45,26 +54,25 @@ public class EchoServerClientHandler extends Thread {
                                 numPlayers = in.readLine();
                             }
                             game.setNumberOfPlayers(Integer.parseInt(numPlayers));
-                            out.println("Waiting for other " + (game.getNumberOfPlayers() - 1) + " players");
                         } else {
                             out.println("Welcome " + name);
                         }
                         check = false;
                     }
                     case 2 -> {
+                        PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
                         out.println("Name already in use by another player, chose a different name:");
                         name = in.readLine();
                     }
                     case 1 -> {
+                        PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
                         out.println("Max number of players reached");
                         check = false;
                         in.close();
-                        out.close();
                         socket.close();
                     }
                 }
             }
-
 
 
 
@@ -77,9 +85,9 @@ public class EchoServerClientHandler extends Thread {
                 }
             }
 
+
             game.removePlayer(name);
             in.close();
-            out.close();
             socket.close();
 
 

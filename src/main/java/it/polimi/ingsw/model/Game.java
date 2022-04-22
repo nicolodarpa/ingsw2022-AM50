@@ -1,9 +1,5 @@
 package it.polimi.ingsw.model;
-
-
 import it.polimi.ingsw.PlayersList;
-
-import java.net.Socket;
 import java.util.*;
 
 /**
@@ -28,7 +24,7 @@ public class Game {
     private int numberOfPlayers = 3;
     private Player actualPlayer;
     private int numberOfIslands = 12;
-    private final PlayersList plist = new PlayersList();
+    private PlayersList plist = new PlayersList();
     private StudentsBag studentsBag = new StudentsBag();
     private ArrayList<CloudCard> cloudCards = new ArrayList<>();
     private Map<Integer, Deck> map = new HashMap<>();
@@ -44,9 +40,18 @@ public class Game {
         return plist;
     }
 
+    public boolean containsPlayerByName(String name) {
+        for (Player player : plist.getPlayers()) {
+            if (Objects.equals(player.getName(), name)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     public int getCurrentNumberOfPlayers() {
-        return PlayersList.getCurrentNumberOfPlayers();
+        return plist.getCurrentNumberOfPlayers();
     }
 
     public StudentsBag getStudentsBag() {
@@ -67,13 +72,18 @@ public class Game {
 
     public void startGame() {
         System.out.println("Game starting");
+        for (Player player : plist.getPlayers()) {
+            player.printToCLI("Game started");
+        }
     }
 
-    public void addPlayer(String name, Socket socket) {
-        PlayersList.addPlayer(name, socket);
-        if (getNumberOfPlayers() == getCurrentNumberOfPlayers()) {
-            startGame();
-        }
+    public void addPlayer(String name) {
+        plist.addPlayer(name);
+
+    }
+    public void removePlayer(String name) {
+        plist.removePlayer(name);
+        System.out.println(name + " logged out");
     }
 
     public void moveStudentsToHall() {
@@ -177,9 +187,7 @@ public class Game {
     }
 
 
-    public void removePlayer(String name) {
-        PlayersList.removePlayer(name);
-    }
+
 
     public void createDecks() {
         /**
@@ -202,11 +210,11 @@ public class Game {
     public void connectIsland() {
         for (int i = 1; i < 11; i++) {
             Island curr = islands.get(i);
-            Island next = islands.get(i+1);
-            if(Objects.equals(next.getOwner(), curr.getOwner()) && !Objects.equals(curr.getOwner(), "free")  && !Objects.equals(next.getIdGroup(), curr.getIdGroup())){
+            Island next = islands.get(i + 1);
+            if (Objects.equals(next.getOwner(), curr.getOwner()) && !Objects.equals(curr.getOwner(), "free") && !Objects.equals(next.getIdGroup(), curr.getIdGroup())) {
                 next.setIdGroup(curr.getIdGroup());
-                for (int j = i+2; j < 12; j++){
-                    islands.get(j).setIdGroup(islands.get(j).getIdGroup()-1);
+                for (int j = i + 2; j < 12; j++) {
+                    islands.get(j).setIdGroup(islands.get(j).getIdGroup() - 1);
                 }
 
             }
@@ -217,8 +225,8 @@ public class Game {
 
     public void assignTeacher() {
         if (numberOfPlayers == 2) {
-            Dashboard d1 = PlayersList.getPlayers().get(0).getDashboard();
-            Dashboard d2 = PlayersList.getPlayers().get(1).getDashboard();
+            Dashboard d1 = plist.getPlayers().get(0).getDashboard();
+            Dashboard d2 = plist.getPlayers().get(1).getDashboard();
             for (int i = 0; i < 5; i++) {
                 if (d1.countStudentByColor(teachers[i].getColor()) > d2.countStudentByColor(teachers[i].getColor())) {
                     d1.addTeacherToTable(teachers[i]);
@@ -231,12 +239,10 @@ public class Game {
                 }
             }
 
-        }
-
-        else if (numberOfPlayers == 3) {
-            Dashboard d1 = PlayersList.getPlayers().get(0).getDashboard();
-            Dashboard d2 = PlayersList.getPlayers().get(1).getDashboard();
-            Dashboard d3 = PlayersList.getPlayers().get(2).getDashboard();
+        } else if (numberOfPlayers == 3) {
+            Dashboard d1 = plist.getPlayers().get(0).getDashboard();
+            Dashboard d2 = plist.getPlayers().get(1).getDashboard();
+            Dashboard d3 = plist.getPlayers().get(2).getDashboard();
             for (int i = 0; i < 5; i++) {
                 if (d1.countStudentByColor(teachers[i].getColor()) > d2.countStudentByColor(teachers[i].getColor()) && d1.countStudentByColor(teachers[i].getColor()) > d3.countStudentByColor(teachers[i].getColor())) {
                     d1.addTeacherToTable(teachers[i]);
@@ -265,12 +271,12 @@ public class Game {
     public void assignTower() {
         int i = 0;
         if (numberOfPlayers == 2) {
-            for (Player p : PlayersList.getPlayers()) {
+            for (Player p : plist.getPlayers()) {
                 p.getDashboard().addTower(8, TowerColor.values()[i]);
                 i++;
             }
         } else if (numberOfPlayers == 3) {
-            for (Player p : PlayersList.getPlayers()) {
+            for (Player p : plist.getPlayers()) {
                 p.getDashboard().addTower(6, TowerColor.values()[i]);
                 i++;
             }
