@@ -1,4 +1,4 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.client;
 
 import java.io.IOException;
 import java.io.PrintWriter;

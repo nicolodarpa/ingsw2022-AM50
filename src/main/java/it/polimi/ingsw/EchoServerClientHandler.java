@@ -74,6 +74,8 @@ public class EchoServerClientHandler extends Thread {
                 }
             }
 
+            game.checkLobby();
+
 
 
             while (true) {

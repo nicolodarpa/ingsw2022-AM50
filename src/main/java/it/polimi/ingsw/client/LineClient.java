@@ -1,4 +1,4 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.client;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -19,6 +19,9 @@ public class LineClient {
     }
 
 
+
+
+
     public void startClient() throws IOException {
         System.out.println("====Eriantys CLI Client====");
         Socket socket = new Socket(ip, port);
@@ -28,23 +31,17 @@ public class LineClient {
         PrintWriter socketOut = new PrintWriter(socket.getOutputStream());
         Scanner stdin = new Scanner(System.in);
 
-        try {
 
-            while(true){
-                String inputLine = stdin.nextLine();
-                socketOut.println(inputLine);
-                socketOut.flush();
-                String socketLine = socketIn.readLine();
-                System.out.println(socketLine);
 
-            }
-        } catch (NoSuchElementException e) {
-            System.out.println("Connection closed");
-        } finally {
+            new ClientInput(stdin, socketOut).start();
+            new ClientOut(socketIn).start();
+
+            /**
+        finally {
             stdin.close();
             socketIn.close();
             socketOut.close();
             socket.close();
-        }
+        }**/
     }
 }

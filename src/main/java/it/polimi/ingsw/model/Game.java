@@ -1,17 +1,20 @@
 package it.polimi.ingsw.model;
+
 import it.polimi.ingsw.PlayersList;
+
 import java.util.*;
 
 /**
  * Game contains all the metods that implements the match
- *
+ * <p>
  * Implemented methods allows to do the following operation:
- *<ul>
+ * <ul>
  *     <li>addPlayer add a new player to the match</li>
  *     <li>moveStudentsToHall move the students from the Entrance to the hall of the dashboard</li>
  *     <li>setupGame start a new game</li>
  *     <li>checkPlayer check that there is the correct number of players to start a new match or print that the game is waiting new players</li>
- *</ul>
+ * </ul>
+ *
  * @author Nicolò D'Arpa, Zarlene Justrem De Mesa, Alessandro Costantini
  * @since 1.0
  */
@@ -70,6 +73,7 @@ public class Game {
     }
 
     public void startGame() {
+        setupGame();
         System.out.println("Game starting");
         for (Player player : plist.getPlayers()) {
             player.printToCLI("Game started");
@@ -80,6 +84,18 @@ public class Game {
         plist.addPlayer(name);
 
     }
+
+    public void checkLobby(){
+        if (getCurrentNumberOfPlayers()==numberOfPlayers){
+            startGame();
+        }
+        else {
+            for (Player player : plist.getPlayers()) {
+                player.printToCLI("Waiting for other " + (numberOfPlayers - getCurrentNumberOfPlayers()) + " players");
+            }
+        }
+    }
+
     public void removePlayer(String name) {
         plist.removePlayer(name);
         System.out.println(name + " logged out");
@@ -99,6 +115,7 @@ public class Game {
         addMotherNatureToIsland();
         addStudentToIsland();
         assignTower();
+        System.out.println("Setup complete");
     }
 
     public void createIslands() {
@@ -138,7 +155,6 @@ public class Game {
             }
         }
     }
-
 
 
     public void fillStudentsBag() {
@@ -185,8 +201,6 @@ public class Game {
 
 
     }
-
-
 
 
     public void createDecks() {
@@ -298,7 +312,7 @@ public class Game {
         return actualPlayer;
     }
 
-    public Island getIslandWithMN(){
+    public Island getIslandWithMN() {
         for (Island i : islands) {
             if (i.getPresenceMN()) {
                 this.islandWithMN = i;
