@@ -69,14 +69,23 @@ public class SpecialDeck {
         }
 
         public void extractRandomCard() {
-            Random random = new Random();
-            for (int i = 0; i < 3; i++) {
-                int id_card = random.nextInt(8);
-                specialCardsInGame.add(deckMap.get(id_card));
-
+            ArrayList specialCardToPlay = getRandomNonRepeatingIntegers(3, 0, 7);
+            for (int i = 0; i < specialCardToPlay.size(); i++) {
+                specialCardsInGame.add(deckMap.get(specialCardToPlay.get(i)));
             }
-
-
         }
+
+     public static ArrayList getRandomNonRepeatingIntegers(int size, int min, int max) {
+        ArrayList numbers = new ArrayList();
+        Random random = new Random();
+        while (numbers.size() < size) {
+            int randomNumber = random.nextInt((max - min) + 1) + min;
+            if (!numbers.contains(randomNumber)) {
+                numbers.add(randomNumber);
+            }
+        }
+        return numbers;
+    }
+
 }
 
