@@ -3,26 +3,23 @@ import it.polimi.ingsw.PlayersList;
 import java.util.*;
 
 /**
- * Game contains all the methods that implements the match
- * <p>
+ * Game contains all the metods that implements the match
+ *
  * Implemented methods allows to do the following operation:
- * <ul>
+ *<ul>
  *     <li>addPlayer add a new player to the match</li>
  *     <li>moveStudentsToHall move the students from the Entrance to the hall of the dashboard</li>
  *     <li>setupGame start a new game</li>
  *     <li>checkPlayer check that there is the correct number of players to start a new match or print that the game is waiting new players</li>
- * </ul>
- *
+ *</ul>
  * @author Nicolò D'Arpa, Zarlene Justrem De Mesa, Alessandro Costantini
  * @since 1.0
  */
 
 public class Game {
-
     private boolean gameStatus;
     private int round = 0;
     private int numberOfPlayers = 3;
-    private Player actualPlayer;
     private int numberOfIslands = 12;
     private PlayersList plist = new PlayersList();
     private StudentsBag studentsBag = new StudentsBag();
@@ -30,6 +27,8 @@ public class Game {
     private Map<Integer, Deck> map = new HashMap<>();
     private ArrayList<Island> islands = new ArrayList<>(12);
     private final Teacher[] teachers = {new Teacher(PawnColor.CYAN), new Teacher(PawnColor.MAGENTA), new Teacher(PawnColor.YELLOW), new Teacher(PawnColor.RED), new Teacher(PawnColor.GREEN)};
+    private Island islandWithMN;
+    private Player actualPlayer;
 
 
     public int getNumberOfPlayers() {
@@ -91,16 +90,15 @@ public class Game {
     }
 
     public void setupGame() {
-        createIslands();
-        addMotherNatureToIsland();
-        studentsBag.fillBag(10);
-        addStudentToIsland();
         fillStudentsBag();
         cloudCardCreation();
         cloudCardFill();
         createDecks();
-        assignTower();
+        createIslands();
         moveStudentsToHall();
+        addMotherNatureToIsland();
+        addStudentToIsland();
+        assignTower();
     }
 
     public void createIslands() {
@@ -140,6 +138,8 @@ public class Game {
             }
         }
     }
+
+
 
     public void fillStudentsBag() {
         studentsBag.fillBag(120);
@@ -221,6 +221,7 @@ public class Game {
 
         }
 
+
     }
 
     public void assignTeacher() {
@@ -281,5 +282,28 @@ public class Game {
                 i++;
             }
         }
+    }
+
+    public void setActualPlayer() {
+        int max_order = 10;
+        for (Player p : plist.getPlayers()) {
+            if (p.getOrder() < max_order) {
+                this.actualPlayer = p;
+                max_order = p.getOrder();
+            }
+        }
+    }
+
+    public Player getActualPlayer() {
+        return actualPlayer;
+    }
+
+    public Island getIslandWithMN(){
+        for (Island i : islands) {
+            if (i.getPresenceMN()) {
+                this.islandWithMN = i;
+            }
+        }
+        return islandWithMN;
     }
 }

@@ -18,7 +18,7 @@ class CloudCardTest {
             Student student = new Student();
             testCloud.addStudent(student);
         }
-        assertEquals(testCloud.getStudents().get(0).getColor(), PawnColor.WHITE);
+        assertEquals(testCloud.getStudents().get(0).getColor(), null);
 
 
     }
@@ -31,7 +31,7 @@ class CloudCardTest {
         }
         ArrayList<Student> temp = testCloud.getStudents();
         for (int i = 0; i<3; i++){
-           temp.get(i).draw();
+            temp.get(i).draw();
         }
         assertNotNull(testCloud.getStudents().get(0));
     }

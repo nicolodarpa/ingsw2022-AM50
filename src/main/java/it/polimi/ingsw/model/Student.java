@@ -15,7 +15,7 @@ public class Student extends Pawn {
 
 
     public Student() {
-        this.color = PawnColor.WHITE;
+        this.color = null;
     }
 
     public Student(PawnColor color) {

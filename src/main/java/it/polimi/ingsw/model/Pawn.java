@@ -22,7 +22,7 @@ public class Pawn {
 
     public void draw() {
         PawnColor color = getColor();
-        if (color == PawnColor.WHITE) {
+        if (color == null) {
             System.out.print("^^^");
         } else if (color == PawnColor.CYAN) {
             System.out.print(ANSI_CYAN + "+++");

@@ -14,12 +14,13 @@ public class StudentsBag {
 
     /**
      * takes exactly 24 students of each color, to do this it uses j%5 and then fills the bag with the students
-     * @param i represent the total number of students in the game (120)
+     * @param numberOfStudents represent the total number of students in the game (120)
      */
-    public void fillBag(int i){
+    public void fillBag(int numberOfStudents){
         bag = new ArrayList<>();
-        for (int j = 1; j<i+1; j++){
-            bag.add(new Student(colors[j%5]));
+        final int totalNumberOfPawnColor = PawnColor.totalNumberOfPawnColors();
+        for(int j = 1; j < numberOfStudents+1; j++){
+            bag.add(new Student(colors[j%totalNumberOfPawnColor]));
         }
     }
 

@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class GameTest {
+public class GameTest{
 
     private Game gameTest;
 
@@ -17,6 +17,7 @@ public class GameTest {
         gameTest.setNumberOfPlayers(2);
         LoginManager.login("ale", gameTest);
         LoginManager.login("nic", gameTest);
+        gameTest.getStudentsBag().fillBag(120);
         gameTest.setupGame();
         assertEquals(100, gameTest.getStudentsInBag() );
     }
@@ -30,9 +31,9 @@ public class GameTest {
         LoginManager.login("nic", gameTest);
         gameTest.setupGame();
         assertEquals(100, gameTest.getStudentsInBag());
-        assertEquals(2, gameTest.getCloudCards().size());
-        for (int i = 0; i < 2; i++) {
-            assertEquals(3, gameTest.getCloudCards().get(i).getStudents().size());
+        assertEquals(2,gameTest.getCloudCards().size());
+        for(int i = 0; i < 2; i++){
+            assertEquals(3,gameTest.getCloudCards().get(i).getStudents().size());
         }
     }
 
@@ -41,12 +42,12 @@ public class GameTest {
     public void createIslandTest() {
         gameTest = new Game();
         gameTest.createIslands();
-        assertEquals(12, gameTest.getIslands().size());
+        assertEquals(12,gameTest.getIslands().size());
     }
 
     @Test
     @DisplayName(" Test the assignment of the Teacher")
-    public void assignTeacherTest() {
+    public void assignTeacherTest(){
         gameTest = new Game();
         gameTest.setNumberOfPlayers(2);
         LoginManager.login("jaz", gameTest);
@@ -55,7 +56,6 @@ public class GameTest {
         Player player_one = gameTest.getPlist().getPlayers().get(0);
         Player player_two = gameTest.getPlist().getPlayers().get(1);
         PawnColor color = player_one.getDashboard().getHall()[2].getColor();
-        player_one.getDashboard().drawDashboard();
         player_one.moveStudentToClassroom(2);
         gameTest.assignTeacher();
         assertNotNull(player_one.getDashboard().getTeacherTable()[color.ordinal()]);
@@ -72,9 +72,9 @@ public class GameTest {
         LoginManager.login("jaz", gameTest);
         LoginManager.login("nic", gameTest);
         gameTest.setupGame();
-        for (Island i : gameTest.getIslands()) {
-            if (!i.getPresenceMN() && !i.getOppositeMN()) {
-                assertEquals(1, i.getStudentList().size());
+        for(Island i : gameTest.getIslands()){
+            if(!i.getPresenceMN() && !i.getOppositeMN()){
+                assertEquals(1,i.getStudentList().size());
             }
         }
     }
@@ -119,6 +119,25 @@ public class GameTest {
         }
         System.out.println(" ");
 
+    }
+
+    @Test
+    public void setActualPlayerTest(){
+        gameTest = new Game();
+        gameTest.setNumberOfPlayers(2);
+        LoginManager.login("jaz", gameTest);
+        LoginManager.login("nic", gameTest);
+        gameTest.setupGame();
+        Deck deck1 = new Deck(1);
+        Deck deck2 = new Deck(2);
+        Player playerOne = gameTest.getPlist().getPlayerByName("jaz");
+        Player playerTwo = gameTest.getPlist().getPlayerByName("nic");
+        playerOne.setDeck(deck1);
+        playerTwo.setDeck(deck2);
+        playerOne.playAssistantCard(3);
+        playerTwo.playAssistantCard(6);
+        gameTest.setActualPlayer();
+        assertEquals(playerOne, gameTest.getActualPlayer());
     }
 
 }

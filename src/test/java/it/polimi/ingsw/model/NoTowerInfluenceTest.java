@@ -1,0 +1,50 @@
+package it.polimi.ingsw.model;
+
+import it.polimi.ingsw.LoginManager;
+import it.polimi.ingsw.PlayersList;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
+public class NoTowerInfluenceTest {
+
+    private Game gameTest = new Game();
+
+    @Test
+    @DisplayName("Testing the function")
+    public void testEffect(){
+        gameTest.setNumberOfPlayers(2);
+        LoginManager.login("jaz",gameTest);
+        LoginManager.login("nic",gameTest);
+        gameTest.setupGame();
+        NoTowerInfluence card = new NoTowerInfluence(gameTest.getIslandWithMN(), gameTest.getPlist());
+        card.effect();
+        assertEquals(gameTest.getIslandWithMN().getOwner(), "free");
+    }
+
+    @Test
+    public void testGetCost(){
+        gameTest.setNumberOfPlayers(2);
+        LoginManager.login("jaz",gameTest);
+        LoginManager.login("nic",gameTest);
+        gameTest.setupGame();
+        NoTowerInfluence card = new NoTowerInfluence(gameTest.getIslandWithMN(), gameTest.getPlist());
+        System.out.println(card.getCost());
+    }
+
+    @Test
+    public void testAddCost(){
+        gameTest.setNumberOfPlayers(2);
+        LoginManager.login("jaz",gameTest);
+        LoginManager.login("nic",gameTest);
+        gameTest.setupGame();
+        NoTowerInfluence card = new NoTowerInfluence(gameTest.getIslandWithMN(), gameTest.getPlist());
+        System.out.println(card.getCost());
+        card.addCost();
+        System.out.println(card.getCost());
+    }
+
+
+}

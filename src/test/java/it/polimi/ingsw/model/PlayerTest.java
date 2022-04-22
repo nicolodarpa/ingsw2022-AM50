@@ -4,11 +4,16 @@ import it.polimi.ingsw.LoginManager;
 import it.polimi.ingsw.PlayersList;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 
 public class PlayerTest{
+
+
     @Test
     @DisplayName("Fill the hall")
     public void testMoveStudentToHall() {
@@ -42,18 +47,29 @@ public class PlayerTest{
 
     @Test
     public void testMoveStudentToIsland(){
-        Game game = new Game();
-        game.setNumberOfPlayers(2);
-        LoginManager.login("ale", game);
-        LoginManager.login("nic", game);
-        game.setupGame();
-        Player player = game.getPlist().getPlayers().get(0);
-        player.moveStudentToIsland(game.getIslands().get(2), 3);
-        if(game.getIslands().get(2).getOppositeMN() || game.getIslands().get(2).getPresenceMN())
-            assertEquals(1,game.getIslands().get(2).getStudentList().size());
+        Game gameTest = new Game();
+        gameTest.setNumberOfPlayers(2);
+        LoginManager.login("ale",gameTest);
+        LoginManager.login("nic",gameTest);
+        gameTest.setupGame();
+        Player player = gameTest.getPlist().getPlayers().get(0);
+        player.moveStudentToIsland(gameTest.getIslands().get(2), 3);
+        if(gameTest.getIslands().get(2).getOppositeMN() || gameTest.getIslands().get(2).getPresenceMN())
+            assertEquals(1,gameTest.getIslands().get(2).getStudentList().size());
         else
-            assertEquals(2,game.getIslands().get(2).getStudentList().size());
+            assertEquals(2,gameTest.getIslands().get(2).getStudentList().size());
         player.getDashboard().drawDashboard();
+    }
+
+    @Test
+    public void playCharacterCard(){
+        Game gameTest = new Game();
+        gameTest.setNumberOfPlayers(2);
+        LoginManager.login("ale",gameTest);
+        LoginManager.login("nic",gameTest);
+        //gameTest.setupGame();
+        //Player p1 = PlayersList.getPlayers().get(0);
+        //p1.playCharacterCard(0);
     }
 }
 

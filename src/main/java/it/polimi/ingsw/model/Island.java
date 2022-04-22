@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.stream.IntStream;
 
 
+
 public class Island {
     private int id;
     private boolean islandConquered = false;
@@ -35,13 +36,6 @@ public class Island {
         return id;
     }
 
-    public boolean isIslandConquered() {
-        return islandConquered;
-    }
-
-    public int getIdGroup() {
-        return idGroup;
-    }
 
     public int getTowerNumber() {
         return towerNumber;
@@ -66,23 +60,24 @@ public class Island {
         return presenceMN;
     }
 
+    public int getIdGroup() {
+        return idGroup;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
-
 
     public void setIdGroup(int idGroup) {
         this.idGroup = idGroup;
     }
 
 
+
     public void setTowerColor(TowerColor towerColor) {
         this.towerColor = towerColor;
     }
 
-    public void setStudentList(ArrayList<Student> studentList) {
-        this.studentList = studentList;
-    }
 
     public void setOwner(Player owner) {
         this.owner = owner;
@@ -95,7 +90,7 @@ public class Island {
 
     /**
      * count the number of students of each color
-     * @return
+     *
      */
 
     public int[] countStudentByColor(){
@@ -168,76 +163,52 @@ public class Island {
     }
 
 
-    public void calcInfluence(PlayersList playersList){
+    public void calcInfluence(PlayersList players){
         final int numberOfColor = 5;
-        int [] colorStudentOne = new int[numberOfColor], colorStudentTwo = new int[numberOfColor], colorStudentThree = new int[numberOfColor];
-        int max_1, max_2, max_3;
-        if (playersList.getPlayers().size() == 2) {
 
-            Player p1 = playersList.getPlayers().get(0);
-            Player p2 = playersList.getPlayers().get(1);
-            Teacher[] teacherColorOne = p1.getDashboard().getTeacherTable();
-            Teacher[] teacherColorTwo = p2.getDashboard().getTeacherTable();
-
-            for (int i = 0; i < teacherColorOne.length; i++) {
-                if (teacherColorOne[i] != null) {
-                    colorStudentOne[i] = countStudentOfAColor(teacherColorOne[i].getColor());
+        for(Player p : players.getPlayers()){
+            int [] colorStudent = new int[numberOfColor];
+            Dashboard dashboardTemp = p.getDashboard();
+            for(int i = 0; i < dashboardTemp.getTeacherTable().length; i++){
+                if(dashboardTemp.getTeacherTable()[i] != null){
+                    colorStudent[i] = countStudentOfAColor(dashboardTemp.getTeacherTable()[i].getColor());
                 }
             }
-            for (int i = 0; i < teacherColorTwo.length; i++) {
-                if (teacherColorTwo[i] != null) {
-                    colorStudentTwo[i] = countStudentOfAColor(teacherColorTwo[i].getColor());
-                }
-            }
-            max_1 = IntStream.of(colorStudentOne).sum();
-            max_2 = IntStream.of(colorStudentTwo).sum();
-            if (max_1 > max_2) {
+            p.setInfluencePoint(IntStream.of(colorStudent).sum());
+        }
+
+        if (players.getPlayers().size() == 2) {
+            Player p1 = players.getPlayers().get(0);
+            Player p2 = players.getPlayers().get(1);
+
+            if (p1.getInfluencePoint() > p2.getInfluencePoint()) {
                 this.owner = p1;
                 islandConquered = true;
-            } else if (max_1 < max_2) {
+            } else if (p1.getInfluencePoint() < p2.getInfluencePoint()) {
                 this.owner = p2;
                 islandConquered = true;
             } else {
                 this.owner = null;
             }
-        } else if (playersList.getPlayers().size() == 3){
+        } else if (players.getPlayers().size() == 3){
 
-                Player p1 = playersList.getPlayers().get(0);
-                Player p2 = playersList.getPlayers().get(1);
-                Player p3 = playersList.getPlayers().get(2);
-                Teacher[] teacherColorOne = p1.getDashboard().getTeacherTable();
-                Teacher[] teacherColorTwo = p2.getDashboard().getTeacherTable();
-                Teacher[] teacherColorThree= p3.getDashboard().getTeacherTable();
+                Player p1 = players.getPlayers().get(0);
+                Player p2 = players.getPlayers().get(1);
+                Player p3 = players.getPlayers().get(2);
 
-                for (int i = 0; i < teacherColorOne.length; i++) {
-                    if (teacherColorOne[i] != null) {
-                        colorStudentOne[i] = countStudentOfAColor(teacherColorOne[i].getColor());
-                    }
-                }
-                for (int i = 0; i < teacherColorTwo.length; i++) {
-                    if (teacherColorTwo[i] != null) {
-                        colorStudentTwo[i] = countStudentOfAColor(teacherColorTwo[i].getColor());
-                    }
-                }
-                for (int i = 0; i < teacherColorTwo.length; i++) {
-                    if (teacherColorThree[i] != null) {
-                        colorStudentThree[i] = countStudentOfAColor(teacherColorThree[i].getColor());
-                    }
-                }
-                max_1 = IntStream.of(colorStudentOne).sum();
-                max_2 = IntStream.of(colorStudentTwo).sum();
-                max_3 = IntStream.of(colorStudentThree).sum();
-                if (max_1 > max_2 && max_1 > max_3) {
-                    this.owner = p1;
-                    islandConquered = true;
-                } else if (max_2 > max_1 && max_2 > max_3) {
-                    this.owner = p2;
-                    islandConquered = true;
-                } else if (max_3 > max_1 && max_3 > max_2) {
-                    this.owner = p3;
-                    islandConquered = true;
-                }
 
+
+            if (p1.getInfluencePoint() > p2.getInfluencePoint() && p1.getInfluencePoint() > p3.getInfluencePoint()) {
+                this.owner = p1;
+                islandConquered = true;
+            } else if (p2.getInfluencePoint() > p1.getInfluencePoint() && p2.getInfluencePoint() > p3.getInfluencePoint()) {
+                this.owner = p2;
+                islandConquered = true;
+            } else if (p3.getInfluencePoint() > p1.getInfluencePoint() && p3.getInfluencePoint() > p2.getInfluencePoint()) {
+                this.owner = p3;
+                islandConquered = true;
+            }
+            addTower();
         }
     }
 
@@ -250,8 +221,6 @@ public class Island {
         return oppositeMN;
     }
 
-    public void connectIsland(){
 
-    }
 }
 

@@ -114,12 +114,13 @@ public class Dashboard {
     }
 
 
+
+
     /**
      * count the number of students of one color in the classroom
      * @param color is the color of the student, that we search
      * @return the number of the students of one color
      */
-
     public int countStudentByColor(PawnColor color){
         int numberOfStudent = 0;
 

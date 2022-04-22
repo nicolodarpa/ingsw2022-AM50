@@ -33,8 +33,8 @@ public class CloudCard {
         ArrayList<Student> temp = new ArrayList<>(capacity);
         temp.addAll(students);
         if (capacity > 0) {
-         students.subList(0, capacity).clear();
-         }
+            students.subList(0, capacity).clear();
+        }
 
         return temp;
     }
