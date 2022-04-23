@@ -75,9 +75,7 @@ public class Game {
     public void startGame() {
         setupGame();
         System.out.println("Game starting");
-        for (Player player : plist.getPlayers()) {
-            player.printToCLI("Game started");
-        }
+        plist.notifyAllClients("Game started");
     }
 
     public void addPlayer(String name) {
@@ -85,20 +83,20 @@ public class Game {
 
     }
 
-    public void checkLobby(){
-        if (getCurrentNumberOfPlayers()==numberOfPlayers){
+    public void checkLobby() {
+        if (waitLobby()) {
             startGame();
         }
-        else {
-            for (Player player : plist.getPlayers()) {
-                player.printToCLI("Waiting for other " + (numberOfPlayers - getCurrentNumberOfPlayers()) + " players");
-            }
-        }
+    }
+
+    public boolean waitLobby() {
+        return getCurrentNumberOfPlayers() == numberOfPlayers;
     }
 
     public void removePlayer(String name) {
         plist.removePlayer(name);
         System.out.println(name + " logged out");
+        plist.notifyAllClients(name + " logged out");
     }
 
     public void moveStudentsToHall() {
@@ -106,15 +104,15 @@ public class Game {
     }
 
     public void setupGame() {
+        createIslands();
+        addMotherNatureToIsland();
+        addStudentToIsland();
         fillStudentsBag();
         cloudCardCreation();
         cloudCardFill();
-        createDecks();
-        createIslands();
-        moveStudentsToHall();
-        addMotherNatureToIsland();
-        addStudentToIsland();
         assignTower();
+        createDecks();
+        moveStudentsToHall();
         System.out.println("Setup complete");
     }
 
@@ -204,16 +202,6 @@ public class Game {
 
 
     public void createDecks() {
-        /**
-         * create the assistant card's deck:
-         * <ul>
-         *     <li>Wizard 1</li>
-         *     <li>Wizard 2</li>
-         *     <li>Wizard 3</li>
-         *     <li>Wizard 4</li>
-         * </ul>
-         */
-
         map.put(1, new Deck(1));
         map.put(2, new Deck(2));
         map.put(3, new Deck(3));

@@ -3,8 +3,6 @@ package it.polimi.ingsw;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.StudentsBag;
 
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 
 /**
@@ -13,7 +11,7 @@ import java.util.ArrayList;
 
 public class PlayersList {
 
-    private final ArrayList<Player> players = new ArrayList<Player>();
+    private final ArrayList<Player> players = new ArrayList<>();
 
     public ArrayList<Player> getPlayers() {
         return players;
@@ -69,10 +67,9 @@ public class PlayersList {
         return players.size();
     }
 
-    public void printToClient(String message) throws IOException {
+    public void notifyAllClients(String message) {
         for (Player player : players) {
-            PrintWriter out = new PrintWriter(player.getSocket().getOutputStream(), true);
-            out.println(message);
+            player.printToCLI(message);
         }
     }
 }

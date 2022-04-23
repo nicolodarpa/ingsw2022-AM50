@@ -74,7 +74,17 @@ public class EchoServerClientHandler extends Thread {
                 }
             }
 
+
             game.checkLobby();
+            while (!game.waitLobby()){
+                out.println("Waiting for other " +  (game.getNumberOfPlayers() - game.getCurrentNumberOfPlayers()) + " players");
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+
 
 
 
