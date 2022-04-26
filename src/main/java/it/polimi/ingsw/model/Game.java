@@ -34,7 +34,7 @@ public class Game {
     private final Teacher[] teachers = {new Teacher(PawnColor.CYAN), new Teacher(PawnColor.MAGENTA), new Teacher(PawnColor.YELLOW), new Teacher(PawnColor.RED), new Teacher(PawnColor.GREEN)};
     private Island islandWithMN;
     private Player actualPlayer;
-    private SpecialDeck specialDeck = new SpecialDeck(islandWithMN,plist,actualPlayer,islands);
+    private SpecialDeck specialDeck = new SpecialDeck(islandWithMN, plist, actualPlayer, islands);
     private static ArrayList<SpecialCard> cardsInGame = new ArrayList<>();
     private Scanner scanner = new Scanner(System.in);
 
@@ -126,7 +126,6 @@ public class Game {
         assignTower();
         createDecks();
         moveStudentsToHall();
-        assignTower();
         extractSpecialCard();
         System.out.println("Setup complete");
     }
@@ -245,12 +244,12 @@ public class Game {
     }
 
 
-    public void extractSpecialCard(){
+    public void extractSpecialCard() {
         specialDeck.extractRandomCard();
         cardsInGame = specialDeck.getSpecialCardsInGame();
     }
 
-    public static ArrayList<SpecialCard> getSpecialCardsInGame(){
+    public static ArrayList<SpecialCard> getSpecialCardsInGame() {
         return cardsInGame;
     }
 
@@ -352,10 +351,35 @@ public class Game {
     }
 
 
-    public void playSpecialCard(){
-        for(int i = 0; i < cardsInGame.size(); i++)
-            System.out.println( " card " + i + " : " + cardsInGame.get(i).getEffectOfTheCard() + " card's cost : " + cardsInGame.get(i).getCost());
+    public void playSpecialCard() {
+        for (int i = 0; i < cardsInGame.size(); i++)
+            System.out.println(" card " + i + " : " + cardsInGame.get(i).getEffectOfTheCard() + " card's cost : " + cardsInGame.get(i).getCost());
         System.out.println("Insert the number of card do you want to play: ");
         //actualPlayer.playSpecialCard(0);
     }
+
+    public void chooseCloudCard() {
+        int numberOfCloudCard = 0;
+        ArrayList<Student> students = new ArrayList<>();
+        System.out.println(" Choose a cloud card: ");
+        numberOfCloudCard = scanner.nextInt();
+        students = cloudCards.get(numberOfCloudCard).getAllStudents();
+        Dashboard actualDashboard = actualPlayer.getDashboard();
+        for (Student s : students)
+            actualDashboard.addStudentToHall(s);
+        fillOneCloudCard(numberOfCloudCard);
+    }
+
+    public void fillOneCloudCard(int numberOfCloudCard){
+        final CloudCard cloudCard = cloudCards.get(numberOfCloudCard);
+        if(numberOfPlayers == 2){
+            for(int i = 0; i < numberOfPlayers; i++)
+                cloudCard.addStudent(studentsBag.casualExtraction());
+        } else if( numberOfPlayers == 3 ){
+            for(int i = 0; i < numberOfPlayers; i++)
+                cloudCard.addStudent(studentsBag.casualExtraction());
+        }
+    }
+
+
 }

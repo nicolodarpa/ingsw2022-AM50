@@ -160,4 +160,18 @@ public class GameTest{
         gameTest.playSpecialCard();
     }
 
+    @Test
+    public void chooseCloudCard(){
+        gameTest = new Game();
+        gameTest.setNumberOfPlayers(2);
+        LoginManager.login("jaz", gameTest);
+        LoginManager.login("nic", gameTest);
+        gameTest.setupGame();
+        Player p1 = gameTest.getPlist().getPlayerByName("jaz");
+        p1.moveStudentToClassroom(3);
+        p1.moveStudentToIsland(gameTest.getIslandWithMN(), 4);
+        p1.moveStudentToClassroom(5);
+        p1.getDashboard().drawDashboard();
+    }
+
 }

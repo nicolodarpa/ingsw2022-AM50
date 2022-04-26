@@ -190,10 +190,9 @@ public class Player {
      * @param position indicate the position of the student in the DashboardHall
      */
     public void moveStudentToClassroom(int position){
-        if(dashboard.addStudentToClassroom(dashboard.getStudentFromHall(position))){
-            wallet.addCoins(1);
-        }
+        dashboard.addStudentToClassroom(dashboard.getStudentFromHall(position));
     }
+
 
 
 }
