@@ -74,7 +74,7 @@ public class GameTest{
         gameTest.setupGame();
         for(Island i : gameTest.getIslands()){
             if(!i.getPresenceMN() && !i.getOppositeMN()){
-                assertEquals(2,i.getStudentList().size());
+                assertEquals(1,i.getStudentList().size());
             }
         }
     }

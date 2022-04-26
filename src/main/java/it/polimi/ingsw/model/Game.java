@@ -117,8 +117,6 @@ public class Game {
         assignTower();
         createDecks();
         moveStudentsToHall();
-        addMotherNatureToIsland();
-        addStudentToIsland();
         assignTower();
         extractSpecialCard();
         System.out.println("Setup complete");

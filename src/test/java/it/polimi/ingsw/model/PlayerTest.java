@@ -56,7 +56,7 @@ public class PlayerTest{
         if(gameTest.getIslands().get(2).getOppositeMN() || gameTest.getIslands().get(2).getPresenceMN())
             assertEquals(1,gameTest.getIslands().get(2).getStudentList().size());
         else
-            assertEquals(3,gameTest.getIslands().get(2).getStudentList().size());
+            assertEquals(2,gameTest.getIslands().get(2).getStudentList().size());
         player.getDashboard().drawDashboard();
     }
 
