@@ -104,28 +104,27 @@ public class Dashboard {
             return student;
         }
 
-        public boolean addStudentToClassroom (Student student){
+        public void addStudentToClassroom (Student student){
             PawnColor color = student.getColor();
             boolean coinPosition = false;
             for (int i = 0; i < 10; i++) {
                 if (classroom[color.ordinal()][i] == null) {
-                    classroom[color.ordinal()][i] = student;
-                    coinPosition = checkCoinPosition(i);
+                        classroom[color.ordinal()][i] = student;
+                        return;
+                        //coinPosition = checkCoinPosition(i);
                 }
             }
-            return coinPosition;
         }
 
         public void addCoin (Wallet wallet){
-
             for (int j = 0; j < 5; j++) {
-                for (int i = 0; i < 10; i++) {
-                    if (classroom[j][i] != null && j % 3 == 0) {
+                for (int i = 1; i <10; i++) {
+                    if (classroom[j][i] != null && i%3 == 0) {
                         wallet.addCoins(1);
+                        return;
                     }
                 }
             }
-            return;
         }
 
         public void addTeacherToTable (Teacher teacher){

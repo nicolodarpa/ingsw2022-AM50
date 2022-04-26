@@ -100,18 +100,16 @@ public class DashboardTest{
             gameTest.getStudentsBag().fillBag(120);
             gameTest.setupGame();
             Player p1= gameTest.getPlist().getPlayers().get(0);
-            Student student1 = new Student(PawnColor.CYAN);
-            Student student2 = new Student(PawnColor.CYAN);
-            Student student3 = new Student(PawnColor.CYAN);
-            p1.getDashboard().addStudentToHall(student1);
-            p1.getDashboard().addStudentToHall(student2);
-            p1.getDashboard().addStudentToHall(student3);
             p1.moveStudentToClassroom(0);
             p1.moveStudentToClassroom(1);
             p1.moveStudentToClassroom(2);
+            p1.moveStudentToClassroom(3);
+            p1.moveStudentToClassroom(4);
+            p1.moveStudentToClassroom(5);
+            p1.moveStudentToClassroom(6);
             p1.getDashboard().drawDashboard();
             p1.getDashboard().addCoin(p1.getWallet());
-            System.out.println("Il player ha #" + p1.getWallet().getCoins() + "monete");
+            System.out.println("Il player ha #" + p1.getWallet().getCoins() + " monete");
     }
 
 

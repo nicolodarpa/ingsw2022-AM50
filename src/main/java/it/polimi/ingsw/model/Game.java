@@ -370,4 +370,29 @@ public class Game {
         System.out.println("Insert the number of card do you want to play: ");
         //actualPlayer.playSpecialCard(0);
     }
+
+    public void chooseCloudCard() {
+        int numberOfCloudCard = 0;
+        ArrayList<Student> students = new ArrayList<>();
+        System.out.println(" Choose a cloud card: ");
+        numberOfCloudCard = scanner.nextInt();
+        students = cloudCards.get(numberOfCloudCard).getAllStudents();
+        Dashboard actualDashboard = actualPlayer.getDashboard();
+        for (Student s : students)
+            actualDashboard.addStudentToHall(s);
+        fillOneCloudCard(numberOfCloudCard);
+    }
+
+    public void fillOneCloudCard(int numberOfCloudCard){
+        final CloudCard cloudCard = cloudCards.get(numberOfCloudCard);
+        if(numberOfPlayers == 2){
+            for(int i = 0; i < numberOfPlayers; i++)
+                cloudCard.addStudent(studentsBag.casualExtraction());
+        } else if( numberOfPlayers == 3 ){
+            for(int i = 0; i < numberOfPlayers; i++)
+                cloudCard.addStudent(studentsBag.casualExtraction());
+        }
+    }
+
+
 }

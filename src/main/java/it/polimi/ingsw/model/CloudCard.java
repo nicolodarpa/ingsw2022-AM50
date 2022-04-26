@@ -5,7 +5,6 @@ import java.util.ArrayList;
 public class CloudCard {
 
     private ArrayList<Student> students;
-
     private int capacity;
 
     public CloudCard(int numberOfPlayers) {
@@ -38,5 +37,6 @@ public class CloudCard {
 
         return temp;
     }
+
 
 }
