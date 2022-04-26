@@ -2,6 +2,7 @@ package it.polimi.ingsw.model;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.PlayersList;
+import it.polimi.ingsw.comunication.CloudCardStatus;
 import it.polimi.ingsw.comunication.DashboardStatus;
 import it.polimi.ingsw.comunication.IslandStatus;
 
@@ -16,7 +17,8 @@ import java.util.*;
  *     <li>moveStudentsToHall move the students from the Entrance to the hall of the dashboard</li>
  *     <li>setupGame start a new game</li>
  *     <li>checkPlayer check that there is the correct number of players to start a new match or print that the game is waiting new players</li>
- *</ul>
+ * </ul>
+ *
  * @author Nicolò D'Arpa, Zarlene Justrem De Mesa, Alessandro Costantini
  * @since 1.0
  */
@@ -34,7 +36,7 @@ public class Game {
     private final Teacher[] teachers = {new Teacher(PawnColor.CYAN), new Teacher(PawnColor.MAGENTA), new Teacher(PawnColor.YELLOW), new Teacher(PawnColor.RED), new Teacher(PawnColor.GREEN)};
     private Island islandWithMN;
     private Player actualPlayer;
-    private SpecialDeck specialDeck = new SpecialDeck(islandWithMN,plist,actualPlayer,islands);
+    private SpecialDeck specialDeck = new SpecialDeck(islandWithMN, plist, actualPlayer, islands);
     private static ArrayList<SpecialCard> cardsInGame = new ArrayList<>();
     private Scanner scanner = new Scanner(System.in);
 
@@ -87,6 +89,8 @@ public class Game {
         plist.notifyAllClients("msg", "Game started");
         String islandStatus = sendIslands();
         plist.notifyAllClients("islands", islandStatus);
+        String cloudCardsStatus = sendCloudCards();
+        plist.notifyAllClients("cloudCard", cloudCardsStatus);
         String dashboardStatus = sendDashboard();
         plist.notifyAllClients("dashboard", dashboardStatus);
     }
@@ -126,7 +130,6 @@ public class Game {
         assignTower();
         createDecks();
         moveStudentsToHall();
-        assignTower();
         extractSpecialCard();
         System.out.println("Setup complete");
     }
@@ -142,14 +145,23 @@ public class Game {
     }
 
 
-    public  String sendDashboard(){
+    public String sendDashboard() {
         ArrayList<DashboardStatus> statusList = new ArrayList<>();
-        for (Player player: plist.getPlayers()){
-            statusList.add(new DashboardStatus(player.getName(),player.getDashboard()));
+        for (Player player : plist.getPlayers()) {
+            statusList.add(new DashboardStatus(player.getName(), player.getDashboard()));
         }
         Gson gson = new Gson();
         return gson.toJson(statusList);
-     }
+    }
+
+    public String sendCloudCards() {
+        ArrayList<CloudCardStatus> statusList = new ArrayList<>();
+        for (CloudCard cloudCard: cloudCards){
+            statusList.add(new CloudCardStatus(cloudCard));
+        }
+        Gson gson = new Gson();
+        return gson.toJson(statusList);
+    }
 
 
     public void createIslands() {
@@ -245,12 +257,12 @@ public class Game {
     }
 
 
-    public void extractSpecialCard(){
+    public void extractSpecialCard() {
         specialDeck.extractRandomCard();
         cardsInGame = specialDeck.getSpecialCardsInGame();
     }
 
-    public static ArrayList<SpecialCard> getSpecialCardsInGame(){
+    public static ArrayList<SpecialCard> getSpecialCardsInGame() {
         return cardsInGame;
     }
 
@@ -352,9 +364,9 @@ public class Game {
     }
 
 
-    public void playSpecialCard(){
-        for(int i = 0; i < cardsInGame.size(); i++)
-            System.out.println( " card " + i + " : " + cardsInGame.get(i).getEffectOfTheCard() + " card's cost : " + cardsInGame.get(i).getCost());
+    public void playSpecialCard() {
+        for (int i = 0; i < cardsInGame.size(); i++)
+            System.out.println(" card " + i + " : " + cardsInGame.get(i).getEffectOfTheCard() + " card's cost : " + cardsInGame.get(i).getCost());
         System.out.println("Insert the number of card do you want to play: ");
         //actualPlayer.playSpecialCard(0);
     }
