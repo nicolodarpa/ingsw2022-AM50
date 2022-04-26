@@ -134,19 +134,18 @@ public class Player {
      */
     public void playAssistantCard(int numberOfCard){
         ArrayList<AssistantCard> assistantCardsPlayed = new ArrayList<>();
-        if(numberOfCard < 10)
-            try{
-                assistantCardsPlayed.add(deck.getCardsList().get(numberOfCard));
-                if(checkCard(assistantCardsPlayed)){
-                    this.order = deck.getCardsList().get(numberOfCard).getOrder();
-                    this.movesOfMN = deck.getCardsList().get(numberOfCard).getMoveOfMN();
-                    deck.getCardsList().remove(deck.getCardsList().get(numberOfCard));
-                }else{
-                    System.out.println(" card not available");
-                }
-            }catch (Exception e){
-                System.out.println("This card is not available, please select a valid card between 0 and 9");
+        try{
+            assistantCardsPlayed.add(deck.getCardsList().get(numberOfCard));
+            if(checkCard(assistantCardsPlayed)){
+                this.order = deck.getCardsList().get(numberOfCard).getOrder();
+                this.movesOfMN = deck.getCardsList().get(numberOfCard).getMoveOfMN();
+                deck.getCardsList().remove(deck.getCardsList().get(numberOfCard));
+            }else{
+                System.out.println(" card not available");
             }
+        }catch (Exception e){
+            System.out.println("This card is not available, please select a valid card between 0 and 9");
+        }
     }
 
     public boolean checkCard(ArrayList<AssistantCard> assistantCardsPlayed){
@@ -182,7 +181,12 @@ public class Player {
      * @param position indicate the position of the student in the DashboardHall
      */
     public void moveStudentToIsland(Island island, int position){
-        island.addStudent(dashboard.getStudentFromHall(position));
+        try{
+            island.addStudent(dashboard.getStudentFromHall(position));
+        }catch (Exception e){
+            System.out.println(" Invalid input ");
+        }
+
     }
 
     /**
@@ -190,7 +194,12 @@ public class Player {
      * @param position indicate the position of the student in the DashboardHall
      */
     public void moveStudentToClassroom(int position){
-        dashboard.addStudentToClassroom(dashboard.getStudentFromHall(position));
+        try{
+            dashboard.addStudentToClassroom(dashboard.getStudentFromHall(position));
+        }catch (Exception e){
+            System.out.println(" Invalid position, please insert a valid number between 0 and 6 ");
+        }
+
     }
 
 

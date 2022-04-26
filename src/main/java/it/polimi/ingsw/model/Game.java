@@ -18,7 +18,7 @@ import java.util.*;
  *     <li>setupGame start a new game</li>
  *     <li>checkPlayer check that there is the correct number of players to start a new match or print that the game is waiting new players</li>
  * </ul>
- *
+ * </p>
  * @author Nicolò D'Arpa, Zarlene Justrem De Mesa, Alessandro Costantini
  * @since 1.0
  */
@@ -31,7 +31,7 @@ public class Game {
     private PlayersList plist = new PlayersList();
     private StudentsBag studentsBag = new StudentsBag();
     private ArrayList<CloudCard> cloudCards = new ArrayList<>();
-    private Map<Integer, Deck> map = new HashMap<>();
+    private Map<Integer, Deck> deckMap = new HashMap<>();
     private ArrayList<Island> islands = new ArrayList<>(12);
     private final Teacher[] teachers = {new Teacher(PawnColor.CYAN), new Teacher(PawnColor.MAGENTA), new Teacher(PawnColor.YELLOW), new Teacher(PawnColor.RED), new Teacher(PawnColor.GREEN)};
     private Island islandWithMN;
@@ -250,10 +250,10 @@ public class Game {
 
 
     public void createDecks() {
-        map.put(1, new Deck(1));
-        map.put(2, new Deck(2));
-        map.put(3, new Deck(3));
-        map.put(4, new Deck(4));
+        deckMap.put(1, new Deck(1));
+        deckMap.put(2, new Deck(2));
+        deckMap.put(3, new Deck(3));
+        deckMap.put(4, new Deck(4));
     }
 
 
@@ -393,6 +393,15 @@ public class Game {
                 cloudCard.addStudent(studentsBag.casualExtraction());
         }
     }
+
+    public int chooseDeck(int numberOfDeck){
+        Deck deck = deckMap.get(numberOfDeck);
+        for(Player p : plist.getPlayers()){
+            if(deck.getChosen() == true)
+                return 0;
+    }
+        return 1;
+}
 
 
 }
