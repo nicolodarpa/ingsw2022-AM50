@@ -5,10 +5,12 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class LineClient {
+    private final static String ANSI_PRIMARY = "\u001B[36m";
+    private final static String ANSI_SECONDARY = "\u001B[32m";
+    private static final String ANSI_RESET = "\u001B[0m";
 
     private final String ip;
     private final int port;
@@ -23,9 +25,14 @@ public class LineClient {
 
 
     public void startClient() throws IOException {
-        System.out.println("====Eriantys CLI Client====");
-        Socket socket = new Socket(ip, port);
-        System.out.println("Connection established");
+        System.out.println(ANSI_PRIMARY + "====Eriantys CLI Client====" + ANSI_RESET);
+        Socket socket;
+        try {
+            socket = new Socket(ip, port);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        System.out.println(ANSI_SECONDARY + "Connection established" + ANSI_RESET);
         System.out.println("Enter your name");
         BufferedReader socketIn = new BufferedReader(new InputStreamReader((socket.getInputStream())));
         PrintWriter socketOut = new PrintWriter(socket.getOutputStream());

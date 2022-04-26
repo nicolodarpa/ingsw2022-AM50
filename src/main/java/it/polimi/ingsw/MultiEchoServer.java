@@ -29,8 +29,8 @@ public class MultiEchoServer {
         System.out.println("Server ready on port: " + port);
         while (true) {
             try {
-                Socket socket = serverSocket.accept();
-                EchoServerClientHandler serverThread = new EchoServerClientHandler(socket, game);
+                Socket clientSocket = serverSocket.accept();
+                EchoServerClientHandler serverThread = new EchoServerClientHandler(clientSocket, game);
                 threadList.add(serverThread);
                 serverThread.start();
             } catch (IOException e) {

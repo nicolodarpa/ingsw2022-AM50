@@ -67,9 +67,12 @@ public class PlayersList {
         return players.size();
     }
 
-    public void notifyAllClients(String message) {
+    public void notifyAllClients(String type, String message) {
+
         for (Player player : players) {
-            player.printToCLI(message);
+            player.sendToClient(type, message);
         }
+
+
     }
 }

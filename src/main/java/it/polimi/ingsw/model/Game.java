@@ -1,6 +1,9 @@
 package it.polimi.ingsw.model;
 
+import com.google.gson.Gson;
 import it.polimi.ingsw.PlayersList;
+import it.polimi.ingsw.comunication.DashboardStatus;
+import it.polimi.ingsw.comunication.IslandStatus;
 
 import java.util.*;
 
@@ -75,7 +78,11 @@ public class Game {
     public void startGame() {
         setupGame();
         System.out.println("Game starting");
-        plist.notifyAllClients("Game started");
+        plist.notifyAllClients("msg", "Game started");
+        String islandStatus = sendIslands();
+        plist.notifyAllClients("islands", islandStatus);
+        String dashboardStatus = sendDashboard();
+        plist.notifyAllClients("dashboard", dashboardStatus);
     }
 
     public void addPlayer(String name) {
@@ -96,7 +103,7 @@ public class Game {
     public void removePlayer(String name) {
         plist.removePlayer(name);
         System.out.println(name + " logged out");
-        plist.notifyAllClients(name + " logged out");
+        plist.notifyAllClients("msg", name + " logged out");
     }
 
     public void moveStudentsToHall() {
@@ -115,6 +122,27 @@ public class Game {
         moveStudentsToHall();
         System.out.println("Setup complete");
     }
+
+    public String sendIslands() {
+        ArrayList<IslandStatus> statusList = new ArrayList<>();
+        for (Island island : islands) {
+            statusList.add(new IslandStatus(island));
+        }
+        Gson gson = new Gson();
+        return gson.toJson(statusList);
+
+    }
+
+
+    public  String sendDashboard(){
+        ArrayList<DashboardStatus> statusList = new ArrayList<>();
+        for (Player player: plist.getPlayers()){
+            statusList.add(new DashboardStatus(player.getName(),player.getDashboard()));
+        }
+        Gson gson = new Gson();
+        return gson.toJson(statusList);
+     }
+
 
     public void createIslands() {
         for (int i = 1; i <= numberOfIslands; i++) {

@@ -41,11 +41,19 @@ public class Island {
         return towerNumber;
     }
 
+    public boolean getConquered(){
+        return islandConquered;
+    }
+
     public String getOwner() {
         if (owner!=null){
             return owner.getName();
         } else return "free";
 
+    }
+
+    public ArrayList<Student> getStudents(){
+        return studentList;
     }
 
     public ArrayList<Student> getStudentList() {
