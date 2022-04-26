@@ -7,6 +7,7 @@ import it.polimi.ingsw.comunication.TextMessage;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.ArrayList;
 
 /**
  * Player contains all method that allows player to play a match
@@ -18,11 +19,11 @@ public class Player {
     private PrintWriter out;
     private int order = 10;
     private int movesOfMN = 0;
-    private int numberOfTowers;
+    private int numberOfTowersOnIsland = 0;
     private Wallet wallet = new Wallet();
     private Dashboard dashboard = new Dashboard();
     private Deck deck;
-    private int influencePoint;
+    private int influencePoint = 0;
 
     public Dashboard getDashboard() {
         return dashboard;
@@ -32,7 +33,12 @@ public class Player {
         this.dashboard = dashboard;
     }
 
-    public Player(String name) {
+    public Wallet getWallet() {
+        return wallet;
+    }
+
+
+    public Player(String name){
         this.name = name;
         wallet.setCoins(1);
     }
@@ -44,8 +50,8 @@ public class Player {
     }
 
 
-    public void moveStudentsToHall(StudentsBag bag) {
-        for (int i = 0; i < 7; i++) {
+    public void moveStudentsToHall(StudentsBag bag){
+        for (int i = 0; i<7;i++){
             Student student = bag.casualExtraction();
             dashboard.addStudentToHall(student);
         }
@@ -86,7 +92,7 @@ public class Player {
         return movesOfMN;
     }
 
-    public void setDeck(Deck deck) {
+    public void setDeck(Deck deck){
         this.deck = deck;
         deck.setChosen(true);
     }
@@ -124,32 +130,71 @@ public class Player {
 
     /**
      * The player choose based on the number of the card of its deck which one to play
-     *
      * @param numberOfCard indicate the order of the card
      */
-    public void playAssistantCard(int numberOfCard) {
-        this.order = deck.getCardsList().get(numberOfCard).getOrder();
-        this.movesOfMN = deck.getCardsList().get(numberOfCard).getMoveOfMN();
-        deck.getCardsList().remove(deck.getCardsList().get(numberOfCard));
+    public void playAssistantCard(int numberOfCard){
+        ArrayList<AssistantCard> assistantCardsPlayed = new ArrayList<>();
+        if(numberOfCard < 10)
+            try{
+                assistantCardsPlayed.add(deck.getCardsList().get(numberOfCard));
+                if(checkCard(assistantCardsPlayed)){
+                    this.order = deck.getCardsList().get(numberOfCard).getOrder();
+                    this.movesOfMN = deck.getCardsList().get(numberOfCard).getMoveOfMN();
+                    deck.getCardsList().remove(deck.getCardsList().get(numberOfCard));
+                }else{
+                    System.out.println(" card not available");
+                }
+            }catch (Exception e){
+                System.out.println("This card is not available, please select a valid card between 0 and 9");
+            }
+    }
+
+    public boolean checkCard(ArrayList<AssistantCard> assistantCardsPlayed){
+        AssistantCard card_one = assistantCardsPlayed.get(0);
+        for(int i = 1 ; i < assistantCardsPlayed.size(); i++){
+            if(card_one == assistantCardsPlayed.get(i)){
+                if(deck.getCardsList().size() == 1)
+                    return true;
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public void playSpecialCard(int numberOfCard){
+        final SpecialCard cardToPlay;
+        try{
+            cardToPlay = Game.getSpecialCardsInGame().get(numberOfCard);
+            if(wallet.getCoins() >= cardToPlay.getCost()){
+                cardToPlay.effect();
+                cardToPlay.addCost();
+            }else{
+                System.out.println(" Not enough coins to play this card ");
+            }
+        }catch (Exception e){
+            System.out.println("Invalid input");
+        }
     }
 
     /**
      * The player choose based on the position of the student from the DashboardHall which one to move to the selected Island
-     *
-     * @param island   indicate the island where we want to move the student
+     * @param island indicate the island where we want to move the student
      * @param position indicate the position of the student in the DashboardHall
      */
-    public void moveStudentToIsland(Island island, int position) {
+    public void moveStudentToIsland(Island island, int position){
         island.addStudent(dashboard.getStudentFromHall(position));
     }
 
     /**
      * The player choose based on the position of the student from the DashboardHall which one to move to the classroom
-     *
      * @param position indicate the position of the student in the DashboardHall
      */
-    public void moveStudentToClassroom(int position) {
-        dashboard.addStudentToClassroom(dashboard.getStudentFromHall(position));
+    public void moveStudentToClassroom(int position){
+        if(dashboard.addStudentToClassroom(dashboard.getStudentFromHall(position))){
+            wallet.addCoins(1);
+        }
     }
+
+
 }
 

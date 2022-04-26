@@ -3,10 +3,14 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.PlayersList;
 
 public class TeacherAssignment implements SpecialCard {
-    private final String effectOfTheCard = new String(" With this card you take the control of the teacher even if the other player has more student of that color ");
+    private final String effectOfTheCard = new String(" With this card you take the control of the teacher even if the other player has more student of that color. ");
     private int cost = 2;
-    private  final Teacher[] teachers = {new Teacher(PawnColor.CYAN), new Teacher(PawnColor.MAGENTA), new Teacher(PawnColor.YELLOW), new Teacher(PawnColor.RED), new Teacher(PawnColor.GREEN)};
-    private PlayersList players;
+    private final Teacher[] teachers = {new Teacher(PawnColor.CYAN), new Teacher(PawnColor.MAGENTA), new Teacher(PawnColor.YELLOW), new Teacher(PawnColor.RED), new Teacher(PawnColor.GREEN)};
+    private final PlayersList players;
+
+    public TeacherAssignment(PlayersList players){
+        this.players = players;
+    }
 
     @Override
     public void effect() {
@@ -69,6 +73,10 @@ public class TeacherAssignment implements SpecialCard {
 
     public void setCost(int cost) {
         this.cost = cost;
+    }
+
+    public String getEffectOfTheCard(){
+        return effectOfTheCard;
     }
 
     @Override

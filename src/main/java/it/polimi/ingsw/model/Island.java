@@ -217,6 +217,9 @@ public class Island {
                 islandConquered = true;
             }
             addTower();
+            for(Player p : players.getPlayers()){
+                p.setInfluencePoint(0);
+            }
         }
     }
 

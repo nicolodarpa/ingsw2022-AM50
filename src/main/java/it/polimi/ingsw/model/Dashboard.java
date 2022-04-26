@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.PlayersList;
+
 import java.util.ArrayList;
 
 /**
@@ -70,9 +72,14 @@ public class Dashboard {
     }
 
     public Student getStudentFromHall(int i) {
-        Student student = hall[i];
-        hall[i] = null;
-        return student;
+        try{
+            Student student = hall[i];
+            hall[i] = null;
+            return student;
+        }catch (Exception e){
+            System.out.println("please, insert a valid value of position, between 0 and 6");
+        }
+       return null;
     }
 
     public void addStudentToHall(Student student) {
@@ -82,56 +89,75 @@ public class Dashboard {
                 return;
             }
         }
-
     }
 
-    public void addStudentToClassroom(Student student) {
-        PawnColor color = student.getColor();
-
-        for (int i = 0; i < 10; i++) {
-            if (classroom[color.ordinal()][i] == null) {
-                classroom[color.ordinal()][i] = student;
-                return;
+        public boolean checkCoinPosition ( int x_position){
+            if (x_position % 3 == 0) {
+                return true;
             }
+            return false;
+        }
+
+        public Student getStudentFromClassroom ( int x_position, int y_position){
+            Student student = classroom[x_position][y_position];
+            classroom[x_position][y_position] = null;
+            return student;
+        }
+
+        public boolean addStudentToClassroom (Student student){
+            PawnColor color = student.getColor();
+            boolean coinPosition = false;
+            for (int i = 0; i < 10; i++) {
+                if (classroom[color.ordinal()][i] == null) {
+                    classroom[color.ordinal()][i] = student;
+                    coinPosition = checkCoinPosition(i);
+                }
+            }
+            return coinPosition;
+        }
+
+        public void addCoin (Wallet wallet){
+
+            for (int j = 0; j < 5; j++) {
+                for (int i = 0; i < 10; i++) {
+                    if (classroom[j][i] != null && j % 3 == 0) {
+                        wallet.addCoins(1);
+                    }
+                }
+            }
+            return;
+        }
+
+        public void addTeacherToTable (Teacher teacher){
+            PawnColor color = teacher.getColor();
+            teacherTable[color.ordinal()] = teacher;
+        }
+
+        public void removeTeacherFromTable (Teacher teacher){
+            PawnColor color = teacher.getColor();
+            teacherTable[color.ordinal()] = null;
         }
 
 
-    }
-
-    public void addTeacherToTable(Teacher teacher) {
-        PawnColor color = teacher.getColor();
-        teacherTable[color.ordinal()] = teacher;
-    }
-
-    public void removeTeacherFromTable(Teacher teacher){
-        PawnColor color = teacher.getColor();
-        teacherTable[color.ordinal()] = null;
-    }
-
-
-    public Teacher[] getTeacherTable() {
-        return teacherTable;
-    }
-
-
-
-
-    /**
-     * count the number of students of one color in the classroom
-     * @param color is the color of the student, that we search
-     * @return the number of the students of one color
-     */
-    public int countStudentByColor(PawnColor color){
-        int numberOfStudent = 0;
-
-        for (int i = 0; i < 10; i++) {
-            if (classroom[color.ordinal()][i] != null) {
-                numberOfStudent++;
-            }
+        public Teacher[] getTeacherTable () {
+            return teacherTable;
         }
 
-        return numberOfStudent;
-    }
+
+        /**
+         * count the number of students of one color in the classroom
+         * @param color is the color of the student, that we search
+         * @return the number of the students of one color
+         */
+        public int countStudentByColor (PawnColor color){
+            int numberOfStudent = 0;
+
+            for (int i = 0; i < 10; i++)
+                if (classroom[color.ordinal()][i] != null) {
+                    numberOfStudent++;
+                }
+            return numberOfStudent;
+        }
 
 
     public void removeTower(Tower t){

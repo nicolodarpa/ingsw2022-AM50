@@ -16,8 +16,7 @@ import java.util.*;
  *     <li>moveStudentsToHall move the students from the Entrance to the hall of the dashboard</li>
  *     <li>setupGame start a new game</li>
  *     <li>checkPlayer check that there is the correct number of players to start a new match or print that the game is waiting new players</li>
- * </ul>
- *
+ *</ul>
  * @author Nicolò D'Arpa, Zarlene Justrem De Mesa, Alessandro Costantini
  * @since 1.0
  */
@@ -35,6 +34,9 @@ public class Game {
     private final Teacher[] teachers = {new Teacher(PawnColor.CYAN), new Teacher(PawnColor.MAGENTA), new Teacher(PawnColor.YELLOW), new Teacher(PawnColor.RED), new Teacher(PawnColor.GREEN)};
     private Island islandWithMN;
     private Player actualPlayer;
+    private SpecialDeck specialDeck = new SpecialDeck(islandWithMN,plist,actualPlayer,islands);
+    private static ArrayList<SpecialCard> cardsInGame = new ArrayList<>();
+    private Scanner scanner = new Scanner(System.in);
 
 
     public int getNumberOfPlayers() {
@@ -57,6 +59,10 @@ public class Game {
 
     public int getCurrentNumberOfPlayers() {
         return plist.getCurrentNumberOfPlayers();
+    }
+
+    public ArrayList<SpecialCard> getCardsInGame() {
+        return cardsInGame;
     }
 
     public StudentsBag getStudentsBag() {
@@ -120,6 +126,8 @@ public class Game {
         assignTower();
         createDecks();
         moveStudentsToHall();
+        assignTower();
+        extractSpecialCard();
         System.out.println("Setup complete");
     }
 
@@ -237,6 +245,15 @@ public class Game {
     }
 
 
+    public void extractSpecialCard(){
+        specialDeck.extractRandomCard();
+        cardsInGame = specialDeck.getSpecialCardsInGame();
+    }
+
+    public static ArrayList<SpecialCard> getSpecialCardsInGame(){
+        return cardsInGame;
+    }
+
     public void connectIsland() {
         for (int i = 1; i < 11; i++) {
             Island curr = islands.get(i);
@@ -246,13 +263,10 @@ public class Game {
                 for (int j = i + 2; j < 12; j++) {
                     islands.get(j).setIdGroup(islands.get(j).getIdGroup() - 1);
                 }
-
             }
-
         }
-
-
     }
+
 
     public void assignTeacher() {
         if (numberOfPlayers == 2) {
@@ -335,5 +349,13 @@ public class Game {
             }
         }
         return islandWithMN;
+    }
+
+
+    public void playSpecialCard(){
+        for(int i = 0; i < cardsInGame.size(); i++)
+            System.out.println( " card " + i + " : " + cardsInGame.get(i).getEffectOfTheCard() + " card's cost : " + cardsInGame.get(i).getCost());
+        System.out.println("Insert the number of card do you want to play: ");
+        //actualPlayer.playSpecialCard(0);
     }
 }

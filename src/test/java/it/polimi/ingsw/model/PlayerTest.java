@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.LoginManager;
-import it.polimi.ingsw.PlayersList;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -62,14 +61,16 @@ public class PlayerTest{
     }
 
     @Test
-    public void playCharacterCard(){
+    public void testPlaySpecialCard(){
         Game gameTest = new Game();
         gameTest.setNumberOfPlayers(2);
         LoginManager.login("ale",gameTest);
         LoginManager.login("nic",gameTest);
-        //gameTest.setupGame();
-        //Player p1 = PlayersList.getPlayers().get(0);
-        //p1.playCharacterCard(0);
+        gameTest.setupGame();
+        Player p1 = gameTest.getPlist().getPlayerByName("ale");
+        p1.playSpecialCard(0);
+
+
     }
 }
 

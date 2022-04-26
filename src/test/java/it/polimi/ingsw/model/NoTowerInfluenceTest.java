@@ -31,7 +31,7 @@ public class NoTowerInfluenceTest {
         LoginManager.login("nic",gameTest);
         gameTest.setupGame();
         NoTowerInfluence card = new NoTowerInfluence(gameTest.getIslandWithMN(), gameTest.getPlist());
-        System.out.println(card.getCost());
+        assertEquals(3, card.getCost());
     }
 
     @Test
@@ -41,9 +41,8 @@ public class NoTowerInfluenceTest {
         LoginManager.login("nic",gameTest);
         gameTest.setupGame();
         NoTowerInfluence card = new NoTowerInfluence(gameTest.getIslandWithMN(), gameTest.getPlist());
-        System.out.println(card.getCost());
         card.addCost();
-        System.out.println(card.getCost());
+        assertEquals(4, card.getCost());
     }
 
 
