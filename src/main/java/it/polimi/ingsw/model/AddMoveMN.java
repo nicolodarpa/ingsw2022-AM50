@@ -1,9 +1,9 @@
 package it.polimi.ingsw.model;
 
 public class AddMoveMN implements SpecialCard{
-    private final String effectOfTheCard = new String(" With this card you have 2 more available move for Mother Nature ");
+    private final String effectOfTheCard = new String(" With this card you have 2 more available move for Mother Nature. ");
     private int cost = 1;
-    private Player actualPlayer;
+    private final Player actualPlayer;
 
     public AddMoveMN(Player actualPlayer){
         this.actualPlayer = actualPlayer;
@@ -13,6 +13,10 @@ public class AddMoveMN implements SpecialCard{
 
     public int getCost() {
         return cost;
+    }
+
+    public String getEffectOfTheCard(){
+        return effectOfTheCard;
     }
 
     public void setCost(int cost) {

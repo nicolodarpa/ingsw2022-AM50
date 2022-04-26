@@ -74,7 +74,7 @@ public class GameTest{
         gameTest.setupGame();
         for(Island i : gameTest.getIslands()){
             if(!i.getPresenceMN() && !i.getOppositeMN()){
-                assertEquals(1,i.getStudentList().size());
+                assertEquals(2,i.getStudentList().size());
             }
         }
     }
@@ -138,6 +138,26 @@ public class GameTest{
         playerTwo.playAssistantCard(6);
         gameTest.setActualPlayer();
         assertEquals(playerOne, gameTest.getActualPlayer());
+    }
+
+    @Test
+    public void extractSpecialCardTest(){
+        gameTest = new Game();
+        gameTest.setNumberOfPlayers(2);
+        LoginManager.login("jaz", gameTest);
+        LoginManager.login("nic", gameTest);
+        gameTest.setupGame();
+        assertEquals(3, gameTest.getCardsInGame().size());
+    }
+
+    @Test
+    public void playSpecialCardTest(){
+        gameTest = new Game();
+        gameTest.setNumberOfPlayers(2);
+        LoginManager.login("jaz", gameTest);
+        LoginManager.login("nic", gameTest);
+        gameTest.setupGame();
+        gameTest.playSpecialCard();
     }
 
 }

@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.LoginManager;
-import it.polimi.ingsw.PlayersList;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -59,7 +58,6 @@ public class IslandTest {
 
         Dashboard dashboard_1 = plyr_1.getDashboard();
         Dashboard dashboard_2 = plyr_2.getDashboard();
-
 
         PawnColor color = dashboard_1.getHall()[2].getColor();
         plyr_1.moveStudentToClassroom(2);

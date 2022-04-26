@@ -1,12 +1,11 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.PlayersList;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 public class SpecialDeckTest {
     Game gameTest = new Game();
-    SpecialDeck specialDeckTest = new SpecialDeck(gameTest.getIslandWithMN(), gameTest.getPlist(), gameTest.getActualPlayer());
+    SpecialDeck specialDeckTest = new SpecialDeck(gameTest.getIslandWithMN(), gameTest.getPlist(), gameTest.getActualPlayer(), gameTest.getIslands());
 
     @Test
     @DisplayName("Extract three different card")

@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.LoginManager;
-import it.polimi.ingsw.PlayersList;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -57,19 +56,21 @@ public class PlayerTest{
         if(gameTest.getIslands().get(2).getOppositeMN() || gameTest.getIslands().get(2).getPresenceMN())
             assertEquals(1,gameTest.getIslands().get(2).getStudentList().size());
         else
-            assertEquals(2,gameTest.getIslands().get(2).getStudentList().size());
+            assertEquals(3,gameTest.getIslands().get(2).getStudentList().size());
         player.getDashboard().drawDashboard();
     }
 
     @Test
-    public void playCharacterCard(){
+    public void testPlaySpecialCard(){
         Game gameTest = new Game();
         gameTest.setNumberOfPlayers(2);
         LoginManager.login("ale",gameTest);
         LoginManager.login("nic",gameTest);
-        //gameTest.setupGame();
-        //Player p1 = PlayersList.getPlayers().get(0);
-        //p1.playCharacterCard(0);
+        gameTest.setupGame();
+        Player p1 = gameTest.getPlist().getPlayerByName("ale");
+        p1.playSpecialCard(0);
+
+
     }
 }
 

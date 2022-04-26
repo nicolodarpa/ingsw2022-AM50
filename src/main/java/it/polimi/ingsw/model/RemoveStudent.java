@@ -1,7 +1,5 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.PlayersList;
-
 public class RemoveStudent implements SpecialCard{
 
     private final String effectOfTheCard = new String(" With this card you choose a color of the students and every player (even you) has to put in the BagStudents 3 students of that color from each Hall. ");
@@ -28,7 +26,7 @@ public class RemoveStudent implements SpecialCard{
         cost++;
     }
 
-    public void calcInfluence(PlayersList playersList){
-
+    public String getEffectOfTheCard(){
+        return effectOfTheCard;
     }
 }

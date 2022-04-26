@@ -4,6 +4,7 @@ package it.polimi.ingsw.model;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.ArrayList;
 
 /**
  * Player contains all method that allows player to play a match
@@ -15,11 +16,11 @@ public class Player {
     private PrintWriter out;
     private int order = 10;
     private int movesOfMN = 0;
-    private int numberOfTowers;
+    private int numberOfTowersOnIsland = 0;
     private Wallet wallet = new Wallet();
     private Dashboard dashboard = new Dashboard();
     private Deck deck;
-    private int influencePoint;
+    private int influencePoint = 0;
 
     public Dashboard getDashboard() {
         return dashboard;
@@ -123,9 +124,47 @@ public class Player {
      * @param numberOfCard indicate the order of the card
      */
     public void playAssistantCard(int numberOfCard){
-        this.order = deck.getCardsList().get(numberOfCard).getOrder();
-        this.movesOfMN = deck.getCardsList().get(numberOfCard).getMoveOfMN();
-        deck.getCardsList().remove(deck.getCardsList().get(numberOfCard));
+        ArrayList<AssistantCard> assistantCardsPlayed = new ArrayList<>();
+        if(numberOfCard < 10)
+            try{
+                assistantCardsPlayed.add(deck.getCardsList().get(numberOfCard));
+                if(checkCard(assistantCardsPlayed)){
+                    this.order = deck.getCardsList().get(numberOfCard).getOrder();
+                    this.movesOfMN = deck.getCardsList().get(numberOfCard).getMoveOfMN();
+                    deck.getCardsList().remove(deck.getCardsList().get(numberOfCard));
+                }else{
+                    System.out.println(" card not available");
+                }
+            }catch (Exception e){
+                System.out.println("This card is not available, please select a valid card between 0 and 9");
+            }
+    }
+
+    public boolean checkCard(ArrayList<AssistantCard> assistantCardsPlayed){
+        AssistantCard card_one = assistantCardsPlayed.get(0);
+        for(int i = 1 ; i < assistantCardsPlayed.size(); i++){
+            if(card_one == assistantCardsPlayed.get(i)){
+                if(deck.getCardsList().size() == 1)
+                    return true;
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public void playSpecialCard(int numberOfCard){
+        final SpecialCard cardToPlay;
+        try{
+            cardToPlay = Game.getSpecialCardsInGame().get(numberOfCard);
+            if(wallet.getCoins() >= cardToPlay.getCost()){
+                cardToPlay.effect();
+                cardToPlay.addCost();
+            }else{
+                System.out.println(" Not enough coins to play this card ");
+            }
+        }catch (Exception e){
+            System.out.println("Invalid input");
+        }
     }
 
     /**
@@ -142,7 +181,9 @@ public class Player {
      * @param position indicate the position of the student in the DashboardHall
      */
     public void moveStudentToClassroom(int position){
-        dashboard.addStudentToClassroom(dashboard.getStudentFromHall(position));
+        if(dashboard.addStudentToClassroom(dashboard.getStudentFromHall(position))){
+            wallet.addCoins(1);
+        }
     }
 
 

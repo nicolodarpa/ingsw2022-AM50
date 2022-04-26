@@ -9,27 +9,29 @@ public class SpecialDeck {
     private Island islandWithMn;
     private PlayersList players;
     private Player actualPlayer;
-    private  SpecialCard characterCard1 = new AddInfluence(islandWithMn, players, actualPlayer);
-    private  SpecialCard characterCard2 = new AddMoveMN(actualPlayer);
-    private  SpecialCard characterCard3 = new ChangeStudent();
-    private  SpecialCard characterCard4 = new MotherNatureInfluence();
-    private  SpecialCard characterCard5 = new NoTowerInfluence(islandWithMn, players);
-    private  SpecialCard characterCard6 = new RemoveStudent();
-    private  SpecialCard characterCard7 = new SpecialInfluence();
-    private  SpecialCard characterCard8 = new TeacherAssignment();
+    private ArrayList<Island> islandsInGame;
+    private final SpecialCard characterCard1 = new AddInfluence(actualPlayer);
+    private final SpecialCard characterCard2 = new AddMoveMN(actualPlayer);
+    private final SpecialCard characterCard3 = new ChangeStudent(actualPlayer);
+    private final SpecialCard characterCard4 = new MotherNatureInfluence(islandsInGame, players);
+    private final SpecialCard characterCard5 = new NoTowerInfluence(islandWithMn, players);
+    private final SpecialCard characterCard6 = new RemoveStudent();
+    private final SpecialCard characterCard7 = new SpecialInfluence(players, islandWithMn);
+    private final SpecialCard characterCard8 = new TeacherAssignment(players);
 
     private final Map<Integer, SpecialCard> deckMap = new HashMap<>();
-    private static final ArrayList<SpecialCard> specialCardsInGame = new ArrayList<>();
+    private final ArrayList<SpecialCard> specialCardsInGame = new ArrayList<>();
 
 
-    public static ArrayList<SpecialCard> getSpecialCardsInGame() {
+    public ArrayList<SpecialCard> getSpecialCardsInGame() {
             return specialCardsInGame;
         }
 
-        public SpecialDeck(Island islandWithMn, PlayersList players, Player actualPlayer) {
+        public SpecialDeck(Island islandWithMn, PlayersList players, Player actualPlayer, ArrayList<Island> islandsInGame) {
             this.islandWithMn = islandWithMn;
             this.players = players;
             this.actualPlayer = actualPlayer;
+            this.islandsInGame = islandsInGame;
             deckMap.put(0, characterCard1);
             deckMap.put(1, characterCard2);
             deckMap.put(2, characterCard3);
