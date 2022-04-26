@@ -20,7 +20,7 @@ public class Player {
     private int order = 10;
     private int movesOfMN = 0;
     private int numberOfTowersOnIsland = 0;
-    private Wallet wallet = new Wallet();
+    private static Wallet wallet = new Wallet();
     private Dashboard dashboard = new Dashboard();
     private Deck deck;
     private int influencePoint = 0;
@@ -196,13 +196,10 @@ public class Player {
     public void moveStudentToClassroom(int position){
         try{
             dashboard.addStudentToClassroom(dashboard.getStudentFromHall(position));
+            dashboard.addCoin(wallet);
         }catch (Exception e){
             System.out.println(" Invalid position, please insert a valid number between 0 and 6 ");
         }
-
     }
-
-
-
 }
 

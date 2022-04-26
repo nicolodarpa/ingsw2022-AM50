@@ -13,7 +13,6 @@ public class Wallet {
 
     public void addCoins(int c){
         coins = coins + c;
-
     }
 
     public int getCoins() {

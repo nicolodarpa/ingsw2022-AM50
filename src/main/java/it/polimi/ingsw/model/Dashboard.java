@@ -13,6 +13,7 @@ public class Dashboard {
     private Student[] hall = new Student[7];
     private Teacher[] teacherTable = new Teacher[5];
     private ArrayList<Tower> towers = new ArrayList<>();
+    private boolean [][] coinPos = new boolean[5][10];
 
 
     public ArrayList<Tower> getTowers() {
@@ -91,43 +92,56 @@ public class Dashboard {
         }
     }
 
-        public boolean checkCoinPosition ( int x_position){
-            if (x_position % 3 == 0) {
-                return true;
-            }
-            return false;
-        }
 
-        public Student getStudentFromClassroom ( int x_position, int y_position){
+    public Dashboard() {
+        setCoinPos();
+
+    }
+
+    public void setCoinPos ( ){
+        for (int i=0; i < PawnColor.totalNumberOfPawnColors(); i++){
+            coinPos[i][2]= true;
+            coinPos[i][5]= true;
+            coinPos[i][8]=true;
+        }
+    }
+
+
+    public Student getStudentFromClassroom ( int x_position, int y_position){
             Student student = classroom[x_position][y_position];
             classroom[x_position][y_position] = null;
             return student;
-        }
+    }
 
-        public void addStudentToClassroom (Student student){
+    public void addStudentToClassroom (Student student){
             PawnColor color = student.getColor();
-            boolean coinPosition = false;
             for (int i = 0; i < 10; i++) {
                 if (classroom[color.ordinal()][i] == null) {
                         classroom[color.ordinal()][i] = student;
                         return;
-                        //coinPosition = checkCoinPosition(i);
+
+                }
+            }
+    }
+
+
+    public void addCoin (Wallet wallet){
+        for (int j = 0; j < 5; j++) {
+            for (int i = 0; i <10; i++) {
+                if (classroom[j][i] != null && coinPos[j][i] == true) {
+                    coinPos [j][i] = false;
+                    wallet.addCoins(1);
                 }
             }
         }
+        return;
+    }
 
-        public void addCoin (Wallet wallet){
-            for (int j = 0; j < 5; j++) {
-                for (int i = 1; i <10; i++) {
-                    if (classroom[j][i] != null && i%3 == 0) {
-                        wallet.addCoins(1);
-                        return;
-                    }
-                }
-            }
-        }
+    public boolean[][] getCoinPos() {
+        return coinPos;
+    }
 
-        public void addTeacherToTable (Teacher teacher){
+    public void addTeacherToTable (Teacher teacher){
             PawnColor color = teacher.getColor();
             teacherTable[color.ordinal()] = teacher;
         }
