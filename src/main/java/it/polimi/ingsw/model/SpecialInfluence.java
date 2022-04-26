@@ -1,8 +1,9 @@
 package it.polimi.ingsw.model;
 
 public class SpecialInfluence implements SpecialCard{
-    private final int id = 7;
-    private int cost = 1;
+    private final String effectOfTheCard = new String(" With this card you have to choose one color of the students which will not be considered for the influence.");
+    private int cost = 3;
+
 
     @Override
     public void effect() {
@@ -11,14 +12,10 @@ public class SpecialInfluence implements SpecialCard{
 
     }
 
-    public int getId() {
-        return id;
-    }
 
     public int getCost() {
         return cost;
     }
-
 
 
     @Override

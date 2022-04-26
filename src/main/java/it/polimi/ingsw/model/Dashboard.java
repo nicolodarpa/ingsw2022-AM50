@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.PlayersList;
+
 import java.util.ArrayList;
 
 /**
@@ -94,8 +96,18 @@ public class Dashboard {
                 return;
             }
         }
+    }
 
+    public void addCoin(Wallet wallet){
 
+        for (int j = 0; j<5; j++) {
+            for (int i = 0; i < 10; i++) {
+                if (classroom[j][i] !=null && j%3 == 0){
+                    wallet.addCoins(1);
+                }
+            }
+        }
+        return;
     }
 
     public void addTeacherToTable(Teacher teacher) {

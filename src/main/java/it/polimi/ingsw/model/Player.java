@@ -29,6 +29,11 @@ public class Player {
         this.dashboard = dashboard;
     }
 
+    public Wallet getWallet() {
+        return wallet;
+    }
+
+
     public Player(String name){
         this.name = name;
         wallet.setCoins(1);
@@ -139,5 +144,7 @@ public class Player {
     public void moveStudentToClassroom(int position){
         dashboard.addStudentToClassroom(dashboard.getStudentFromHall(position));
     }
+
+
 }
 

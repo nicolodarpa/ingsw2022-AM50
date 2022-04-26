@@ -1,15 +1,8 @@
 package it.polimi.ingsw.model;
 
 public class ChangeStudent implements SpecialCard{
-    private String effectOfTheCard = new String(" With this card you 2 available move more for Mother Nature ");
-    private final int id = 3;
+    private final String effectOfTheCard = new String(" With this card you can choose to swap places up to 2 students from the Hall and the Classroom. ");
     private int cost = 1;
-
-    public int getId() {
-        return id;
-    }
-
-
 
     public int getCost() {
         return cost;

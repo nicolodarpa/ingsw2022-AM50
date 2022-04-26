@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model;
 
 public class AddMoveMN implements SpecialCard{
-    private String effectOfTheCard = new String(" With this card you have 2 more available move for Mother Nature ");
+    private final String effectOfTheCard = new String(" With this card you have 2 more available move for Mother Nature ");
     private int cost = 1;
     private Player actualPlayer;
 

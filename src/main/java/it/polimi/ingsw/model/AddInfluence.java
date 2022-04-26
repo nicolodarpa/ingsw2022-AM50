@@ -5,7 +5,7 @@ import it.polimi.ingsw.PlayersList;
 import java.util.ArrayList;
 
 public class AddInfluence implements SpecialCard{
-    private String effectOfTheCard = new String(" With this card you have 2 more points in the calculation of the influence");
+    private final String effectOfTheCard = new String(" With this card you have 2 more points in the calculation of the influence");
     private int cost = 2;
     private Island islandWithMN;
     private PlayersList players;

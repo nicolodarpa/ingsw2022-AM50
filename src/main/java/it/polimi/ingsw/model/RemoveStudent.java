@@ -4,7 +4,7 @@ import it.polimi.ingsw.PlayersList;
 
 public class RemoveStudent implements SpecialCard{
 
-    private final String effectOfTheCard = new String(" With this card you 2 available move more for Mother Nature ");
+    private final String effectOfTheCard = new String(" With this card you choose a color of the students and every player (even you) has to put in the BagStudents 3 students of that color from each Hall. ");
     private int cost = 3;
 
 

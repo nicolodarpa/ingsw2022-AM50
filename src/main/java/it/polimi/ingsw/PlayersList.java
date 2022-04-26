@@ -63,7 +63,6 @@ public class PlayersList {
 
 
     public int getCurrentNumberOfPlayers() {
-
         return players.size();
     }
 

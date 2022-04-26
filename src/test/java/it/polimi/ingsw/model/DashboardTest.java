@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.LoginManager;
+import it.polimi.ingsw.PlayersList;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -7,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 public class DashboardTest{
+    private Game gameTest;
 
         Dashboard testD = new Dashboard();
         @Test
@@ -84,4 +87,33 @@ public class DashboardTest{
             }
             assertEquals(10,testD.countStudentByColor(PawnColor.RED));
         }
+
+        @Test
+        @DisplayName("Add Coin to the wallet of the player")
+
+        public void addCoinTest () {
+
+            gameTest = new Game();
+            gameTest.setNumberOfPlayers(2);
+            LoginManager.login("ale", gameTest);
+            LoginManager.login("nic", gameTest);
+            gameTest.getStudentsBag().fillBag(120);
+            gameTest.setupGame();
+            Player p1= gameTest.getPlist().getPlayers().get(0);
+            Student student1 = new Student(PawnColor.CYAN);
+            Student student2 = new Student(PawnColor.CYAN);
+            Student student3 = new Student(PawnColor.CYAN);
+            p1.getDashboard().addStudentToHall(student1);
+            p1.getDashboard().addStudentToHall(student2);
+            p1.getDashboard().addStudentToHall(student3);
+            p1.moveStudentToClassroom(0);
+            p1.moveStudentToClassroom(1);
+            p1.moveStudentToClassroom(2);
+            p1.getDashboard().drawDashboard();
+            p1.getDashboard().addCoin(p1.getWallet());
+            System.out.println("Il player ha #" + p1.getWallet().getCoins() + "monete");
+    }
+
+
+
 }

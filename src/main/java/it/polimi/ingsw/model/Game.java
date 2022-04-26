@@ -218,12 +218,8 @@ public class Game {
                 for (int j = i + 2; j < 12; j++) {
                     islands.get(j).setIdGroup(islands.get(j).getIdGroup() - 1);
                 }
-
             }
-
         }
-
-
     }
 
     public void assignTeacher() {
