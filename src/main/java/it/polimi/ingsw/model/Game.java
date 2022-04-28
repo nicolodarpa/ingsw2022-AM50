@@ -151,7 +151,6 @@ public class Game {
         }
         Gson gson = new Gson();
         return gson.toJson(statusList);
-
     }
 
 
@@ -372,7 +371,7 @@ public class Game {
             }
             if (temp != null) {
                 this.actualPlayer = temp;
-                temp.sendToClient("msg", "Your turn started");
+                //temp.sendToClient("msg", "Your turn started");
                 System.out.println(actualPlayer.getName() + " turn");
             } else nextPhase();
 

@@ -3,6 +3,7 @@ package it.polimi.ingsw;
 import com.google.gson.Gson;
 import it.polimi.ingsw.comunication.TextMessage;
 import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.Island;
 import it.polimi.ingsw.model.Player;
 
 import java.io.BufferedReader;
@@ -18,6 +19,7 @@ public class EchoServerClientHandler extends Thread {
     private final Socket socket;
     private final Game game;
     private Player player;
+    private BufferedReader in;
 
     public EchoServerClientHandler(Socket socket, Game game) throws IOException {
         this.socket = socket;
@@ -29,7 +31,7 @@ public class EchoServerClientHandler extends Thread {
 
         try {
 
-            BufferedReader in = new BufferedReader(
+            in = new BufferedReader(
                     new InputStreamReader(socket.getInputStream())
             );
 
@@ -118,16 +120,21 @@ public class EchoServerClientHandler extends Thread {
                 } else if (player != game.getActualPlayer()) {
                     player.sendToClient("msg", "not your turn");
                 } else if (line.equals("play assistant card") && game.getPhase() == 0) {
-                    String numCard;
-                    boolean result;
-                    do {
-                        player.sendToClient("msg", "chose assistant card to play");
-                        numCard = in.readLine();
-                        result = player.playAssistantCard(Integer.parseInt(numCard));
-                    } while (result);
-                    game.setActualPlayer();
-                } else if (line.equals("move students") && game.getPhase() == 1) {
-                    player.sendToClient("msg", "move students");
+                    playAssistantCard();
+                } else if (game.getPhase() == 1) {
+                    if (player.getMovesOfStudents() > 0) {
+                        if (line.equals("move student to island")) {
+                            moveStudentToIsland();
+                        } else if (line.equals("move student to classroom")) {
+                            moveStudentToClassroom();
+                        } else {
+                            player.sendToClient("msg", "move all you students before moving MN");
+                        }
+
+                    } else if (player.getMovesOfStudents() == 0 && line.equals("move MN")) {
+                        moveMotherNature();
+                    }
+
                 } else {
                     player.sendToClient("msg", "ok");
                     player.sendToClient("msg", "Received: " + line);
@@ -146,6 +153,42 @@ public class EchoServerClientHandler extends Thread {
 
             System.out.println(e.getMessage());
         }
+    }
+
+
+    private void playAssistantCard() throws IOException {
+        String numCard;
+        boolean result;
+        do {
+            player.sendToClient("msg", "chose assistant card to play");
+            numCard = in.readLine();
+            result = player.playAssistantCard(Integer.parseInt(numCard));
+        } while (result);
+        game.setActualPlayer();
+    }
+
+
+    private void moveStudentToIsland() throws IOException {
+        player.sendToClient("msg", "select student from hall to move to an island:");
+        int numPlayer = Integer.parseInt(in.readLine());
+        player.sendToClient("msg", "select island");
+        int numIsland = Integer.parseInt(in.readLine());
+        Island island = game.getIslands().get(numIsland - 1);
+        player.moveStudentToIsland(island, numPlayer - 1);
+        player.sendToClient("islands", game.sendIslands());
+    }
+
+    private void moveStudentToClassroom() throws IOException {
+        player.sendToClient("msg", "select student from hall to move to a classroom:");
+        int numPlayer = Integer.parseInt(in.readLine());
+        player.moveStudentToClassroom(numPlayer - 1);
+        player.sendToClient("dashboard", game.sendDashboard());
+    }
+
+    private void moveMotherNature() throws IOException {
+        player.sendToClient("msg", "select destination island");
+        int island = Integer.parseInt(in.readLine());
+
     }
 
 }

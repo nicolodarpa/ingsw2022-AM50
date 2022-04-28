@@ -128,13 +128,12 @@ public class Dashboard {
     public void addCoin (Wallet wallet){
         for (int j = 0; j < 5; j++) {
             for (int i = 0; i <10; i++) {
-                if (classroom[j][i] != null && coinPos[j][i] == true) {
+                if (classroom[j][i] != null && coinPos[j][i]) {
                     coinPos [j][i] = false;
                     wallet.addCoins(1);
                 }
             }
         }
-        return;
     }
 
     public boolean[][] getCoinPos() {
