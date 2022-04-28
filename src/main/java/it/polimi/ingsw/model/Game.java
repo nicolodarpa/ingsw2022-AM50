@@ -9,7 +9,7 @@ import it.polimi.ingsw.comunication.IslandStatus;
 import java.util.*;
 
 /**
- * Game contains all the metods that implements the match
+ * Game contains all the methods that implements the match
  * <p>
  * Implemented methods allows to do the following operation:
  * <ul>
@@ -19,6 +19,7 @@ import java.util.*;
  *     <li>checkPlayer check that there is the correct number of players to start a new match or print that the game is waiting new players</li>
  * </ul>
  * </p>
+ *
  * @author Nicolò D'Arpa, Zarlene Justrem De Mesa, Alessandro Costantini
  * @since 1.0
  */
@@ -26,6 +27,7 @@ import java.util.*;
 public class Game {
     private boolean gameStatus;
     private int round = 0;
+    private int phase = 0;
     private int numberOfPlayers = 3;
     private int numberOfIslands = 12;
     private PlayersList plist = new PlayersList();
@@ -40,6 +42,10 @@ public class Game {
     private static ArrayList<SpecialCard> cardsInGame = new ArrayList<>();
     private Scanner scanner = new Scanner(System.in);
 
+
+    public int getPhase() {
+        return phase;
+    }
 
     public int getNumberOfPlayers() {
         return numberOfPlayers;
@@ -93,6 +99,7 @@ public class Game {
         plist.notifyAllClients("cloudCard", cloudCardsStatus);
         String dashboardStatus = sendDashboard();
         plist.notifyAllClients("dashboard", dashboardStatus);
+        setActualPlayer();
     }
 
     public void addPlayer(String name) {
@@ -131,7 +138,10 @@ public class Game {
         createDecks();
         moveStudentsToHall();
         extractSpecialCard();
+        this.round = 1;
         System.out.println("Setup complete");
+
+
     }
 
     public String sendIslands() {
@@ -156,7 +166,7 @@ public class Game {
 
     public String sendCloudCards() {
         ArrayList<CloudCardStatus> statusList = new ArrayList<>();
-        for (CloudCard cloudCard: cloudCards){
+        for (CloudCard cloudCard : cloudCards) {
             statusList.add(new CloudCardStatus(cloudCard));
         }
         Gson gson = new Gson();
@@ -342,12 +352,52 @@ public class Game {
 
     public void setActualPlayer() {
         int max_order = 10;
-        for (Player p : plist.getPlayers()) {
-            if (p.getOrder() < max_order) {
-                this.actualPlayer = p;
-                max_order = p.getOrder();
+        Player temp = null;
+        if (round == 1 && phase == 0) {
+            for (Player p : plist.getPlayers()) {
+                if (!p.getHasPlayed()) {
+                    p.sendToClient("msg", "Your turn started");
+                    this.actualPlayer = p;
+                    System.out.println(actualPlayer.getName() + " turn");
+                    return;
+                }
             }
+            nextPhase();
+        } else {
+            for (Player p : plist.getPlayers()) {
+                if (p.getOrder() < max_order && !p.getHasPlayed()) {
+                    temp = p;
+                    max_order = p.getOrder();
+                }
+            }
+            if (temp != null) {
+                this.actualPlayer = temp;
+                temp.sendToClient("msg", "Your turn started");
+                System.out.println(actualPlayer.getName() + " turn");
+            } else nextPhase();
+
         }
+
+
+    }
+
+    public void nextPhase() {
+        if (phase == 0) {
+            for (Player p : plist.getPlayers()) {
+                p.setHasPlayed(false);
+            }
+            plist.notifyAllClients("msg", "Action phase");
+            phase = 1;
+        } else if (phase == 1) {
+            for (Player p : plist.getPlayers()) {
+                p.setHasPlayed(false);
+            }
+            plist.notifyAllClients("msg", "Planning phase");
+            phase = 0;
+            round++;
+        }
+        setActualPlayer();
+
     }
 
     public Player getActualPlayer() {
@@ -383,25 +433,26 @@ public class Game {
         fillOneCloudCard(numberOfCloudCard);
     }
 
-    public void fillOneCloudCard(int numberOfCloudCard){
+    public void fillOneCloudCard(int numberOfCloudCard) {
         final CloudCard cloudCard = cloudCards.get(numberOfCloudCard);
-        if(numberOfPlayers == 2){
-            for(int i = 0; i < numberOfPlayers; i++)
+        if (numberOfPlayers == 2) {
+            for (int i = 0; i < numberOfPlayers; i++)
                 cloudCard.addStudent(studentsBag.casualExtraction());
-        } else if( numberOfPlayers == 3 ){
-            for(int i = 0; i < numberOfPlayers; i++)
+        } else if (numberOfPlayers == 3) {
+            for (int i = 0; i < numberOfPlayers; i++)
                 cloudCard.addStudent(studentsBag.casualExtraction());
         }
     }
 
-    public int chooseDeck(int numberOfDeck){
+    public int chooseDeck(int numberOfDeck, Player player) {
         Deck deck = deckMap.get(numberOfDeck);
-        for(Player p : plist.getPlayers()){
-            if(deck.getChosen() == true)
+        for (Player p : plist.getPlayers()) {
+            if (deck.getChosen())
                 return 0;
-    }
+        }
+        player.setDeck(deck);
         return 1;
-}
+    }
 
 
 }

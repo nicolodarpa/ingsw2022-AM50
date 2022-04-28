@@ -7,7 +7,7 @@ Client---->Server
 
 ---->
 {"action": "moveStudentToIsland",
-"destination":islanId,
+"destination":islandId,
 "student":studentIndex
 }
 
@@ -29,20 +29,20 @@ on error
 
 
 
-PLAY ASSISTENT CARD
+PLAY ASSISTANT CARD
 c---->S
-{"action":"PlayAssistentCard";
-"assistent":assistentCardNumber}
+{"action":"PlayAssistantCard";
+"assistant":assistantCardNumber}
 
 <----
 on ok
 {"status":1,
-"text", "Assistent Card played, you can move MN by # moves"}
+"text", "Assistant Card played, you can move MN by # moves"}
 
 <----
 on error
-{"staut":0,
-"text":"Assistent Card already played by another player, chose a different one"}
+{"status":0,
+"text":"Assistant Card already played by another player, chose a different one"}
 
 
 <----
@@ -87,7 +87,7 @@ on error
 PLAY SPECIAL CARD
 C---->S
 {"action":"playSpecialCard",
-"specialCardNumber":speciaCardNUmber
+"specialCardNumber":specialCardNUmber
 }
 
 <----

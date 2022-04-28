@@ -14,7 +14,7 @@ import java.util.ArrayList;
  */
 
 public class Player {
-    private String name;
+    private final String name;
     private Socket socket;
     private PrintWriter out;
     private int order = 10;
@@ -24,6 +24,9 @@ public class Player {
     private Dashboard dashboard = new Dashboard();
     private Deck deck;
     private int influencePoint = 0;
+
+    private boolean hasPlayed = false;
+
 
     public Dashboard getDashboard() {
         return dashboard;
@@ -72,6 +75,7 @@ public class Player {
         return socket;
     }
 
+
     public PrintWriter getOut() {
         if (out == null) {
             try {
@@ -102,6 +106,14 @@ public class Player {
 
     }
 
+    public boolean getHasPlayed(){
+        return hasPlayed;
+    }
+
+    public void setHasPlayed(boolean h){
+        this.hasPlayed = h;
+    }
+
     public void sendToClient(String type, Object message) {
         TextMessage text = new TextMessage(type,(String) message);
         Gson gson = new Gson();
@@ -110,6 +122,8 @@ public class Player {
 
 
     }
+
+
 
 
     public Deck getDeck() {
@@ -132,7 +146,7 @@ public class Player {
      * The player choose based on the number of the card of its deck which one to play
      * @param numberOfCard indicate the order of the card
      */
-    public void playAssistantCard(int numberOfCard){
+    public boolean playAssistantCard(int numberOfCard){
         ArrayList<AssistantCard> assistantCardsPlayed = new ArrayList<>();
         try{
             assistantCardsPlayed.add(deck.getCardsList().get(numberOfCard));
@@ -140,11 +154,15 @@ public class Player {
                 this.order = deck.getCardsList().get(numberOfCard).getOrder();
                 this.movesOfMN = deck.getCardsList().get(numberOfCard).getMoveOfMN();
                 deck.getCardsList().remove(deck.getCardsList().get(numberOfCard));
+                sendToClient("msg", "played card " + numberOfCard + "\nvalue: " + order  +"\nmoves of MN available: " + movesOfMN);
+                this.hasPlayed = true;
+                return false;
             }else{
-                System.out.println(" card not available");
+                sendToClient("msg" , "card not available");
+                return true;
             }
         }catch (Exception e){
-            System.out.println("This card is not available, please select a valid card between 0 and 9");
+          return true;
         }
     }
 

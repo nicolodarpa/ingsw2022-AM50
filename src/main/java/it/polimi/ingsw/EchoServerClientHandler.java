@@ -42,16 +42,16 @@ public class EchoServerClientHandler extends Thread {
                         game.getPlist().getPlayerByName(name).setSocket(socket);
                         player = game.getPlist().getPlayerByName(name);
                         if (game.getCurrentNumberOfPlayers() == 1) {
-                            player.sendToClient("msg","Welcome " + name + " Choose number of players, 2 or 3 allowed:");
+                            player.sendToClient("msg", "Welcome " + name + " Choose number of players, 2 or 3 allowed:");
                             String numPlayers;
                             numPlayers = in.readLine();
                             while (!Objects.equals(numPlayers, "2") && !Objects.equals(numPlayers, "3")) {
-                                player.sendToClient("msg","Please enter a valid number: 2 or 3 allowed");
+                                player.sendToClient("msg", "Please enter a valid number: 2 or 3 allowed");
                                 numPlayers = in.readLine();
                             }
                             game.setNumberOfPlayers(Integer.parseInt(numPlayers));
                         } else {
-                            player.sendToClient("msg","Welcome " + name);
+                            player.sendToClient("msg", "Welcome " + name);
                         }
                         check = false;
                     }
@@ -79,11 +79,29 @@ public class EchoServerClientHandler extends Thread {
 
             game.checkLobby();
             while (!game.waitLobby()) {
-                player.sendToClient("msg","Waiting for other " + (game.getNumberOfPlayers() - game.getCurrentNumberOfPlayers()) + " players");
+                player.sendToClient("msg", "Waiting for other " + (game.getNumberOfPlayers() - game.getCurrentNumberOfPlayers()) + " players");
                 try {
                     Thread.sleep(2000);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
+                }
+            }
+
+            player.sendToClient("msg", "Please chose your deck: \n1-blu \n2-purple \n3-green \n4-pink");
+            String numDeck;
+            numDeck = in.readLine();
+            check = true;
+            while (check) {
+                while (!Objects.equals(numDeck, "1") && !Objects.equals(numDeck, "2") && !Objects.equals(numDeck, "3") && !Objects.equals(numDeck, "4")) {
+                    player.sendToClient("msg", "Please chose a valid deck:");
+                    numDeck = in.readLine();
+                }
+                if (game.chooseDeck(Integer.parseInt(numDeck), player) == 1) {
+                    check = false;
+                    player.sendToClient("msg", "Deck " + numDeck + " chosen");
+                } else {
+                    player.sendToClient("msg", "Deck already chosen by another player");
+                    numDeck = in.readLine();
                 }
             }
 
@@ -92,13 +110,29 @@ public class EchoServerClientHandler extends Thread {
                 String line = in.readLine();
                 if (line.equals("quit")) {
                     PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-                    TextMessage text = new TextMessage("quit","Goodbye " + name);
+                    TextMessage text = new TextMessage("quit", "Goodbye " + name);
                     Gson gson = new Gson();
                     String json = gson.toJson(text, TextMessage.class);
                     out.println(json);
                     break;
+                } else if (player != game.getActualPlayer()) {
+                    player.sendToClient("msg", "not your turn");
+                } else if (line.equals("play assistant card") && game.getPhase() == 0) {
+                    String numCard;
+                    boolean result;
+                    do {
+                        player.sendToClient("msg", "chose assistant card to play");
+                        numCard = in.readLine();
+                        result = player.playAssistantCard(Integer.parseInt(numCard));
+                    } while (result);
+                    game.setActualPlayer();
+                } else if (line.equals("move students") && game.getPhase() == 1) {
+                    player.sendToClient("msg", "move students");
                 } else {
-                    player.sendToClient("msg","Received: " + line);
+                    player.sendToClient("msg", "ok");
+                    player.sendToClient("msg", "Received: " + line);
+
+
                 }
             }
 
