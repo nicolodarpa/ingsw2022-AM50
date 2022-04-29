@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import it.polimi.ingsw.PlayersList;
 import it.polimi.ingsw.comunication.CloudCardStatus;
 import it.polimi.ingsw.comunication.DashboardStatus;
+import it.polimi.ingsw.comunication.HallStatus;
 import it.polimi.ingsw.comunication.IslandStatus;
 
 import java.util.*;
@@ -153,6 +154,14 @@ public class Game {
         return gson.toJson(statusList);
     }
 
+    public String sendHall(Player player){
+        ArrayList<HallStatus>  statusList = new ArrayList<>();
+        statusList.add(new HallStatus(player.getDashboard()));
+        Gson gson = new Gson();
+        return gson.toJson(statusList);
+
+    }
+
 
     public String sendDashboard() {
         ArrayList<DashboardStatus> statusList = new ArrayList<>();
@@ -162,6 +171,8 @@ public class Game {
         Gson gson = new Gson();
         return gson.toJson(statusList);
     }
+
+
 
     public String sendCloudCards() {
         ArrayList<CloudCardStatus> statusList = new ArrayList<>();
@@ -371,7 +382,7 @@ public class Game {
             }
             if (temp != null) {
                 this.actualPlayer = temp;
-                //temp.sendToClient("msg", "Your turn started");
+                temp.sendToClient("msg", "Your turn started");
                 System.out.println(actualPlayer.getName() + " turn");
             } else nextPhase();
 

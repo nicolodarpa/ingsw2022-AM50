@@ -208,14 +208,16 @@ public class Player {
      * @param island   indicate the island where we want to move the student
      * @param position indicate the position of the student in the DashboardHall
      */
-    public void moveStudentToIsland(Island island, int position) {
+    public boolean moveStudentToIsland(Island island, int position) {
 
 
         try {
             island.addStudent(dashboard.getStudentFromHall(position));
             movesOfStudents--;
+            return true;
         } catch (Exception e) {
             System.out.println(" Invalid input ");
+            return false;
         }
 
 
@@ -226,14 +228,16 @@ public class Player {
      *
      * @param position indicate the position of the student in the DashboardHall
      */
-    public void moveStudentToClassroom(int position) {
+    public boolean moveStudentToClassroom(int position) {
 
         try {
             dashboard.addStudentToClassroom(dashboard.getStudentFromHall(position));
             dashboard.addCoin(wallet);
             movesOfStudents--;
+            return true;
         } catch (Exception e) {
             System.out.println(" Invalid position, please insert a valid number between 0 and 6 ");
+            return false;
         }
 
 

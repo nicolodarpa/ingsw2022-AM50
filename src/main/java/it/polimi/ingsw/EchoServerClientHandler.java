@@ -174,15 +174,34 @@ public class EchoServerClientHandler extends Thread {
         player.sendToClient("msg", "select island");
         int numIsland = Integer.parseInt(in.readLine());
         Island island = game.getIslands().get(numIsland - 1);
-        player.moveStudentToIsland(island, numPlayer - 1);
-        player.sendToClient("islands", game.sendIslands());
+        if (player.moveStudentToIsland(island, numPlayer - 1)) {
+            player.sendToClient("hall", game.sendHall(player));
+            player.sendToClient("islands", game.sendIslands());
+        } else {
+            errorSelectionNotify();
+            moveStudentToIsland();
+
+        }
+
     }
 
     private void moveStudentToClassroom() throws IOException {
         player.sendToClient("msg", "select student from hall to move to a classroom:");
         int numPlayer = Integer.parseInt(in.readLine());
-        player.moveStudentToClassroom(numPlayer - 1);
-        player.sendToClient("dashboard", game.sendDashboard());
+        if (player.moveStudentToClassroom(numPlayer - 1)) {
+            player.sendToClient("dashboard", game.sendDashboard());
+        } else {
+            errorSelectionNotify();
+            moveStudentToClassroom();
+        }
+
+    }
+
+    private void errorSelectionNotify() {
+        player.sendToClient("msg", "select a valid student");
+        player.sendToClient("hall", game.sendHall(player));
+
+
     }
 
     private void moveMotherNature() throws IOException {
