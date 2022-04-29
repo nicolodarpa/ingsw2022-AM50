@@ -12,7 +12,7 @@ public class IslandStatus {
     public boolean presenceMN;
     public int idGroup;
     public ArrayList<String> students = new ArrayList<>();
-    public int towerNumber;
+    public boolean towerNumber;
     public String towerColor;
 
     public IslandStatus(Island island){
@@ -20,7 +20,7 @@ public class IslandStatus {
         this.idGroup = island.getIdGroup();
         this.islandConquered = island.getConquered();
         this.presenceMN = island.getPresenceMN();
-        this.towerNumber = island.getTowerNumber();
+        this.towerNumber = island.isTower();
         this.towerColor = String.valueOf(island.getTowerColor());
         ArrayList<Student> studentArrayList = island.getStudents();
         for (Student student: studentArrayList){

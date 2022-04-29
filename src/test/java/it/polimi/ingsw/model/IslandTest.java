@@ -60,7 +60,7 @@ public class IslandTest {
         Dashboard dashboard_2 = plyr_2.getDashboard();
 
         PawnColor color = dashboard_1.getHall()[2].getColor();
-        plyr_1.moveStudentToClassroom(2);
+        plyr_1.moveStudentToClassroom(2, gameTest);
         gameTest.assignTeacher();
         dashboard_1.drawDashboard();
         dashboard_2.drawDashboard();
@@ -68,18 +68,24 @@ public class IslandTest {
         gameTest.getIslands().get(8).calcInfluence(gameTest.getPlist());
         assertEquals(plyr_1.getName(), gameTest.getIslands().get(8).getOwner());
         tableTest.drawTable();
+        assertEquals(plyr_1.getInfluencePoint(), 0);
+        assertEquals(plyr_2.getInfluencePoint(), 0);
     }
 
     @Test
     @DisplayName(" add 1 tower to the island")
     public void testAddTower(){
-        Socket socket = new Socket();
-        Player p = new Player("nic", socket);
-        p.getDashboard().addTower(8,TowerColor.white);
+        Game gameTest = new Game();
+        gameTest.setNumberOfPlayers(2);
+        LoginManager.login("ale", gameTest);
+        LoginManager.login("jaz", gameTest);
+        gameTest.setupGame();
+        Player p = gameTest.getPlist().getPlayerByName("jaz");
         islandTest.setOwner(p);
         islandTest.addTower();
-        assertEquals(1,islandTest.getTowerNumber());
+        assertEquals(true,islandTest.isTower());
         assertEquals(7,p.getDashboard().getTowers().size());
+        assertEquals(TowerColor.black, p.getDashboard().getTowers().get(0).getColor());
 
     }
 }

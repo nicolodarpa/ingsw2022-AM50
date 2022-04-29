@@ -103,7 +103,7 @@ public class DashboardTest {
 
         Player p1 = gameTest.getPlist().getPlayers().get(0);
         for (int i = 0; i < 7; i++) {
-            p1.moveStudentToClassroom(i);
+            p1.moveStudentToClassroom(i, gameTest);
         }
 
         Student s = new Student(PawnColor.CYAN);
@@ -111,7 +111,7 @@ public class DashboardTest {
             p1.getDashboard().addStudentToHall(s);
         }
         for (int i = 0; i < 4; i++) {
-            p1.moveStudentToClassroom(i);
+            p1.moveStudentToClassroom(i, gameTest);
         }
         p1.getDashboard().drawDashboard();
         //p1.getDashboard().addCoin(p1.getWallet());

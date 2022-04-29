@@ -431,13 +431,11 @@ public class Game {
         //actualPlayer.playSpecialCard(0);
     }
 
-    public void chooseCloudCard() {
-        int numberOfCloudCard = 0;
+    public void chooseCloudCard(int numberOfCloudCard, Player player) {
         ArrayList<Student> students = new ArrayList<>();
         System.out.println(" Choose a cloud card: ");
-        numberOfCloudCard = scanner.nextInt();
         students = cloudCards.get(numberOfCloudCard).getAllStudents();
-        Dashboard actualDashboard = actualPlayer.getDashboard();
+        Dashboard actualDashboard = player.getDashboard();
         for (Student s : students)
             actualDashboard.addStudentToHall(s);
         fillOneCloudCard(numberOfCloudCard);

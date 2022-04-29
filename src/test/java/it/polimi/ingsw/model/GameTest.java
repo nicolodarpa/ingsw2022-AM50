@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.LoginManager;
-import it.polimi.ingsw.PlayersList;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -56,8 +55,7 @@ public class GameTest{
         Player player_one = gameTest.getPlist().getPlayers().get(0);
         Player player_two = gameTest.getPlist().getPlayers().get(1);
         PawnColor color = player_one.getDashboard().getHall()[2].getColor();
-        player_one.moveStudentToClassroom(2);
-        gameTest.assignTeacher();
+        player_one.moveStudentToClassroom(2, gameTest);
         assertNotNull(player_one.getDashboard().getTeacherTable()[color.ordinal()]);
         player_one.getDashboard().drawDashboard();
         player_two.getDashboard().drawDashboard();
@@ -168,9 +166,9 @@ public class GameTest{
         LoginManager.login("nic", gameTest);
         gameTest.setupGame();
         Player p1 = gameTest.getPlist().getPlayerByName("jaz");
-        p1.moveStudentToClassroom(3);
+        p1.moveStudentToClassroom(3, gameTest);
         p1.moveStudentToIsland(gameTest.getIslandWithMN(), 4);
-        p1.moveStudentToClassroom(5);
+        p1.moveStudentToClassroom(5, gameTest);
         p1.getDashboard().drawDashboard();
     }
 

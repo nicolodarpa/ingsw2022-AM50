@@ -10,11 +10,12 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class NoTowerInfluenceTest {
 
-    private Game gameTest = new Game();
+    private Game gameTest;
 
     @Test
     @DisplayName("Testing the function")
     public void testEffect(){
+        gameTest = new Game();
         gameTest.setNumberOfPlayers(2);
         LoginManager.login("jaz",gameTest);
         LoginManager.login("nic",gameTest);
@@ -26,6 +27,7 @@ public class NoTowerInfluenceTest {
 
     @Test
     public void testGetCost(){
+        gameTest = new Game();
         gameTest.setNumberOfPlayers(2);
         LoginManager.login("jaz",gameTest);
         LoginManager.login("nic",gameTest);
@@ -36,6 +38,7 @@ public class NoTowerInfluenceTest {
 
     @Test
     public void testAddCost(){
+        gameTest = new Game();
         gameTest.setNumberOfPlayers(2);
         LoginManager.login("jaz",gameTest);
         LoginManager.login("nic",gameTest);

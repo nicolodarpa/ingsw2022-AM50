@@ -19,7 +19,7 @@ public class NoTowerInfluence implements SpecialCard{
     @Override
     public void effect() {
         SpecialCard.super.effect();
-        islandWithMn.calcInfluence(players);
+        islandWithMn.calcInfluenceNoTower(players);
     }
 
     @Override

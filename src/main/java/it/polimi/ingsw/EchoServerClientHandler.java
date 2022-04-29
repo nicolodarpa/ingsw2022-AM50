@@ -188,7 +188,7 @@ public class EchoServerClientHandler extends Thread {
     private void moveStudentToClassroom() throws IOException {
         player.sendToClient("msg", "select student from hall to move to a classroom:");
         int numPlayer = Integer.parseInt(in.readLine());
-        if (player.moveStudentToClassroom(numPlayer - 1)) {
+        if (player.moveStudentToClassroom(numPlayer - 1, game)) {
             player.sendToClient("dashboard", game.sendDashboard());
         } else {
             errorSelectionNotify();
@@ -200,7 +200,6 @@ public class EchoServerClientHandler extends Thread {
     private void errorSelectionNotify() {
         player.sendToClient("msg", "select a valid student");
         player.sendToClient("hall", game.sendHall(player));
-
 
     }
 

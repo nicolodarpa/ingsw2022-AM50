@@ -125,10 +125,9 @@ public class Player {
             Gson gson = new Gson();
             String json = gson.toJson(text, TextMessage.class);
             getOut().println(json);
-        } catch (Exception e){
+        } catch (Exception e) {
             System.out.println("No connection to client");
         }
-
 
 
     }
@@ -228,12 +227,13 @@ public class Player {
      *
      * @param position indicate the position of the student in the DashboardHall
      */
-    public boolean moveStudentToClassroom(int position) {
+    public boolean moveStudentToClassroom(int position, Game game) {
 
         try {
             dashboard.addStudentToClassroom(dashboard.getStudentFromHall(position));
             dashboard.addCoin(wallet);
             movesOfStudents--;
+            game.assignTeacher();
             return true;
         } catch (Exception e) {
             System.out.println(" Invalid position, please insert a valid number between 0 and 6 ");
@@ -241,6 +241,14 @@ public class Player {
         }
 
 
+    }
+
+    public int getNumberOfTowersOnIsland() {
+        return numberOfTowersOnIsland;
+    }
+
+    public void setNumberOfTowersOnIsland(int numberOfTowersOnIsland) {
+        this.numberOfTowersOnIsland = numberOfTowersOnIsland;
     }
 }
 

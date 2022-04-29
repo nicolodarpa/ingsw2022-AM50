@@ -12,8 +12,8 @@ public class Island {
     private int id;
     private boolean islandConquered = false;
     private int idGroup;
-    private int towerNumber;
-    private TowerColor towerColor;
+    private TowerColor towerColor = null;
+    private boolean isTower = false;
     private ArrayList<Student> studentList = new ArrayList<>();
     private Player owner;
     private boolean presenceMN = false; //true if there is Mother Nature on the Island
@@ -37,10 +37,6 @@ public class Island {
     }
 
 
-    public int getTowerNumber() {
-        return towerNumber;
-    }
-
     public boolean getConquered(){
         return islandConquered;
     }
@@ -60,9 +56,6 @@ public class Island {
         return studentList;
     }
 
-    public TowerColor getTowerColor() {
-        return towerColor;
-    }
 
     public boolean getPresenceMN(){
         return presenceMN;
@@ -80,12 +73,13 @@ public class Island {
         this.idGroup = idGroup;
     }
 
-
-
-    public void setTowerColor(TowerColor towerColor) {
-        this.towerColor = towerColor;
+    public boolean isTower() {
+        return isTower;
     }
 
+    public TowerColor getTowerColor(){
+        return towerColor;
+    }
 
     public void setOwner(Player owner) {
         this.owner = owner;
@@ -163,17 +157,27 @@ public class Island {
 
 
     public void addTower(){
-        towerNumber++;
-        Dashboard ownerDashboard = owner.getDashboard();
-        int size = ownerDashboard.getTowers().size();
-        Tower t = ownerDashboard.getTowers().get(size-1);
-        ownerDashboard.removeTower(t);
+        final Dashboard ownerDashboard = owner.getDashboard();
+        final int size = ownerDashboard.getTowers().size();
+        try{
+            Tower ownerTower = ownerDashboard.getTowers().get(size-1);
+            ownerDashboard.removeTower(ownerTower);
+            owner.setNumberOfTowersOnIsland(owner.getNumberOfTowersOnIsland() + 1 );
+            this.towerColor = ownerTower.getColor();
+            this.isTower = true;
+        }
+        catch (Exception e ){
+            System.out.println("Tower not available");
+        }
     }
 
 
-    public void calcInfluence(PlayersList players){
-        final int numberOfColor = 5;
 
+    public void calcInfluence(PlayersList players) {
+        final int numberOfColor = 5;
+        int towerInfluencePoint = 0;
+
+        /* set influence point */
         for(Player p : players.getPlayers()){
             int [] colorStudent = new int[numberOfColor];
             Dashboard dashboardTemp = p.getDashboard();
@@ -183,8 +187,14 @@ public class Island {
                 }
             }
             p.setInfluencePoint(IntStream.of(colorStudent).sum());
+            TowerColor towerColorOfPlayer = dashboardTemp.getTowers().get(0).getColor();
+            if(towerColor == towerColorOfPlayer && isTower){
+                towerInfluencePoint++;
+                p.setInfluencePoint(p.getInfluencePoint() + towerInfluencePoint);
+            }
         }
 
+        /* calculate the influence by the influence point of each player*/
         if (players.getPlayers().size() == 2) {
             Player p1 = players.getPlayers().get(0);
             Player p2 = players.getPlayers().get(1);
@@ -204,7 +214,61 @@ public class Island {
                 Player p2 = players.getPlayers().get(1);
                 Player p3 = players.getPlayers().get(2);
 
+                if (p1.getInfluencePoint() > p2.getInfluencePoint() && p1.getInfluencePoint() > p3.getInfluencePoint()) {
+                this.owner = p1;
+                islandConquered = true;
+                } else if (p2.getInfluencePoint() > p1.getInfluencePoint() && p2.getInfluencePoint() > p3.getInfluencePoint()) {
+                    this.owner = p2;
+                    islandConquered = true;
+                } else if (p3.getInfluencePoint() > p1.getInfluencePoint() && p3.getInfluencePoint() > p2.getInfluencePoint()) {
+                    this.owner = p3;
+                    islandConquered = true;
+                }
+                else {
+                    this.owner = null;
+                }
+            }
+        if(owner != null)
+            addTower();
+        /*reset the influence point */
+        for(Player p : players.getPlayers())
+            p.setInfluencePoint(0);
+    }
 
+    public void calcInfluenceNoTower (PlayersList players){
+        final int numberOfColor = 5;
+
+        /* set influence point */
+        for(Player p : players.getPlayers()){
+            int [] colorStudent = new int[numberOfColor];
+            Dashboard dashboardTemp = p.getDashboard();
+            for(int i = 0; i < dashboardTemp.getTeacherTable().length; i++){
+                if(dashboardTemp.getTeacherTable()[i] != null){
+                    colorStudent[i] = countStudentOfAColor(dashboardTemp.getTeacherTable()[i].getColor());
+                }
+            }
+            p.setInfluencePoint(IntStream.of(colorStudent).sum());
+        }
+
+        /* calculate the influence by the influence point of each player*/
+        if (players.getPlayers().size() == 2) {
+            Player p1 = players.getPlayers().get(0);
+            Player p2 = players.getPlayers().get(1);
+
+            if (p1.getInfluencePoint() > p2.getInfluencePoint()) {
+                this.owner = p1;
+                islandConquered = true;
+            } else if (p1.getInfluencePoint() < p2.getInfluencePoint()) {
+                this.owner = p2;
+                islandConquered = true;
+            } else {
+                this.owner = null;
+            }
+        } else if (players.getPlayers().size() == 3){
+
+            Player p1 = players.getPlayers().get(0);
+            Player p2 = players.getPlayers().get(1);
+            Player p3 = players.getPlayers().get(2);
 
             if (p1.getInfluencePoint() > p2.getInfluencePoint() && p1.getInfluencePoint() > p3.getInfluencePoint()) {
                 this.owner = p1;
@@ -216,10 +280,16 @@ public class Island {
                 this.owner = p3;
                 islandConquered = true;
             }
-            addTower();
-            for(Player p : players.getPlayers()){
-                p.setInfluencePoint(0);
+            else{
+                this.owner = null;
             }
+
+        }
+        if(owner != null)
+            addTower();
+        /*reset the influence point */
+        for(Player p : players.getPlayers()){
+            p.setInfluencePoint(0);
         }
     }
 

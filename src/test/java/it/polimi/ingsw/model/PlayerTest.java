@@ -12,6 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PlayerTest{
 
+    private Game gameTest;
 
     @Test
     @DisplayName("Fill the hall")
@@ -36,11 +37,13 @@ public class PlayerTest{
 
     @Test
     public void testMoveStudentToClassroom(){
-        Player player = new Player("jaz");
-        StudentsBag s = new StudentsBag();
-        s.fillBag(120);
-        player.moveStudentsToHall(s);
-        player.moveStudentToClassroom(3);
+        gameTest = new Game();
+        gameTest.setNumberOfPlayers(2);
+        LoginManager.login("ale",gameTest);
+        LoginManager.login("nic",gameTest);
+        gameTest.setupGame();
+        Player player = gameTest.getPlist().getPlayerByName("ale");
+        player.moveStudentToClassroom(3, gameTest);
         player.getDashboard().drawDashboard();
     }
 
@@ -69,9 +72,9 @@ public class PlayerTest{
         gameTest.setupGame();
         Player p1 = gameTest.getPlist().getPlayerByName("ale");
         p1.playSpecialCard(0);
-
-
     }
+
+
 }
 
 

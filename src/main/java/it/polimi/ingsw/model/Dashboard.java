@@ -66,7 +66,7 @@ public class Dashboard {
             System.out.print("-");
             if (tower != null) {
                 tower.draw();
-            } else System.out.print("^^^");
+            } else System.out.print("");
         }
         System.out.println(" ");
         System.out.println(" ");
