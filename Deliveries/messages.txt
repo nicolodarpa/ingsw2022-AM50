@@ -1,102 +1,196 @@
 
-MOVE STUDENTS
-Client---->Server
-{"action": "moveStudentToClassroom",
-"student":studentIndex
-}
+/* i metodi sendHall, sendIslands, sendDashboard, sendCloudCards mandano lo stato attuale delle rispettive liste degli studenti presenti. E vengono poi gestite dal client, che stampa a video lo stato delle isole, dashboard ecc...  */
 
----->
-{"action": "moveStudentToIsland",
-"destination":islandId,
-"student":studentIndex
-}
+
+
+
+
+MOVE STUDENTS TO ISLAND:
+
+Client---->Server
+String "move student to island"
 
 <-----
 on ok 
-{"status":1,
-"text":"Student moved fom "origin" to "destination""}
+{"type":msg,
+"text":"Select student from hall to move to Island"}
+
+Client---->Server
+int studentPosition
+
+<-----
+on ok
+{"type": msg, "text" : "Select Island"}
+
+Client---->Server
+int index
+
+<-----
+on ok
+{"type": hall, "text" : sendHall}
+{"type" island, "text" : sendIslands}
+
 
 <-----
 on error
-{"status":0,
-"text":"not you turn, wait for player to finish"}
+{"type":msg, "text":"select a valid student"}
+{"type": hall, "text" : sendHall}
 
-<----
+
+
+
+
+
+
+
+
+MOVE STUDENT TO CLASSROOM:
+
+Client---->Server
+String "move student to classroom"
+
+<-----
+on ok
+{"type":msg, "text":"Select student from hall to move to Classroom"}
+
+Client---->Server
+int studentPosition
+
+<-----
+on ok
+{"type": dashboard, "text" : sendDashboard}
+
+<-----
 on error
-{"status":0,
-"text":"invalid move"}
+{"type":msg, "text":"select a valid student"}
+{"type": dashboard, "text" : sendDashboard}
 
 
 
 
-PLAY ASSISTANT CARD
-c---->S
-{"action":"PlayAssistantCard";
-"assistant":assistantCardNumber}
+
+
+
+
+
+PLAY ASSISTANT CARD:
+
+Client---->Server
+String "play assistant card"
 
 <----
 on ok
-{"status":1,
+{"type" : msg, "text" : "choose an assistant card"}
+
+Client---->Server
+int cardNumber
+
+<----
+on ok
+{"type":msg,
 "text", "Assistant Card played, you can move MN by # moves"}
 
 <----
 on error
-{"status":0,
+{"type":msg,
 "text":"Assistant Card already played by another player, chose a different one"}
 
 
-<----
-on error
-{"status":0,
-"text":"invalid action"}
+PLAY SPECIAL CARD:
 
-
-CHOSE CC
-C--->S
-{"action":"choseCloudCard",
-"cloudCardNumber":number}
+Client---->Server
+String "play special card"
 
 <----
-on ok
-{"status":1,
-"text":"Student moved to your hall"}
+{"type" : msg, "text" : "choose a special card"}
 
-<----
-on error
-{"status":0,
-"text":"invlid action"}
-
-
-MOVE MOTHER NATURE
-C---->S
-{"action":"moveMotherNature",
-"numberOfMoves": number}
+Client--->Server
+int indexOfSpecialCard
 
 <----
 on ok
-{"status":1,
-"text":"Mother nature has been moved"}
+{"type":msg, "text": print cardEffect}
 
 <----
 on error
-{"status":0,
-"text":"to many moves, you can move mother nature of n moves"}
+{"type":msg, "text":"invalid index"}
+
+<----
+on error
+{"type":msg, "text":"you don't have enough money in your wallet to play this card"}
 
 
 
-PLAY SPECIAL CARD
-C---->S
-{"action":"playSpecialCard",
-"specialCardNumber":specialCardNUmber
-}
+
+
+
+
+
+
+
+MOVE MOTHER NATURE:
+
+Client---->Server
+String move MN
+
+<----
+{"type" : msg, "text" : "select destination island"}
+
+Client---->Server
+int indexIsland
 
 <----
 on ok
-{"status":1,
-"text":"Special Card played"}
+{"type":island, "text": sendIsland}
 
 <----
 on error
-{"status":0,
-"text":"not enough money to play this card"}
+{"type":msg, "text":"to many moves, you can move mother nature of n moves"}
+
+
+
+
+
+
+
+
+
+
+CHOOSE CLOUD CARD:
+
+Client---->Server
+String "choose cloud card"
+
+<----
+{"type": cloudcard, "text" : sendCloudCards}
+
+Client---->Server
+
+int indexOfCloudCard
+
+<----
+on ok
+{"type": dashboard, "text" : sendDashboard}
+
+<----
+on error
+{"type":msg, "text":"invalid index"}
+
+
+
+
+
+
+
+
+LISTA MESSAGGI INVIATI SERVER ----> CLIENT:
+
+{"type" : msg, "text" : "your turn started"}
+
+{"type" : msg, "text" : "not your turn"} /* viene inviato nel caso un giocatore provi ad inviare messaggi quando non è il suo turno */
+
+
+
+
+
 
