@@ -154,8 +154,8 @@ public class Game {
         return gson.toJson(statusList);
     }
 
-    public String sendHall(Player player){
-        ArrayList<HallStatus>  statusList = new ArrayList<>();
+    public String sendHall(Player player) {
+        ArrayList<HallStatus> statusList = new ArrayList<>();
         statusList.add(new HallStatus(player.getDashboard()));
         Gson gson = new Gson();
         return gson.toJson(statusList);
@@ -171,7 +171,6 @@ public class Game {
         Gson gson = new Gson();
         return gson.toJson(statusList);
     }
-
 
 
     public String sendCloudCards() {
@@ -220,6 +219,22 @@ public class Game {
                 i.addStudent(student);
             }
         }
+    }
+
+    public boolean moveMN(Player player, int destinationIsland) {
+        int maxMoves = player.getMovesOfMN();
+        int islandWithMNIdGroup = getIslandWithMNIndex();
+        int moves = Math.abs(destinationIsland- islandWithMNIdGroup);
+        if (moves > maxMoves) {
+            return false;
+        } else {
+            islandWithMN.setPresenceMN(false);
+            islands.get(destinationIsland - 1).addMotherNature();
+            islandWithMN = islands.get(destinationIsland);
+            return true;
+        }
+
+
     }
 
 
@@ -287,17 +302,34 @@ public class Game {
     }
 
     public void connectIsland() {
-        for (int i = 1; i < 11; i++) {
+        for (int i = 1; i < islands.size(); i++) {
+
             Island curr = islands.get(i);
-            Island next = islands.get(i + 1);
+            Island next;
+            if (i == islands.size()-1){
+                 next = islands.get(0);
+            } else  next = islands.get(i+1);
+
+
             if (Objects.equals(next.getOwner(), curr.getOwner()) && !Objects.equals(curr.getOwner(), "free") && !Objects.equals(next.getIdGroup(), curr.getIdGroup())) {
                 next.setIdGroup(curr.getIdGroup());
-                for (int j = i + 2; j < 12; j++) {
-                    islands.get(j).setIdGroup(islands.get(j).getIdGroup() - 1);
+                for (Student student : next.getStudents()) {
+                    islands.get(i).addStudent(student);
+
                 }
+                for (Tower tower : next.getTowerArrayList()) {
+                    islands.get(i).addTower(tower);
+                }
+                islands.get(i).increaseDimension();
+                islands.remove(next);
+                i--;
             }
         }
+
+
     }
+
+
 
 
     public void assignTeacher() {
@@ -421,6 +453,17 @@ public class Game {
             }
         }
         return islandWithMN;
+    }
+    public int getIslandWithMNIndex() {
+        int index = 0;
+        for (Island i : islands) {
+            index++;
+            if (i.getPresenceMN()) {
+                this.islandWithMN = i;
+                return index;
+            }
+        }
+        return index;
     }
 
 

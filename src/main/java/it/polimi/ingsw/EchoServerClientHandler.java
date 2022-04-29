@@ -206,6 +206,13 @@ public class EchoServerClientHandler extends Thread {
     private void moveMotherNature() throws IOException {
         player.sendToClient("msg", "select destination island");
         int island = Integer.parseInt(in.readLine());
+        if (game.moveMN(player, island)){
+            player.sendToClient("islands",game.sendIslands());
+
+        } else {
+            player.sendToClient("msg","error, you can move mother nature of n moves");
+            moveMotherNature();
+        }
 
     }
 

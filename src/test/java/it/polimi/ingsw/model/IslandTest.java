@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import java.net.Socket;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class IslandTest {
 
@@ -83,7 +84,7 @@ public class IslandTest {
         Player p = gameTest.getPlist().getPlayerByName("jaz");
         islandTest.setOwner(p);
         islandTest.addTower();
-        assertEquals(true,islandTest.isTower());
+        assertTrue(islandTest.getTowerArrayList().size()>0);
         assertEquals(7,p.getDashboard().getTowers().size());
         assertEquals(TowerColor.black, p.getDashboard().getTowers().get(0).getColor());
 

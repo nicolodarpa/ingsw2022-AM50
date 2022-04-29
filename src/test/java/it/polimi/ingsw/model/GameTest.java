@@ -3,6 +3,7 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.LoginManager;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestTemplate;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -88,7 +89,7 @@ public class GameTest{
         Player p = gameTest.getPlist().getPlayers().get(0);
         Player q = gameTest.getPlist().getPlayers().get(1);
         for (Island i : gameTest.getIslands()) {
-            System.out.println("Numero isola: " + i.getId() + " - group: " + i.getIdGroup() + ", owner: " + i.getOwner());
+            System.out.println("Numero isola: " + i.getId()+ " - dimension: " + i.getDimension() +", owner: " + i.getOwner());
         }
         System.out.println(" ");
         gameTest.getIslands().get(2).setOwner(p);
@@ -96,26 +97,44 @@ public class GameTest{
         gameTest.getIslands().get(4).setOwner(p);
         gameTest.connectIsland();
         for (Island i : gameTest.getIslands()) {
-            System.out.println("Numero isola: " + i.getId() + " - group: " + i.getIdGroup() + ", owner: " + i.getOwner());
+            System.out.println("Numero isola: " + i.getId() + " - dimension: " + i.getDimension() + ", owner: " + i.getOwner());
         }
+
         System.out.println(" ");
         gameTest.getIslands().get(5).setOwner(q);
         gameTest.getIslands().get(6).setOwner(q);
-        gameTest.getIslands().get(9).setOwner(p);
-        gameTest.getIslands().get(7).setOwner(p);
-        gameTest.getIslands().get(8).setOwner(p);
+        gameTest.getIslands().get(7).setOwner(q);
         gameTest.connectIsland();
         for (Island i : gameTest.getIslands()) {
-            System.out.println("Numero isola: " + i.getId() + " - group: " + i.getIdGroup() + ", owner: " + i.getOwner());
+            System.out.println("Numero isola: " + i.getId() + " - dimension: " + i.getDimension() + ", owner: " + i.getOwner());
         }
-        System.out.println(" ");
-        gameTest.getIslands().get(5).setOwner(p);
-        gameTest.getIslands().get(6).setOwner(p);
-        gameTest.getIslands().get(7).setOwner(q);
+
+
+
+    }
+
+    @Test
+    @DisplayName("connect island 1 an 12")
+    public  void connectExtremeIslands(){
+        gameTest = new Game();
+        gameTest.setNumberOfPlayers(2);
+        LoginManager.login("jaz", gameTest);
+        LoginManager.login("nic", gameTest);
+        gameTest.setupGame();
+        Player p = gameTest.getPlist().getPlayers().get(0);
+        Player q = gameTest.getPlist().getPlayers().get(1);
+        gameTest.getIslands().get(0).setOwner(q);
+        gameTest.getIslands().get(11).setOwner(q);
+        gameTest.connectIsland();
+        gameTest.getIslands().get(0).setOwner(q);
+        gameTest.connectIsland();
         for (Island i : gameTest.getIslands()) {
-            System.out.println("Numero isola: " + i.getId() + " - group: " + i.getIdGroup() + ", owner: " + i.getOwner());
+            System.out.println("Numero isola: " + i.getId() + " - dimension: " + i.getDimension() + ", owner: " + i.getOwner());
         }
-        System.out.println(" ");
+
+        assertEquals(q.getName(),gameTest.getIslands().get(9).getOwner());
+
+
 
     }
 
@@ -170,6 +189,24 @@ public class GameTest{
         p1.moveStudentToIsland(gameTest.getIslandWithMN(), 4);
         p1.moveStudentToClassroom(5, gameTest);
         p1.getDashboard().drawDashboard();
+    }
+
+
+    @Test
+    @DisplayName("move MN")
+    public void moveMN(){
+        gameTest = new Game();
+        gameTest.setNumberOfPlayers(2);
+        LoginManager.login("jaz", gameTest);
+        LoginManager.login("nic", gameTest);
+        gameTest.setupGame();
+        Player p1 = gameTest.getPlist().getPlayerByName("jaz");
+        p1.setMovesOfMN(99);
+
+        gameTest.moveMN(p1, 5);
+        assertTrue(gameTest.getIslands().get(4).getPresenceMN());
+
+
     }
 
 }

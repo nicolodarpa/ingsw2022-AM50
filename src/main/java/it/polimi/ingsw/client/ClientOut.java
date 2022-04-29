@@ -117,6 +117,7 @@ public class ClientOut extends Thread {
             for (String student : hallStatus.students) {
                 draw(student);
             }
+            System.out.println(" ");
 
 
         }

@@ -1,7 +1,7 @@
 package it.polimi.ingsw.comunication;
 
 import it.polimi.ingsw.model.Dashboard;
-import it.polimi.ingsw.model.Player;
+
 import it.polimi.ingsw.model.Student;
 
 import java.util.ArrayList;
