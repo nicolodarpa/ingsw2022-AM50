@@ -1,7 +1,5 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.PlayersList;
-
 import java.util.ArrayList;
 
 /**
@@ -30,6 +28,22 @@ public class Dashboard {
 
     public void setHall(Student[] hall) {
         this.hall = hall;
+    }
+
+
+
+    public Dashboard() {
+        setCoinPos();
+
+    }
+
+    /** the coin position determinate the position where the game has to give to a player a coin if he moves his student to the classroom */
+    public void setCoinPos ( ){
+        for (int i=0; i < PawnColor.totalNumberOfPawnColors(); i++){
+            coinPos[i][2]= true;
+            coinPos[i][5]= true;
+            coinPos[i][8]=true;
+        }
     }
 
 
@@ -89,20 +103,6 @@ public class Dashboard {
                 hall[i] = student;
                 return;
             }
-        }
-    }
-
-
-    public Dashboard() {
-        setCoinPos();
-
-    }
-
-    public void setCoinPos ( ){
-        for (int i=0; i < PawnColor.totalNumberOfPawnColors(); i++){
-            coinPos[i][2]= true;
-            coinPos[i][5]= true;
-            coinPos[i][8]=true;
         }
     }
 
