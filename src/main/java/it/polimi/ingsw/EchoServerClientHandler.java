@@ -117,6 +117,10 @@ public class EchoServerClientHandler extends Thread {
                     String json = gson.toJson(text, TextMessage.class);
                     out.println(json);
                     break;
+                } else if (line.equals("dashboard")) {
+                    player.sendToClient("dashboard", game.sendDashboard());
+                } else if (line.equals("islands")) {
+                    player.sendToClient("islands", game.sendIslands());
                 } else if (player != game.getActualPlayer()) {
                     player.sendToClient("msg", "not your turn");
                 } else if (line.equals("play assistant card") && game.getPhase() == 0) {
@@ -133,6 +137,9 @@ public class EchoServerClientHandler extends Thread {
 
                     } else if (player.getMovesOfStudents() == 0 && line.equals("move MN")) {
                         moveMotherNature();
+                    } else if (line.equals("choose cc")) {
+                        chooseCC();
+
                     }
 
                 } else {
@@ -156,25 +163,33 @@ public class EchoServerClientHandler extends Thread {
     }
 
 
-    private void playAssistantCard() throws IOException {
-        String numCard;
-        boolean result;
+    private void playAssistantCard() {
+        int numCard;
+        boolean result = true;
         do {
             player.sendToClient("msg", "chose assistant card to play");
-            numCard = in.readLine();
-            result = player.playAssistantCard(Integer.parseInt(numCard));
+            try {
+                numCard = Integer.parseInt((in.readLine()));
+
+                if (numCard > 0 && numCard < 10) {
+                    result = game.playAssistantCard(player, (numCard));
+                }
+            } catch (Exception e) {
+                player.sendToClient("warning", "Input a number between 1 and 10");
+            }
+
+
         } while (result);
         game.setActualPlayer();
     }
 
 
-    private void moveStudentToIsland() throws IOException {
+    private void moveStudentToIsland() {
         player.sendToClient("msg", "select student from hall to move to an island:");
-        int numPlayer = Integer.parseInt(in.readLine());
+        int numPlayer = indexStudentInput();
         player.sendToClient("msg", "select island");
-        int numIsland = Integer.parseInt(in.readLine());
-        Island island = game.getIslands().get(numIsland - 1);
-        if (player.moveStudentToIsland(island, numPlayer - 1)) {
+        int indexIsland = indexIslandInput();
+        if (player.moveStudentToIsland(numPlayer - 1, indexIsland - 1, game)) {
             player.sendToClient("hall", game.sendHall(player));
             player.sendToClient("islands", game.sendIslands());
         } else {
@@ -185,9 +200,9 @@ public class EchoServerClientHandler extends Thread {
 
     }
 
-    private void moveStudentToClassroom() throws IOException {
+    private void moveStudentToClassroom() {
         player.sendToClient("msg", "select student from hall to move to a classroom:");
-        int numPlayer = Integer.parseInt(in.readLine());
+        int numPlayer = indexStudentInput();
         if (player.moveStudentToClassroom(numPlayer - 1, game)) {
             player.sendToClient("dashboard", game.sendDashboard());
         } else {
@@ -196,6 +211,40 @@ public class EchoServerClientHandler extends Thread {
         }
 
     }
+
+    private int indexStudentInput() {
+        int numPlayer = 0;
+        try {
+            String line = in.readLine();
+            numPlayer = Integer.parseInt(line);
+            if (numPlayer < 1 || numPlayer > 7) {
+                player.sendToClient("msg", "Error input, please insert a value between 1 and 7");
+                indexStudentInput();
+            }
+        } catch (Exception e) {
+            player.sendToClient("msg", "Error input, please insert a value between 1 and 7");
+            indexStudentInput();
+        }
+        return numPlayer;
+    }
+
+    private int indexIslandInput() {
+        try {
+            String line = in.readLine();
+            int numIsland = Integer.parseInt(line);
+            if (numIsland < 1 || numIsland > game.getIslands().size()) {
+                player.sendToClient("msg", "Error input, plese select a value between 1 and " + game.getIslands().size());
+                indexIslandInput();
+            }
+            return numIsland;
+        } catch (Exception e) {
+            player.sendToClient("msg", "Error input, plese select a value between 1 and " + game.getIslands().size());
+            indexIslandInput();
+        }
+        return 0;
+
+    }
+
 
     private void errorSelectionNotify() {
         player.sendToClient("msg", "select a valid student");
@@ -206,14 +255,24 @@ public class EchoServerClientHandler extends Thread {
     private void moveMotherNature() throws IOException {
         player.sendToClient("msg", "select destination island");
         int island = Integer.parseInt(in.readLine());
-        if (game.moveMN(player, island)){
-            player.sendToClient("islands",game.sendIslands());
+        if (game.moveMN(player, island - 1)) {
+            player.sendToClient("islands", game.sendIslands());
 
         } else {
-            player.sendToClient("msg","error, you can move mother nature of n moves");
+            player.sendToClient("error", "error, you can move mother nature of " + player.getMovesOfMN() + "moves");
             moveMotherNature();
         }
 
+    }
+
+
+    private void chooseCC() throws IOException {
+        player.sendToClient("cloudCard", game.sendCloudCards());
+        player.sendToClient("msg", "select cloud card");
+        int cloudCardIndex = Integer.parseInt(in.readLine());
+        game.chooseCloudCard(cloudCardIndex - 1, player);
+        player.sendToClient("dashboard", game.sendPlayerDashboard(player));
+        game.setActualPlayer();
     }
 
 }

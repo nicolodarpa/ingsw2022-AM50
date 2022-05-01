@@ -9,22 +9,27 @@ public class IslandStatus {
 
     public int id;
     public boolean islandConquered;
+
+    public String owner;
     public boolean presenceMN;
     public int idGroup;
     public ArrayList<String> students = new ArrayList<>();
-    public boolean towerNumber;
+    public int towerNumber;
     public String towerColor;
 
     public IslandStatus(Island island){
         this.id = island.getId();
         this.idGroup = island.getIdGroup();
         this.islandConquered = island.getConquered();
+        this.owner = island.getOwner();
         this.presenceMN = island.getPresenceMN();
-        this.towerNumber = island.isTower();
+        this.towerNumber = island.getTowerNumber();
         this.towerColor = String.valueOf(island.getTowerColor());
         ArrayList<Student> studentArrayList = island.getStudents();
         for (Student student: studentArrayList){
-            students.add(String.valueOf(student.getColor()));
+            if(student != null){
+                students.add(String.valueOf(student.getColor()));
+            } else students.add("EMPTY");
         }
 
     }

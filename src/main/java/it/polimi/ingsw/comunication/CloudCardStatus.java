@@ -13,7 +13,10 @@ public class CloudCardStatus {
     public CloudCardStatus(CloudCard cloudCard){
         ArrayList<Student> cloudCardStudents = cloudCard.getStudents();
         for (Student student: cloudCardStudents){
-            students.add(String.valueOf(student.getColor()));
+            if (student != null){
+                students.add(String.valueOf(student.getColor()));
+            } else students.add("EMPTY");
+
         }
 
     }

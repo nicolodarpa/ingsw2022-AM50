@@ -201,10 +201,14 @@ public class GameTest{
         LoginManager.login("nic", gameTest);
         gameTest.setupGame();
         Player p1 = gameTest.getPlist().getPlayerByName("jaz");
-        p1.setMovesOfMN(99);
+        p1.setMovesOfMN(12);
+        int i = gameTest.getIslandWithMNIndex();
+        System.out.println(i);
+        assertTrue(gameTest.moveMN(p1, 8));
+        if (i!=8){
+            assertFalse(gameTest.getIslands().get(i).getPresenceMN());
+        } else assertTrue(gameTest.getIslands().get(i).getPresenceMN());
 
-        gameTest.moveMN(p1, 5);
-        assertTrue(gameTest.getIslands().get(4).getPresenceMN());
 
 
     }

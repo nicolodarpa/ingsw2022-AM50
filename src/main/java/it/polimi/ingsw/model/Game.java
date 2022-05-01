@@ -134,7 +134,9 @@ public class Game {
         addStudentToIsland();
         fillStudentsBag();
         cloudCardCreation();
-        cloudCardFill();
+        for (CloudCard cloudCard : cloudCards) {
+            cloudCardFill(cloudCard);
+        }
         assignTower();
         createDecks();
         moveStudentsToHall();
@@ -168,6 +170,13 @@ public class Game {
         for (Player player : plist.getPlayers()) {
             statusList.add(new DashboardStatus(player.getName(), player.getDashboard()));
         }
+        Gson gson = new Gson();
+        return gson.toJson(statusList);
+    }
+
+    public String sendPlayerDashboard(Player player) {
+        ArrayList<DashboardStatus> statusList = new ArrayList<>();
+        statusList.add(new DashboardStatus(player.getName(), player.getDashboard()));
         Gson gson = new Gson();
         return gson.toJson(statusList);
     }
@@ -221,20 +230,23 @@ public class Game {
         }
     }
 
-    public boolean moveMN(Player player, int destinationIsland) {
-        int maxMoves = player.getMovesOfMN();
-        int islandWithMNIdGroup = getIslandWithMNIndex();
-        int moves = Math.abs(destinationIsland- islandWithMNIdGroup);
-        if (moves > maxMoves) {
+    public boolean moveMN(Player player, int destinationIslandIndex) {
+        int playerMovesOfMN = player.getMovesOfMN();
+        int islandWithMNIndex = getIslandWithMNIndex();
+        int moves = destinationIslandIndex - islandWithMNIndex;
+        if (moves < 0) {
+            moves = islands.size() + moves;
+        }
+        if (moves > playerMovesOfMN) {
             return false;
         } else {
             islandWithMN.setPresenceMN(false);
-            islands.get(destinationIsland - 1).addMotherNature();
-            islandWithMN = islands.get(destinationIsland);
+            islands.get(destinationIslandIndex).setPresenceMN(true);
+            islandWithMN = islands.get(destinationIslandIndex);
+            islandWithMN.calcInfluence(plist);
+            connectIsland();
             return true;
         }
-
-
     }
 
 
@@ -257,26 +269,6 @@ public class Game {
         } else {
             for (int i = 0; i < 3; i++) {
                 cloudCards.add(new CloudCard(numberOfPlayers));
-            }
-        }
-
-
-    }
-
-    /**
-     * Fill up cloudCard with 3 or 4 students each depending on the number of players
-     */
-    public void cloudCardFill() {
-
-        for (CloudCard cl : cloudCards) {
-            if (numberOfPlayers == 2) {
-                for (int i = 0; i < 3; i++) {
-                    cl.addStudent(studentsBag.casualExtraction());
-                }
-            } else {
-                for (int i = 0; i < 4; i++) {
-                    cl.addStudent(studentsBag.casualExtraction());
-                }
             }
         }
 
@@ -306,9 +298,9 @@ public class Game {
 
             Island curr = islands.get(i);
             Island next;
-            if (i == islands.size()-1){
-                 next = islands.get(0);
-            } else  next = islands.get(i+1);
+            if (i == islands.size() - 1) {
+                next = islands.get(0);
+            } else next = islands.get(i + 1);
 
 
             if (Objects.equals(next.getOwner(), curr.getOwner()) && !Objects.equals(curr.getOwner(), "free") && !Objects.equals(next.getIdGroup(), curr.getIdGroup())) {
@@ -325,11 +317,12 @@ public class Game {
                 i--;
             }
         }
+        if (islands.size() == 3) {
+            plist.notifyAllClients("notify", "the game has finished");
+        }
 
 
     }
-
-
 
 
     public void assignTeacher() {
@@ -398,7 +391,7 @@ public class Game {
         if (round == 1 && phase == 0) {
             for (Player p : plist.getPlayers()) {
                 if (!p.getHasPlayed()) {
-                    p.sendToClient("msg", "Your turn started");
+                    p.sendToClient("notify", "Your turn started");
                     this.actualPlayer = p;
                     System.out.println(actualPlayer.getName() + " turn");
                     return;
@@ -414,7 +407,7 @@ public class Game {
             }
             if (temp != null) {
                 this.actualPlayer = temp;
-                temp.sendToClient("msg", "Your turn started");
+                temp.sendToClient("notify", "Your turn started");
                 System.out.println(actualPlayer.getName() + " turn");
             } else nextPhase();
 
@@ -427,14 +420,15 @@ public class Game {
         if (phase == 0) {
             for (Player p : plist.getPlayers()) {
                 p.setHasPlayed(false);
+
             }
-            plist.notifyAllClients("msg", "Action phase");
+            plist.notifyAllClients("notify", "Action phase");
             phase = 1;
         } else if (phase == 1) {
             for (Player p : plist.getPlayers()) {
                 p.setHasPlayed(false);
             }
-            plist.notifyAllClients("msg", "Planning phase");
+            plist.notifyAllClients("notify", "Planning phase");
             phase = 0;
             round++;
         }
@@ -454,14 +448,16 @@ public class Game {
         }
         return islandWithMN;
     }
+
+
     public int getIslandWithMNIndex() {
         int index = 0;
         for (Island i : islands) {
-            index++;
             if (i.getPresenceMN()) {
                 this.islandWithMN = i;
                 return index;
             }
+            index++;
         }
         return index;
     }
@@ -475,23 +471,29 @@ public class Game {
     }
 
     public void chooseCloudCard(int numberOfCloudCard, Player player) {
-        ArrayList<Student> students = new ArrayList<>();
+        ArrayList<Student> students;
         System.out.println(" Choose a cloud card: ");
         students = cloudCards.get(numberOfCloudCard).getAllStudents();
         Dashboard actualDashboard = player.getDashboard();
         for (Student s : students)
             actualDashboard.addStudentToHall(s);
-        fillOneCloudCard(numberOfCloudCard);
+        cloudCardFill(cloudCards.get(numberOfCloudCard));
+        player.setHasPlayed(true);
     }
 
-    public void fillOneCloudCard(int numberOfCloudCard) {
-        final CloudCard cloudCard = cloudCards.get(numberOfCloudCard);
+    /**
+     * Fill up cloudCard with 3 or 4 students each depending on the number of players
+     */
+    public void cloudCardFill(CloudCard cloudCard) {
+
         if (numberOfPlayers == 2) {
-            for (int i = 0; i < numberOfPlayers; i++)
+            for (int i = 0; i < 3; i++) {
                 cloudCard.addStudent(studentsBag.casualExtraction());
-        } else if (numberOfPlayers == 3) {
-            for (int i = 0; i < numberOfPlayers; i++)
+            }
+        } else {
+            for (int i = 0; i < 4; i++) {
                 cloudCard.addStudent(studentsBag.casualExtraction());
+            }
         }
     }
 
@@ -503,6 +505,46 @@ public class Game {
         }
         player.setDeck(deck);
         return 1;
+    }
+
+    public boolean playAssistantCard(Player player, int cardNumber) {
+        if (player.checkCardAvailability(cardNumber - 1)) {
+            player.sendToClient("error", "card already played");
+            return true;
+        }
+        boolean check = false;
+        if (checkLastPlayedAssistant(cardNumber)) {
+            player.sendToClient("error", "Assistant card already played by another player");
+            for (AssistantCard assistantCard : player.getDeck().getCardsList()) {
+                if (!checkLastPlayedAssistant(assistantCard.getOrder())) {
+                    player.sendToClient("warning", "you can play card# " + assistantCard.getOrder());
+                    check = true;
+                }
+
+            }
+            if (!check) {
+                player.playAssistantCard(cardNumber - 1);
+                return false;
+            } else {
+                return true;
+            }
+        }
+        player.playAssistantCard(cardNumber - 1);
+        return false;
+
+
+    }
+
+    public boolean checkLastPlayedAssistant(int order) {
+
+        for (Player player : plist.getPlayers()) {
+            if (order == player.getLastPlayedAC()) {
+                return true;
+            }
+        }
+
+        return false;
+
     }
 
 

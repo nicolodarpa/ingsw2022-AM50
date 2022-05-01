@@ -51,7 +51,7 @@ public class Island {
 
 
     public int getTowerNumber() {
-        return towerNumber;
+        return towerArrayList.size();
     }
 
     public boolean getConquered() {

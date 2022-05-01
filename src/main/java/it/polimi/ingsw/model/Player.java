@@ -22,13 +22,16 @@ public class Player {
 
     private int movesOfStudents = 3;
     private int numberOfTowersOnIsland = 0;
-    private static Wallet wallet = new Wallet();
+    private static final Wallet wallet = new Wallet();
     private Dashboard dashboard = new Dashboard();
     private Deck deck;
     private int influencePoint = 0;
 
     private boolean hasPlayed = false;
 
+    private int lastPlayedAC = 0;
+
+    private final ArrayList<AssistantCard> assistantCardsPlayed = new ArrayList<>();
 
     public Dashboard getDashboard() {
         return dashboard;
@@ -44,6 +47,14 @@ public class Player {
 
     public int getMovesOfStudents() {
         return movesOfStudents;
+    }
+
+    public int getLastPlayedAC() {
+        return lastPlayedAC;
+    }
+
+    public void setLastPlayedAC(int lastPlayedAC) {
+        this.lastPlayedAC = lastPlayedAC;
     }
 
     public Player(String name) {
@@ -128,8 +139,6 @@ public class Player {
         } catch (Exception e) {
             System.out.println("No connection to client");
         }
-
-
     }
 
 
@@ -152,38 +161,40 @@ public class Player {
     /**
      * The player choose based on the number of the card of its deck which one to play
      *
-     * @param numberOfCard indicate the order of the card
+     * @param cardIndex indicate the order of the card
      */
-    public boolean playAssistantCard(int numberOfCard) {
-        ArrayList<AssistantCard> assistantCardsPlayed = new ArrayList<>();
+    public void playAssistantCard(int cardIndex) {
         try {
-            assistantCardsPlayed.add(deck.getCardsList().get(numberOfCard));
-            if (checkCard(assistantCardsPlayed)) {
-                this.order = deck.getCardsList().get(numberOfCard).getOrder();
-                this.movesOfMN = deck.getCardsList().get(numberOfCard).getMoveOfMN();
-                deck.getCardsList().remove(deck.getCardsList().get(numberOfCard));
-                sendToClient("msg", "played card " + numberOfCard + "\nvalue: " + order + "\nmoves of MN available: " + movesOfMN);
+            assistantCardsPlayed.add(deck.getCardsList().get(cardIndex));
+            if (!checkCardAvailability(cardIndex)) {
+                order = deck.getCardsList().get(cardIndex).getOrder();
+                movesOfMN = deck.getCardsList().get(cardIndex).getMoveOfMN();
+                deck.getCardsList().remove(deck.getCardsList().get(cardIndex));
+                sendToClient("msg", "played card " + (cardIndex+1) + "\nvalue: " + order + "\nmoves of MN available: " + movesOfMN);
                 this.hasPlayed = true;
-                return false;
+                lastPlayedAC = order;
             } else {
-                sendToClient("msg", "card not available");
-                return true;
+                sendToClient("error", "card not available");
             }
-        } catch (Exception e) {
-            return true;
+        } catch (Exception ignored) {
         }
     }
 
-    public boolean checkCard(ArrayList<AssistantCard> assistantCardsPlayed) {
-        AssistantCard card_one = assistantCardsPlayed.get(0);
+    public boolean checkCardAvailability(int cardIndex) {
+        AssistantCard assistantCard = deck.getCardsList().get(cardIndex);
         for (int i = 1; i < assistantCardsPlayed.size(); i++) {
-            if (card_one == assistantCardsPlayed.get(i)) {
-                if (deck.getCardsList().size() == 1)
-                    return true;
-                return false;
+            if (assistantCard == assistantCardsPlayed.get(i)) {
+                return true;
             }
         }
-        return true;
+        return false;
+    }
+
+    public boolean deckSize() {
+        if (deck.getCardsList().size() == 0) {
+            return true;
+        }
+        return false;
     }
 
     public void playSpecialCard(int numberOfCard) {
@@ -207,19 +218,32 @@ public class Player {
      * @param island   indicate the island where we want to move the student
      * @param position indicate the position of the student in the DashboardHall
      */
-    public boolean moveStudentToIsland(Island island, int position) {
-
-
-        try {
-            island.addStudent(dashboard.getStudentFromHall(position));
+    public void moveStudentToIsland(Island island, int position) {
+        Student student = dashboard.getStudentFromHall(position);
+        if (student != null) {
+            island.addStudent(student);
             movesOfStudents--;
-            return true;
+        } else {
+            System.out.println(" selected null student ");
+        }
+    }
+
+
+    public boolean moveStudentToIsland(int position, int index, Game game) {
+        Student student = dashboard.getStudentFromHall(position);
+        try {
+            if (student != null) {
+                game.getIslands().get(index).addStudent(student);
+                movesOfStudents--;
+                return true;
+            } else {
+                System.out.println("selected null student ");
+                return false;
+            }
         } catch (Exception e) {
-            System.out.println(" Invalid input ");
+            System.out.println(e);
             return false;
         }
-
-
     }
 
     /**
@@ -228,19 +252,17 @@ public class Player {
      * @param position indicate the position of the student in the DashboardHall
      */
     public boolean moveStudentToClassroom(int position, Game game) {
-
-        try {
-            dashboard.addStudentToClassroom(dashboard.getStudentFromHall(position));
+        Student student = dashboard.getStudentFromHall(position);
+        if (student != null) {
+            dashboard.addStudentToClassroom(student);
             dashboard.addCoin(wallet);
             movesOfStudents--;
             game.assignTeacher();
             return true;
-        } catch (Exception e) {
-            System.out.println(" Invalid position, please insert a valid number between 0 and 6 ");
+        } else {
+            System.out.println("selected null student ");
             return false;
         }
-
-
     }
 
     public int getNumberOfTowersOnIsland() {

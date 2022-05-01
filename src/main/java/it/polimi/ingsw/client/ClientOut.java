@@ -28,18 +28,18 @@ public class ClientOut extends Thread {
         this.socketIn = socketIn;
     }
 
-    private void draw(String student) {
-        if (Objects.equals(student, "EMPTY")) {
+    private void draw(String color) {
+        if (Objects.equals(color, "EMPTY")) {
             System.out.print("^^^");
-        } else if (Objects.equals(student, "CYAN")) {
+        } else if (Objects.equals(color, "CYAN")) {
             System.out.print(CYAN + "+++");
-        } else if (Objects.equals(student, "MAGENTA")) {
+        } else if (Objects.equals(color, "MAGENTA")) {
             System.out.print(MAGENTA + "+++");
-        } else if (Objects.equals(student, "YELLOW")) {
+        } else if (Objects.equals(color, "YELLOW")) {
             System.out.print(YELLOW + "+++");
-        } else if (Objects.equals(student, "RED")) {
+        } else if (Objects.equals(color, "RED")) {
             System.out.print(RED + "+++");
-        } else if (Objects.equals(student, "GREEN")) {
+        } else if (Objects.equals(color, "GREEN")) {
             System.out.print(GREEN + "+++");
         }
         System.out.print(ANSI_RESET);
@@ -50,17 +50,22 @@ public class ClientOut extends Thread {
         IslandStatus[] statuses = gson.fromJson(message.message, IslandStatus[].class);
         System.out.println("Islands");
         for (IslandStatus islandStatus : statuses) {
+            if (islandStatus.presenceMN) {
+                System.out.print(YELLOW);
+            }
             System.out.println("============");
             System.out.println("=Island #" + islandStatus.id);
             System.out.println("=ID Group: " + islandStatus.idGroup);
             System.out.println("=Is conquered: " + islandStatus.islandConquered);
+            System.out.print("=Owner: " + islandStatus.owner);
             System.out.println("=Presence: " + islandStatus.presenceMN);
             System.out.println("=Students: ");
+            System.out.print(ANSI_RESET);
             for (String student : islandStatus.students) {
                 draw(student);
                 System.out.println(" ");
             }
-            System.out.println("=Available towers: " + islandStatus.towerColor);
+            System.out.println("=Towers #: " + islandStatus.towerNumber);
 
         }
     }
@@ -89,7 +94,7 @@ public class ClientOut extends Thread {
             System.out.print("Teacher Table: ");
             for (String teacher : dashboardStatus.teacherTable) {
                 System.out.print("-");
-                System.out.println(teacher);
+                draw(teacher);
             }
             System.out.println(" ");
             System.out.println("Towers available: " + dashboardStatus.towers);
@@ -115,6 +120,7 @@ public class ClientOut extends Thread {
         for (HallStatus hallStatus : hallStatuses) {
             System.out.println("=====Hall: ");
             for (String student : hallStatus.students) {
+                System.out.print("-");
                 draw(student);
             }
             System.out.println(" ");
@@ -137,6 +143,12 @@ public class ClientOut extends Thread {
                 message = gson.fromJson(socketLine, TextMessage.class);
                 if (Objects.equals(message.type, "msg")) {
                     System.out.println(message.message);
+                } else if (Objects.equals(message.type, "error")) {
+                    System.out.println(RED + message.message + ANSI_RESET);
+                } else if (Objects.equals(message.type, "warning")) {
+                    System.out.println(YELLOW + message.message + ANSI_RESET);
+                } else if (Objects.equals(message.type, "notify")) {
+                    System.out.println(GREEN + message.message + ANSI_RESET);
                 } else if (Objects.equals(message.type, "islands")) {
                     printIslands();
                 } else if (Objects.equals(message.type, "dashboard")) {
