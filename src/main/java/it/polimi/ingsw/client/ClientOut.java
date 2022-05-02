@@ -55,9 +55,10 @@ public class ClientOut extends Thread {
             }
             System.out.println("============");
             System.out.println("=Island #" + islandStatus.id);
-            System.out.println("=ID Group: " + islandStatus.idGroup);
+            System.out.println("=Dimension : " + islandStatus.dimension);
             System.out.println("=Is conquered: " + islandStatus.islandConquered);
-            System.out.print("=Owner: " + islandStatus.owner);
+            System.out.println("=Owner: " + islandStatus.owner);
+            System.out.println("=Towers #: " + islandStatus.towerNumber);
             System.out.println("=Presence of MN: " + islandStatus.presenceMN);
             System.out.println("=Students: ");
             System.out.print(ANSI_RESET);
@@ -65,7 +66,7 @@ public class ClientOut extends Thread {
                 draw(student);
                 System.out.println(" ");
             }
-            System.out.println("=Towers #: " + islandStatus.towerNumber);
+
 
         }
     }

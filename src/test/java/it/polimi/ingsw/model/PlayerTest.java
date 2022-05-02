@@ -21,6 +21,7 @@ public class PlayerTest{
         StudentsBag s = new StudentsBag();
         s.fillBag(120);
         p.moveStudentsToHall(s);
+        p.getDashboard().setupHall(2);
         assertEquals(7,p.getDashboard().getHall().length);
         p.getDashboard().drawDashboard();
     }

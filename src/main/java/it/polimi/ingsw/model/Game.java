@@ -129,6 +129,9 @@ public class Game {
     }
 
     public void setupGame() {
+        for (Player player:plist.getPlayers()){
+            player.getDashboard().setupHall(numberOfPlayers);
+        }
         createIslands();
         addMotherNatureToIsland();
         addStudentToIsland();
@@ -386,7 +389,7 @@ public class Game {
     }
 
     public void setActualPlayer() {
-        int max_order = 10;
+        int max_order = 11;
         Player temp = null;
         if (round == 1 && phase == 0) {
             for (Player p : plist.getPlayers()) {
@@ -420,13 +423,13 @@ public class Game {
         if (phase == 0) {
             for (Player p : plist.getPlayers()) {
                 p.setHasPlayed(false);
-
             }
             plist.notifyAllClients("notify", "Action phase");
             phase = 1;
         } else if (phase == 1) {
             for (Player p : plist.getPlayers()) {
                 p.setHasPlayed(false);
+                p.setLastPlayedAC(0);
             }
             plist.notifyAllClients("notify", "Planning phase");
             phase = 0;

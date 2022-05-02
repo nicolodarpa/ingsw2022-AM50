@@ -171,7 +171,7 @@ public class EchoServerClientHandler extends Thread {
             try {
                 numCard = Integer.parseInt((in.readLine()));
 
-                if (numCard > 0 && numCard < 10) {
+                if (numCard > 0 && numCard < 11) {
                     result = game.playAssistantCard(player, (numCard));
                 }
             } catch (Exception e) {

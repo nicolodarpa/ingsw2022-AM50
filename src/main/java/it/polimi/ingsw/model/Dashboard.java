@@ -8,10 +8,11 @@ import java.util.ArrayList;
 
 public class Dashboard {
     private Student[][] classroom = new Student[5][10];
-    private Student[] hall = new Student[7];
+    private Student[] hall;
     private Teacher[] teacherTable = new Teacher[5];
     private ArrayList<Tower> towers = new ArrayList<>();
     private boolean [][] coinPos = new boolean[5][10];
+    private int hallCapacity;
 
 
     public ArrayList<Tower> getTowers() {
@@ -86,6 +87,15 @@ public class Dashboard {
         System.out.println(" ");
     }
 
+    public void setupHall(int gameMode){
+        if (gameMode==2){
+            hallCapacity = 7;
+        } else if (gameMode==3){
+            hallCapacity=9;
+        }
+        hall=new Student[hallCapacity];
+    }
+
     public Student getStudentFromHall(int i) {
         try{
             Student student = hall[i];
@@ -98,7 +108,7 @@ public class Dashboard {
     }
 
     public void addStudentToHall(Student student) {
-        for (int i = 0; i < 7; i++) {
+        for (int i = 0; i < hallCapacity; i++) {
             if (hall[i] == null) {
                 hall[i] = student;
                 return;

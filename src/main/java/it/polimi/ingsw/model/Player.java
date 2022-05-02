@@ -164,8 +164,8 @@ public class Player {
      */
     public void playAssistantCard(int cardIndex) {
         try {
-            assistantCardsPlayed.add(deck.getCardsList().get(cardIndex));
             if (!checkCardAvailability(cardIndex)) {
+                assistantCardsPlayed.add(deck.getCardsList().get(cardIndex));
                 order = deck.getCardsList().get(cardIndex).getOrder();
                 movesOfMN = deck.getCardsList().get(cardIndex).getMoveOfMN();
                 deck.getCardsList().remove(deck.getCardsList().get(cardIndex));
@@ -190,10 +190,7 @@ public class Player {
     }
 
     public boolean deckSize() {
-        if (deck.getCardsList().size() == 0) {
-            return true;
-        }
-        return false;
+        return deck.getCardsList().size() == 0;
     }
 
     public int playSpecialCard(Game game, int numberOfCard) {

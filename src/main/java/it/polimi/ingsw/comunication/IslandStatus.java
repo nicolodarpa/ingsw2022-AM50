@@ -10,6 +10,7 @@ public class IslandStatus {
     public int id;
     public boolean islandConquered;
 
+    public int dimension;
     public String owner;
     public boolean presenceMN;
     public int idGroup;
@@ -21,6 +22,7 @@ public class IslandStatus {
         this.id = island.getId();
         this.idGroup = island.getIdGroup();
         this.islandConquered = island.getConquered();
+        this.dimension = island.getDimension();
         this.owner = island.getOwner();
         this.presenceMN = island.getPresenceMN();
         this.towerNumber = island.getTowerNumber();

@@ -13,12 +13,12 @@ public class DashboardTest {
 
     Dashboard testD = new Dashboard();
 
+
     @Test
     @DisplayName(" Add Student to Hall")
     public void testAddStudentToHall() {
-
+        testD.setupHall(2);
         StudentsBag studentsBag = new StudentsBag();
-
         studentsBag.fillBag(120);
         for (int i = 0; i < 7; i++) {
             Student student = studentsBag.casualExtraction();
@@ -33,6 +33,7 @@ public class DashboardTest {
     @Test
     @DisplayName(" Add 3 Student to Classroom ")
     public void testAddStudentToClassroom() {
+        testD.setupHall(2);
         StudentsBag studentsBag = new StudentsBag();
         studentsBag.fillBag(120);
         for (int i = 0; i < 7; i++) {
@@ -48,6 +49,7 @@ public class DashboardTest {
     @Test
     @DisplayName(" Fill the Classroom ")
     public void testFillClassroom() {
+        testD.setupHall(2);
         StudentsBag studentsBag = new StudentsBag();
         studentsBag.fillBag(120);
         for (int i = 0; i < 120; i++) {
@@ -64,6 +66,7 @@ public class DashboardTest {
     @Test
     @DisplayName(" Add 1 teacher To TeacherTable")
     public void testAddTeacherToTable() {
+        testD.setupHall(2);
         Teacher teacher = new Teacher(PawnColor.RED);
         testD.addTeacherToTable(teacher);
         assertNotNull(testD.getTeacherTable()[3]);
@@ -73,6 +76,7 @@ public class DashboardTest {
     @Test
     @DisplayName(" Draw the Dashboard")
     public void drawDashboardTest() {
+        testD.setupHall(2);
         testD.addTower(8, TowerColor.black);
         testD.drawDashboard();
     }
