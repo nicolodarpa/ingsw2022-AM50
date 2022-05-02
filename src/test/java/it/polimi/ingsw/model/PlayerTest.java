@@ -72,7 +72,21 @@ public class PlayerTest{
         LoginManager.login("nic",gameTest);
         gameTest.setupGame();
         Player p1 = gameTest.getPlist().getPlayerByName("ale");
-        p1.playSpecialCard(0);
+        //p1.playSpecialCard(gameTest, 2);
+    }
+
+    @Test
+    public void changeStudentTest(){
+        Game gameTest = new Game();
+        gameTest.setNumberOfPlayers(2);
+        LoginManager.login("ale",gameTest);
+        LoginManager.login("nic",gameTest);
+        gameTest.setupGame();
+        Player p1 = gameTest.getPlist().getPlayerByName("ale");
+        p1.getDashboard().addStudentToClassroom(new Student(PawnColor.RED));
+        p1.getDashboard().drawDashboard();
+        p1.changeStudent(PawnColor.RED, 6);
+        p1.getDashboard().drawDashboard();
     }
 
 

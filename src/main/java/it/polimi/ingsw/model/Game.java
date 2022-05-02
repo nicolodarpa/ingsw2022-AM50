@@ -463,12 +463,6 @@ public class Game {
     }
 
 
-    public void playSpecialCard() {
-        for (int i = 0; i < cardsInGame.size(); i++)
-            System.out.println(" card " + i + " : " + cardsInGame.get(i).getEffectOfTheCard() + " card's cost : " + cardsInGame.get(i).getCost());
-        System.out.println("Insert the number of card do you want to play: ");
-        //actualPlayer.playSpecialCard(0);
-    }
 
     public void chooseCloudCard(int numberOfCloudCard, Player player) {
         ArrayList<Student> students;

@@ -48,5 +48,18 @@ public class NoTowerInfluenceTest {
         assertEquals(4, card.getCost());
     }
 
+    @Test
+    public void testGetEffectOfTheCard(){
+        gameTest = new Game();
+        gameTest.setNumberOfPlayers(2);
+        LoginManager.login("jaz",gameTest);
+        LoginManager.login("nic",gameTest);
+        gameTest.setupGame();
+        NoTowerInfluence card = new NoTowerInfluence(gameTest.getIslandWithMN(), gameTest.getPlist());
+        System.out.println(card.getEffectOfTheCard());
+    }
+
+
+
 
 }

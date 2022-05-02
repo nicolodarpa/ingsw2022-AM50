@@ -21,7 +21,6 @@ public class Player {
     private int movesOfMN = 0;
 
     private int movesOfStudents = 3;
-    private int numberOfTowersOnIsland = 0;
     private static final Wallet wallet = new Wallet();
     private Dashboard dashboard = new Dashboard();
     private Deck deck;
@@ -170,7 +169,7 @@ public class Player {
                 order = deck.getCardsList().get(cardIndex).getOrder();
                 movesOfMN = deck.getCardsList().get(cardIndex).getMoveOfMN();
                 deck.getCardsList().remove(deck.getCardsList().get(cardIndex));
-                sendToClient("msg", "played card " + (cardIndex+1) + "\nvalue: " + order + "\nmoves of MN available: " + movesOfMN);
+                sendToClient("msg", "played card " + (cardIndex + 1) + "\nvalue: " + order + "\nmoves of MN available: " + movesOfMN);
                 this.hasPlayed = true;
                 lastPlayedAC = order;
             } else {
@@ -197,7 +196,7 @@ public class Player {
         return false;
     }
 
-    public void playSpecialCard(int numberOfCard) {
+    public int playSpecialCard(Game game, int numberOfCard) {
         final SpecialCard cardToPlay;
         try {
             cardToPlay = Game.getSpecialCardsInGame().get(numberOfCard);
@@ -205,11 +204,13 @@ public class Player {
                 cardToPlay.effect();
                 cardToPlay.addCost();
             } else {
-                System.out.println(" Not enough coins to play this card ");
+                return 0;
             }
         } catch (Exception e) {
             System.out.println("Invalid input");
+            return 0;
         }
+        return 1;
     }
 
     /**
@@ -265,12 +266,19 @@ public class Player {
         }
     }
 
-    public int getNumberOfTowersOnIsland() {
-        return numberOfTowersOnIsland;
+    public void changeStudent(PawnColor studentColor, int pos_hall) {
+        Student studentFromClassroom = dashboard.getStudentFromClassroom(studentColor);
+        Student studentFromHall = dashboard.getStudentFromHall(pos_hall);
+        try{
+            if(studentFromClassroom != null){
+                dashboard.addStudentToClassroom(studentFromHall);
+                dashboard.addStudentToHall(studentFromClassroom);
+            }
+        }catch (Exception accessException){
+
+        }
+
     }
 
-    public void setNumberOfTowersOnIsland(int numberOfTowersOnIsland) {
-        this.numberOfTowersOnIsland = numberOfTowersOnIsland;
-    }
 }
 

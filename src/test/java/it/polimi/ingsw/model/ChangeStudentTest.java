@@ -31,4 +31,15 @@ public class ChangeStudentTest {
         card.addCost();
         assertEquals(2, card.getCost());
     }
+
+    @Test
+    public void testGetEffectOfTheCard(){
+        gameTest = new Game();
+        gameTest.setNumberOfPlayers(2);
+        LoginManager.login("jaz",gameTest);
+        LoginManager.login("nic",gameTest);
+        gameTest.setupGame();
+        ChangeStudent card = new ChangeStudent(gameTest.getActualPlayer());
+        System.out.println(card.getEffectOfTheCard());
+    }
 }

@@ -32,16 +32,6 @@ public class IslandTest {
         assertEquals(1,islandTest.countStudentByColor()[PawnColor.RED.ordinal()], "must be 1 red");
     }
 
-    @Test
-    @DisplayName(" Find the most color in the island")
-    public void mostColorInfluenceTest(){
-        islandTest.addStudent(cyan);
-        islandTest.addStudent(cyan);
-        islandTest.addStudent(yellow);
-        islandTest.addStudent(red);
-        islandTest.addStudent(green);
-        assertEquals(PawnColor.CYAN,islandTest.mostColorInfluence());
-    }
 
     @Test
     @DisplayName(" Calculate the influence ")

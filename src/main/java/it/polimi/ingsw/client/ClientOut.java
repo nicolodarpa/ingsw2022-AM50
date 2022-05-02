@@ -58,7 +58,7 @@ public class ClientOut extends Thread {
             System.out.println("=ID Group: " + islandStatus.idGroup);
             System.out.println("=Is conquered: " + islandStatus.islandConquered);
             System.out.print("=Owner: " + islandStatus.owner);
-            System.out.println("=Presence: " + islandStatus.presenceMN);
+            System.out.println("=Presence of MN: " + islandStatus.presenceMN);
             System.out.println("=Students: ");
             System.out.print(ANSI_RESET);
             for (String student : islandStatus.students) {

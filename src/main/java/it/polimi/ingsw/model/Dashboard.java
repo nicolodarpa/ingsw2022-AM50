@@ -107,10 +107,30 @@ public class Dashboard {
     }
 
 
-    public Student getStudentFromClassroom ( int x_position, int y_position){
-            Student student = classroom[x_position][y_position];
-            classroom[x_position][y_position] = null;
-            return student;
+    public Student getStudentFromClassroom (PawnColor studentColor){
+        Student studentToRemove = null;
+            try{
+                studentToRemove = findLastStudent(studentColor);
+            }catch (Exception e){
+                System.out.println("there isn't any student of this color in the classroom");
+            }
+            return studentToRemove;
+    }
+
+    public Student findLastStudent(PawnColor studentColor){
+        int position = 0;
+        Student lastStudent = null;
+        try{
+            if(classroom[studentColor.ordinal()][position] != null){
+                while(classroom[studentColor.ordinal()][position] != null)
+                    position++;
+            }
+            lastStudent = classroom[studentColor.ordinal()][position-1];
+            classroom[studentColor.ordinal()][position-1] = null;
+        }catch (Exception e){
+            System.out.println("Invalid input");
+        }
+        return lastStudent;
     }
 
     public void addStudentToClassroom (Student student){
@@ -141,8 +161,13 @@ public class Dashboard {
     }
 
     public void addTeacherToTable (Teacher teacher){
+        try{
             PawnColor color = teacher.getColor();
             teacherTable[color.ordinal()] = teacher;
+        }catch (Exception e){
+
+        }
+
         }
 
         public void removeTeacherFromTable (Teacher teacher){

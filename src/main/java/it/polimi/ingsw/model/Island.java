@@ -12,11 +12,8 @@ public class Island {
     private boolean islandConquered = false;
     private int idGroup;
     private int dimension;
-    private int towerNumber;
     private TowerColor towerColor = null;
-    private boolean isTower = false;
     private ArrayList<Student> studentList = new ArrayList<>();
-
     private ArrayList<Tower> towerArrayList = new ArrayList<>();
     private Player owner;
     private boolean presenceMN = false; //true if there is Mother Nature on the Island
@@ -94,9 +91,6 @@ public class Island {
         this.idGroup = idGroup;
     }
 
-    public boolean isTower() {
-        return isTower;
-    }
 
     public TowerColor getTowerColor() {
         return towerColor;
@@ -149,25 +143,6 @@ public class Island {
     }
 
 
-    public PawnColor mostColorInfluence() {
-        PawnColor mostColor = null;
-        int[] colors = countStudentByColor();
-        int posMax = ArrayMaxPosition.findMaxPosition(colors);
-        if (posMax == PawnColor.CYAN.ordinal()) {
-            mostColor = PawnColor.CYAN;
-        } else if (posMax == PawnColor.RED.ordinal()) {
-            mostColor = PawnColor.RED;
-        } else if (posMax == PawnColor.MAGENTA.ordinal()) {
-            mostColor = PawnColor.MAGENTA;
-        } else if (posMax == PawnColor.YELLOW.ordinal()) {
-            mostColor = PawnColor.YELLOW;
-        } else if (posMax == PawnColor.GREEN.ordinal()) {
-            mostColor = PawnColor.GREEN;
-        }
-        return mostColor;
-    }
-
-
     public void addTower() {
         final Dashboard ownerDashboard = owner.getDashboard();
         final int size = ownerDashboard.getTowers().size();
@@ -183,8 +158,8 @@ public class Island {
 
     public void addTower(Tower tower) {
         dimension++;
+        towerColor = tower.getColor();
         towerArrayList.add(tower);
-
     }
 
 
@@ -203,7 +178,7 @@ public class Island {
             }
             p.setInfluencePoint(IntStream.of(colorStudent).sum());
             TowerColor towerColorOfPlayer = dashboardTemp.getTowers().get(0).getColor();
-            if (towerColor == towerColorOfPlayer && isTower) {
+            if (towerColor == towerColorOfPlayer && towerArrayList.size()>0) {
                 towerInfluencePoint++;
                 p.setInfluencePoint(p.getInfluencePoint() + towerInfluencePoint);
             }
@@ -242,7 +217,7 @@ public class Island {
                 this.owner = null;
             }
         }
-        if (owner != null)
+        if (owner != null && towerArrayList.size() < dimension)
             addTower();
         /*reset the influence point */
         for (Player p : players.getPlayers())
@@ -298,7 +273,7 @@ public class Island {
             }
 
         }
-        if (owner != null)
+        if (owner != null && towerArrayList.size() < dimension)
             addTower();
         /*reset the influence point */
         for (Player p : players.getPlayers()) {

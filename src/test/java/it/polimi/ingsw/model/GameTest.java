@@ -3,7 +3,7 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.LoginManager;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestTemplate;
+
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -25,6 +25,7 @@ public class GameTest{
     @Test
     @DisplayName("testing the setup of a new match")
     public void testSetupGame() {
+        boolean presenceOfMN = false;
         gameTest = new Game();
         gameTest.setNumberOfPlayers(2);
         LoginManager.login("ale", gameTest);
@@ -32,9 +33,14 @@ public class GameTest{
         gameTest.setupGame();
         assertEquals(100, gameTest.getStudentsInBag());
         assertEquals(2,gameTest.getCloudCards().size());
-        for(int i = 0; i < 2; i++){
+        for(int i = 0; i < 2; i++)
             assertEquals(3,gameTest.getCloudCards().get(i).getStudents().size());
-        }
+        assertEquals(12,gameTest.getIslands().size());
+        Table t = new Table(gameTest.getCloudCards(), gameTest.getIslands());
+        t.drawTable();
+        for(Player p : gameTest.getPlist().getPlayers())
+            assertEquals(8,p.getDashboard().getTowers().size());
+        assertEquals(3, gameTest.getCardsInGame().size());
     }
 
     @Test
@@ -165,16 +171,9 @@ public class GameTest{
         LoginManager.login("nic", gameTest);
         gameTest.setupGame();
         assertEquals(3, gameTest.getCardsInGame().size());
-    }
-
-    @Test
-    public void playSpecialCardTest(){
-        gameTest = new Game();
-        gameTest.setNumberOfPlayers(2);
-        LoginManager.login("jaz", gameTest);
-        LoginManager.login("nic", gameTest);
-        gameTest.setupGame();
-        gameTest.playSpecialCard();
+        for(SpecialCard card : gameTest.getCardsInGame()){
+            System.out.println("==" + card.getEffectOfTheCard());
+        }
     }
 
     @Test
@@ -212,5 +211,6 @@ public class GameTest{
 
 
     }
+
 
 }

@@ -3,7 +3,6 @@ package it.polimi.ingsw;
 import com.google.gson.Gson;
 import it.polimi.ingsw.comunication.TextMessage;
 import it.polimi.ingsw.model.Game;
-import it.polimi.ingsw.model.Island;
 import it.polimi.ingsw.model.Player;
 
 import java.io.BufferedReader;
@@ -75,6 +74,7 @@ public class EchoServerClientHandler extends Thread {
                         in.close();
                         socket.close();
                     }
+                    default -> throw new IllegalStateException("Unexpected value: " + LoginManager.login(name, game));
                 }
             }
 

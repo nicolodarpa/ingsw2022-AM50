@@ -30,5 +30,16 @@ public class AddInfluenceTest {
         card.addCost();
         assertEquals(3, card.getCost());
     }
+
+    @Test
+    public void testGetEffectOfTheCard(){
+        gameTest = new Game();
+        gameTest.setNumberOfPlayers(2);
+        LoginManager.login("jaz",gameTest);
+        LoginManager.login("nic",gameTest);
+        gameTest.setupGame();
+        AddInfluence card = new AddInfluence(gameTest.getActualPlayer());
+        System.out.println(card.getEffectOfTheCard());
+    }
 }
 
