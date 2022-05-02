@@ -164,85 +164,56 @@ public class Island {
 
 
     public void calcInfluence(PlayersList players) {
-        final int numberOfColor = 5;
         int towerInfluencePoint = 0;
 
         /* set influence point */
         for (Player p : players.getPlayers()) {
-            int[] colorStudent = new int[numberOfColor];
+            setInfluencePoints(p);
             Dashboard dashboardTemp = p.getDashboard();
-            for (int i = 0; i < dashboardTemp.getTeacherTable().length; i++) {
-                if (dashboardTemp.getTeacherTable()[i] != null) {
-                    colorStudent[i] = countStudentOfAColor(dashboardTemp.getTeacherTable()[i].getColor());
-                }
-            }
-            p.setInfluencePoint(IntStream.of(colorStudent).sum());
             TowerColor towerColorOfPlayer = dashboardTemp.getTowers().get(0).getColor();
-            if (towerColor == towerColorOfPlayer && towerArrayList.size()>0) {
+            if (towerColor == towerColorOfPlayer && towerArrayList.size() > 0) {
                 towerInfluencePoint++;
                 p.setInfluencePoint(p.getInfluencePoint() + towerInfluencePoint);
             }
         }
 
         /* calculate the influence by the influence point of each player*/
-        if (players.getPlayers().size() == 2) {
-            Player p1 = players.getPlayers().get(0);
-            Player p2 = players.getPlayers().get(1);
-
-            if (p1.getInfluencePoint() > p2.getInfluencePoint()) {
-                this.owner = p1;
-                islandConquered = true;
-            } else if (p1.getInfluencePoint() < p2.getInfluencePoint()) {
-                this.owner = p2;
-                islandConquered = true;
-            } else {
-                this.owner = null;
-            }
-        } else if (players.getPlayers().size() == 3) {
-
-            Player p1 = players.getPlayers().get(0);
-            Player p2 = players.getPlayers().get(1);
-            Player p3 = players.getPlayers().get(2);
-
-            if (p1.getInfluencePoint() > p2.getInfluencePoint() && p1.getInfluencePoint() > p3.getInfluencePoint()) {
-                this.owner = p1;
-                islandConquered = true;
-            } else if (p2.getInfluencePoint() > p1.getInfluencePoint() && p2.getInfluencePoint() > p3.getInfluencePoint()) {
-                this.owner = p2;
-                islandConquered = true;
-            } else if (p3.getInfluencePoint() > p1.getInfluencePoint() && p3.getInfluencePoint() > p2.getInfluencePoint()) {
-                this.owner = p3;
-                islandConquered = true;
-            } else {
-                this.owner = null;
-            }
-        }
-        if (owner != null && towerArrayList.size() < dimension)
-            addTower();
+        calcInfluencePoints(players);
         /*reset the influence point */
         for (Player p : players.getPlayers())
             p.setInfluencePoint(0);
     }
 
     public void calcInfluenceNoTower(PlayersList players) {
-        final int numberOfColor = 5;
 
         /* set influence point */
         for (Player p : players.getPlayers()) {
-            int[] colorStudent = new int[numberOfColor];
-            Dashboard dashboardTemp = p.getDashboard();
-            for (int i = 0; i < dashboardTemp.getTeacherTable().length; i++) {
-                if (dashboardTemp.getTeacherTable()[i] != null) {
-                    colorStudent[i] = countStudentOfAColor(dashboardTemp.getTeacherTable()[i].getColor());
-                }
-            }
-            p.setInfluencePoint(IntStream.of(colorStudent).sum());
+            setInfluencePoints(p);
         }
 
         /* calculate the influence by the influence point of each player*/
-        if (players.getPlayers().size() == 2) {
-            Player p1 = players.getPlayers().get(0);
-            Player p2 = players.getPlayers().get(1);
+        calcInfluencePoints(players);
+        /*reset the influence point */
+        for (Player p : players.getPlayers()) {
+            p.setInfluencePoint(0);
+        }
+    }
+
+    private void setInfluencePoints(Player p) {
+        int[] colorStudent = new int[PawnColor.numberOfColors];
+        Dashboard dashboardTemp = p.getDashboard();
+        for (int i = 0; i < dashboardTemp.getTeacherTable().length; i++) {
+            if (dashboardTemp.getTeacherTable()[i] != null) {
+                colorStudent[i] = countStudentOfAColor(dashboardTemp.getTeacherTable()[i].getColor());
+            }
+        }
+        p.setInfluencePoint(IntStream.of(colorStudent).sum());
+    }
+
+    private void calcInfluencePoints(PlayersList playersList) {
+        if (playersList.getPlayers().size() == 2) {
+            Player p1 = playersList.getPlayers().get(0);
+            Player p2 = playersList.getPlayers().get(1);
 
             if (p1.getInfluencePoint() > p2.getInfluencePoint()) {
                 this.owner = p1;
@@ -253,11 +224,11 @@ public class Island {
             } else {
                 this.owner = null;
             }
-        } else if (players.getPlayers().size() == 3) {
+        } else if (playersList.getPlayers().size() == 3) {
 
-            Player p1 = players.getPlayers().get(0);
-            Player p2 = players.getPlayers().get(1);
-            Player p3 = players.getPlayers().get(2);
+            Player p1 = playersList.getPlayers().get(0);
+            Player p2 = playersList.getPlayers().get(1);
+            Player p3 = playersList.getPlayers().get(2);
 
             if (p1.getInfluencePoint() > p2.getInfluencePoint() && p1.getInfluencePoint() > p3.getInfluencePoint()) {
                 this.owner = p1;
@@ -271,14 +242,10 @@ public class Island {
             } else {
                 this.owner = null;
             }
-
         }
         if (owner != null && towerArrayList.size() < dimension)
             addTower();
-        /*reset the influence point */
-        for (Player p : players.getPlayers()) {
-            p.setInfluencePoint(0);
-        }
+
     }
 
 

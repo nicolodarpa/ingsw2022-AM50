@@ -18,7 +18,7 @@ public class StudentsBag {
      */
     public void fillBag(int numberOfStudents){
         bag = new ArrayList<>();
-        final int totalNumberOfPawnColor = PawnColor.totalNumberOfPawnColors();
+        final int totalNumberOfPawnColor = PawnColor.numberOfColors;
         for(int j = 1; j < numberOfStudents+1; j++){
             bag.add(new Student(colors[j%totalNumberOfPawnColor]));
         }

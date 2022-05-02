@@ -2,10 +2,7 @@ package it.polimi.ingsw.model;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.PlayersList;
-import it.polimi.ingsw.comunication.CloudCardStatus;
-import it.polimi.ingsw.comunication.DashboardStatus;
-import it.polimi.ingsw.comunication.HallStatus;
-import it.polimi.ingsw.comunication.IslandStatus;
+import it.polimi.ingsw.comunication.*;
 
 import java.util.*;
 
@@ -193,6 +190,16 @@ public class Game {
         Gson gson = new Gson();
         return gson.toJson(statusList);
     }
+
+
+    public String sendCharacterCardsDeck(){
+        ArrayList<CharacterCard> cardList = new ArrayList<>();
+        for (SpecialCard specialCard: cardsInGame){
+            cardList.add(new CharacterCard(specialCard));
+        }
+        Gson gson = new Gson();
+        return gson.toJson(cardList);
+     }
 
 
     public void createIslands() {
@@ -430,6 +437,7 @@ public class Game {
             for (Player p : plist.getPlayers()) {
                 p.setHasPlayed(false);
                 p.setLastPlayedAC(0);
+                p.resetMovesOfStudents();
             }
             plist.notifyAllClients("notify", "Planning phase");
             phase = 0;
@@ -542,6 +550,11 @@ public class Game {
 
         return false;
 
+    }
+
+    public boolean playCharacterCard(int specialCardIndex){
+        SpecialCard specialCard = cardsInGame.get(specialCardIndex);
+        return false;
     }
 
 

@@ -7,6 +7,8 @@ public enum PawnColor {
 
     private final String code;
 
+    public static final int numberOfColors = 5;
+
     PawnColor(String code) {
         this.code = code;
     }
@@ -15,7 +17,7 @@ public enum PawnColor {
         return code;
     }
 
-    static int totalNumberOfPawnColors(){
+    public int totalNumberOfPawnColors(){
         return PawnColor.values().length;
     }
 

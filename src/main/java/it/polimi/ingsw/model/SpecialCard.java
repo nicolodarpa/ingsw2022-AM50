@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model;
 
 public interface SpecialCard {
-    int cost = 0;
+     int cost = 0;
     String effectOfTheCard = "";
 
 

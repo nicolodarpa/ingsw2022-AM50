@@ -121,6 +121,8 @@ public class EchoServerClientHandler extends Thread {
                     player.sendToClient("dashboard", game.sendDashboard());
                 } else if (line.equals("islands")) {
                     player.sendToClient("islands", game.sendIslands());
+                } else if (line.equals("play character card")) {
+                    playCharacterCard();
                 } else if (player != game.getActualPlayer()) {
                     player.sendToClient("msg", "not your turn");
                 } else if (line.equals("play assistant card") && game.getPhase() == 0) {
@@ -160,6 +162,22 @@ public class EchoServerClientHandler extends Thread {
 
             System.out.println(e.getMessage());
         }
+    }
+
+    private void playCharacterCard() {
+        player.sendToClient("characterCards", game.sendCharacterCardsDeck());
+        int specialCardIndex;
+        boolean result = true;
+        do {
+            player.sendToClient("warning", "Select character card");
+            try {
+                specialCardIndex = Integer.parseInt(in.readLine());
+                result = game.playCharacterCard(specialCardIndex);
+            } catch (Exception e) {
+                player.sendToClient("warning", "Input a number between 1 and 3");
+            }
+        } while (result);
+
     }
 
 

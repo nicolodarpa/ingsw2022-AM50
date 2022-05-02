@@ -44,6 +44,10 @@ public class Player {
         return wallet;
     }
 
+
+    public void resetMovesOfStudents(){
+        movesOfStudents = 3;
+    }
     public int getMovesOfStudents() {
         return movesOfStudents;
     }

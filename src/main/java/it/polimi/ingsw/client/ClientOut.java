@@ -116,6 +116,15 @@ public class ClientOut extends Thread {
         }
     }
 
+    private void printCharacterCards(){
+        CharacterCard[] characterCards = gson.fromJson(message.message, CharacterCard[].class);
+        for (CharacterCard characterCard: characterCards){
+            System.out.println("====");
+            System.out.println("Effect: " + characterCard.effect);
+            System.out.println("Cost: " + characterCard.cost);
+        }
+    }
+
     private void printHall() {
         HallStatus[] hallStatuses = gson.fromJson(message.message, HallStatus[].class);
         for (HallStatus hallStatus : hallStatuses) {
@@ -150,6 +159,8 @@ public class ClientOut extends Thread {
                     System.out.println(YELLOW + message.message + ANSI_RESET);
                 } else if (Objects.equals(message.type, "notify")) {
                     System.out.println(GREEN + message.message + ANSI_RESET);
+                } else if (Objects.equals(message.type, "characterCards")) {
+                    printCharacterCards();
                 } else if (Objects.equals(message.type, "islands")) {
                     printIslands();
                 } else if (Objects.equals(message.type, "dashboard")) {

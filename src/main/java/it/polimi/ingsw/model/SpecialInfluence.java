@@ -6,7 +6,8 @@ import java.util.Scanner;
 import java.util.stream.IntStream;
 
 public class SpecialInfluence implements SpecialCard{
-    private final String effectOfTheCard = new String("With this card you have to choose one color of the students which will not be considered for the influence.");
+
+    String effectOfTheCard = "With this card you have to choose one color of the students which will not be considered for the influence.";
     private int cost = 3;
     private final PlayersList players;
     private final Island islandWithMN;
@@ -86,7 +87,4 @@ public class SpecialInfluence implements SpecialCard{
         cost++;
     }
 
-    public String getEffectOfTheCard(){
-        return effectOfTheCard;
-    }
 }

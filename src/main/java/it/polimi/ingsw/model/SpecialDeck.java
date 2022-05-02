@@ -71,14 +71,14 @@ public class SpecialDeck {
         }
 
         public void extractRandomCard() {
-            ArrayList specialCardToPlay = getRandomNonRepeatingIntegers(3, 0, 7);
-            for (int i = 0; i < specialCardToPlay.size(); i++) {
-                specialCardsInGame.add(deckMap.get(specialCardToPlay.get(i)));
+            ArrayList<Integer> specialCardToPlay = getRandomNonRepeatingIntegers(3, 0, 7);
+            for (Integer integer : specialCardToPlay) {
+                specialCardsInGame.add(deckMap.get(integer));
             }
         }
 
-     public static ArrayList getRandomNonRepeatingIntegers(int size, int min, int max) {
-        ArrayList numbers = new ArrayList();
+     public static ArrayList<Integer> getRandomNonRepeatingIntegers(int size, int min, int max) {
+        ArrayList<Integer> numbers = new ArrayList<>();
         Random random = new Random();
         while (numbers.size() < size) {
             int randomNumber = random.nextInt((max - min) + 1) + min;

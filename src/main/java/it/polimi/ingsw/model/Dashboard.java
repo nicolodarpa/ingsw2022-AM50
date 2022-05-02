@@ -40,7 +40,7 @@ public class Dashboard {
 
     /** the coin position determinate the position where the game has to give to a player a coin if he moves his student to the classroom */
     public void setCoinPos ( ){
-        for (int i=0; i < PawnColor.totalNumberOfPawnColors(); i++){
+        for (int i=0; i < PawnColor.numberOfColors; i++){
             coinPos[i][2]= true;
             coinPos[i][5]= true;
             coinPos[i][8]=true;
@@ -175,6 +175,7 @@ public class Dashboard {
             PawnColor color = teacher.getColor();
             teacherTable[color.ordinal()] = teacher;
         }catch (Exception e){
+            System.out.println(e);
 
         }
 
