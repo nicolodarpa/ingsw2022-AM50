@@ -39,7 +39,18 @@ public class Game {
     private Player actualPlayer;
     private SpecialDeck specialDeck = new SpecialDeck(islandWithMN, plist, actualPlayer, islands);
     private static ArrayList<SpecialCard> cardsInGame = new ArrayList<>();
-    private Scanner scanner = new Scanner(System.in);
+
+    private boolean[] typeOfInfluence = new boolean[2];
+
+    private boolean typeOfTeacherAssignment = false;
+
+
+    public boolean[] getTypeOfInfluence() {
+        return typeOfInfluence;
+    }
+
+
+
 
 
     public int getPhase() {
@@ -261,6 +272,8 @@ public class Game {
     }
 
 
+
+
     public void fillStudentsBag() {
         studentsBag.fillBag(120);
     }
@@ -337,49 +350,49 @@ public class Game {
 
 
     public void assignTeacher() {
-        if (numberOfPlayers == 2) {
-            Dashboard d1 = plist.getPlayers().get(0).getDashboard();
-            Dashboard d2 = plist.getPlayers().get(1).getDashboard();
-            for (int i = 0; i < 5; i++) {
-                if (d1.countStudentByColor(teachers[i].getColor()) > d2.countStudentByColor(teachers[i].getColor())) {
-                    d1.addTeacherToTable(teachers[i]);
-                    if (d2.getTeacherTable()[i] != null)
-                        d2.removeTeacherFromTable(teachers[i]);
-                } else if (d2.countStudentByColor(teachers[i].getColor()) > d1.countStudentByColor(teachers[i].getColor())) {
-                    d2.addTeacherToTable(teachers[i]);
-                    if (d1.getTeacherTable()[i] != null)
-                        d1.removeTeacherFromTable(teachers[i]);
-                }
-            }
-
-        } else if (numberOfPlayers == 3) {
-            Dashboard d1 = plist.getPlayers().get(0).getDashboard();
-            Dashboard d2 = plist.getPlayers().get(1).getDashboard();
-            Dashboard d3 = plist.getPlayers().get(2).getDashboard();
-            for (int i = 0; i < 5; i++) {
-                if (d1.countStudentByColor(teachers[i].getColor()) > d2.countStudentByColor(teachers[i].getColor()) && d1.countStudentByColor(teachers[i].getColor()) > d3.countStudentByColor(teachers[i].getColor())) {
-                    d1.addTeacherToTable(teachers[i]);
-                    if (d2.getTeacherTable()[i] != null)
-                        d2.removeTeacherFromTable(teachers[i]);
-                    else if (d3.getTeacherTable()[i] != null)
-                        d3.removeTeacherFromTable(teachers[i]);
-                } else if (d2.countStudentByColor(teachers[i].getColor()) > d1.countStudentByColor(teachers[i].getColor()) && d2.countStudentByColor(teachers[i].getColor()) > d3.countStudentByColor(teachers[i].getColor())) {
-                    d2.addTeacherToTable(teachers[i]);
-                    if (d1.getTeacherTable()[i] != null)
-                        d1.removeTeacherFromTable(teachers[i]);
-                    else if (d3.getTeacherTable()[i] != null)
-                        d3.removeTeacherFromTable(teachers[i]);
-                } else if (d3.countStudentByColor(teachers[i].getColor()) > d1.countStudentByColor(teachers[i].getColor()) && d3.countStudentByColor(teachers[i].getColor()) > d2.countStudentByColor(teachers[i].getColor())) {
-                    d3.addTeacherToTable(teachers[i]);
-                    if (d1.getTeacherTable()[i] != null)
-                        d1.removeTeacherFromTable(teachers[i]);
-                    else if (d2.getTeacherTable()[i] != null)
-                        d2.removeTeacherFromTable(teachers[i]);
+            if (numberOfPlayers == 2) {
+                Dashboard d1 = plist.getPlayers().get(0).getDashboard();
+                Dashboard d2 = plist.getPlayers().get(1).getDashboard();
+                for (int i = 0; i < 5; i++) {
+                    if (d1.countStudentByColor(teachers[i].getColor()) > d2.countStudentByColor(teachers[i].getColor())) {
+                        d1.addTeacherToTable(teachers[i]);
+                        if (d2.getTeacherTable()[i] != null)
+                            d2.removeTeacherFromTable(teachers[i]);
+                    } else if (d2.countStudentByColor(teachers[i].getColor()) > d1.countStudentByColor(teachers[i].getColor())) {
+                        d2.addTeacherToTable(teachers[i]);
+                        if (d1.getTeacherTable()[i] != null)
+                            d1.removeTeacherFromTable(teachers[i]);
+                    }
                 }
 
+            } else if (numberOfPlayers == 3) {
+                Dashboard d1 = plist.getPlayers().get(0).getDashboard();
+                Dashboard d2 = plist.getPlayers().get(1).getDashboard();
+                Dashboard d3 = plist.getPlayers().get(2).getDashboard();
+                for (int i = 0; i < 5; i++) {
+                    if (d1.countStudentByColor(teachers[i].getColor()) > d2.countStudentByColor(teachers[i].getColor()) && d1.countStudentByColor(teachers[i].getColor()) > d3.countStudentByColor(teachers[i].getColor())) {
+                        d1.addTeacherToTable(teachers[i]);
+                        if (d2.getTeacherTable()[i] != null)
+                            d2.removeTeacherFromTable(teachers[i]);
+                        else if (d3.getTeacherTable()[i] != null)
+                            d3.removeTeacherFromTable(teachers[i]);
+                    } else if (d2.countStudentByColor(teachers[i].getColor()) > d1.countStudentByColor(teachers[i].getColor()) && d2.countStudentByColor(teachers[i].getColor()) > d3.countStudentByColor(teachers[i].getColor())) {
+                        d2.addTeacherToTable(teachers[i]);
+                        if (d1.getTeacherTable()[i] != null)
+                            d1.removeTeacherFromTable(teachers[i]);
+                        else if (d3.getTeacherTable()[i] != null)
+                            d3.removeTeacherFromTable(teachers[i]);
+                    } else if (d3.countStudentByColor(teachers[i].getColor()) > d1.countStudentByColor(teachers[i].getColor()) && d3.countStudentByColor(teachers[i].getColor()) > d2.countStudentByColor(teachers[i].getColor())) {
+                        d3.addTeacherToTable(teachers[i]);
+                        if (d1.getTeacherTable()[i] != null)
+                            d1.removeTeacherFromTable(teachers[i]);
+                        else if (d2.getTeacherTable()[i] != null)
+                            d2.removeTeacherFromTable(teachers[i]);
+                    }
+
+                }
             }
         }
-    }
 
     public void assignTower() {
         int i = 0;
@@ -561,6 +574,7 @@ public class Game {
 
         return false;
     }
+
 
 
 }

@@ -3,6 +3,7 @@ package it.polimi.ingsw;
 import com.google.gson.Gson;
 import it.polimi.ingsw.comunication.TextMessage;
 import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.PawnColor;
 import it.polimi.ingsw.model.Player;
 
 import java.io.BufferedReader;
@@ -10,6 +11,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Locale;
 import java.util.Objects;
 
 
@@ -167,6 +169,10 @@ public class EchoServerClientHandler extends Thread {
     private void playCharacterCard() {
         player.sendToClient("characterCards", game.sendCharacterCardsDeck());
         int specialCardIndex;
+        int studentToChange = 0;
+        int positionHall = 0;
+        PawnColor studentColor = null;
+
         boolean result = true;
         do {
             player.sendToClient("warning", "Select character card");
@@ -177,6 +183,8 @@ public class EchoServerClientHandler extends Thread {
                 player.sendToClient("warning", "Input a number between 1 and 3");
             }
         } while (result);
+
+
 
     }
 

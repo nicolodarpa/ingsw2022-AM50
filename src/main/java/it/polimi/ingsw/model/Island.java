@@ -163,9 +163,36 @@ public class Island {
 
 
     public void addTower(Tower tower) {
-        dimension++;
         towerColor = tower.getColor();
         towerArrayList.add(tower);
+    }
+
+
+    public void specialInfluence(PlayersList players, PawnColor colorToExclude){
+        int towerInfluencePoint = 0;
+
+        /* set influence point */
+        for(Player p : players.getPlayers()){
+            int [] colorStudent = new int[PawnColor.numberOfColors];
+            Dashboard dashboardTemp = p.getDashboard();
+            dashboardTemp.getTeacherTable()[colorToExclude.ordinal()] = null;
+            for(int i = 0; i < dashboardTemp.getTeacherTable().length; i++){
+                if(dashboardTemp.getTeacherTable()[i] != null){
+                    colorStudent[i] = countStudentOfAColor(dashboardTemp.getTeacherTable()[i].getColor());
+                }
+            }
+            p.setInfluencePoint(IntStream.of(colorStudent).sum());
+            TowerColor towerColorOfPlayer = dashboardTemp.getTowers().get(0).getColor();
+            if (towerColor == towerColorOfPlayer && towerArrayList.size() > 0) {
+                towerInfluencePoint++;
+                p.setInfluencePoint(p.getInfluencePoint() + towerInfluencePoint);
+            }
+        }
+        /* calculate the influence by the influence point of each player*/
+        calcInfluencePoints(players);
+        /*reset the influence point */
+        for (Player p : players.getPlayers())
+            p.setInfluencePoint(0);
     }
 
 
@@ -188,21 +215,6 @@ public class Island {
         /*reset the influence point */
         for (Player p : players.getPlayers())
             p.setInfluencePoint(0);
-    }
-
-    public void calcInfluenceNoTower(PlayersList players) {
-
-        /* set influence point */
-        for (Player p : players.getPlayers()) {
-            setInfluencePoints(p);
-        }
-
-        /* calculate the influence by the influence point of each player*/
-        calcInfluencePoints(players);
-        /*reset the influence point */
-        for (Player p : players.getPlayers()) {
-            p.setInfluencePoint(0);
-        }
     }
 
     private void setInfluencePoints(Player p) {

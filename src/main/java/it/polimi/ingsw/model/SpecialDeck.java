@@ -43,38 +43,17 @@ public class SpecialDeck {
             deckMap.put(7, characterCard8);
         }
 
-        public SpecialCard getCharacterCard1() {
-            return characterCard1;
+
+        public SpecialCard getSpecialCard(int index){
+            SpecialCard specialCard = deckMap.get(index);
+            return specialCard;
         }
 
-        public SpecialCard getCharacterCard2() {
-            return characterCard2;
-        }
-
-        public SpecialCard getCharacterCard3() {
-            return characterCard3;
-        }
-
-        public SpecialCard getCharacterCard4() {
-            return characterCard4;
-        }
-
-        public SpecialCard getCharacterCard5() {
-            return characterCard5;
-        }
-
-        public SpecialCard getCharacterCard6() {
-            return characterCard6;
-        }
-
-        public Map<Integer, SpecialCard> getDeckMap() {
-            return deckMap;
-        }
 
         public void extractRandomCard() {
             ArrayList<Integer> specialCardToPlay = getRandomNonRepeatingIntegers(3, 0, 7);
             for (Integer integer : specialCardToPlay) {
-                specialCardsInGame.add(deckMap.get(integer));
+                specialCardsInGame.add(getSpecialCard(integer));
             }
         }
 

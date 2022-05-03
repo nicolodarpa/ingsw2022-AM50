@@ -175,6 +175,7 @@ public class GameTest{
         for(SpecialCard card : gameTest.getCardsInGame()){
             System.out.println("==" + card.getEffectOfTheCard());
         }
+
     }
 
     @Test
@@ -208,10 +209,9 @@ public class GameTest{
         if (i!=8){
             assertFalse(gameTest.getIslands().get(i).getPresenceMN());
         } else assertTrue(gameTest.getIslands().get(i).getPresenceMN());
-
-
-
     }
+
+
 
 
     @Test

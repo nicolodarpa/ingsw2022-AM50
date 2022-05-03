@@ -198,22 +198,6 @@ public class Player {
         return deck.getCardsList().size() == 0;
     }
 
-    public int playSpecialCard(Game game, int numberOfCard) {
-        final SpecialCard cardToPlay;
-        try {
-            cardToPlay = Game.getSpecialCardsInGame().get(numberOfCard);
-            if (wallet.getCoins() >= cardToPlay.getCost()) {
-                cardToPlay.effect();
-                cardToPlay.addCost();
-            } else {
-                return 0;
-            }
-        } catch (Exception e) {
-            System.out.println("Invalid input");
-            return 0;
-        }
-        return 1;
-    }
 
     /**
      * The player choose based on the position of the student from the DashboardHall which one to move to the selected Island
@@ -276,11 +260,13 @@ public class Player {
                 dashboard.addStudentToClassroom(studentFromHall);
                 dashboard.addStudentToHall(studentFromClassroom);
             }
-        }catch (Exception accessException){
+        }catch (Exception ignored){
 
         }
 
     }
+
+
 
 }
 

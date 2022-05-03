@@ -1,10 +1,13 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.LoginManager;
+import it.polimi.ingsw.PlayersList;
+import it.polimi.ingsw.model.CharacterCards.NoTowerInfluence;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.net.Socket;
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -19,6 +22,8 @@ public class IslandTest {
     private final Student magenta = new Student(PawnColor.MAGENTA);
 
 
+
+    private Game gameTest;
 
     @Test
     @DisplayName(" Count 1 student cyan, 2 students yellow and 1 red")
@@ -57,7 +62,7 @@ public class IslandTest {
         dashboard_2.drawDashboard();
         gameTest.getIslands().get(8).addStudent(new Student(color));
         gameTest.getIslands().get(8).addStudent(new Student(color));
-        gameTest.getIslands().get(8).calcInfluenceNoTower(gameTest.getPlist());
+        gameTest.getIslands().get(8).calcInfluence(gameTest.getPlist());
         assertEquals(plyr_1.getName(), gameTest.getIslands().get(8).getOwner());
         tableTest.drawTable();
         assertEquals(plyr_1.getInfluencePoint(), 0);
@@ -83,33 +88,37 @@ public class IslandTest {
 
     @Test
     @DisplayName(" Calculate the influence with tower")
-    public void calcInfluenceWithTowerTest(){ Game gameTest = new Game();
+    public void calcInfluenceWithTowerTest(){
+        Game gameTest = new Game();
         gameTest.setNumberOfPlayers(2);
         LoginManager.login("ale", gameTest);
         LoginManager.login("jaz", gameTest);
-        gameTest.setupGame();
-        Table tableTest = new Table(gameTest.getCloudCards(), gameTest.getIslands());
+        gameTest.assignTower();
+        ArrayList<Island> islandTest = new ArrayList<>(1);
+        islandTest.add(new Island(1));
+        NoTowerInfluence card = new NoTowerInfluence();
 
-        Player plyr_1 = gameTest.getPlist().getPlayers().get(0);
-        Player plyr_2 = gameTest.getPlist().getPlayers().get(1);
+        Dashboard dashboard_1 = gameTest.getPlist().getPlayers().get(0).getDashboard();
+        Dashboard dashboard_2 = gameTest.getPlist().getPlayers().get(1).getDashboard();
+
+        islandTest.get(0).addStudent(new Student(PawnColor.RED));
+        dashboard_1.addTeacherToTable(new Teacher(PawnColor.RED));
+        islandTest.get(0).calcInfluence(gameTest.getPlist());
+        assertEquals(gameTest.getPlist().getPlayers().get(0).getName(), islandTest.get(0).getOwner());
+        assertEquals(1,islandTest.get(0).getTowerNumber());
+        assertEquals(TowerColor.white, islandTest.get(0).getTowerColor());
+
+        islandTest.get(0).addStudent(new Student(PawnColor.GREEN));
+        islandTest.get(0).addStudent(new Student(PawnColor.GREEN));
+        dashboard_2.addTeacherToTable(new Teacher(PawnColor.GREEN));
+        card.update(gameTest.getPlist(), gameTest.getActualPlayer(),islandTest, PawnColor.CYAN, 0);
+        card.effect();
+        islandTest.get(0).calcInfluence(gameTest.getPlist());
+        assertEquals(gameTest.getPlist().getPlayers().get(1).getName(), islandTest.get(0).getOwner());
 
 
-        Dashboard dashboard_1 = plyr_1.getDashboard();
-        Dashboard dashboard_2 = plyr_2.getDashboard();
 
-        PawnColor color = dashboard_1.getHall()[2].getColor();
-        plyr_1.moveStudentToClassroom(2, gameTest);
 
-        dashboard_1.drawDashboard();
-        dashboard_2.drawDashboard();
-        gameTest.getIslands().get(8).addStudent(new Student(color));
-        gameTest.getIslands().get(8).addStudent(new Student(color));
-        gameTest.getIslands().get(8).calcInfluenceNoTower(gameTest.getPlist());
-        gameTest.getIslands().get(8).addStudent(new Student(color));
-        dashboard_1.drawDashboard();
-        gameTest.getIslands().get(8).calcInfluence(gameTest.getPlist());
-        dashboard_1.drawDashboard();
-        assertEquals(plyr_1.getName(), gameTest.getIslands().get(8).getOwner());
-        tableTest.drawTable();
+
     }
 }
