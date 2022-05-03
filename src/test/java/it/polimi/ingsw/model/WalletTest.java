@@ -12,4 +12,13 @@ public class WalletTest {
         wTest.addCoins(1);
         assertEquals(2,wTest.getCoins());
     }
+
+    @Test
+    @DisplayName("Spent two coins")
+    public void testSpentCoins(){
+        Wallet wTest = new Wallet();
+        wTest.addCoins(3);
+        wTest.removeCoins(2);
+        assertEquals(2, wTest.getCoins());
+    }
 }

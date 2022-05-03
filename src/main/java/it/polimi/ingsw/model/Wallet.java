@@ -18,4 +18,8 @@ public class Wallet {
     public int getCoins() {
         return coins;
     }
+
+    public void removeCoins(int spentCoins){
+        this.coins = coins - spentCoins;
+    }
 }

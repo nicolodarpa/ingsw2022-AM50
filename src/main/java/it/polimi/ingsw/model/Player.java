@@ -40,10 +40,17 @@ public class Player {
         this.dashboard = dashboard;
     }
 
-    public Wallet getWallet() {
-        return wallet;
+    public int getWallet() {
+        return wallet.getCoins();
     }
 
+    public void addCoin(int coin){
+        wallet.addCoins(coin);
+    }
+
+    public void spendCoins(int coin){
+        wallet.removeCoins(coin);
+    }
 
     public void resetMovesOfStudents(){
         movesOfStudents = 3;

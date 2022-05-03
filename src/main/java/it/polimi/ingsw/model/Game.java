@@ -40,16 +40,6 @@ public class Game {
     private SpecialDeck specialDeck = new SpecialDeck();
     private static ArrayList<SpecialCard> cardsInGame = new ArrayList<>();
 
-    private boolean[] typeOfInfluence = new boolean[2];
-
-    private boolean typeOfTeacherAssignment = false;
-
-
-    public boolean[] getTypeOfInfluence() {
-        return typeOfInfluence;
-    }
-
-
 
 
 
@@ -465,6 +455,10 @@ public class Game {
         return actualPlayer;
     }
 
+    public void setActualPlayer(Player actualPlayer) {
+        this.actualPlayer = actualPlayer;
+    }
+
     public Island getIslandWithMN() {
         for (Island i : islands) {
             if (i.getPresenceMN()) {
@@ -491,7 +485,6 @@ public class Game {
 
     public void chooseCloudCard(int numberOfCloudCard, Player player) {
         ArrayList<Student> students;
-        System.out.println(" Choose a cloud card: ");
         students = cloudCards.get(numberOfCloudCard).getAllStudents();
         Dashboard actualDashboard = player.getDashboard();
         for (Student s : students)
@@ -570,11 +563,17 @@ public class Game {
     }
 
 
-
     public boolean playCharacterCard(int specialCardIndex, int islandIndex, PawnColor color){
         SpecialCard specialCard = cardsInGame.get(specialCardIndex);
         specialCard.update(plist,actualPlayer, islands, color, islandIndex, studentsBag);
 
+        if(actualPlayer.getWallet() >= specialCard.getCost()){
+            specialCard.update(plist,actualPlayer, islands, color, islandIndex, studentsBag);
+            specialCard.effect();
+            actualPlayer.spendCoins(specialCard.getCost());
+        } else {
+            return true;
+        }
         return false;
     }
 

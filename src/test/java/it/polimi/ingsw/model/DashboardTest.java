@@ -118,7 +118,7 @@ public class DashboardTest {
         }
         p1.getDashboard().drawDashboard();
         //p1.getDashboard().addCoin(p1.getWallet());
-        System.out.println("Il player ha #" + p1.getWallet().getCoins() + " monete");
+        System.out.println("Il player ha #" + p1.getWallet() + " monete");
         assertEquals(false, p1.getDashboard().getCoinPos()[0][2]);
     }
 

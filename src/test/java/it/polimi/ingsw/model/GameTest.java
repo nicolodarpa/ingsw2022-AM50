@@ -2,6 +2,7 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.LoginManager;
 import it.polimi.ingsw.model.CharacterCards.SpecialCard;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -249,6 +250,40 @@ public class GameTest{
         player_three.getDashboard().drawDashboard();
         assertEquals(player_two.getDashboard().getTeacherTable()[0].getColor(),PawnColor.CYAN);
 
+    }
+
+
+    /**@Test
+    @DisplayName("Test the playing of a special Card and spent the coin of the player")
+    public void playCharacterCardTest(){
+        gameTest = new Game();
+        gameTest.setNumberOfPlayers(2);
+        LoginManager.login("ale", gameTest);
+        LoginManager.login("nic", gameTest);
+        gameTest.setupGame();
+        gameTest.setActualPlayer(gameTest.getPlist().getPlayerByName("ale"));
+        gameTest.getPlist().getPlayers().get(0).addCoin(4);
+        System.out.println(gameTest.getCardsInGame().get(1).getCost());
+        gameTest.playCharacterCard(1,1,PawnColor.GREEN);
+        System.out.println(gameTest.getPlist().getPlayers().get(0).getWallet());
+    }
+     */
+
+    @Test
+    @DisplayName("The player choose a cloud card")
+    public void chooseCloudCardTest(){
+        gameTest = new Game();
+        gameTest.setNumberOfPlayers(2);
+        LoginManager.login("ale", gameTest);
+        LoginManager.login("nic", gameTest);
+        gameTest.setupGame();
+        Player playerTest = gameTest.getPlist().getPlayerByName("ale");
+        playerTest.moveStudentToClassroom(2,gameTest);
+        playerTest.moveStudentToClassroom(3,gameTest);
+        playerTest.moveStudentToClassroom(4,gameTest);
+        gameTest.chooseCloudCard(1, playerTest);
+        assertEquals(7,playerTest.getDashboard().getHall().length);
+        assertEquals(3, gameTest.getCloudCards().get(1).getAllStudents().size());
     }
 
 }

@@ -20,12 +20,4 @@ public class ArrayMaxPosition {
         }
         return posMax;
     }
-
-    public static int findMaxOfArray(int[] a1) {
-        OptionalInt max_1;
-        int max_a1;
-        max_1 = Arrays.stream(a1).max();
-        max_a1 = max_1.getAsInt();
-        return max_a1;
-    }
 }
