@@ -558,6 +558,7 @@ public class Game {
     public boolean playCharacterCard(int specialCardIndex, int islandIndex, PawnColor color){
         SpecialCard specialCard = cardsInGame.get(specialCardIndex);
         specialCard.update(plist,actualPlayer, islands, color, islandIndex);
+
         return false;
     }
 

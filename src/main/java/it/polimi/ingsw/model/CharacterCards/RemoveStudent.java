@@ -9,6 +9,7 @@ public class RemoveStudent extends SpecialCard {
 
 
     public void effect() {
+
         addCost();
 
     }
