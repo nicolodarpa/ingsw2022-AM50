@@ -213,4 +213,41 @@ public class GameTest{
     }
 
 
+    @Test
+    @DisplayName(" Test the assignment of the Teacher for 3 players")
+    public void assignTeacherForThreePlayersTest(){
+        gameTest = new Game();
+        gameTest.setNumberOfPlayers(3);
+        LoginManager.login("ale", gameTest);
+        LoginManager.login("nic", gameTest);
+        LoginManager.login("jaz",gameTest);
+        gameTest.setupGame();
+        Player player_one = gameTest.getPlist().getPlayers().get(0);
+        Player player_two = gameTest.getPlist().getPlayers().get(1);
+        Player player_three= gameTest.getPlist().getPlayers().get(2);
+
+        player_one.moveStudentToClassroom(1, gameTest);
+        for (int i = 0; i<2; i++){
+            Student studentcolor = new Student(PawnColor.CYAN);
+            player_one.getDashboard().addStudentToHall(studentcolor);
+            player_one.moveStudentToClassroom(1,gameTest);
+        }
+
+        player_two.moveStudentToClassroom(1,gameTest);
+        for (int i = 0; i<4; i++){
+            Student studentcolor = new Student(PawnColor.CYAN);
+            player_two.getDashboard().addStudentToHall(studentcolor);
+            player_two.moveStudentToClassroom(1,gameTest);
+        }
+
+        player_three.moveStudentToClassroom(0,gameTest);
+
+
+        player_one.getDashboard().drawDashboard();
+        player_two.getDashboard().drawDashboard();
+        player_three.getDashboard().drawDashboard();
+        assertEquals(player_two.getDashboard().getTeacherTable()[0].getColor(),PawnColor.CYAN);
+
+    }
+
 }

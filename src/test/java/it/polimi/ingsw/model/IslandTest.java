@@ -56,7 +56,8 @@ public class IslandTest {
         dashboard_1.drawDashboard();
         dashboard_2.drawDashboard();
         gameTest.getIslands().get(8).addStudent(new Student(color));
-        gameTest.getIslands().get(8).calcInfluence(gameTest.getPlist());
+        gameTest.getIslands().get(8).addStudent(new Student(color));
+        gameTest.getIslands().get(8).calcInfluenceNoTower(gameTest.getPlist());
         assertEquals(plyr_1.getName(), gameTest.getIslands().get(8).getOwner());
         tableTest.drawTable();
         assertEquals(plyr_1.getInfluencePoint(), 0);
@@ -78,5 +79,37 @@ public class IslandTest {
         assertEquals(7,p.getDashboard().getTowers().size());
         assertEquals(TowerColor.black, p.getDashboard().getTowers().get(0).getColor());
 
+    }
+
+    @Test
+    @DisplayName(" Calculate the influence with tower")
+    public void calcInfluenceWithTowerTest(){ Game gameTest = new Game();
+        gameTest.setNumberOfPlayers(2);
+        LoginManager.login("ale", gameTest);
+        LoginManager.login("jaz", gameTest);
+        gameTest.setupGame();
+        Table tableTest = new Table(gameTest.getCloudCards(), gameTest.getIslands());
+
+        Player plyr_1 = gameTest.getPlist().getPlayers().get(0);
+        Player plyr_2 = gameTest.getPlist().getPlayers().get(1);
+
+
+        Dashboard dashboard_1 = plyr_1.getDashboard();
+        Dashboard dashboard_2 = plyr_2.getDashboard();
+
+        PawnColor color = dashboard_1.getHall()[2].getColor();
+        plyr_1.moveStudentToClassroom(2, gameTest);
+
+        dashboard_1.drawDashboard();
+        dashboard_2.drawDashboard();
+        gameTest.getIslands().get(8).addStudent(new Student(color));
+        gameTest.getIslands().get(8).addStudent(new Student(color));
+        gameTest.getIslands().get(8).calcInfluenceNoTower(gameTest.getPlist());
+        gameTest.getIslands().get(8).addStudent(new Student(color));
+        dashboard_1.drawDashboard();
+        gameTest.getIslands().get(8).calcInfluence(gameTest.getPlist());
+        dashboard_1.drawDashboard();
+        assertEquals(plyr_1.getName(), gameTest.getIslands().get(8).getOwner());
+        tableTest.drawTable();
     }
 }
