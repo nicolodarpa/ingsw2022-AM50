@@ -3,6 +3,7 @@ package it.polimi.ingsw.model;
 import com.google.gson.Gson;
 import it.polimi.ingsw.PlayersList;
 import it.polimi.ingsw.comunication.*;
+import it.polimi.ingsw.model.CharacterCards.SpecialCard;
 
 import java.util.*;
 
@@ -552,8 +553,12 @@ public class Game {
 
     }
 
-    public boolean playCharacterCard(int specialCardIndex){
+
+
+    public boolean playCharacterCard(int specialCardIndex, int islandIndex, PawnColor color){
         SpecialCard specialCard = cardsInGame.get(specialCardIndex);
+        specialCard.update(plist,actualPlayer, islands, color, islandIndex);
+
         return false;
     }
 

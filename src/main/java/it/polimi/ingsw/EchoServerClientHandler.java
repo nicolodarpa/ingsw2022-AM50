@@ -172,7 +172,7 @@ public class EchoServerClientHandler extends Thread {
             player.sendToClient("warning", "Select character card");
             try {
                 specialCardIndex = Integer.parseInt(in.readLine());
-                result = game.playCharacterCard(specialCardIndex);
+                result = game.playCharacterCard(specialCardIndex, 1, null);
             } catch (Exception e) {
                 player.sendToClient("warning", "Input a number between 1 and 3");
             }

@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.LoginManager;
-import org.junit.jupiter.api.DisplayName;
+import it.polimi.ingsw.model.CharacterCards.TeacherAssignment;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -19,6 +19,8 @@ public class TeacherAssignmentTest {
         gameTest.setupGame();
         TeacherAssignment card = new TeacherAssignment(gameTest.getPlist());
         assertEquals(2, card.getCost());
+        card.addCost();
+        assertEquals(3, card.getCost());
     }
 
     @Test

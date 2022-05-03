@@ -3,6 +3,7 @@ package it.polimi.ingsw.model;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.comunication.TextMessage;
+import it.polimi.ingsw.model.CharacterCards.SpecialCard;
 
 import java.io.IOException;
 import java.io.PrintWriter;
