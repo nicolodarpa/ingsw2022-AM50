@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.LoginManager;
-import it.polimi.ingsw.PlayersList;
+import it.polimi.ingsw.model.CharacterCards.NoTowerInfluence;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -20,7 +20,7 @@ public class NoTowerInfluenceTest {
         LoginManager.login("jaz",gameTest);
         LoginManager.login("nic",gameTest);
         gameTest.setupGame();
-        NoTowerInfluence card = new NoTowerInfluence(gameTest.getIslandWithMN(), gameTest.getPlist());
+        NoTowerInfluence card = new NoTowerInfluence();
         card.effect();
         assertEquals(gameTest.getIslandWithMN().getOwner(), "free");
     }
@@ -32,7 +32,7 @@ public class NoTowerInfluenceTest {
         LoginManager.login("jaz",gameTest);
         LoginManager.login("nic",gameTest);
         gameTest.setupGame();
-        NoTowerInfluence card = new NoTowerInfluence(gameTest.getIslandWithMN(), gameTest.getPlist());
+        NoTowerInfluence card = new NoTowerInfluence();
         assertEquals(3, card.getCost());
     }
 
@@ -43,7 +43,7 @@ public class NoTowerInfluenceTest {
         LoginManager.login("jaz",gameTest);
         LoginManager.login("nic",gameTest);
         gameTest.setupGame();
-        NoTowerInfluence card = new NoTowerInfluence(gameTest.getIslandWithMN(), gameTest.getPlist());
+        NoTowerInfluence card = new NoTowerInfluence();
         card.addCost();
         assertEquals(4, card.getCost());
     }
@@ -55,7 +55,7 @@ public class NoTowerInfluenceTest {
         LoginManager.login("jaz",gameTest);
         LoginManager.login("nic",gameTest);
         gameTest.setupGame();
-        NoTowerInfluence card = new NoTowerInfluence(gameTest.getIslandWithMN(), gameTest.getPlist());
+        NoTowerInfluence card = new NoTowerInfluence();
         System.out.println(card.getEffectOfTheCard());
     }
 

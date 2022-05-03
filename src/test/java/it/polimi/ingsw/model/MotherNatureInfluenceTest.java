@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.LoginManager;
+import it.polimi.ingsw.model.CharacterCards.MotherNatureInfluence;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -16,7 +17,7 @@ public class MotherNatureInfluenceTest {
         LoginManager.login("jaz",gameTest);
         LoginManager.login("nic",gameTest);
         gameTest.setupGame();
-        MotherNatureInfluence card = new MotherNatureInfluence(gameTest.getIslands(), gameTest.getPlist());
+        MotherNatureInfluence card = new MotherNatureInfluence();
         assertEquals(3, card.getCost());
     }
 
@@ -27,7 +28,7 @@ public class MotherNatureInfluenceTest {
         LoginManager.login("jaz",gameTest);
         LoginManager.login("nic",gameTest);
         gameTest.setupGame();
-        MotherNatureInfluence card = new MotherNatureInfluence(gameTest.getIslands(), gameTest.getPlist());
+        MotherNatureInfluence card = new MotherNatureInfluence();
         card.addCost();
         assertEquals(4, card.getCost());
     }
@@ -39,7 +40,7 @@ public class MotherNatureInfluenceTest {
         LoginManager.login("jaz",gameTest);
         LoginManager.login("nic",gameTest);
         gameTest.setupGame();
-        MotherNatureInfluence card = new MotherNatureInfluence(gameTest.getIslands(), gameTest.getPlist());
+        MotherNatureInfluence card = new MotherNatureInfluence();
         System.out.println(card.getEffectOfTheCard());
     }
 }

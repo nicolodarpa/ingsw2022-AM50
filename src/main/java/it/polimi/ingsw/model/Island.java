@@ -19,12 +19,18 @@ public class Island {
     private boolean presenceMN = false; //true if there is Mother Nature on the Island
     private boolean oppositeMN = false; //true if the Island is opposite to The island where there is Mother Nature
 
+    private int towerMultiplier = 1;
+
     public void setPresenceMN(boolean presenceMN) {
         this.presenceMN = presenceMN;
     }
 
     public void setOppositeMN(boolean oppositeMN) {
         this.oppositeMN = oppositeMN;
+    }
+
+    public void setTowerMultiplier(int towerMultiplier) {
+        this.towerMultiplier = towerMultiplier;
     }
 
     public Island(int id) {
@@ -173,7 +179,7 @@ public class Island {
             TowerColor towerColorOfPlayer = dashboardTemp.getTowers().get(0).getColor();
             if (towerColor == towerColorOfPlayer && towerArrayList.size() > 0) {
                 towerInfluencePoint++;
-                p.setInfluencePoint(p.getInfluencePoint() + towerInfluencePoint);
+                p.setInfluencePoint(p.getInfluencePoint() + (towerInfluencePoint*towerMultiplier));
             }
         }
 

@@ -1,8 +1,12 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.LoginManager;
-import it.polimi.ingsw.PlayersList;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import it.polimi.ingsw.model.CharacterCards.AddMoveMN;
+import it.polimi.ingsw.model.CharacterCards.NoTowerInfluence;
+import it.polimi.ingsw.model.CharacterCards.SpecialCard;
 import org.junit.jupiter.api.Test;
 
 
@@ -26,7 +30,9 @@ public class AddMoveMNTest {
         p1.playAssistantCard(3);
         p2.playAssistantCard(5);
         gameTest.setActualPlayer();
-        SpecialCard cardTest = new AddMoveMN(gameTest.getActualPlayer());
+        SpecialCard cardTest = new AddMoveMN();
+        cardTest.update(gameTest.getPlist(),gameTest.getActualPlayer(), gameTest.getIslands(),null, 1);
+        assertEquals(2,gameTest.getActualPlayer().getMovesOfMN());
         cardTest.effect();
         assertEquals(4,gameTest.getActualPlayer().getMovesOfMN());
     }
@@ -38,7 +44,7 @@ public class AddMoveMNTest {
         LoginManager.login("jaz",gameTest);
         LoginManager.login("nic",gameTest);
         gameTest.setupGame();
-        NoTowerInfluence card = new NoTowerInfluence(gameTest.getIslandWithMN(), gameTest.getPlist());
+        NoTowerInfluence card = new NoTowerInfluence();
         System.out.println(card.getCost());
     }
 
@@ -49,7 +55,7 @@ public class AddMoveMNTest {
         LoginManager.login("jaz",gameTest);
         LoginManager.login("nic",gameTest);
         gameTest.setupGame();
-        NoTowerInfluence card = new NoTowerInfluence(gameTest.getIslandWithMN(), gameTest.getPlist());
+        NoTowerInfluence card = new NoTowerInfluence();
         System.out.println(card.getCost());
         card.addCost();
         System.out.println(card.getCost());
@@ -62,7 +68,7 @@ public class AddMoveMNTest {
         LoginManager.login("jaz",gameTest);
         LoginManager.login("nic",gameTest);
         gameTest.setupGame();
-        NoTowerInfluence card = new NoTowerInfluence(gameTest.getIslandWithMN(), gameTest.getPlist());
+        NoTowerInfluence card = new NoTowerInfluence();
         System.out.println(card.getEffectOfTheCard());
     }
 

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.comunication;
 
-import it.polimi.ingsw.model.SpecialCard;
+import it.polimi.ingsw.model.CharacterCards.SpecialCard;
 
 public class CharacterCard {
     public String effect;
