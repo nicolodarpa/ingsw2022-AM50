@@ -17,8 +17,8 @@ public class SpecialDeck {
     private final SpecialCard characterCard4 = new MotherNatureInfluence();
     private final SpecialCard characterCard5 = new NoTowerInfluence();
     private final SpecialCard characterCard6 = new RemoveStudent();
-    private final SpecialCard characterCard7 = new SpecialInfluence(players, islandWithMn);
-    private final SpecialCard characterCard8 = new TeacherAssignment(players);
+    private final SpecialCard characterCard7 = new SpecialInfluence();
+    private final SpecialCard characterCard8 = new TeacherAssignment();
 
     private final Map<Integer, SpecialCard> deckMap = new HashMap<>();
     private final ArrayList<SpecialCard> specialCardsInGame = new ArrayList<>();

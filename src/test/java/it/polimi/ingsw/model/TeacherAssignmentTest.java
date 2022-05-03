@@ -17,7 +17,7 @@ public class TeacherAssignmentTest {
         LoginManager.login("jaz",gameTest);
         LoginManager.login("nic",gameTest);
         gameTest.setupGame();
-        TeacherAssignment card = new TeacherAssignment(gameTest.getPlist());
+        TeacherAssignment card = new TeacherAssignment();
         assertEquals(2, card.getCost());
         card.addCost();
         assertEquals(3, card.getCost());
@@ -29,7 +29,7 @@ public class TeacherAssignmentTest {
         LoginManager.login("jaz",gameTest);
         LoginManager.login("nic",gameTest);
         gameTest.setupGame();
-        TeacherAssignment card = new TeacherAssignment(gameTest.getPlist());
+        TeacherAssignment card = new TeacherAssignment();
         card.addCost();
         assertEquals(3, card.getCost());
     }
@@ -41,7 +41,7 @@ public class TeacherAssignmentTest {
         LoginManager.login("jaz",gameTest);
         LoginManager.login("nic",gameTest);
         gameTest.setupGame();
-        TeacherAssignment card = new TeacherAssignment(gameTest.getPlist());
+        TeacherAssignment card = new TeacherAssignment();
         System.out.println(card.getEffectOfTheCard());
     }
 
@@ -51,11 +51,12 @@ public class TeacherAssignmentTest {
         LoginManager.login("jaz",gameTest);
         LoginManager.login("nic",gameTest);
         gameTest.setupGame();
-        TeacherAssignment card = new TeacherAssignment(gameTest.getPlist());
+        TeacherAssignment card = new TeacherAssignment();
         Player player_one = gameTest.getPlist().getPlayers().get(0);
         Player player_two = gameTest.getPlist().getPlayers().get(1);
         player_two.getDashboard().addStudentToClassroom(new Student(PawnColor.RED));
         player_one.getDashboard().addStudentToClassroom(new Student(PawnColor.RED));
+        card.update(gameTest.getPlist(), gameTest.getActualPlayer(), gameTest.getIslands(), null, 1);
         card.effect();
         player_one.getDashboard().drawDashboard();
         player_two.getDashboard().drawDashboard();

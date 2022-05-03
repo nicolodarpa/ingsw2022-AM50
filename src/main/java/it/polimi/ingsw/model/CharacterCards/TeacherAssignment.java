@@ -6,22 +6,20 @@ import it.polimi.ingsw.model.PawnColor;
 import it.polimi.ingsw.model.Teacher;
 
 public class TeacherAssignment extends SpecialCard {
-    private final String effectOfTheCard = " With this card you take the control of the teacher even if the other player has more student of that color. ";
-    private int cost = 2;
     private final Teacher[] teachers = {new Teacher(PawnColor.CYAN), new Teacher(PawnColor.MAGENTA), new Teacher(PawnColor.YELLOW), new Teacher(PawnColor.RED), new Teacher(PawnColor.GREEN)};
-    private final PlayersList players;
 
-    public TeacherAssignment(PlayersList players) {
-        this.players = players;
+
+    public TeacherAssignment() {
+
         setCost(2);
-        setEffectOfTheCard(" With this card you take the control of the teacher even if the other player has more student of that color. ");
+        setEffectOfTheCard(" With this card you take the control of the teacher even if the other player has the same number of student of that color. ");
     }
 
     @Override
     public void effect() {
-        if (players.getCurrentNumberOfPlayers() == 2) {
-            Dashboard d1 = players.getPlayers().get(0).getDashboard();
-            Dashboard d2 = players.getPlayers().get(1).getDashboard();
+        if (playersList.getCurrentNumberOfPlayers() == 2) {
+            Dashboard d1 = playersList.getPlayers().get(0).getDashboard();
+            Dashboard d2 = playersList.getPlayers().get(1).getDashboard();
 
             for (int i = 0; i < 5; i++) {
                 if (d1.countStudentByColor(teachers[i].getColor()) >= d2.countStudentByColor(teachers[i].getColor())) {
@@ -35,10 +33,10 @@ public class TeacherAssignment extends SpecialCard {
                 }
             }
 
-        } else if (players.getCurrentNumberOfPlayers() == 3) {
-            Dashboard d1 = players.getPlayers().get(0).getDashboard();
-            Dashboard d2 = players.getPlayers().get(1).getDashboard();
-            Dashboard d3 = players.getPlayers().get(2).getDashboard();
+        } else if (playersList.getCurrentNumberOfPlayers() == 3) {
+            Dashboard d1 = playersList.getPlayers().get(0).getDashboard();
+            Dashboard d2 = playersList.getPlayers().get(1).getDashboard();
+            Dashboard d3 = playersList.getPlayers().get(2).getDashboard();
             for (int i = 0; i < 5; i++) {
                 if (d1.countStudentByColor(teachers[i].getColor()) > d2.countStudentByColor(teachers[i].getColor()) && d1.countStudentByColor(teachers[i].getColor()) > d3.countStudentByColor(teachers[i].getColor())) {
                     d1.addTeacherToTable(teachers[i]);
