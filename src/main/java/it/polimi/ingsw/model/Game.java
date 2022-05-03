@@ -37,7 +37,7 @@ public class Game {
     private final Teacher[] teachers = {new Teacher(PawnColor.CYAN), new Teacher(PawnColor.MAGENTA), new Teacher(PawnColor.YELLOW), new Teacher(PawnColor.RED), new Teacher(PawnColor.GREEN)};
     private Island islandWithMN;
     private Player actualPlayer;
-    private SpecialDeck specialDeck = new SpecialDeck(islandWithMN, plist, actualPlayer, islands);
+    private SpecialDeck specialDeck = new SpecialDeck();
     private static ArrayList<SpecialCard> cardsInGame = new ArrayList<>();
 
     private boolean[] typeOfInfluence = new boolean[2];
@@ -549,6 +549,9 @@ public class Game {
             }
         }
         player.playAssistantCard(cardNumber - 1);
+        if(player.deckSize()){
+            plist.notifyAllClients("notify", "the game has finished");
+        }
         return false;
 
 
@@ -570,7 +573,7 @@ public class Game {
 
     public boolean playCharacterCard(int specialCardIndex, int islandIndex, PawnColor color){
         SpecialCard specialCard = cardsInGame.get(specialCardIndex);
-        specialCard.update(plist,actualPlayer, islands, color, islandIndex);
+        specialCard.update(plist,actualPlayer, islands, color, islandIndex, studentsBag);
 
         return false;
     }

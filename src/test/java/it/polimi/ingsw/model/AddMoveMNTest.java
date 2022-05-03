@@ -31,7 +31,7 @@ public class AddMoveMNTest {
         p2.playAssistantCard(5);
         gameTest.setActualPlayer();
         SpecialCard cardTest = new AddMoveMN();
-        cardTest.update(gameTest.getPlist(),gameTest.getActualPlayer(), gameTest.getIslands(),null, 1);
+        cardTest.update(gameTest.getPlist(),gameTest.getActualPlayer(), gameTest.getIslands(),null, 1, gameTest.getStudentsBag());
         assertEquals(2,gameTest.getActualPlayer().getMovesOfMN());
         cardTest.effect();
         assertEquals(4,gameTest.getActualPlayer().getMovesOfMN());

@@ -18,7 +18,7 @@ public class AddInfluenceTest {
         LoginManager.login("nic", gameTest);
         gameTest.setupGame();
         AddInfluence card = new AddInfluence();
-        card.update(gameTest.getPlist(), gameTest.getActualPlayer(), gameTest.getIslands(), null, 1);
+        card.update(gameTest.getPlist(), gameTest.getActualPlayer(), gameTest.getIslands(), null, 1, gameTest.getStudentsBag());
         assertEquals(2, card.getCost());
     }
 
@@ -30,7 +30,7 @@ public class AddInfluenceTest {
         LoginManager.login("nic", gameTest);
         gameTest.setupGame();
         AddInfluence card = new AddInfluence();
-        card.update(gameTest.getPlist(), gameTest.getActualPlayer(), gameTest.getIslands(), null, 1);
+        card.update(gameTest.getPlist(), gameTest.getActualPlayer(), gameTest.getIslands(), null, 1, gameTest.getStudentsBag());
         card.addCost();
         assertEquals(3, card.getCost());
     }
@@ -43,7 +43,7 @@ public class AddInfluenceTest {
         LoginManager.login("nic", gameTest);
         gameTest.setupGame();
         AddInfluence card = new AddInfluence();
-        card.update(gameTest.getPlist(), gameTest.getActualPlayer(), gameTest.getIslands(), null, 1);
+        card.update(gameTest.getPlist(), gameTest.getActualPlayer(), gameTest.getIslands(), null, 1, gameTest.getStudentsBag());
         System.out.println(card.getEffectOfTheCard());
     }
 }

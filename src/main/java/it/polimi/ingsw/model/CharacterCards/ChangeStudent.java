@@ -11,6 +11,7 @@ public class ChangeStudent extends SpecialCard {
     public ChangeStudent(){
         setCost(1);
         setEffectOfTheCard(" With this card you can choose to swap places up to 2 students from the Hall and the Classroom. ");
+        setName("joker");
     }
 
 

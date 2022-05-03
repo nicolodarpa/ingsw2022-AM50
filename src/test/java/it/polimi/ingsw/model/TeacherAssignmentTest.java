@@ -56,7 +56,7 @@ public class TeacherAssignmentTest {
         Player player_two = gameTest.getPlist().getPlayers().get(1);
         player_two.getDashboard().addStudentToClassroom(new Student(PawnColor.RED));
         player_one.getDashboard().addStudentToClassroom(new Student(PawnColor.RED));
-        card.update(gameTest.getPlist(), gameTest.getActualPlayer(), gameTest.getIslands(), null, 1);
+        card.update(gameTest.getPlist(), gameTest.getActualPlayer(), gameTest.getIslands(), null, 1, gameTest.getStudentsBag());
         card.effect();
         player_one.getDashboard().drawDashboard();
         player_two.getDashboard().drawDashboard();

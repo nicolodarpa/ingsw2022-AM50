@@ -120,6 +120,7 @@ public class ClientOut extends Thread {
         CharacterCard[] characterCards = gson.fromJson(message.message, CharacterCard[].class);
         for (CharacterCard characterCard: characterCards){
             System.out.println("====");
+            System.out.println("Name: " + characterCard.name);
             System.out.println("Effect: " + characterCard.effect);
             System.out.println("Cost: " + characterCard.cost);
         }
@@ -137,6 +138,17 @@ public class ClientOut extends Thread {
 
 
         }
+    }
+
+    private void printStudentsRoom(){
+        StudentRoom studentRoom = gson.fromJson(message.message, StudentRoom.class);
+        System.out.println("=====Students Room: ");
+        for (String student: studentRoom.students){
+            System.out.print("-");
+            draw(student);
+        }
+        System.out.println(" ");
+
     }
 
     @Override
@@ -169,6 +181,8 @@ public class ClientOut extends Thread {
                     printCloudCard();
                 } else if (Objects.equals(message.type, "hall")) {
                     printHall();
+                } else if (Objects.equals(message.type, "studentsRoom")) {
+                    printStudentsRoom();
                 } else if (Objects.equals(message.type, "quit")) {
                     System.out.println(message.message);
                     break;

@@ -4,6 +4,7 @@ import it.polimi.ingsw.PlayersList;
 import it.polimi.ingsw.model.Island;
 import it.polimi.ingsw.model.PawnColor;
 import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.StudentsBag;
 
 import java.util.ArrayList;
 
@@ -14,13 +15,16 @@ public abstract class SpecialCard {
     PlayersList playersList;
     ArrayList<Island> islands;
 
-    int islandIndex;
+    int index;
     PawnColor pawnColor;
 
     Player actualPlayer;
 
+    StudentsBag bag;
     int cost;
     String effectOfTheCard;
+
+    String name;
 
 
     public abstract void effect();
@@ -49,6 +53,10 @@ public abstract class SpecialCard {
         return effectOfTheCard;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public void setIslands(ArrayList<Island> islands) {
         this.islands = islands;
     }
@@ -65,16 +73,25 @@ public abstract class SpecialCard {
         this.actualPlayer = actualPlayer;
     }
 
-    public void setIslandIndex(int islandIndex) {
-        this.islandIndex = islandIndex;
+    public void setIndex(int index) {
+        this.index = index;
     }
 
-    public void update(PlayersList playersList, Player actualPlayer , ArrayList<Island> islands, PawnColor pawnColor, int islandIndex){
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setBag(StudentsBag bag) {
+        this.bag = bag;
+    }
+
+    public void update(PlayersList playersList, Player actualPlayer , ArrayList<Island> islands, PawnColor pawnColor, int index, StudentsBag bag){
         setIslands(islands);
         setPlayersList(playersList);
         setPawnColor(pawnColor);
         setActualPlayer(actualPlayer);
-        setIslandIndex(islandIndex);
+        setIndex(index);
+        setBag(bag);
     }
 
 }

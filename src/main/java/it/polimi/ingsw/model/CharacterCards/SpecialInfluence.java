@@ -14,6 +14,7 @@ public class SpecialInfluence extends SpecialCard {
     public SpecialInfluence() {
         setCost(3);
         setEffectOfTheCard("With this card you have to choose one color of the students which will not be considered for the influence.");
+        setName("wizard");
     }
 
 

@@ -13,6 +13,7 @@ public class TeacherAssignment extends SpecialCard {
 
         setCost(2);
         setEffectOfTheCard(" With this card you take the control of the teacher even if the other player has the same number of student of that color. ");
+        setName("hungry man");
     }
 
     @Override

@@ -1,16 +1,20 @@
 package it.polimi.ingsw;
 
 import com.google.gson.Gson;
+import it.polimi.ingsw.comunication.StudentRoom;
 import it.polimi.ingsw.comunication.TextMessage;
+import it.polimi.ingsw.model.CharacterCards.SpecialCard;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.PawnColor;
 import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.Student;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Objects;
 
@@ -168,22 +172,33 @@ public class EchoServerClientHandler extends Thread {
 
     private void playCharacterCard() {
         player.sendToClient("characterCards", game.sendCharacterCardsDeck());
-        int specialCardIndex;
+        int specialCardIndex = 0;
+        SpecialCard specialCard = null;
         int studentToChange = 0;
         int positionHall = 0;
         PawnColor studentColor = null;
-
+        int index = 1;
         boolean result = true;
         do {
             player.sendToClient("warning", "Select character card");
             try {
                 specialCardIndex = Integer.parseInt(in.readLine());
-                result = game.playCharacterCard(specialCardIndex, 1, null);
+                specialCard = game.getCardsInGame().get(specialCardIndex - 1);
             } catch (Exception e) {
                 player.sendToClient("warning", "Input a number between 1 and 3");
             }
-        } while (result);
+        } while (specialCard == null);
+        switch (specialCard.getName()) {
+            case ("knight"):
+                game.playCharacterCard(specialCardIndex - 1, 1, null);
+            case ("merchant"):
+                game.playCharacterCard(specialCardIndex - 1, 1, null);
+            case ("princess"):
+                player.sendToClient("msg","Select an island");
+                index = indexIslandInput();
 
+
+        }
 
 
     }
@@ -255,19 +270,20 @@ public class EchoServerClientHandler extends Thread {
     }
 
     private int indexIslandInput() {
-        try {
-            String line = in.readLine();
-            int numIsland = Integer.parseInt(line);
-            if (numIsland < 1 || numIsland > game.getIslands().size()) {
+        while (true){
+            try {
+                String line = in.readLine();
+                int numIsland = Integer.parseInt(line);
+                if (numIsland < 1 || numIsland > game.getIslands().size()) {
+                    player.sendToClient("msg", "Error input, plese select a value between 1 and " + game.getIslands().size());
+                    indexIslandInput();
+                }
+                return numIsland;
+            } catch (Exception e) {
                 player.sendToClient("msg", "Error input, plese select a value between 1 and " + game.getIslands().size());
-                indexIslandInput();
+
             }
-            return numIsland;
-        } catch (Exception e) {
-            player.sendToClient("msg", "Error input, plese select a value between 1 and " + game.getIslands().size());
-            indexIslandInput();
         }
-        return 0;
 
     }
 

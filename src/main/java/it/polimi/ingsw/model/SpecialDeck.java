@@ -2,18 +2,15 @@ package it.polimi.ingsw.model;
 
 
 import it.polimi.ingsw.PlayersList;
+import it.polimi.ingsw.comunication.BlockCard;
 import it.polimi.ingsw.model.CharacterCards.*;
 
 import java.util.*;
 
 public class SpecialDeck {
-    private Island islandWithMn;
-    private PlayersList players;
-    private Player actualPlayer;
-    private ArrayList<Island> islandsInGame;
     private final SpecialCard characterCard1 = new AddInfluence();
     private final SpecialCard characterCard2 = new AddMoveMN();
-    private final SpecialCard characterCard3 = new ChangeStudent();
+    private final SpecialCard characterCard3 = new BlockCard();
     private final SpecialCard characterCard4 = new MotherNatureInfluence();
     private final SpecialCard characterCard5 = new NoTowerInfluence();
     private final SpecialCard characterCard6 = new RemoveStudent();
@@ -28,11 +25,7 @@ public class SpecialDeck {
             return specialCardsInGame;
         }
 
-        public SpecialDeck(Island islandWithMn, PlayersList players, Player actualPlayer, ArrayList<Island> islandsInGame) {
-            this.islandWithMn = islandWithMn;
-            this.players = players;
-            this.actualPlayer = actualPlayer;
-            this.islandsInGame = islandsInGame;
+        public SpecialDeck() {
             deckMap.put(0, characterCard1);
             deckMap.put(1, characterCard2);
             deckMap.put(2, characterCard3);

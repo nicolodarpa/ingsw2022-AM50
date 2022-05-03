@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 
 public class SpecialDeckTest {
     Game gameTest = new Game();
-    SpecialDeck specialDeckTest = new SpecialDeck(gameTest.getIslandWithMN(), gameTest.getPlist(), gameTest.getActualPlayer(), gameTest.getIslands());
+    SpecialDeck specialDeckTest = new SpecialDeck();
 
     @Test
     @DisplayName("Extract three different card")
