@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.CharacterCards;
 
 import it.polimi.ingsw.LoginManager;
 
@@ -7,6 +7,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import it.polimi.ingsw.model.CharacterCards.AddMoveMN;
 import it.polimi.ingsw.model.CharacterCards.NoTowerInfluence;
 import it.polimi.ingsw.model.CharacterCards.SpecialCard;
+import it.polimi.ingsw.model.Deck;
+import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.Player;
 import org.junit.jupiter.api.Test;
 
 

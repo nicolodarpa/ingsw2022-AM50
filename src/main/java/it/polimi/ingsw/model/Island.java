@@ -178,34 +178,6 @@ public class Island {
     }
 
 
-    public void specialInfluence(PlayersList players, PawnColor colorToExclude){
-        int towerInfluencePoint = 0;
-
-        /* set influence point */
-        for(Player p : players.getPlayers()){
-            int [] colorStudent = new int[PawnColor.numberOfColors];
-            Dashboard dashboardTemp = p.getDashboard();
-            dashboardTemp.getTeacherTable()[colorToExclude.ordinal()] = null;
-            for(int i = 0; i < dashboardTemp.getTeacherTable().length; i++){
-                if(dashboardTemp.getTeacherTable()[i] != null){
-                    colorStudent[i] = countStudentOfAColor(dashboardTemp.getTeacherTable()[i].getColor());
-                }
-            }
-            p.setInfluencePoint(IntStream.of(colorStudent).sum());
-            TowerColor towerColorOfPlayer = dashboardTemp.getTowers().get(0).getColor();
-            if (towerColor == towerColorOfPlayer && towerArrayList.size() > 0) {
-                towerInfluencePoint++;
-                p.setInfluencePoint(p.getInfluencePoint() + towerInfluencePoint);
-            }
-        }
-        /* calculate the influence by the influence point of each player*/
-        calcInfluencePoints(players);
-        /*reset the influence point */
-        for (Player p : players.getPlayers())
-            p.setInfluencePoint(0);
-    }
-
-
     public void calcInfluence(PlayersList players) {
         int towerInfluencePoint = 0;
 
@@ -232,7 +204,7 @@ public class Island {
         Dashboard dashboardTemp = p.getDashboard();
         for (int i = 0; i < dashboardTemp.getTeacherTable().length; i++) {
             if (dashboardTemp.getTeacherTable()[i] != null) {
-                colorStudent[i] = countStudentOfAColor(dashboardTemp.getTeacherTable()[i].getColor());
+                colorStudent[i] = countStudentOfAColor(dashboardTemp.getTeacherTable()[i].getColor())*PawnColor.values()[i].getInfluenceMultiplier();
             }
         }
         p.setInfluencePoint(IntStream.of(colorStudent).sum());
@@ -249,8 +221,6 @@ public class Island {
             } else if (p1.getInfluencePoint() < p2.getInfluencePoint()) {
                 this.owner = p2;
                 islandConquered = true;
-            } else {
-                this.owner = null;
             }
         } else if (playersList.getPlayers().size() == 3) {
 
@@ -267,8 +237,6 @@ public class Island {
             } else if (p3.getInfluencePoint() > p1.getInfluencePoint() && p3.getInfluencePoint() > p2.getInfluencePoint()) {
                 this.owner = p3;
                 islandConquered = true;
-            } else {
-                this.owner = null;
             }
         }
         if (owner != null && towerArrayList.size() < dimension)

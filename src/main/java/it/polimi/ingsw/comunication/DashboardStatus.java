@@ -8,7 +8,7 @@ public class DashboardStatus {
 
     public  String nameOwner;
     public String[][] studentsClassroom = new String[5][10];
-    public String[] studentsHall = new String[7];
+    public String[] studentsHall = new String[9];
     public String[] teacherTable = new String[5];
     public int towers;
 

@@ -20,6 +20,7 @@ public class SpecialInfluence extends SpecialCard {
 
     @Override
     public void effect() {
+        pawnColor.setInfluenceMultiplier(0);
         addCost();
     }
 

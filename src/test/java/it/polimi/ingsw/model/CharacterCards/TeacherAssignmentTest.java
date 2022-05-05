@@ -1,7 +1,11 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.CharacterCards;
 
 import it.polimi.ingsw.LoginManager;
 import it.polimi.ingsw.model.CharacterCards.TeacherAssignment;
+import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.PawnColor;
+import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.Student;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

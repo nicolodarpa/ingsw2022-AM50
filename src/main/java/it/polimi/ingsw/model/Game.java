@@ -447,8 +447,12 @@ public class Game {
                 p.setLastPlayedAC(0);
                 p.resetMovesOfStudents();
             }
-            for (Island island: islands){
+            for (Island island : islands) {
                 island.setTowerMultiplier(1);
+            }
+            for (int i = 0;
+                 i < PawnColor.numberOfColors; i++) {
+                PawnColor.values()[i].setInfluenceMultiplier(1);
             }
             plist.notifyAllClients("notify", "Planning phase");
             phase = 0;

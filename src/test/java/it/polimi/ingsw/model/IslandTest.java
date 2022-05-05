@@ -47,14 +47,10 @@ public class IslandTest {
         LoginManager.login("jaz", gameTest);
         gameTest.setupGame();
         Table tableTest = new Table(gameTest.getCloudCards(), gameTest.getIslands());
-
         Player plyr_1 = gameTest.getPlist().getPlayers().get(0);
         Player plyr_2 = gameTest.getPlist().getPlayers().get(1);
-
-
         Dashboard dashboard_1 = plyr_1.getDashboard();
         Dashboard dashboard_2 = plyr_2.getDashboard();
-
         PawnColor color = dashboard_1.getHall()[2].getColor();
         plyr_1.moveStudentToClassroom(2, gameTest);
         gameTest.assignTeacher();
@@ -97,10 +93,8 @@ public class IslandTest {
         ArrayList<Island> islandTest = new ArrayList<>(1);
         islandTest.add(new Island(1));
         NoTowerInfluence card = new NoTowerInfluence();
-
         Dashboard dashboard_1 = gameTest.getPlist().getPlayers().get(0).getDashboard();
         Dashboard dashboard_2 = gameTest.getPlist().getPlayers().get(1).getDashboard();
-
         islandTest.get(0).addStudent(new Student(PawnColor.RED));
         dashboard_1.addTeacherToTable(new Teacher(PawnColor.RED));
         islandTest.get(0).calcInfluence(gameTest.getPlist());
@@ -115,10 +109,6 @@ public class IslandTest {
         card.effect();
         islandTest.get(0).calcInfluence(gameTest.getPlist());
         assertEquals(gameTest.getPlist().getPlayers().get(1).getName(), islandTest.get(0).getOwner());
-
-
-
-
 
     }
 }

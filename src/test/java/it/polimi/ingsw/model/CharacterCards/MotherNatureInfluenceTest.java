@@ -1,6 +1,8 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.CharacterCards;
 
 import it.polimi.ingsw.LoginManager;
+import it.polimi.ingsw.PlayersList;
+import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.CharacterCards.MotherNatureInfluence;
 import org.junit.jupiter.api.Test;
 
@@ -42,5 +44,28 @@ public class MotherNatureInfluenceTest {
         gameTest.setupGame();
         MotherNatureInfluence card = new MotherNatureInfluence();
         System.out.println(card.getEffectOfTheCard());
+    }
+
+    @Test
+    void effect() {
+        gameTest = new Game();
+        gameTest.setNumberOfPlayers(2);
+        LoginManager.login("ale", gameTest);
+        LoginManager.login("jaz", gameTest);
+        gameTest.startGame();
+        Player ale = gameTest.getPlist().getPlayerByName("ale");
+        ale.getDashboard().addTeacherToTable(new Teacher(PawnColor.RED));
+        Island island = gameTest.getIslands().get(3);
+        island.addStudent(new Student(PawnColor.RED));
+        MotherNatureInfluence card = new MotherNatureInfluence();
+        card.setPlayersList(gameTest.getPlist());
+        card.setIslands(gameTest.getIslands());
+        card.setIndex(3);
+        card.effect();
+        assertEquals("ale",island.getOwner());
+
+
+
+
     }
 }
