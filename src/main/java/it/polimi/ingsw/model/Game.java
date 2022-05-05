@@ -3,6 +3,7 @@ package it.polimi.ingsw.model;
 import com.google.gson.Gson;
 import it.polimi.ingsw.PlayersList;
 import it.polimi.ingsw.comunication.*;
+import it.polimi.ingsw.model.CharacterCards.BlockCard;
 import it.polimi.ingsw.model.CharacterCards.SpecialCard;
 
 import java.util.*;
@@ -39,8 +40,6 @@ public class Game {
     private Player actualPlayer;
     private SpecialDeck specialDeck = new SpecialDeck();
     private static ArrayList<SpecialCard> cardsInGame = new ArrayList<>();
-
-
 
 
     public int getPhase() {
@@ -128,7 +127,7 @@ public class Game {
     }
 
     public void setupGame() {
-        for (Player player:plist.getPlayers()){
+        for (Player player : plist.getPlayers()) {
             player.getDashboard().setupHall(numberOfPlayers);
         }
         createIslands();
@@ -194,14 +193,14 @@ public class Game {
     }
 
 
-    public String sendCharacterCardsDeck(){
+    public String sendCharacterCardsDeck() {
         ArrayList<CharacterCard> cardList = new ArrayList<>();
-        for (SpecialCard specialCard: cardsInGame){
+        for (SpecialCard specialCard : cardsInGame) {
             cardList.add(new CharacterCard(specialCard));
         }
         Gson gson = new Gson();
         return gson.toJson(cardList);
-     }
+    }
 
 
     public void createIslands() {
@@ -252,16 +251,21 @@ public class Game {
         if (moves > playerMovesOfMN) {
             return false;
         } else {
+            Island destination = islands.get(destinationIslandIndex);
             islandWithMN.setPresenceMN(false);
-            islands.get(destinationIslandIndex).setPresenceMN(true);
-            islandWithMN = islands.get(destinationIslandIndex);
-            islandWithMN.calcInfluence(plist);
-            connectIsland();
+            destination.setPresenceMN(true);
+            islandWithMN = destination;
+            if (destination.getBlock()) {
+                destination.setBlock(false);
+                System.out.println("island blocked");
+                return true;
+            } else {
+                islandWithMN.calcInfluence(plist);
+                connectIsland();
+            }
             return true;
         }
     }
-
-
 
 
     public void fillStudentsBag() {
@@ -340,49 +344,49 @@ public class Game {
 
 
     public void assignTeacher() {
-            if (numberOfPlayers == 2) {
-                Dashboard d1 = plist.getPlayers().get(0).getDashboard();
-                Dashboard d2 = plist.getPlayers().get(1).getDashboard();
-                for (int i = 0; i < 5; i++) {
-                    if (d1.countStudentByColor(teachers[i].getColor()) > d2.countStudentByColor(teachers[i].getColor())) {
-                        d1.addTeacherToTable(teachers[i]);
-                        if (d2.getTeacherTable()[i] != null)
-                            d2.removeTeacherFromTable(teachers[i]);
-                    } else if (d2.countStudentByColor(teachers[i].getColor()) > d1.countStudentByColor(teachers[i].getColor())) {
-                        d2.addTeacherToTable(teachers[i]);
-                        if (d1.getTeacherTable()[i] != null)
-                            d1.removeTeacherFromTable(teachers[i]);
-                    }
-                }
-
-            } else if (numberOfPlayers == 3) {
-                Dashboard d1 = plist.getPlayers().get(0).getDashboard();
-                Dashboard d2 = plist.getPlayers().get(1).getDashboard();
-                Dashboard d3 = plist.getPlayers().get(2).getDashboard();
-                for (int i = 0; i < 5; i++) {
-                    if (d1.countStudentByColor(teachers[i].getColor()) > d2.countStudentByColor(teachers[i].getColor()) && d1.countStudentByColor(teachers[i].getColor()) > d3.countStudentByColor(teachers[i].getColor())) {
-                        d1.addTeacherToTable(teachers[i]);
-                        if (d2.getTeacherTable()[i] != null)
-                            d2.removeTeacherFromTable(teachers[i]);
-                        else if (d3.getTeacherTable()[i] != null)
-                            d3.removeTeacherFromTable(teachers[i]);
-                    } else if (d2.countStudentByColor(teachers[i].getColor()) > d1.countStudentByColor(teachers[i].getColor()) && d2.countStudentByColor(teachers[i].getColor()) > d3.countStudentByColor(teachers[i].getColor())) {
-                        d2.addTeacherToTable(teachers[i]);
-                        if (d1.getTeacherTable()[i] != null)
-                            d1.removeTeacherFromTable(teachers[i]);
-                        else if (d3.getTeacherTable()[i] != null)
-                            d3.removeTeacherFromTable(teachers[i]);
-                    } else if (d3.countStudentByColor(teachers[i].getColor()) > d1.countStudentByColor(teachers[i].getColor()) && d3.countStudentByColor(teachers[i].getColor()) > d2.countStudentByColor(teachers[i].getColor())) {
-                        d3.addTeacherToTable(teachers[i]);
-                        if (d1.getTeacherTable()[i] != null)
-                            d1.removeTeacherFromTable(teachers[i]);
-                        else if (d2.getTeacherTable()[i] != null)
-                            d2.removeTeacherFromTable(teachers[i]);
-                    }
-
+        if (numberOfPlayers == 2) {
+            Dashboard d1 = plist.getPlayers().get(0).getDashboard();
+            Dashboard d2 = plist.getPlayers().get(1).getDashboard();
+            for (int i = 0; i < 5; i++) {
+                if (d1.countStudentByColor(teachers[i].getColor()) > d2.countStudentByColor(teachers[i].getColor())) {
+                    d1.addTeacherToTable(teachers[i]);
+                    if (d2.getTeacherTable()[i] != null)
+                        d2.removeTeacherFromTable(teachers[i]);
+                } else if (d2.countStudentByColor(teachers[i].getColor()) > d1.countStudentByColor(teachers[i].getColor())) {
+                    d2.addTeacherToTable(teachers[i]);
+                    if (d1.getTeacherTable()[i] != null)
+                        d1.removeTeacherFromTable(teachers[i]);
                 }
             }
+
+        } else if (numberOfPlayers == 3) {
+            Dashboard d1 = plist.getPlayers().get(0).getDashboard();
+            Dashboard d2 = plist.getPlayers().get(1).getDashboard();
+            Dashboard d3 = plist.getPlayers().get(2).getDashboard();
+            for (int i = 0; i < 5; i++) {
+                if (d1.countStudentByColor(teachers[i].getColor()) > d2.countStudentByColor(teachers[i].getColor()) && d1.countStudentByColor(teachers[i].getColor()) > d3.countStudentByColor(teachers[i].getColor())) {
+                    d1.addTeacherToTable(teachers[i]);
+                    if (d2.getTeacherTable()[i] != null)
+                        d2.removeTeacherFromTable(teachers[i]);
+                    else if (d3.getTeacherTable()[i] != null)
+                        d3.removeTeacherFromTable(teachers[i]);
+                } else if (d2.countStudentByColor(teachers[i].getColor()) > d1.countStudentByColor(teachers[i].getColor()) && d2.countStudentByColor(teachers[i].getColor()) > d3.countStudentByColor(teachers[i].getColor())) {
+                    d2.addTeacherToTable(teachers[i]);
+                    if (d1.getTeacherTable()[i] != null)
+                        d1.removeTeacherFromTable(teachers[i]);
+                    else if (d3.getTeacherTable()[i] != null)
+                        d3.removeTeacherFromTable(teachers[i]);
+                } else if (d3.countStudentByColor(teachers[i].getColor()) > d1.countStudentByColor(teachers[i].getColor()) && d3.countStudentByColor(teachers[i].getColor()) > d2.countStudentByColor(teachers[i].getColor())) {
+                    d3.addTeacherToTable(teachers[i]);
+                    if (d1.getTeacherTable()[i] != null)
+                        d1.removeTeacherFromTable(teachers[i]);
+                    else if (d2.getTeacherTable()[i] != null)
+                        d2.removeTeacherFromTable(teachers[i]);
+                }
+
+            }
         }
+    }
 
     public void assignTower() {
         int i = 0;
@@ -443,6 +447,9 @@ public class Game {
                 p.setLastPlayedAC(0);
                 p.resetMovesOfStudents();
             }
+            for (Island island: islands){
+                island.setTowerMultiplier(1);
+            }
             plist.notifyAllClients("notify", "Planning phase");
             phase = 0;
             round++;
@@ -480,7 +487,6 @@ public class Game {
         }
         return index;
     }
-
 
 
     public void chooseCloudCard(int numberOfCloudCard, Player player) {
@@ -542,7 +548,7 @@ public class Game {
             }
         }
         player.playAssistantCard(cardNumber - 1);
-        if(player.deckSize()){
+        if (player.deckSize()) {
             plist.notifyAllClients("notify", "the game has finished");
         }
         return false;
@@ -563,12 +569,12 @@ public class Game {
     }
 
 
-    public boolean playCharacterCard(int specialCardIndex, int islandIndex, PawnColor color){
+    public boolean playCharacterCard(int specialCardIndex, int islandIndex, PawnColor color) {
         SpecialCard specialCard = cardsInGame.get(specialCardIndex);
-        specialCard.update(plist,actualPlayer, islands, color, islandIndex, studentsBag);
+        specialCard.update(plist, actualPlayer, islands, color, islandIndex, studentsBag);
 
-        if(actualPlayer.getWallet() >= specialCard.getCost()){
-            specialCard.update(plist,actualPlayer, islands, color, islandIndex, studentsBag);
+        if (actualPlayer.getWallet() >= specialCard.getCost()) {
+            specialCard.update(plist, actualPlayer, islands, color, islandIndex, studentsBag);
             specialCard.effect();
             actualPlayer.spendCoins(specialCard.getCost());
         } else {
@@ -576,7 +582,6 @@ public class Game {
         }
         return false;
     }
-
 
 
 }

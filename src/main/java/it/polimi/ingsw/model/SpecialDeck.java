@@ -1,8 +1,7 @@
 package it.polimi.ingsw.model;
 
 
-import it.polimi.ingsw.PlayersList;
-import it.polimi.ingsw.comunication.BlockCard;
+import it.polimi.ingsw.model.CharacterCards.BlockCard;
 import it.polimi.ingsw.model.CharacterCards.*;
 
 import java.util.*;
@@ -38,8 +37,7 @@ public class SpecialDeck {
 
 
         public SpecialCard getSpecialCard(int index){
-            SpecialCard specialCard = deckMap.get(index);
-            return specialCard;
+            return deckMap.get(index);
         }
 
 
