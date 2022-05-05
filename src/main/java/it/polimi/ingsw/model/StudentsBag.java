@@ -31,6 +31,10 @@ public class StudentsBag {
         return randomStudent;
     }
 
+    public void addStudent(Student student){
+        bag.add(student);
+    }
+
 
     public int getNum(){
         return bag.size();

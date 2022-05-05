@@ -11,7 +11,6 @@ public class MotherNatureInfluence extends SpecialCard {
 
 
     public void effect() {
-        System.out.println("Choose an Island : ");
         islands.get(index).calcInfluence(playersList);
         addCost();
     }
