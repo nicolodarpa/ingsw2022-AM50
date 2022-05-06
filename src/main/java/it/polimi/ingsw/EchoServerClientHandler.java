@@ -2,6 +2,7 @@ package it.polimi.ingsw;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.comunication.TextMessage;
+import it.polimi.ingsw.model.AssistantCard;
 import it.polimi.ingsw.model.CharacterCards.SpecialCard;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.PawnColor;
@@ -12,6 +13,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.net.SocketException;
+import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Objects;
 
 
@@ -119,7 +123,7 @@ public class EchoServerClientHandler extends Thread {
                     String json = gson.toJson(text, TextMessage.class);
                     out.println(json);
                     break;
-                } else if (line.equals("dashboard")) {
+                }else if (line.equals("dashboard")) {
                     player.sendToClient("dashboard", game.sendDashboard());
                 } else if (line.equals("islands")) {
                     player.sendToClient("islands", game.sendIslands());
@@ -131,12 +135,16 @@ public class EchoServerClientHandler extends Thread {
                     player.sendToClient("msg", "not your turn");
                 } else if (line.equals("play assistant card") && game.getPhase() == 0) {
                     playAssistantCard();
-                } else if (game.getPhase() == 1) {
+                } else if(line.equals("actions") && game.getPhase() == 0){
+                    player.sendToClient("msg", "play an assistant card of your deck");
+                }else if (game.getPhase() == 1) {
                     if (player.getMovesOfStudents() > 0) {
                         if (line.equals("move student to island")) {
                             moveStudentToIsland();
                         } else if (line.equals("move student to classroom")) {
                             moveStudentToClassroom();
+                        } else if (line.equals("actions")){
+                            player.sendToClient("msg", "You can move student to classroom or you can move student to island");
                         } else {
                             player.sendToClient("msg", "move all you students before moving MN");
                         }
@@ -149,11 +157,8 @@ public class EchoServerClientHandler extends Thread {
                 } else {
                     player.sendToClient("msg", "ok");
                     player.sendToClient("msg", "Received: " + line);
-
-
                 }
             }
-
 
             game.removePlayer(name);
             in.close();
@@ -202,7 +207,11 @@ public class EchoServerClientHandler extends Thread {
         int numCard;
         boolean result = true;
         do {
-            player.sendToClient("msg", "chose assistant card to play");
+            player.sendToClient("msg", "chose assistant card to play:");
+            int counter = 1;
+            for (AssistantCard assistantCard : player.getDeck().getCardsList())
+                if (!game.checkLastPlayedAssistant(assistantCard.getOrder()))
+                    player.sendToClient("warning", assistantCard.getOrder() + ") you can play card with order " + assistantCard.getOrder() + " and #" + assistantCard.getMoveOfMN() + " moves of MN available");
             try {
                 numCard = Integer.parseInt((in.readLine()));
 

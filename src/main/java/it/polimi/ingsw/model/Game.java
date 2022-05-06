@@ -165,7 +165,6 @@ public class Game {
 
     }
 
-
     public String sendDashboard() {
         ArrayList<DashboardStatus> statusList = new ArrayList<>();
         for (Player player : plist.getPlayers()) {
@@ -574,9 +573,10 @@ public class Game {
         boolean check = false;
         if (checkLastPlayedAssistant(cardNumber)) {
             player.sendToClient("error", "Assistant card already played by another player");
+            int counter = 1;
             for (AssistantCard assistantCard : player.getDeck().getCardsList()) {
                 if (!checkLastPlayedAssistant(assistantCard.getOrder())) {
-                    player.sendToClient("warning", "you can play card# " + assistantCard.getOrder());
+                    player.sendToClient("warning", assistantCard.getOrder() + ") you can play card with order " + assistantCard.getOrder() + " and #" + assistantCard.getMoveOfMN() + " moves of MN available");
                     check = true;
                 }
 
@@ -621,6 +621,7 @@ public class Game {
         } else {
             actualPlayer.sendToClient("warning","Not enough coins to play this card, you have "+ actualPlayer.getWallet() + " coins");
             return true;
+
         }
         return false;
     }
