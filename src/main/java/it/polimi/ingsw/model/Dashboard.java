@@ -11,8 +11,10 @@ public class Dashboard {
     private Student[] hall;
     private Teacher[] teacherTable = new Teacher[5];
     private ArrayList<Tower> towers = new ArrayList<>();
-    private boolean [][] coinPos = new boolean[5][10];
+    private boolean[][] coinPos = new boolean[5][10];
     private int hallCapacity;
+
+
 
 
     public ArrayList<Tower> getTowers() {
@@ -32,20 +34,23 @@ public class Dashboard {
     }
 
 
-
     public Dashboard() {
         setCoinPos();
 
     }
 
-    /** the coin position determinate the position where the game has to give to a player a coin if he moves his student to the classroom */
-    public void setCoinPos ( ){
-        for (int i=0; i < PawnColor.numberOfColors; i++){
-            coinPos[i][2]= true;
-            coinPos[i][5]= true;
-            coinPos[i][8]=true;
+    /**
+     * the coin position determinate the position where the game has to give to a player a coin if he moves his student to the classroom
+     */
+    public void setCoinPos() {
+        for (int i = 0; i < PawnColor.numberOfColors; i++) {
+            coinPos[i][2] = true;
+            coinPos[i][5] = true;
+            coinPos[i][8] = true;
         }
     }
+
+
 
 
     public void drawDashboard() {
@@ -87,24 +92,24 @@ public class Dashboard {
         System.out.println(" ");
     }
 
-    public void setupHall(int gameMode){
-        if (gameMode==2){
+    public void setupHall(int gameMode) {
+        if (gameMode == 2) {
             hallCapacity = 7;
-        } else if (gameMode==3){
-            hallCapacity=9;
+        } else if (gameMode == 3) {
+            hallCapacity = 9;
         }
-        hall=new Student[hallCapacity];
+        hall = new Student[hallCapacity];
     }
 
     public Student getStudentFromHall(int i) {
-        try{
+        try {
             Student student = hall[i];
             hall[i] = null;
             return student;
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println("please, insert a valid value of position, between 0 and 6");
         }
-       return null;
+        return null;
     }
 
     public void addStudentToHall(Student student) {
@@ -117,49 +122,49 @@ public class Dashboard {
     }
 
 
-    public Student getStudentFromClassroom (PawnColor studentColor){
+    public Student getStudentFromClassroom(PawnColor studentColor) {
         Student studentToRemove = null;
-            try{
-                studentToRemove = findLastStudent(studentColor);
-            }catch (Exception e){
-                System.out.println("there isn't any student of this color in the classroom");
-            }
-            return studentToRemove;
+        try {
+            studentToRemove = findLastStudent(studentColor);
+        } catch (Exception e) {
+            System.out.println("there isn't any student of this color in the classroom");
+        }
+        return studentToRemove;
     }
 
-    public Student findLastStudent(PawnColor studentColor){
+    public Student findLastStudent(PawnColor studentColor) {
         int position = 0;
         Student lastStudent = null;
-        try{
-            if(classroom[studentColor.ordinal()][position] != null){
-                while(classroom[studentColor.ordinal()][position] != null)
+        try {
+            if (classroom[studentColor.ordinal()][position] != null) {
+                while (classroom[studentColor.ordinal()][position] != null)
                     position++;
             }
-            lastStudent = classroom[studentColor.ordinal()][position-1];
-            classroom[studentColor.ordinal()][position-1] = null;
-        }catch (Exception e){
+            lastStudent = classroom[studentColor.ordinal()][position - 1];
+            classroom[studentColor.ordinal()][position - 1] = null;
+        } catch (Exception e) {
             System.out.println("Invalid input");
         }
         return lastStudent;
     }
 
-    public void addStudentToClassroom (Student student){
-            PawnColor color = student.getColor();
-            for (int i = 0; i < 10; i++) {
-                if (classroom[color.ordinal()][i] == null) {
-                        classroom[color.ordinal()][i] = student;
-                        return;
+    public void addStudentToClassroom(Student student) {
+        PawnColor color = student.getColor();
+        for (int i = 0; i < 10; i++) {
+            if (classroom[color.ordinal()][i] == null) {
+                classroom[color.ordinal()][i] = student;
+                return;
 
-                }
             }
+        }
     }
 
 
-    public void addCoin (Wallet wallet){
+    public void addCoin(Wallet wallet) {
         for (int j = 0; j < 5; j++) {
-            for (int i = 0; i <10; i++) {
+            for (int i = 0; i < 10; i++) {
                 if (classroom[j][i] != null && coinPos[j][i]) {
-                    coinPos [j][i] = false;
+                    coinPos[j][i] = false;
                     wallet.addCoins(1);
                 }
             }
@@ -170,51 +175,53 @@ public class Dashboard {
         return coinPos;
     }
 
-    public void addTeacherToTable (Teacher teacher){
-        try{
+    public void addTeacherToTable(Teacher teacher) {
+        try {
             PawnColor color = teacher.getColor();
             teacherTable[color.ordinal()] = teacher;
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e);
 
         }
 
-        }
+    }
 
-        public void removeTeacherFromTable (Teacher teacher){
-            PawnColor color = teacher.getColor();
-            teacherTable[color.ordinal()] = null;
-        }
-
-
-        public Teacher[] getTeacherTable () {
-            return teacherTable;
-        }
+    public void removeTeacherFromTable(Teacher teacher) {
+        PawnColor color = teacher.getColor();
+        teacherTable[color.ordinal()] = null;
+    }
 
 
-        /**
-         * count the number of students of one color in the classroom
-         * @param color is the color of the student, that we search
-         * @return the number of the students of one color
-         */
-        public int countStudentByColor (PawnColor color){
-            int numberOfStudent = 0;
-
-            for (int i = 0; i < 10; i++)
-                if (classroom[color.ordinal()][i] != null) {
-                    numberOfStudent++;
-                }
-            return numberOfStudent;
-        }
+    public Teacher[] getTeacherTable() {
+        return teacherTable;
+    }
 
 
-    public void removeTower(Tower t){
+    /**
+     * count the number of students of one color in the classroom
+     *
+     * @param color is the color of the student, that we search
+     * @return the number of the students of one color
+     */
+    public int countStudentByColor(PawnColor color) {
+        int numberOfStudents = 0;
+
+        for (int i = 0; i < 10; i++)
+            if (classroom[color.ordinal()][i] != null) {
+                numberOfStudents++;
+            }
+
+        return numberOfStudents;
+    }
+
+
+    public void removeTower(Tower t) {
         towers.remove(t);
     }
 
-    public void addTower(int towerNumber, TowerColor color){
+    public void addTower(int towerNumber, TowerColor color) {
         Tower tower = new Tower(color);
-        for(int i = 0; i < towerNumber; i++)
+        for (int i = 0; i < towerNumber; i++)
             towers.add(tower);
     }
 

@@ -8,8 +8,7 @@ import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.Student;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TeacherAssignmentTest {
     private Game gameTest = new Game();
@@ -58,10 +57,16 @@ public class TeacherAssignmentTest {
         TeacherAssignment card = new TeacherAssignment();
         Player player_one = gameTest.getPlist().getPlayers().get(0);
         Player player_two = gameTest.getPlist().getPlayers().get(1);
+        card.setActualPlayer(player_one);
         player_two.getDashboard().addStudentToClassroom(new Student(PawnColor.RED));
         player_one.getDashboard().addStudentToClassroom(new Student(PawnColor.RED));
-        card.update(gameTest.getPlist(), gameTest.getActualPlayer(), gameTest.getIslands(), null, 1, gameTest.getStudentsBag());
+        gameTest.assignTeacher();
+        assertNull(player_one.getDashboard().getTeacherTable()[PawnColor.RED.ordinal()]);
         card.effect();
+        player_two.getDashboard().addStudentToClassroom(new Student(PawnColor.GREEN));
+        player_one.getDashboard().addStudentToClassroom(new Student(PawnColor.GREEN));
+        gameTest.assignTeacher();
+        assertNotNull(player_one.getDashboard().getTeacherTable()[PawnColor.GREEN.ordinal()]);
         player_one.getDashboard().drawDashboard();
         player_two.getDashboard().drawDashboard();
     }

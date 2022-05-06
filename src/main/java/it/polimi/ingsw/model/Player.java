@@ -30,7 +30,21 @@ public class Player {
 
     private int lastPlayedAC = 0;
 
+    private boolean teacherAssignerModifier = false;
+
+
     private final ArrayList<AssistantCard> assistantCardsPlayed = new ArrayList<>();
+
+    public Player(String name) {
+        this.name = name;
+        wallet.setCoins(1);
+    }
+
+    public Player(String name, Socket socket) {
+        this.name = name;
+        this.socket = socket;
+        wallet.setCoins(1);
+    }
 
     public Dashboard getDashboard() {
         return dashboard;
@@ -44,17 +58,18 @@ public class Player {
         return wallet.getCoins();
     }
 
-    public void addCoin(int coin){
+    public void addCoin(int coin) {
         wallet.addCoins(coin);
     }
 
-    public void spendCoins(int coin){
+    public void spendCoins(int coin) {
         wallet.removeCoins(coin);
     }
 
-    public void resetMovesOfStudents(){
+    public void resetMovesOfStudents() {
         movesOfStudents = 3;
     }
+
     public int getMovesOfStudents() {
         return movesOfStudents;
     }
@@ -67,15 +82,12 @@ public class Player {
         this.lastPlayedAC = lastPlayedAC;
     }
 
-    public Player(String name) {
-        this.name = name;
-        wallet.setCoins(1);
+    public void setTeacherAssignerModifier(boolean modifier) {
+        this.teacherAssignerModifier = modifier;
     }
 
-    public Player(String name, Socket socket) {
-        this.name = name;
-        this.socket = socket;
-        wallet.setCoins(1);
+    public boolean isTeacherAssignerModifier() {
+        return teacherAssignerModifier;
     }
 
 
@@ -261,17 +273,16 @@ public class Player {
     public void changeStudent(PawnColor studentColor, int pos_hall) {
         Student studentFromClassroom = dashboard.getStudentFromClassroom(studentColor);
         Student studentFromHall = dashboard.getStudentFromHall(pos_hall);
-        try{
-            if(studentFromClassroom != null){
+        try {
+            if (studentFromClassroom != null) {
                 dashboard.addStudentToClassroom(studentFromHall);
                 dashboard.addStudentToHall(studentFromClassroom);
             }
-        }catch (Exception ignored){
+        } catch (Exception ignored) {
 
         }
 
     }
-
 
 
 }

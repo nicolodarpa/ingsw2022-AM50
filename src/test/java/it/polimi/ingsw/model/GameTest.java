@@ -230,15 +230,15 @@ public class GameTest{
 
         player_one.moveStudentToClassroom(1, gameTest);
         for (int i = 0; i<2; i++){
-            Student studentcolor = new Student(PawnColor.CYAN);
-            player_one.getDashboard().addStudentToHall(studentcolor);
+            Student studentColor = new Student(PawnColor.CYAN);
+            player_one.getDashboard().addStudentToHall(studentColor);
             player_one.moveStudentToClassroom(1,gameTest);
         }
 
         player_two.moveStudentToClassroom(1,gameTest);
         for (int i = 0; i<4; i++){
-            Student studentcolor = new Student(PawnColor.CYAN);
-            player_two.getDashboard().addStudentToHall(studentcolor);
+            Student studentColor = new Student(PawnColor.CYAN);
+            player_two.getDashboard().addStudentToHall(studentColor);
             player_two.moveStudentToClassroom(1,gameTest);
         }
 
@@ -252,22 +252,7 @@ public class GameTest{
 
     }
 
-
-    /**@Test
-    @DisplayName("Test the playing of a special Card and spent the coin of the player")
-    public void playCharacterCardTest(){
-        gameTest = new Game();
-        gameTest.setNumberOfPlayers(2);
-        LoginManager.login("ale", gameTest);
-        LoginManager.login("nic", gameTest);
-        gameTest.setupGame();
-        gameTest.setActualPlayer(gameTest.getPlist().getPlayerByName("ale"));
-        gameTest.getPlist().getPlayers().get(0).addCoin(4);
-        System.out.println(gameTest.getCardsInGame().get(1).getCost());
-        gameTest.playCharacterCard(1,1,PawnColor.GREEN);
-        System.out.println(gameTest.getPlist().getPlayers().get(0).getWallet());
-    }
-     */
+    
 
     @Test
     @DisplayName("The player choose a cloud card")
