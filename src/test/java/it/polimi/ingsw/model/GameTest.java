@@ -252,7 +252,7 @@ public class GameTest{
 
     }
 
-    
+
 
     @Test
     @DisplayName("The player choose a cloud card")

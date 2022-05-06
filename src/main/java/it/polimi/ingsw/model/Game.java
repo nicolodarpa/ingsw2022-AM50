@@ -458,15 +458,15 @@ public class Game {
             nextPhase();
         } else {
             for (Player p : plist.getPlayers()) {
+                if (phase == 1 && p.getHasPlayed()){
+                    p.setTeacherAssignerModifier(false);
+                }
                 if (p.getOrder() < max_order && !p.getHasPlayed()) {
                     temp = p;
                     max_order = p.getOrder();
                 }
             }
             if (temp != null) {
-                if (phase == 1) {
-                    actualPlayer.setTeacherAssignerModifier(false);
-                }
                 this.actualPlayer = temp;
                 temp.sendToClient("notify", "Your turn started");
                 System.out.println(actualPlayer.getName() + " turn");
@@ -610,15 +610,16 @@ public class Game {
     }
 
 
-    public boolean playCharacterCard(int specialCardIndex, int islandIndex, PawnColor color) {
+    public boolean playCharacterCard(int specialCardIndex, int index, PawnColor color) {
         SpecialCard specialCard = cardsInGame.get(specialCardIndex);
-        specialCard.update(plist, actualPlayer, islands, color, islandIndex, studentsBag);
+        specialCard.update(plist, actualPlayer, islands, color, index, studentsBag);
 
         if (actualPlayer.getWallet() >= specialCard.getCost()) {
-            specialCard.update(plist, actualPlayer, islands, color, islandIndex, studentsBag);
+            specialCard.update(plist, actualPlayer, islands, color, index, studentsBag);
             specialCard.effect();
             actualPlayer.spendCoins(specialCard.getCost());
         } else {
+            actualPlayer.sendToClient("warning","Not enough coins to play this card, you have "+ actualPlayer.getWallet() + " coins");
             return true;
         }
         return false;

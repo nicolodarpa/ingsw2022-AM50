@@ -1,21 +1,17 @@
 package it.polimi.ingsw;
 
 import com.google.gson.Gson;
-import it.polimi.ingsw.comunication.StudentRoom;
 import it.polimi.ingsw.comunication.TextMessage;
 import it.polimi.ingsw.model.CharacterCards.SpecialCard;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.PawnColor;
 import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.Student;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.Locale;
 import java.util.Objects;
 
 
@@ -127,10 +123,9 @@ public class EchoServerClientHandler extends Thread {
                     player.sendToClient("dashboard", game.sendDashboard());
                 } else if (line.equals("islands")) {
                     player.sendToClient("islands", game.sendIslands());
-                } else if (line.equals("deck")){
+                } else if (line.equals("deck")) {
                     sendDeck();
-                }
-                else if (line.equals("play character card")) {
+                } else if (line.equals("play character card")) {
                     playCharacterCard();
                 } else if (player != game.getActualPlayer()) {
                     player.sendToClient("msg", "not your turn");
@@ -145,12 +140,10 @@ public class EchoServerClientHandler extends Thread {
                         } else {
                             player.sendToClient("msg", "move all you students before moving MN");
                         }
-
                     } else if (player.getMovesOfStudents() == 0 && line.equals("move MN")) {
                         moveMotherNature();
                     } else if (line.equals("choose cc")) {
                         chooseCC();
-
                     }
 
                 } else {
@@ -173,7 +166,7 @@ public class EchoServerClientHandler extends Thread {
         }
     }
 
-    private void sendDeck(){
+    private void sendDeck() {
         player.sendToClient("deck", game.sendCharacterCardsDeck());
     }
 
@@ -181,35 +174,27 @@ public class EchoServerClientHandler extends Thread {
         sendDeck();
         int specialCardIndex = 0;
         SpecialCard specialCard = null;
-        int studentToChange = 0;
-        int positionHall = 0;
         PawnColor studentColor = null;
         int index = 1;
         boolean result = true;
-        do {
-            player.sendToClient("warning", "Select character card");
-            try {
-                specialCardIndex = Integer.parseInt(in.readLine());
-                specialCard = game.getCardsInGame().get(specialCardIndex - 1);
-            } catch (Exception e) {
-                player.sendToClient("warning", "Input a number between 1 and 3");
-            }
-        } while (specialCard == null);
-        switch (specialCard.getName()) {
-            case ("knight"):
-                game.playCharacterCard(specialCardIndex - 1, 1, null);
-            case ("merchant"):
-                game.playCharacterCard(specialCardIndex - 1, 1, null);
-            case ("princess"):
-                player.sendToClient("msg","Select an island");
+        while (result) {
+            do {
+                player.sendToClient("warning", "Select character card");
+                try {
+                    specialCardIndex = Integer.parseInt(in.readLine());
+                    specialCard = game.getCardsInGame().get(specialCardIndex - 1);
+                } catch (Exception e) {
+                    player.sendToClient("warning", "Input a number between 1 and 3");
+                }
+            } while (specialCard == null);
+            player.sendToClient("notify", specialCard.getEffectOfTheCard());
+            if (Objects.equals(specialCard.getName(), "princess") || Objects.equals(specialCard.getName(), "ambassador") || Objects.equals(specialCard.getName(), "warrior")) {
                 index = indexIslandInput();
-                game.playCharacterCard(specialCardIndex-1, index, null);
-            case(""):
-
-
+            } else if (Objects.equals(specialCard.getName(), "thief") || Objects.equals(specialCard.getName(), "wizard")) {
+                studentColor = colorSelection();
+            }
+            result = game.playCharacterCard(specialCardIndex - 1, index-1, studentColor);
         }
-
-
     }
 
 
@@ -237,7 +222,6 @@ public class EchoServerClientHandler extends Thread {
     private void moveStudentToIsland() {
         player.sendToClient("msg", "select student from hall to move to an island:");
         int numPlayer = indexStudentInput();
-        player.sendToClient("msg", "select island");
         int indexIsland = indexIslandInput();
         if (player.moveStudentToIsland(numPlayer - 1, indexIsland - 1, game)) {
             player.sendToClient("hall", game.sendHall(player));
@@ -262,6 +246,19 @@ public class EchoServerClientHandler extends Thread {
 
     }
 
+    private PawnColor colorSelection() {
+        player.sendToClient("msg", "Select a color:\n1-CYAN\n2-MAGENTA\n3-YELLOW\n4-RED\n5-GREEN");
+        while (true) {
+            PawnColor studentColor;
+            try {
+                studentColor = PawnColor.values()[Integer.parseInt(in.readLine()) - 1];
+                return studentColor;
+            } catch (IOException e) {
+                player.sendToClient("error", "Please select a valid color, input a number between 1-5");
+            }
+        }
+    }
+
     private int indexStudentInput() {
         int numPlayer = 0;
         try {
@@ -279,17 +276,18 @@ public class EchoServerClientHandler extends Thread {
     }
 
     private int indexIslandInput() {
-        while (true){
+        player.sendToClient("msg", "Select an island");
+        while (true) {
             try {
                 String line = in.readLine();
                 int numIsland = Integer.parseInt(line);
                 if (numIsland < 1 || numIsland > game.getIslands().size()) {
-                    player.sendToClient("msg", "Error input, plese select a value between 1 and " + game.getIslands().size());
+                    player.sendToClient("msg", "Error input, please select a value between 1 and " + game.getIslands().size());
                     indexIslandInput();
                 }
                 return numIsland;
             } catch (Exception e) {
-                player.sendToClient("msg", "Error input, plese select a value between 1 and " + game.getIslands().size());
+                player.sendToClient("msg", "Error input, please select a value between 1 and " + game.getIslands().size());
 
             }
         }
