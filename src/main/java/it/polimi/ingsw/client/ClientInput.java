@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client;
 
 import java.io.PrintWriter;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class ClientInput extends Thread {
@@ -17,10 +18,13 @@ public class ClientInput extends Thread {
 
 
     public void run() {
-        while (true){
+        while (true) {
             String inputLine = stdin.nextLine();
             socketOut.println(inputLine);
             socketOut.flush();
+            if (Objects.equals(inputLine, "quit")) {
+                break;
+            }
         }
     }
 }

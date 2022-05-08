@@ -5,6 +5,7 @@ import it.polimi.ingsw.PlayersList;
 import it.polimi.ingsw.comunication.*;
 import it.polimi.ingsw.model.CharacterCards.SpecialCard;
 
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -24,7 +25,7 @@ import java.util.*;
  */
 
 public class Game {
-    private boolean gameStatus;
+    private String gameStatus;
     private int round = 0;
     private int phase = 0;
     private int numberOfPlayers = 3;
@@ -62,6 +63,9 @@ public class Game {
         return false;
     }
 
+    public String getGameStatus(){
+        return gameStatus;
+    }
 
     public int getCurrentNumberOfPlayers() {
         return plist.getCurrentNumberOfPlayers();
@@ -116,10 +120,19 @@ public class Game {
         return getCurrentNumberOfPlayers() == numberOfPlayers;
     }
 
-    public void removePlayer(String name) {
-        plist.removePlayer(name);
-        System.out.println(name + " logged out");
-        plist.notifyAllClients("msg", name + " logged out");
+    public void removePlayer(Player player){
+        plist.removePlayer(player);
+        if (numberOfPlayers == 2 && plist.getCurrentNumberOfPlayers() == 1) {
+            for (Player player1 : plist.getPlayers()) {
+                player1.sendToClient("quit", "Victory");
+                try {
+                    player1.getSocket().close();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+
     }
 
     public void moveStudentsToHall() {
@@ -127,6 +140,7 @@ public class Game {
     }
 
     public void setupGame() {
+        gameStatus = "active";
         for (Player player : plist.getPlayers()) {
             player.getDashboard().setupHall(numberOfPlayers);
         }
@@ -312,15 +326,13 @@ public class Game {
 
     public void connectIsland() {
         for (int i = 1; i < islands.size(); i++) {
-
             Island curr = islands.get(i);
             Island next;
             if (i == islands.size() - 1) {
                 next = islands.get(0);
             } else next = islands.get(i + 1);
-
-
-            if (Objects.equals(next.getOwner(), curr.getOwner()) && !Objects.equals(curr.getOwner(), "free") && !Objects.equals(next.getIdGroup(), curr.getIdGroup())) {
+            if (Objects.equals(next.getOwner(), curr.getOwner()) && !Objects.equals(curr.getOwner(), "free") &&
+                    !Objects.equals(next.getIdGroup(), curr.getIdGroup())) {
                 next.setIdGroup(curr.getIdGroup());
                 for (Student student : next.getStudents()) {
                     islands.get(i).addStudent(student);
@@ -329,10 +341,18 @@ public class Game {
                 for (Tower tower : next.getTowerArrayList()) {
                     islands.get(i).addTower(tower);
                 }
+                if (curr.getPresenceMN() || next.getPresenceMN()) {
+                    islands.get(i).setPresenceMN(true);
+                }
                 islands.get(i).increaseDimension();
                 islands.remove(next);
                 i--;
             }
+        }
+        int i = 1;
+        for (Island island : islands) {
+            island.setId(i);
+            i++;
         }
         if (islands.size() == 3) {
             plist.notifyAllClients("notify", "the game has finished");
@@ -457,7 +477,7 @@ public class Game {
             nextPhase();
         } else {
             for (Player p : plist.getPlayers()) {
-                if (phase == 1 && p.getHasPlayed()){
+                if (phase == 1 && p.getHasPlayed()) {
                     p.setTeacherAssignerModifier(false);
                 }
                 if (p.getOrder() < max_order && !p.getHasPlayed()) {
@@ -573,7 +593,6 @@ public class Game {
         boolean check = false;
         if (checkLastPlayedAssistant(cardNumber)) {
             player.sendToClient("error", "Assistant card already played by another player");
-            int counter = 1;
             for (AssistantCard assistantCard : player.getDeck().getCardsList()) {
                 if (!checkLastPlayedAssistant(assistantCard.getOrder())) {
                     player.sendToClient("warning", assistantCard.getOrder() + ") you can play card with order " + assistantCard.getOrder() + " and #" + assistantCard.getMoveOfMN() + " moves of MN available");
@@ -619,7 +638,7 @@ public class Game {
             specialCard.effect();
             actualPlayer.spendCoins(specialCard.getCost());
         } else {
-            actualPlayer.sendToClient("warning","Not enough coins to play this card, you have "+ actualPlayer.getWallet() + " coins");
+            actualPlayer.sendToClient("warning", "Not enough coins to play this card, you have " + actualPlayer.getWallet() + " coins");
             return true;
 
         }

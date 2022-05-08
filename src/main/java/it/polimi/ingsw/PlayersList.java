@@ -45,14 +45,9 @@ public class PlayersList {
 
     }
 
-    public synchronized void removePlayer(String name) {
-        for (Player q : players) {
-            if (q.getName().equals(name)) {
-                players.remove(q);
-                System.out.println(q.getName() + " logged out");
-
-            }
-        }
+    public  void removePlayer(Player player) {
+        players.remove(player);
+        System.out.println(player.getName() +" logged out");
     }
 
     public void moveStudentsToHall(StudentsBag studentsBag) {

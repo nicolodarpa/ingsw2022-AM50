@@ -9,6 +9,7 @@ import it.polimi.ingsw.model.Student;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.net.Socket;
 import java.util.Objects;
 
 public class ClientOut extends Thread {
@@ -24,8 +25,11 @@ public class ClientOut extends Thread {
 
     private final BufferedReader socketIn;
 
-    public ClientOut(BufferedReader socketIn) {
+    private final Socket socket;
+
+    public ClientOut(BufferedReader socketIn, Socket socket) {
         this.socketIn = socketIn;
+        this.socket = socket;
     }
 
     private void draw(String color) {
@@ -116,9 +120,9 @@ public class ClientOut extends Thread {
         }
     }
 
-    private void printCharacterCards(){
+    private void printCharacterCards() {
         CharacterCard[] characterCards = gson.fromJson(message.message, CharacterCard[].class);
-        for (CharacterCard characterCard: characterCards){
+        for (CharacterCard characterCard : characterCards) {
             System.out.println("====");
             System.out.println("Name: " + characterCard.name);
             System.out.println("Effect: " + characterCard.effect);
@@ -140,10 +144,10 @@ public class ClientOut extends Thread {
         }
     }
 
-    private void printStudentsRoom(){
+    private void printStudentsRoom() {
         StudentRoom studentRoom = gson.fromJson(message.message, StudentRoom.class);
         System.out.println("=====Students Room: ");
-        for (String student: studentRoom.students){
+        for (String student : studentRoom.students) {
             System.out.print("-");
             draw(student);
         }
@@ -157,37 +161,40 @@ public class ClientOut extends Thread {
             String socketLine;
             try {
                 socketLine = socketIn.readLine();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            if (socketLine != null) {
-                Gson gson = new Gson();
-                message = gson.fromJson(socketLine, TextMessage.class);
-                if (Objects.equals(message.type, "msg")) {
-                    System.out.println(message.message);
-                } else if (Objects.equals(message.type, "error")) {
-                    System.out.println(RED + message.message + ANSI_RESET);
-                } else if (Objects.equals(message.type, "warning")) {
-                    System.out.println(YELLOW + message.message + ANSI_RESET);
-                } else if (Objects.equals(message.type, "notify")) {
-                    System.out.println(GREEN + message.message + ANSI_RESET);
-                } else if (Objects.equals(message.type, "characterCards")) {
-                    printCharacterCards();
-                } else if (Objects.equals(message.type, "islands")) {
-                    printIslands();
-                } else if (Objects.equals(message.type, "dashboard")) {
-                    printDashboard();
-                } else if (Objects.equals(message.type, "cloudCard")) {
-                    printCloudCard();
-                } else if (Objects.equals(message.type, "hall")) {
-                    printHall();
-                } else if (Objects.equals(message.type, "studentsRoom")) {
-                    printStudentsRoom();
-                } else if (Objects.equals(message.type, "quit")) {
-                    System.out.println(message.message);
-                    break;
+                if (socketLine != null) {
+                    Gson gson = new Gson();
+                    message = gson.fromJson(socketLine, TextMessage.class);
+                    if (Objects.equals(message.type, "msg")) {
+                        System.out.println(message.message);
+                    } else if (Objects.equals(message.type, "error")) {
+                        System.out.println(RED + message.message + ANSI_RESET);
+                    } else if (Objects.equals(message.type, "warning")) {
+                        System.out.println(YELLOW + message.message + ANSI_RESET);
+                    } else if (Objects.equals(message.type, "notify")) {
+                        System.out.println(GREEN + message.message + ANSI_RESET);
+                    } else if (Objects.equals(message.type, "characterCards")) {
+                        printCharacterCards();
+                    } else if (Objects.equals(message.type, "islands")) {
+                        printIslands();
+                    } else if (Objects.equals(message.type, "dashboard")) {
+                        printDashboard();
+                    } else if (Objects.equals(message.type, "cloudCard")) {
+                        printCloudCard();
+                    } else if (Objects.equals(message.type, "hall")) {
+                        printHall();
+                    } else if (Objects.equals(message.type, "studentsRoom")) {
+                        printStudentsRoom();
+                    } else if (Objects.equals(message.type, "quit")) {
+                        System.out.println(message.message);
+                        socket.close();
+                        break;
+                    }
                 }
+            } catch (IOException e) {
+                System.out.println("No connection to the server");
+                break;
             }
+
 
         }
 

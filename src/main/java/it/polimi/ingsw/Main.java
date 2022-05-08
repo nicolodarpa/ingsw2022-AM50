@@ -31,7 +31,7 @@ public class Main {
         try {
             client.startClient();
 
-        } catch (IOException e) {
+        } catch (Exception e) {
             System.err.println(e.getMessage());
         }
     }

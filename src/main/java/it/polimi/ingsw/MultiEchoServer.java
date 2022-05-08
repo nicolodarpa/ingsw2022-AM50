@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class MultiEchoServer {
     private int port;
@@ -18,7 +19,9 @@ public class MultiEchoServer {
     public void startServer() {
         System.out.println("====Eriantys CLI Server====");
         ArrayList<EchoServerClientHandler> threadList = new ArrayList<>();
+        ArrayList<Game> gameArrayList = new ArrayList<>();
         Game game = new Game();
+        gameArrayList.add(game);
         ServerSocket serverSocket;
         try {
             serverSocket = new ServerSocket(port);
@@ -30,7 +33,11 @@ public class MultiEchoServer {
         while (true) {
             try {
                 Socket clientSocket = serverSocket.accept();
-                EchoServerClientHandler serverThread = new EchoServerClientHandler(clientSocket, game);
+                if (Objects.equals(game.getGameStatus(), "active")){
+                    game = new Game();
+                    gameArrayList.add(game);
+                }
+                EchoServerClientHandler serverThread = new EchoServerClientHandler(clientSocket, game, gameArrayList.size());
                 threadList.add(serverThread);
                 serverThread.start();
             } catch (IOException e) {

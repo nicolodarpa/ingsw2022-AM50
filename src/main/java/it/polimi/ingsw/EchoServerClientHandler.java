@@ -2,20 +2,14 @@ package it.polimi.ingsw;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.comunication.TextMessage;
-import it.polimi.ingsw.model.AssistantCard;
+import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.CharacterCards.SpecialCard;
-import it.polimi.ingsw.model.Game;
-import it.polimi.ingsw.model.PawnColor;
-import it.polimi.ingsw.model.Player;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.net.SocketException;
-import java.util.ArrayList;
-import java.util.Locale;
 import java.util.Objects;
 
 
@@ -26,9 +20,12 @@ public class EchoServerClientHandler extends Thread {
     private Player player;
     private BufferedReader in;
 
-    public EchoServerClientHandler(Socket socket, Game game) throws IOException {
+    private Integer size;
+
+    public EchoServerClientHandler(Socket socket, Game game, int size) throws IOException {
         this.socket = socket;
         this.game = game;
+        this.size = size;
 
     }
 
@@ -48,6 +45,7 @@ public class EchoServerClientHandler extends Thread {
                     case 0 -> {
                         game.getPlist().getPlayerByName(name).setSocket(socket);
                         player = game.getPlist().getPlayerByName(name);
+                        player.sendToClient("notify", "Game " + size);
                         if (game.getCurrentNumberOfPlayers() == 1) {
                             player.sendToClient("msg", "Welcome " + name + " Choose number of players, 2 or 3 allowed:");
                             String numPlayers;
@@ -84,7 +82,6 @@ public class EchoServerClientHandler extends Thread {
                 }
             }
 
-
             game.checkLobby();
             while (!game.waitLobby()) {
                 player.sendToClient("msg", "Waiting for other " + (game.getNumberOfPlayers() - game.getCurrentNumberOfPlayers()) + " players");
@@ -114,39 +111,34 @@ public class EchoServerClientHandler extends Thread {
             }
 
 
-            while (true) {
+            while (!socket.isClosed()) {
                 String line = in.readLine();
                 if (line.equals("quit")) {
-                    PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-                    TextMessage text = new TextMessage("quit", "Goodbye " + name);
-                    Gson gson = new Gson();
-                    String json = gson.toJson(text, TextMessage.class);
-                    out.println(json);
-                    break;
-                }else if (line.equals("dashboard")) {
+                    player.sendToClient("quit", "Goodbye " + player.getName());
+                    game.removePlayer(player);
+                    socket.close();
+                } else if (line.equals("dashboard")) {
                     player.sendToClient("dashboard", game.sendDashboard());
                 } else if (line.equals("islands")) {
                     player.sendToClient("islands", game.sendIslands());
                 } else if (line.equals("deck")) {
-                    sendDeck();
+                    sendCharacterCardDeck();
                 } else if (line.equals("play character card")) {
                     playCharacterCard();
                 } else if (player != game.getActualPlayer()) {
                     player.sendToClient("msg", "not your turn");
                 } else if (line.equals("play assistant card") && game.getPhase() == 0) {
                     playAssistantCard();
-                } else if(line.equals("actions") && game.getPhase() == 0){
+                } else if (line.equals("actions") && game.getPhase() == 0) {
                     player.sendToClient("msg", "play an assistant card of your deck");
-                }else if (game.getPhase() == 1) {
+                } else if (game.getPhase() == 1) {
                     if (player.getMovesOfStudents() > 0) {
-                        if (line.equals("move student to island")) {
-                            moveStudentToIsland();
-                        } else if (line.equals("move student to classroom")) {
-                            moveStudentToClassroom();
-                        } else if (line.equals("actions")){
-                            player.sendToClient("msg", "You can move student to classroom or you can move student to island");
-                        } else {
-                            player.sendToClient("msg", "move all you students before moving MN");
+                        switch (line) {
+                            case "move student to island" -> moveStudentToIsland();
+                            case "move student to classroom" -> moveStudentToClassroom();
+                            case "actions" ->
+                                    player.sendToClient("msg", "You can move student to classroom or you can move student to island");
+                            default -> player.sendToClient("msg", "move all you students before moving MN");
                         }
                     } else if (player.getMovesOfStudents() == 0 && line.equals("move MN")) {
                         moveMotherNature();
@@ -160,23 +152,25 @@ public class EchoServerClientHandler extends Thread {
                 }
             }
 
-            game.removePlayer(name);
+            //game.removePlayer(name);
             in.close();
-            socket.close();
+            //socket.close();
 
 
-        } catch (IOException e) {
-
+        } catch (Exception e) {
+            System.out.println("Error with client " + player.getName() + " in game #" + size);
+            game.removePlayer(player);
             System.out.println(e.getMessage());
         }
     }
 
-    private void sendDeck() {
-        player.sendToClient("deck", game.sendCharacterCardsDeck());
+    private void sendCharacterCardDeck() {
+        player.sendToClient("characterCards", game.sendCharacterCardsDeck());
     }
 
     private void playCharacterCard() {
-        sendDeck();
+        sendCharacterCardDeck();
+        player.sendToClient("notify", "Wallet: #" + player.getWallet() + " coins");
         int specialCardIndex = 0;
         SpecialCard specialCard = null;
         PawnColor studentColor = null;
@@ -186,8 +180,14 @@ public class EchoServerClientHandler extends Thread {
             do {
                 player.sendToClient("warning", "Select character card");
                 try {
-                    specialCardIndex = Integer.parseInt(in.readLine());
-                    specialCard = game.getCardsInGame().get(specialCardIndex - 1);
+                    String line = in.readLine();
+                    if (Objects.equals(line, "exit")) {
+                        player.sendToClient("warning", "Quit character card selection");
+                        return;
+                    } else {
+                        specialCardIndex = Integer.parseInt(line);
+                        specialCard = game.getCardsInGame().get(specialCardIndex - 1);
+                    }
                 } catch (Exception e) {
                     player.sendToClient("warning", "Input a number between 1 and 3");
                 }
@@ -198,7 +198,7 @@ public class EchoServerClientHandler extends Thread {
             } else if (Objects.equals(specialCard.getName(), "thief") || Objects.equals(specialCard.getName(), "wizard")) {
                 studentColor = colorSelection();
             }
-            result = game.playCharacterCard(specialCardIndex - 1, index-1, studentColor);
+            result = game.playCharacterCard(specialCardIndex - 1, index - 1, studentColor);
         }
     }
 
