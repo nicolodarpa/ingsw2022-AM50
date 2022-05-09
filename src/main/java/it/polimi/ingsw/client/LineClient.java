@@ -25,7 +25,6 @@ public class LineClient {
         try {
             socket = new Socket(ip, port);
             System.out.println(ANSI_SECONDARY + "Connection established" + ANSI_RESET);
-            System.out.println("Enter your name");
             BufferedReader socketIn;
             PrintWriter socketOut;
             Scanner stdin;

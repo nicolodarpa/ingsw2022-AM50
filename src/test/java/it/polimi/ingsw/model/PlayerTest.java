@@ -20,6 +20,7 @@ public class PlayerTest{
         Player p = new Player("nic");
         StudentsBag s = new StudentsBag();
         s.fillBag(120);
+        p.getDashboard().setupHall(2);
         p.moveStudentsToHall(s);
         p.getDashboard().setupHall(2);
         assertEquals(7,p.getDashboard().getHall().length);

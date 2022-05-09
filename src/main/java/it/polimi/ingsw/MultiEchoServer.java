@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class MultiEchoServer {
-    private int port;
+    private final int port;
 
 
     public MultiEchoServer(int port) {
@@ -20,8 +20,6 @@ public class MultiEchoServer {
         System.out.println("====Eriantys CLI Server====");
         ArrayList<EchoServerClientHandler> threadList = new ArrayList<>();
         ArrayList<Game> gameArrayList = new ArrayList<>();
-        Game game = new Game();
-        gameArrayList.add(game);
         ServerSocket serverSocket;
         try {
             serverSocket = new ServerSocket(port);
@@ -33,11 +31,7 @@ public class MultiEchoServer {
         while (true) {
             try {
                 Socket clientSocket = serverSocket.accept();
-                if (Objects.equals(game.getGameStatus(), "active")){
-                    game = new Game();
-                    gameArrayList.add(game);
-                }
-                EchoServerClientHandler serverThread = new EchoServerClientHandler(clientSocket, game, gameArrayList.size());
+                EchoServerClientHandler serverThread = new EchoServerClientHandler(clientSocket, gameArrayList);
                 threadList.add(serverThread);
                 serverThread.start();
             } catch (IOException e) {

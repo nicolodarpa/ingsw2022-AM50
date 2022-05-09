@@ -92,7 +92,7 @@ public class Player {
 
 
     public void moveStudentsToHall(StudentsBag bag) {
-        for (int i = 0; i < 7; i++) {
+        for (int i = 0; i < getDashboard().getHall().length; i++) {
             Student student = bag.casualExtraction();
             dashboard.addStudentToHall(student);
         }
@@ -113,6 +113,9 @@ public class Player {
         return socket;
     }
 
+    public void setOut(PrintWriter out) {
+        this.out = out;
+    }
 
     public PrintWriter getOut() {
         if (out == null) {

@@ -10,42 +10,76 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Objects;
 
 
 public class EchoServerClientHandler extends Thread {
 
     private final Socket socket;
-    private final Game game;
+    private Game game;
+
+    private final ArrayList<Game> gameArrayList;
     private Player player;
     private BufferedReader in;
 
-    private Integer size;
-
-    public EchoServerClientHandler(Socket socket, Game game, int size) throws IOException {
+    public EchoServerClientHandler(Socket socket, ArrayList<Game> gameArrayList) throws IOException {
         this.socket = socket;
-        this.game = game;
-        this.size = size;
+        this.gameArrayList = gameArrayList;
 
     }
 
     public void run() {
 
         try {
+            in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-            in = new BufferedReader(
-                    new InputStreamReader(socket.getInputStream())
-            );
+            PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
 
+            if (gameArrayList.size() == 0) {
+                game = new Game();
+                gameArrayList.add(game);
+            } else {
+                TextMessage textMessage = new TextMessage("1-Create new Game\n" +
+                        "2-Join Game");
+                Gson gson = new Gson();
+                String json = gson.toJson(textMessage, TextMessage.class);
+                out.println(json);
+                String select = in.readLine();
+                switch (select) {
+                    case "1" -> {
+                        game = new Game();
+                        gameArrayList.add(game);
+                    }
+                    case "2" -> {
+                        int i = 0;
+                        for (Game game1 : gameArrayList) {
+                            textMessage = new TextMessage(i + " game: " + game1.getGameStatus());
+                            json = gson.toJson(textMessage, TextMessage.class);
+                            out.println(json);
+                            i++;
+                        }
+                        String gameSelection = in.readLine();
+                        game = gameArrayList.get(Integer.parseInt(gameSelection));
+                    }
+
+                }
+            }
+
+            TextMessage textMessage = new TextMessage("Enter your name");
+            Gson gson = new Gson();
+            String json = gson.toJson(textMessage, TextMessage.class);
+            out.println(json);
             String name = in.readLine();
 
             boolean check = true;
             while (check) {
                 switch (LoginManager.login(name, game)) {
                     case 0 -> {
-                        game.getPlist().getPlayerByName(name).setSocket(socket);
                         player = game.getPlist().getPlayerByName(name);
-                        player.sendToClient("notify", "Game " + size);
+                        player.setOut(out);
+                        player.setSocket(socket);
+                        player.sendToClient("notify", "Game " + gameArrayList.size());
                         if (game.getCurrentNumberOfPlayers() == 1) {
                             player.sendToClient("msg", "Welcome " + name + " Choose number of players, 2 or 3 allowed:");
                             String numPlayers;
@@ -61,18 +95,18 @@ public class EchoServerClientHandler extends Thread {
                         check = false;
                     }
                     case 2 -> {
-                        PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+                        out = new PrintWriter(socket.getOutputStream(), true);
                         TextMessage text = new TextMessage("Name already in use by another player, please select a unique username");
-                        Gson gson = new Gson();
-                        String json = gson.toJson(text, TextMessage.class);
+                        gson = new Gson();
+                        json = gson.toJson(text, TextMessage.class);
                         out.println(json);
                         name = in.readLine();
                     }
                     case 1 -> {
-                        PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+                        out = new PrintWriter(socket.getOutputStream(), true);
                         TextMessage text = new TextMessage("Max number of players reached");
-                        Gson gson = new Gson();
-                        String json = gson.toJson(text, TextMessage.class);
+                        gson = new Gson();
+                        json = gson.toJson(text, TextMessage.class);
                         out.println(json);
                         check = false;
                         in.close();
@@ -158,8 +192,8 @@ public class EchoServerClientHandler extends Thread {
 
 
         } catch (Exception e) {
-            System.out.println("Error with client " + player.getName() + " in game #" + size);
-            game.removePlayer(player);
+            System.out.println("Error with client ");
+            //game.removePlayer(player);
             System.out.println(e.getMessage());
         }
     }
@@ -208,7 +242,6 @@ public class EchoServerClientHandler extends Thread {
         boolean result = true;
         do {
             player.sendToClient("msg", "chose assistant card to play:");
-            int counter = 1;
             for (AssistantCard assistantCard : player.getDeck().getCardsList())
                 if (!game.checkLastPlayedAssistant(assistantCard.getOrder()))
                     player.sendToClient("warning", assistantCard.getOrder() + ") you can play card with order " + assistantCard.getOrder() + " and #" + assistantCard.getMoveOfMN() + " moves of MN available");

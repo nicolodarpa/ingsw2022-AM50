@@ -25,7 +25,7 @@ import java.util.*;
  */
 
 public class Game {
-    private String gameStatus;
+    private String gameStatus = "Waiting for players";
     private int round = 0;
     private int phase = 0;
     private int numberOfPlayers = 3;
