@@ -1,6 +1,6 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.client.Launcher;
+import it.polimi.ingsw.client.ClientGUI;
 import it.polimi.ingsw.client.LineClient;
 
 import java.util.Objects;
@@ -18,19 +18,19 @@ public class Main {
             } else if (args[0].equals("-cli")) {
                 startClient(ip,port);
             } else {
-                startGuiClient(args);
+                startGuiClient(ip, port);
             }
 
         } else {
-            startGuiClient(args);
+            startGuiClient(ip, port);
         }
 
 
     }
 
-    public static void  startGuiClient(String[] args){
+    public static void  startGuiClient(String ip, int port){
 
-        Launcher.main(args);
+        ClientGUI.main(ip, port);
 
     }
 
