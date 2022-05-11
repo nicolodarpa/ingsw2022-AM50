@@ -20,11 +20,12 @@
 | CLI              | 🟢 |
 | Multiple games   | 🟢 |
 | Persistence      | 🔴 |
-| Advanced Gods    | 🔴 |
-| Undo             | 🔴 |
+| All character cards implemented | 🔴 |
+| Resilience to disconnections  | 🔴 |
+| 4-player game    | 🔴 |
 
 ### Legend <br>
-🔴Not Implemented  
-🟡Implementing  
-🟢Implemented 
+🔴 Not Implemented  
+🟡 Implementing  
+🟢 Implemented 
 
