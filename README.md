@@ -1,13 +1,13 @@
 # Prova Finale Ingegneria del Software 2022
-## Grupo AM50
+## Gruppo AM50
 
 
-- ###[Alessandro Costantini](https://github.com/alessandro-costantini)
-  <br> alessandro.costantini@mail.polimi.it
+- ### [Alessandro Costantini](https://github.com/alessandro-costantini)
+  alessandro.costantini@mail.polimi.it
 - ### [Nicolò D'Arpa](https://github.com/nicolodarpa)
-  <br> nicolo.darpa@mail.polimi.it
+  nicolo.darpa@mail.polimi.it
 - ### [Zarlene Justrem De Mesa](https://github.com/ZarleneDeMesa)
-  <br>zarlenejustrem.demesa@mail.polimi.it
+  zarlenejustrem.demesa@mail.polimi.it
 
 
 
@@ -23,7 +23,7 @@
 | Advanced Gods    | 🔴 |
 | Undo             | 🔴 |
 
-###Legend <br>
+### Legend <br>
 🔴Not Implemented  
 🟡Implementing  
 🟢Implemented 
