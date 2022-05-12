@@ -3,6 +3,7 @@ import it.polimi.ingsw.Main;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.io.BufferedReader;
@@ -21,7 +22,7 @@ public class ClientGUI extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(
                 getClass().getResource("input_ip_form.fxml")
         );
-        Scene scene = new Scene(fxmlLoader.load(), 800, 500);
+        Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("Eryantis GUI");
         stage.setScene(scene);
         stage.show();
