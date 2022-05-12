@@ -372,6 +372,7 @@ public class Game {
         /* if there are only 3 groups of islands the game has to finish */
         if (islands.size() == 3) {
             plist.notifyAllClients("notify", "the game has finished");
+            calculateWinner();
         }
 
 
@@ -541,6 +542,9 @@ public class Game {
             for (CloudCard cloudCard : cloudCards) {
                 cloudCardFill(cloudCard);
             }
+            if(studentsBag.endOfStudents()){
+                calculateWinner();
+            }
         }
         setActualPlayer();
 
@@ -667,6 +671,25 @@ public class Game {
 
         }
         return false;
+    }
+
+    public void calculateWinner(){
+        int towerNumber = 8;
+        Player winner = null;
+        for(Player p : plist.getPlayers()){
+            if(p.getDashboard().getTowers().size() < towerNumber){
+                towerNumber = p.getDashboard().getTowers().size();
+                winner = p;
+            }
+            else if(p.getDashboard().getTowers().size() == towerNumber){
+                winner = null;
+            }
+        }
+        if(winner != null)
+            winner.sendToClient("msg", "You are the winner!");
+        else
+            plist.notifyAllClients("msg", "It's a draw!");
+
     }
 
 

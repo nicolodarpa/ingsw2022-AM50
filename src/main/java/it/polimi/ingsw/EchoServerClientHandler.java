@@ -244,7 +244,7 @@ public class EchoServerClientHandler extends Thread {
             player.sendToClient("msg", "chose assistant card to play:");
             for (AssistantCard assistantCard : player.getDeck().getCardsList())
                 if (!game.checkLastPlayedAssistant(assistantCard.getOrder()))
-                    player.sendToClient("warning", assistantCard.getOrder() + ") you can play card with order " + assistantCard.getOrder() + " and #" + assistantCard.getMoveOfMN() + " moves of MN available");
+                    player.sendToClient("warning",  " you can play card with order " + assistantCard.getOrder() + " and #" + assistantCard.getMoveOfMN() + " moves of MN available");
             try {
                 numCard = Integer.parseInt((in.readLine()));
 
@@ -262,6 +262,7 @@ public class EchoServerClientHandler extends Thread {
 
 
     private void moveStudentToIsland() {
+        player.sendToClient("hall", game.sendHall(player));
         player.sendToClient("msg", "select student from hall to move to an island:");
         int numPlayer = indexStudentInput();
         int indexIsland = indexIslandInput();
@@ -277,6 +278,7 @@ public class EchoServerClientHandler extends Thread {
     }
 
     private void moveStudentToClassroom() {
+        player.sendToClient("hall", game.sendHall(player));
         player.sendToClient("msg", "select student from hall to move to a classroom:");
         int numPlayer = indexStudentInput();
         if (player.moveStudentToClassroom(numPlayer - 1, game)) {
@@ -365,5 +367,7 @@ public class EchoServerClientHandler extends Thread {
         player.sendToClient("dashboard", game.sendPlayerDashboard(player));
         game.setActualPlayer();
     }
+
+
 
 }

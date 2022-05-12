@@ -30,14 +30,17 @@ class BlockCardTest {
         assertEquals(4,card.getAvailableBlockCards());
         card.effect();
         assertTrue(gameTest.getIslands().get(1).getBlock());
-        gameTest.moveMN(p1,1);
-        assertFalse(gameTest.getIslands().get(1).getBlock());
-        assertEquals(3,card.getAvailableBlockCards());
-        card.update(gameTest.getPlist(),gameTest.getActualPlayer(), gameTest.getIslands(), null, 5, gameTest.getStudentsBag());
-        card.effect();
-        assertEquals(3,card.getAvailableBlockCards());
-        card.update(gameTest.getPlist(),gameTest.getActualPlayer(), gameTest.getIslands(), null, 8, gameTest.getStudentsBag());
-        card.effect();
-        assertEquals(2,card.getAvailableBlockCards());
+        if(gameTest.getIslandWithMN().getId() != card.index){
+            gameTest.moveMN(p1,1);
+            assertFalse(gameTest.getIslands().get(1).getBlock());
+            assertEquals(3,card.getAvailableBlockCards());
+            card.update(gameTest.getPlist(),gameTest.getActualPlayer(), gameTest.getIslands(), null, 5, gameTest.getStudentsBag());
+            card.effect();
+            assertEquals(3,card.getAvailableBlockCards());
+            card.update(gameTest.getPlist(),gameTest.getActualPlayer(), gameTest.getIslands(), null, 8, gameTest.getStudentsBag());
+            card.effect();
+            assertEquals(2,card.getAvailableBlockCards());
+        }
+
     }
 }

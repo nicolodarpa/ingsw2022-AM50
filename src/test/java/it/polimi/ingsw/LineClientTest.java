@@ -1,6 +1,6 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.client.LineClient;
+import it.polimi.ingsw.client.view.LineClient;
 import org.junit.jupiter.api.Test;
 
 class LineClientTest {

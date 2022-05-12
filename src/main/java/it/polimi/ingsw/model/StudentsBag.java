@@ -40,6 +40,12 @@ public class StudentsBag {
         return bag.size();
     }
 
+    public boolean endOfStudents(){
+        if(bag.size() == 0)
+            return true;
+     return false;
+    }
+
 
 }
 

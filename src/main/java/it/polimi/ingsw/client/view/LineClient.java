@@ -1,8 +1,9 @@
-package it.polimi.ingsw.client;
+package it.polimi.ingsw.client.view;
+
+import it.polimi.ingsw.client.view.ClientOut;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.Objects;
 import java.util.Scanner;
 
 public class LineClient {
