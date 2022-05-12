@@ -17,6 +17,7 @@ class BlockCardTest {
 
     @Test
     void effect() {
+
         gameTest = new Game();
         gameTest.setNumberOfPlayers(2);
         LoginManager.login("ale",gameTest);
