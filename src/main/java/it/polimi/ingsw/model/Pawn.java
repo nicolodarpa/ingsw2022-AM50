@@ -1,6 +1,9 @@
 package it.polimi.ingsw.model;
 
 
+/**
+ * represent the pawn of the game: the students and the teachers
+ */
 public class Pawn {
     private PawnColor color;
 
@@ -14,6 +17,9 @@ public class Pawn {
         this.color = color;
     }
 
+    /**
+     * draw a pawn, and it visualizes in terminal in the correspondence color
+     */
     public void draw() {
         PawnColor color = getColor();
         if(color == null)

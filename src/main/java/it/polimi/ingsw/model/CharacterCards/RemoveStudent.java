@@ -4,6 +4,9 @@ import it.polimi.ingsw.model.Dashboard;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.Student;
 
+/**
+ * implements the character card that remove 3 students of selected color from each player's hall
+ */
 public class RemoveStudent extends SpecialCard {
 
     public RemoveStudent() {

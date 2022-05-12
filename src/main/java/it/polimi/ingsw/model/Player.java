@@ -205,6 +205,11 @@ public class Player {
         }
     }
 
+    /**
+     * checks if the card it's been already played and if it is the last card of the deck
+     * @param cardIndex indicate the index of the card in the deck
+     * @return true if the card is playable or false if is not playable
+     */
     public boolean checkCardAvailability(int cardIndex) {
         AssistantCard assistantCard = deck.getCardsList().get(cardIndex);
         for (int i = 1; i < assistantCardsPlayed.size(); i++) {
@@ -215,6 +220,9 @@ public class Player {
         return false;
     }
 
+    /**
+     * @return true if there aren't cards in the deck
+     */
     public boolean deckSize() {
         return deck.getCardsList().size() == 0;
     }
@@ -273,6 +281,11 @@ public class Player {
         }
     }
 
+    /**
+     * switch the position of a student in the hall and a student in the classroom
+     * @param studentColor is the color of the student in the classroom
+     * @param pos_hall is the position of the student in the hall
+     */
     public void changeStudent(PawnColor studentColor, int pos_hall) {
         Student studentFromClassroom = dashboard.getStudentFromClassroom(studentColor);
         Student studentFromHall = dashboard.getStudentFromHall(pos_hall);

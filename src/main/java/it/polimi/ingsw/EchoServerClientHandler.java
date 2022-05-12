@@ -350,7 +350,7 @@ public class EchoServerClientHandler extends Thread {
             player.sendToClient("islands", game.sendIslands());
 
         } else {
-            player.sendToClient("error", "error, you can move mother nature of " + player.getMovesOfMN() + "moves");
+            player.sendToClient("error", "error, you can move mother nature of " + player.getMovesOfMN() + " moves");
             moveMotherNature();
         }
 

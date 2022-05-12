@@ -2,10 +2,13 @@ package it.polimi.ingsw.model;
 
 import java.util.ArrayList;
 
+/**
+ * Represent the deck of the assistant cards in the game
+ */
 public class Deck {
     private int id;
     private boolean hasChosen;
-    private ArrayList<AssistantCard> cardsList = new ArrayList<AssistantCard>();
+    private final ArrayList<AssistantCard> cardsList = new ArrayList<AssistantCard>();
 
 
     public Deck(int id){
@@ -31,10 +34,10 @@ public class Deck {
         return hasChosen;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
+    /**
+     *
+     * @param hasChosen indicate if the deck it's been chosen by a player
+     */
     public void setChosen(boolean hasChosen) {
         this.hasChosen = hasChosen;
     }

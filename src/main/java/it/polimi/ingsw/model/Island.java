@@ -241,7 +241,6 @@ public class Island {
         }
         if (owner != null && towerArrayList.size() < dimension)
             addTower();
-
     }
 
 

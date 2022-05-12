@@ -92,6 +92,10 @@ public class Dashboard {
         System.out.println(" ");
     }
 
+    /**
+     * set the capacity of the hall, the number of students in the hall(7 or 9) based on the number of players in the game
+     * @param gameMode
+     */
     public void setupHall(int gameMode) {
         if (gameMode == 2) {
             hallCapacity = 7;
@@ -106,8 +110,7 @@ public class Dashboard {
             Student student = hall[i];
             hall[i] = null;
             return student;
-        } catch (Exception e) {
-            System.out.println("please, insert a valid value of position, between 0 and 6");
+        } catch (Exception ignored) {
         }
         return null;
     }
@@ -122,16 +125,25 @@ public class Dashboard {
     }
 
 
+    /**
+     * remove the last student of the selected color in the classroom
+     * @param studentColor the color of the student that we want to remove
+     * @return a student
+     */
     public Student getStudentFromClassroom(PawnColor studentColor) {
         Student studentToRemove = null;
         try {
             studentToRemove = findLastStudent(studentColor);
-        } catch (Exception e) {
-            System.out.println("there isn't any student of this color in the classroom");
+        } catch (Exception ignored) {
         }
         return studentToRemove;
     }
 
+    /**
+     * find the last student of the selected color in the classroom
+     * @param studentColor the color of the student that we are looking for
+     * @return the last student
+     */
     public Student findLastStudent(PawnColor studentColor) {
         int position = 0;
         Student lastStudent = null;
@@ -148,6 +160,19 @@ public class Dashboard {
         return lastStudent;
     }
 
+
+    /**
+     * add a student in the classroom in the correspondence row, based on this color:
+     * <p>
+     *     <ul>
+     *      <li> Row 1 : Cyan </li>
+     *      <li> Row 2 : Magenta </li>
+     *      <li> Row 3 : Yellow </li>
+     *      <li> Row 4 : Red </li>
+     *      <li> Row 5 : Green </li>
+     *     </ul>
+     * </p>
+     */
     public void addStudentToClassroom(Student student) {
         PawnColor color = student.getColor();
         for (int i = 0; i < 10; i++) {
@@ -160,6 +185,10 @@ public class Dashboard {
     }
 
 
+    /**
+     * Add one coin to the player when he moves a student on a coin position of his dashboard
+     * @param wallet
+     */
     public void addCoin(Wallet wallet) {
         for (int j = 0; j < 5; j++) {
             for (int i = 0; i < 10; i++) {

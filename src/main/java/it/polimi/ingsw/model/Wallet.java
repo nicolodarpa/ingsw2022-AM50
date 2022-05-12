@@ -1,5 +1,9 @@
 package it.polimi.ingsw.model;
 
+
+/**
+ * It contains the coins of each player
+ */
 public class Wallet {
     private  int coins;
 

@@ -2,11 +2,19 @@ package it.polimi.ingsw.model;
 
 import java.util.ArrayList;
 
+/**
+ * This class models the Cloud Cards
+ */
 public class CloudCard {
 
     private ArrayList<Student> students;
     private int capacity;
 
+
+    /**
+     * By the param numberOfPlayers, the constructor set the number of students(capacity) on the cloud cards (3 or 4)
+     * @param numberOfPlayers
+     */
     public CloudCard(int numberOfPlayers) {
 
         if (numberOfPlayers == 2) {
@@ -28,6 +36,10 @@ public class CloudCard {
         return students;
     }
 
+    /**
+     * remove all the students that there are on the cloud card
+     * @return all the students
+     */
     public ArrayList<Student> getAllStudents() {
         ArrayList<Student> temp = new ArrayList<>(capacity);
         temp.addAll(students);

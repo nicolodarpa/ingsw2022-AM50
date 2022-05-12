@@ -1,6 +1,8 @@
 package it.polimi.ingsw.model.CharacterCards;
 
-
+/**
+ * implements the character card that adds 2 more available moves of MN to a player
+ */
 public class AddMoveMN extends SpecialCard {
 
 

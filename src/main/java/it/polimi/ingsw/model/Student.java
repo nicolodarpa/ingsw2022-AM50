@@ -1,5 +1,8 @@
 package it.polimi.ingsw.model;
 
+/**
+ * represent student's pawns in the game
+ */
 public class Student extends Pawn {
 
     private PawnColor color;

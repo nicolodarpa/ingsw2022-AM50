@@ -23,7 +23,6 @@ import java.util.*;
  * @author Nicolò D'Arpa, Zarlene Justrem De Mesa, Alessandro Costantini
  * @since 1.0
  */
-
 public class Game {
     private String gameStatus = "Waiting for players";
     private int round = 0;
@@ -139,6 +138,21 @@ public class Game {
         plist.moveStudentsToHall(studentsBag);
     }
 
+    /**
+     * sets all the initial setup of the game:
+     * <p>
+     *     <ul>
+     *         <li> Creates 12 islands </li>
+     *         <li> adds randomly mother nature on the island </li>
+     *         <li> adds two students of each color on the islands except the island with mother nature and its opposite</li>
+     *         <li> fills the students bag with 120 students </li>
+     *         <li> creates and fills with 3 or 4 students the cloud cards </li>
+     *         <li> assigns the tower to the players </li>
+     *         <li> moves the students from the student's bag to the hall </li>
+     *         <li> extracts randomly 3 special cards </li>
+     *     </ul>
+     * </p>
+     */
     public void setupGame() {
         gameStatus = "active";
         for (Player player : plist.getPlayers()) {
@@ -224,7 +238,7 @@ public class Game {
     }
 
     /**
-     * add Mother Nature to a random Island, at the beginning of a new match
+     * adds Mother Nature to a random Island, at the beginning of a new match
      */
     public void addMotherNatureToIsland() {
         Random random = new Random();
@@ -241,7 +255,7 @@ public class Game {
     }
 
     /**
-     * add Two students of each color on every island(except the island where there is Mother Nature and its opposite)
+     * adds two students of each color on every island(except the island where there is Mother Nature and its opposite)
      */
     public void addStudentToIsland() {
         StudentsBag studentsBag_setup = new StudentsBag();
@@ -258,10 +272,11 @@ public class Game {
         int playerMovesOfMN = player.getMovesOfMN();
         int islandWithMNIndex = getIslandWithMNIndex();
         int moves = destinationIslandIndex - islandWithMNIndex;
+        /* if moves is a negative value it is rescaled to a positive value by added of the islands size */
         if (moves < 0) {
             moves = islands.size() + moves;
         }
-        if (moves > playerMovesOfMN) {
+        if (moves > playerMovesOfMN || moves < 1 ) {
             return false;
         } else {
             Island destination = islands.get(destinationIslandIndex);
@@ -290,7 +305,7 @@ public class Game {
     }
 
     /**
-     * Create 3 or 4 CloudCard in cloudCards and fill them with the correct amount of students
+     * Creates 3 or 4 CloudCard in cloudCards and fills them with the correct amount of students
      */
     public void cloudCardCreation() {
         if (numberOfPlayers == 2) {
@@ -320,10 +335,10 @@ public class Game {
         cardsInGame = specialDeck.getSpecialCardsInGame();
     }
 
-    public static ArrayList<SpecialCard> getSpecialCardsInGame() {
-        return cardsInGame;
-    }
 
+    /**
+     * checks if two or more island have the same owner and in that case it unifies the islands into only one
+     */
     public void connectIsland() {
         for (int i = 1; i < islands.size(); i++) {
             Island curr = islands.get(i);
@@ -354,6 +369,7 @@ public class Game {
             island.setId(i);
             i++;
         }
+        /* if there are only 3 groups of islands the game has to finish */
         if (islands.size() == 3) {
             plist.notifyAllClients("notify", "the game has finished");
         }
@@ -361,6 +377,9 @@ public class Game {
 
     }
 
+    /**
+     * assigns the teacher to a teacher table of the player who has more students of a color in his classroom
+     */
     public void assignTeacher() {
         for (int i = 0; i < PawnColor.numberOfColors; i++) {
             for (int j = 0; j < numberOfPlayers - 1; j++) {
@@ -385,6 +404,9 @@ public class Game {
 
     }
 
+    /**
+     * switches the teacher of the actual player when another player has more students of the teacher's color than the actual player
+     */
     private void switchTeacher(Dashboard previousOwner, Dashboard newOwner, int i) {
         newOwner.addTeacherToTable(teachers[i]);
         if (previousOwner.getTeacherTable()[i] != null) {
@@ -454,6 +476,9 @@ public class Game {
         }
     }
 
+    /**
+     * calculate the player who have to play, based on his order of game. Then it notifies to the actual player that his turn is started
+     */
     public void setActualPlayer() {
         for (Island island : islands) {
             island.setTowerMultiplier(1);
@@ -513,6 +538,9 @@ public class Game {
             plist.notifyAllClients("notify", "Planning phase");
             phase = 0;
             round++;
+            for (CloudCard cloudCard : cloudCards) {
+                cloudCardFill(cloudCard);
+            }
         }
         setActualPlayer();
 
@@ -522,9 +550,6 @@ public class Game {
         return actualPlayer;
     }
 
-    public void setActualPlayer(Player actualPlayer) {
-        this.actualPlayer = actualPlayer;
-    }
 
     public Island getIslandWithMN() {
         for (Island i : islands) {
@@ -555,7 +580,6 @@ public class Game {
         Dashboard actualDashboard = player.getDashboard();
         for (Student s : students)
             actualDashboard.addStudentToHall(s);
-        cloudCardFill(cloudCards.get(numberOfCloudCard));
         player.setHasPlayed(true);
     }
 

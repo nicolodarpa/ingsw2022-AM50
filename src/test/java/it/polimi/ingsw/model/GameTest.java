@@ -206,7 +206,10 @@ public class GameTest{
         p1.setMovesOfMN(12);
         int i = gameTest.getIslandWithMNIndex();
         System.out.println(i);
-        assertTrue(gameTest.moveMN(p1, 8));
+        if(i != 8)
+            assertTrue(gameTest.moveMN(p1, 8));
+        else
+            assertFalse(gameTest.moveMN(p1, 8));
         if (i!=8){
             assertFalse(gameTest.getIslands().get(i).getPresenceMN());
         } else assertTrue(gameTest.getIslands().get(i).getPresenceMN());
@@ -268,7 +271,7 @@ public class GameTest{
         playerTest.moveStudentToClassroom(4,gameTest);
         gameTest.chooseCloudCard(1, playerTest);
         assertEquals(7,playerTest.getDashboard().getHall().length);
-        assertEquals(3, gameTest.getCloudCards().get(1).getAllStudents().size());
+        assertEquals(0, gameTest.getCloudCards().get(1).getAllStudents().size());
     }
 
 }

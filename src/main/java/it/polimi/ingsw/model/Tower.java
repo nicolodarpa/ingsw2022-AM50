@@ -1,5 +1,8 @@
 package it.polimi.ingsw.model;
 
+/**
+ * represent the towers in the game
+ */
 public class Tower {
     private TowerColor color;
     public static final String ANSI_WHITE = "\u001B[37m";
