@@ -3,10 +3,16 @@ package it.polimi.ingsw.client;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 
+import javafx.stage.Stage;
 import javafx.stage.Window;
+
+import java.io.IOException;
 
 
 public class SelectionFormController {
@@ -18,9 +24,13 @@ public class SelectionFormController {
 
 
     @FXML
-    protected void newGameButton(ActionEvent actionEvent) {
-        Window owner = newGameButton.getScene().getWindow();
-        AlertHelper.showAlert(Alert.AlertType.CONFIRMATION, owner, "New Game Title", "Start a new game");
+    protected void newGameButton(ActionEvent actionEvent) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("newGame_form.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        Stage stage  = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
+
 
     }
 

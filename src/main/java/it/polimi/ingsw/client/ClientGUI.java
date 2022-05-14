@@ -1,17 +1,13 @@
 package it.polimi.ingsw.client;
-import it.polimi.ingsw.Main;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.paint.Color;
+
 import javafx.stage.Stage;
 
-import java.io.BufferedReader;
+
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.net.Socket;
-import java.net.UnknownHostException;
 
 
 public class ClientGUI extends Application {
@@ -26,8 +22,6 @@ public class ClientGUI extends Application {
         stage.setTitle("Eryantis GUI");
         stage.setScene(scene);
         stage.show();
-
-
 
 
     }

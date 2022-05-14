@@ -12,10 +12,11 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.Socket;
 
 
-public class InputIpFormController {
+public class ConnectFormController {
     @FXML
     private TextField ip_input;
     @FXML
@@ -35,6 +36,8 @@ public class InputIpFormController {
         int port = Integer.parseInt(port_input.getText());
         try {
             socket = new Socket(ip, port);
+            PrintWriter socketOut = new PrintWriter(socket.getOutputStream());
+            ClientInput.getInstance().setSocketOut(socketOut);
             stage.setScene(scene);
             stage.show();
         } catch (Exception e) {

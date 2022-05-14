@@ -16,11 +16,11 @@ public class NoTowerInfluenceTest {
     @Test
     @DisplayName("Testing the function")
     public void testEffect(){
-        gameTest = new Game();
-        gameTest.setNumberOfPlayers(2);
+        gameTest = new Game(2);
+
         LoginManager.login("jaz",gameTest);
         LoginManager.login("nic",gameTest);
-        gameTest.setupGame();
+
         NoTowerInfluence card = new NoTowerInfluence();
         card.update(gameTest.getPlist(), gameTest.getActualPlayer(), gameTest.getIslands(), null, 1, gameTest.getStudentsBag());
         card.effect();
@@ -29,22 +29,22 @@ public class NoTowerInfluenceTest {
 
     @Test
     public void testGetCost(){
-        gameTest = new Game();
-        gameTest.setNumberOfPlayers(2);
+        gameTest = new Game(2);
+
         LoginManager.login("jaz",gameTest);
         LoginManager.login("nic",gameTest);
-        gameTest.setupGame();
+
         NoTowerInfluence card = new NoTowerInfluence();
         card.update(gameTest.getPlist(), gameTest.getActualPlayer(), gameTest.getIslands(), null, 1, gameTest.getStudentsBag());        assertEquals(3, card.getCost());
     }
 
     @Test
     public void testAddCost(){
-        gameTest = new Game();
-        gameTest.setNumberOfPlayers(2);
+        gameTest = new Game(2);
+
         LoginManager.login("jaz",gameTest);
         LoginManager.login("nic",gameTest);
-        gameTest.setupGame();
+
         NoTowerInfluence card = new NoTowerInfluence();
         card.update(gameTest.getPlist(), gameTest.getActualPlayer(), gameTest.getIslands(), null, 1, gameTest.getStudentsBag());
         card.addCost();
@@ -53,11 +53,11 @@ public class NoTowerInfluenceTest {
 
     @Test
     public void testGetEffectOfTheCard(){
-        gameTest = new Game();
-        gameTest.setNumberOfPlayers(2);
+        gameTest = new Game(2);
+
         LoginManager.login("jaz",gameTest);
         LoginManager.login("nic",gameTest);
-        gameTest.setupGame();
+
         NoTowerInfluence card = new NoTowerInfluence();
         card.update(gameTest.getPlist(), gameTest.getActualPlayer(), gameTest.getIslands(), null, 1, gameTest.getStudentsBag());
         System.out.println(card.getEffectOfTheCard());

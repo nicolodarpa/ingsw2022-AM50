@@ -15,12 +15,11 @@ public class GameTest{
 
     @Test
     public void testMoveStudentsToHall() {
-        gameTest = new Game();
-        gameTest.setNumberOfPlayers(2);
+        gameTest = new Game(2);
+
         LoginManager.login("ale", gameTest);
         LoginManager.login("nic", gameTest);
-        gameTest.getStudentsBag().fillBag(120);
-        gameTest.setupGame();
+
         assertEquals(100, gameTest.getStudentsInBag() );
     }
 
@@ -28,11 +27,11 @@ public class GameTest{
     @DisplayName("testing the setup of a new match")
     public void testSetupGame() {
         boolean presenceOfMN = false;
-        gameTest = new Game();
-        gameTest.setNumberOfPlayers(2);
+        gameTest = new Game(2);
+
         LoginManager.login("ale", gameTest);
         LoginManager.login("nic", gameTest);
-        gameTest.setupGame();
+
         assertEquals(100, gameTest.getStudentsInBag());
         assertEquals(2,gameTest.getCloudCards().size());
         for(int i = 0; i < 2; i++)
@@ -56,11 +55,11 @@ public class GameTest{
     @Test
     @DisplayName(" Test the assignment of the Teacher")
     public void assignTeacherTest(){
-        gameTest = new Game();
-        gameTest.setNumberOfPlayers(2);
+        gameTest = new Game(2);
+
         LoginManager.login("jaz", gameTest);
         LoginManager.login("nic", gameTest);
-        gameTest.setupGame();
+
         Player player_one = gameTest.getPlist().getPlayers().get(0);
         Player player_two = gameTest.getPlist().getPlayers().get(1);
         PawnColor color = player_one.getDashboard().getHall()[2].getColor();
@@ -74,11 +73,11 @@ public class GameTest{
     @Test
     @DisplayName(" add student on the islands at the beginning of a new match")
     public void addStudentToIslandTest() {
-        gameTest = new Game();
-        gameTest.setNumberOfPlayers(2);
+        gameTest = new Game(2);
+
         LoginManager.login("jaz", gameTest);
         LoginManager.login("nic", gameTest);
-        gameTest.setupGame();
+
         for(Island i : gameTest.getIslands()){
             if(!i.getPresenceMN() && !i.getOppositeMN()){
                 assertEquals(1,i.getStudentList().size());
@@ -89,11 +88,11 @@ public class GameTest{
     @Test
     @DisplayName(" Connect two island with the same owner")
     public void connectIslandTest() {
-        gameTest = new Game();
-        gameTest.setNumberOfPlayers(2);
+        gameTest = new Game(2);
+
         LoginManager.login("jaz", gameTest);
         LoginManager.login("nic", gameTest);
-        gameTest.setupGame();
+
         Player p = gameTest.getPlist().getPlayers().get(0);
         Player q = gameTest.getPlist().getPlayers().get(1);
         for (Island i : gameTest.getIslands()) {
@@ -124,11 +123,11 @@ public class GameTest{
     @Test
     @DisplayName("connect island 1 an 12")
     public  void connectExtremeIslands(){
-        gameTest = new Game();
-        gameTest.setNumberOfPlayers(2);
+        gameTest = new Game(2);
+
         LoginManager.login("jaz", gameTest);
         LoginManager.login("nic", gameTest);
-        gameTest.setupGame();
+
         Player p = gameTest.getPlist().getPlayers().get(0);
         Player q = gameTest.getPlist().getPlayers().get(1);
         gameTest.getIslands().get(0).setOwner(q);
@@ -148,11 +147,10 @@ public class GameTest{
 
     @Test
     public void setActualPlayerTest(){
-        gameTest = new Game();
-        gameTest.setNumberOfPlayers(2);
+        gameTest = new Game(2);
         LoginManager.login("jaz", gameTest);
         LoginManager.login("nic", gameTest);
-        gameTest.setupGame();
+
         Deck deck1 = new Deck(1);
         Deck deck2 = new Deck(2);
         Player playerOne = gameTest.getPlist().getPlayerByName("jaz");
@@ -167,11 +165,11 @@ public class GameTest{
 
     @Test
     public void extractSpecialCardTest(){
-        gameTest = new Game();
-        gameTest.setNumberOfPlayers(2);
+        gameTest = new Game(2);
+
         LoginManager.login("jaz", gameTest);
         LoginManager.login("nic", gameTest);
-        gameTest.setupGame();
+
         assertEquals(3, gameTest.getCardsInGame().size());
         for(SpecialCard card : gameTest.getCardsInGame()){
             System.out.println("==" + card.getEffectOfTheCard());
@@ -181,11 +179,11 @@ public class GameTest{
 
     @Test
     public void chooseCloudCard(){
-        gameTest = new Game();
-        gameTest.setNumberOfPlayers(2);
+        gameTest = new Game(2);
+
         LoginManager.login("jaz", gameTest);
         LoginManager.login("nic", gameTest);
-        gameTest.setupGame();
+
         Player p1 = gameTest.getPlist().getPlayerByName("jaz");
         p1.moveStudentToClassroom(3, gameTest);
         p1.moveStudentToIsland(gameTest.getIslandWithMN(), 4);
@@ -197,11 +195,11 @@ public class GameTest{
     @Test
     @DisplayName("move MN")
     public void moveMN(){
-        gameTest = new Game();
-        gameTest.setNumberOfPlayers(2);
+        gameTest = new Game(2);
+
         LoginManager.login("jaz", gameTest);
         LoginManager.login("nic", gameTest);
-        gameTest.setupGame();
+
         Player p1 = gameTest.getPlist().getPlayerByName("jaz");
         p1.setMovesOfMN(12);
         int i = gameTest.getIslandWithMNIndex();
@@ -218,12 +216,12 @@ public class GameTest{
     @Test
     @DisplayName(" Test the assignment of the Teacher for 3 players")
     public void assignTeacherForThreePlayersTest(){
-        gameTest = new Game();
-        gameTest.setNumberOfPlayers(3);
+        gameTest = new Game(3);
+
         LoginManager.login("ale", gameTest);
         LoginManager.login("nic", gameTest);
         LoginManager.login("jaz",gameTest);
-        gameTest.setupGame();
+
         Player player_one = gameTest.getPlist().getPlayers().get(0);
         Player player_two = gameTest.getPlist().getPlayers().get(1);
         Player player_three= gameTest.getPlist().getPlayers().get(2);
@@ -257,11 +255,11 @@ public class GameTest{
     @Test
     @DisplayName("The player choose a cloud card")
     public void chooseCloudCardTest(){
-        gameTest = new Game();
-        gameTest.setNumberOfPlayers(2);
+        gameTest = new Game(2);
+
         LoginManager.login("ale", gameTest);
         LoginManager.login("nic", gameTest);
-        gameTest.setupGame();
+
         Player playerTest = gameTest.getPlist().getPlayerByName("ale");
         playerTest.moveStudentToClassroom(2,gameTest);
         playerTest.moveStudentToClassroom(3,gameTest);

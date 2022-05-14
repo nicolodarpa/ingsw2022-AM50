@@ -17,7 +17,7 @@ public class TableTest {
         gameTest.setNumberOfPlayers(2);
         LoginManager.login("jaz", gameTest);
         LoginManager.login("nic", gameTest);
-        gameTest.setupGame();
+
         tableTest.drawTable();
     }
 
@@ -27,7 +27,7 @@ public class TableTest {
         gameTest.setNumberOfPlayers(2);
         LoginManager.login("jaz", gameTest);
         LoginManager.login("nic", gameTest);
-        gameTest.setupGame();
+
         Island islandTest = gameTest.getIslands().get(0);
         Player player_one = gameTest.getPlist().getPlayers().get(0);
         player_one.moveStudentToIsland(islandTest,2);

@@ -42,6 +42,14 @@ public class Game {
     private static ArrayList<SpecialCard> cardsInGame = new ArrayList<>();
 
 
+    public Game() {
+    }
+
+    public Game(int numberOfPlayers) {
+        setNumberOfPlayers(numberOfPlayers);
+        createDecks();
+    }
+
     public int getPhase() {
         return phase;
     }
@@ -63,7 +71,7 @@ public class Game {
         return false;
     }
 
-    public String getGameStatus(){
+    public String getGameStatus() {
         return gameStatus;
     }
 
@@ -95,7 +103,7 @@ public class Game {
     public void startGame() {
         setupGame();
         System.out.println("Game starting");
-        plist.notifyAllClients("msg", "Game started");
+        plist.notifyAllClients("notify", "Game started");
         String islandStatus = sendIslands();
         plist.notifyAllClients("islands", islandStatus);
         String cloudCardsStatus = sendCloudCards();
@@ -107,20 +115,13 @@ public class Game {
 
     public void addPlayer(String name) {
         plist.addPlayer(name);
-
-    }
-
-    public void checkLobby() {
-        if (waitLobby()) {
+        if (getCurrentNumberOfPlayers()== getNumberOfPlayers()) {
             startGame();
         }
+
     }
 
-    public boolean waitLobby() {
-        return getCurrentNumberOfPlayers() == numberOfPlayers;
-    }
-
-    public void removePlayer(Player player){
+    public void removePlayer(Player player) {
         plist.removePlayer(player);
         if (numberOfPlayers == 2 && plist.getCurrentNumberOfPlayers() == 1) {
             for (Player player1 : plist.getPlayers()) {
@@ -141,19 +142,20 @@ public class Game {
 
     public void setupGame() {
         gameStatus = "active";
-        for (Player player : plist.getPlayers()) {
-            player.getDashboard().setupHall(numberOfPlayers);
-        }
+        fillStudentsBag();
         createIslands();
         addMotherNatureToIsland();
         addStudentToIsland();
-        fillStudentsBag();
+
+        for (Player player : plist.getPlayers()) {
+            player.getDashboard().setupHall(numberOfPlayers);
+        }
         cloudCardCreation();
         for (CloudCard cloudCard : cloudCards) {
             cloudCardFill(cloudCard);
         }
         assignTower();
-        createDecks();
+
         moveStudentsToHall();
         extractSpecialCard();
         this.round = 1;
@@ -585,10 +587,10 @@ public class Game {
         return 1;
     }
 
-    public boolean playAssistantCard(Player player, int cardNumber) {
+    public void playAssistantCard(Player player, int cardNumber) {
         if (player.checkCardAvailability(cardNumber - 1)) {
             player.sendToClient("error", "card already played");
-            return true;
+            return;
         }
         boolean check = false;
         if (checkLastPlayedAssistant(cardNumber)) {
@@ -602,16 +604,15 @@ public class Game {
             }
             if (!check) {
                 player.playAssistantCard(cardNumber - 1);
-                return false;
-            } else {
-                return true;
+                setActualPlayer();
             }
+            return;
         }
         player.playAssistantCard(cardNumber - 1);
+        setActualPlayer();
         if (player.deckSize()) {
             plist.notifyAllClients("notify", "the game has finished");
         }
-        return false;
 
 
     }
@@ -629,20 +630,11 @@ public class Game {
     }
 
 
-    public boolean playCharacterCard(int specialCardIndex, int index, PawnColor color) {
+    public void playCharacterCard(int specialCardIndex, int index, PawnColor color) {
         SpecialCard specialCard = cardsInGame.get(specialCardIndex);
         specialCard.update(plist, actualPlayer, islands, color, index, studentsBag);
-
-        if (actualPlayer.getWallet() >= specialCard.getCost()) {
-            specialCard.update(plist, actualPlayer, islands, color, index, studentsBag);
-            specialCard.effect();
-            actualPlayer.spendCoins(specialCard.getCost());
-        } else {
-            actualPlayer.sendToClient("warning", "Not enough coins to play this card, you have " + actualPlayer.getWallet() + " coins");
-            return true;
-
-        }
-        return false;
+        specialCard.effect();
+        actualPlayer.spendCoins(specialCard.getCost());
     }
 
 

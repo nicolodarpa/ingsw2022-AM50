@@ -102,7 +102,6 @@ public class DashboardTest {
         gameTest.setNumberOfPlayers(2);
         LoginManager.login("ale", gameTest);
         LoginManager.login("nic", gameTest);
-        gameTest.setupGame();
 
         Player p1 = gameTest.getPlist().getPlayers().get(0);
         for (int i = 0; i < 7; i++) {
@@ -119,21 +118,20 @@ public class DashboardTest {
         p1.getDashboard().drawDashboard();
         //p1.getDashboard().addCoin(p1.getWallet());
         System.out.println("Il player ha #" + p1.getWallet() + " monete");
-        assertEquals(false, p1.getDashboard().getCoinPos()[0][2]);
+        assertFalse(p1.getDashboard().getCoinPos()[0][2]);
     }
 
     @Test
-    public void getStudentFromClassroomTest(){
+    public void getStudentFromClassroomTest() {
         gameTest = new Game();
         gameTest.setNumberOfPlayers(2);
         LoginManager.login("ale", gameTest);
         LoginManager.login("nic", gameTest);
-        gameTest.setupGame();
         Player p1 = gameTest.getPlist().getPlayers().get(0);
         p1.moveStudentToClassroom(1, gameTest);
         p1.moveStudentToClassroom(2, gameTest);
-        p1.moveStudentToClassroom(3,gameTest);
-        p1.moveStudentToClassroom(4,gameTest);
+        p1.moveStudentToClassroom(3, gameTest);
+        p1.moveStudentToClassroom(4, gameTest);
         p1.getDashboard().drawDashboard();
         p1.getDashboard().getStudentFromClassroom(PawnColor.RED);
         p1.getDashboard().drawDashboard();

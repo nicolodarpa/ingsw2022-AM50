@@ -17,11 +17,11 @@ class BlockCardTest {
 
     @Test
     void effect() {
-        gameTest = new Game();
-        gameTest.setNumberOfPlayers(2);
+        gameTest = new Game(2);
+
         LoginManager.login("ale",gameTest);
         LoginManager.login("nic",gameTest);
-        gameTest.setupGame();
+
         Player p1 = gameTest.getPlist().getPlayers().get(0);
         Player p2 = gameTest.getPlist().getPlayers().get(1);
         BlockCard card = new BlockCard();

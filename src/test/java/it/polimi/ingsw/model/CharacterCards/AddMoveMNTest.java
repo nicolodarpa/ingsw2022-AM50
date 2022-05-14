@@ -19,11 +19,11 @@ public class AddMoveMNTest {
 
     @Test
     public void effectTest(){
-        gameTest = new Game();
-        gameTest.setNumberOfPlayers(2);
+        gameTest = new Game(2);
+
         LoginManager.login("ale",gameTest);
         LoginManager.login("nic",gameTest);
-        gameTest.setupGame();
+
         Player p1 = gameTest.getPlist().getPlayers().get(0);
         Player p2 = gameTest.getPlist().getPlayers().get(1);
         Deck d1 = new Deck(1);
@@ -42,22 +42,22 @@ public class AddMoveMNTest {
 
     @Test
     public void testGetCost(){
-        gameTest = new Game();
-        gameTest.setNumberOfPlayers(2);
+        gameTest = new Game(2);
+
         LoginManager.login("jaz",gameTest);
         LoginManager.login("nic",gameTest);
-        gameTest.setupGame();
+
         NoTowerInfluence card = new NoTowerInfluence();
         System.out.println(card.getCost());
     }
 
     @Test
     public void testAddCost(){
-        gameTest = new Game();
-        gameTest.setNumberOfPlayers(2);
+        gameTest = new Game(2);
+
         LoginManager.login("jaz",gameTest);
         LoginManager.login("nic",gameTest);
-        gameTest.setupGame();
+
         NoTowerInfluence card = new NoTowerInfluence();
         System.out.println(card.getCost());
         card.addCost();
@@ -66,11 +66,11 @@ public class AddMoveMNTest {
 
     @Test
     public void testGetEffectOfTheCard(){
-        gameTest = new Game();
-        gameTest.setNumberOfPlayers(2);
+        gameTest = new Game(2);
+
         LoginManager.login("jaz",gameTest);
         LoginManager.login("nic",gameTest);
-        gameTest.setupGame();
+
         NoTowerInfluence card = new NoTowerInfluence();
         System.out.println(card.getEffectOfTheCard());
     }
