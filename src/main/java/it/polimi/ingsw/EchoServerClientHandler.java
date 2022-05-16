@@ -60,7 +60,7 @@ public class EchoServerClientHandler extends Thread {
                                     list.add(new GameStatus(game1.getCurrentNumberOfPlayers(), game1.getNumberOfPlayers()));
                                 }
                             }
-                            TextMessage text = new TextMessage("msg", gson.toJson(list));
+                            TextMessage text = new TextMessage("avlGames", gson.toJson(list));
                             String json = gson.toJson(text, TextMessage.class);
                             out.println(json);
                         } else {

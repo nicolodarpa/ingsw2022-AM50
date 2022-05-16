@@ -11,7 +11,9 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
@@ -27,8 +29,7 @@ public class ConnectFormController {
 
     @FXML
     protected void connectButton(ActionEvent actionEvent) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("selection_form.fxml"));
-        Scene scene = new Scene(fxmlLoader.load());
+
         Window owner = connectButton.getScene().getWindow();
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         Socket socket;
@@ -37,13 +38,19 @@ public class ConnectFormController {
         try {
             socket = new Socket(ip, port);
             PrintWriter socketOut = new PrintWriter(socket.getOutputStream());
+            BufferedReader socketIn = new BufferedReader(new InputStreamReader((socket.getInputStream())));
             ClientInput.getInstance().setSocketOut(socketOut);
-            stage.setScene(scene);
-            stage.show();
+            ClientInput.getInstance().setSocketIn(socketIn);
+
         } catch (Exception e) {
+
             AlertHelper.showAlert(Alert.AlertType.WARNING, owner, "Connection", "Connection failed");
 
         }
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("selection_form.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        stage.setScene(scene);
+        stage.show();
 
 
     }

@@ -35,7 +35,6 @@ public class LineClient {
         try {
             socket = new Socket(ip, port);
             System.out.println(ANSI_SECONDARY + "Connection established" + ANSI_RESET);
-
             socketIn = new BufferedReader(new InputStreamReader((socket.getInputStream())));
             PrintWriter socketOut = new PrintWriter(socket.getOutputStream());
             stdin = new Scanner(System.in);
