@@ -19,7 +19,7 @@ public class TeacherAssignmentTest {
         gameTest.setNumberOfPlayers(2);
         LoginManager.login("jaz",gameTest);
         LoginManager.login("nic",gameTest);
-        gameTest.setupGame();
+
         TeacherAssignment card = new TeacherAssignment();
         assertEquals(2, card.getCost());
         card.addCost();
@@ -31,7 +31,7 @@ public class TeacherAssignmentTest {
         gameTest.setNumberOfPlayers(2);
         LoginManager.login("jaz",gameTest);
         LoginManager.login("nic",gameTest);
-        gameTest.setupGame();
+
         TeacherAssignment card = new TeacherAssignment();
         card.addCost();
         assertEquals(3, card.getCost());
@@ -39,11 +39,11 @@ public class TeacherAssignmentTest {
 
     @Test
     public void testGetEffectOfTheCard(){
-        gameTest = new Game();
-        gameTest.setNumberOfPlayers(2);
+        gameTest = new Game(2);
+
         LoginManager.login("jaz",gameTest);
         LoginManager.login("nic",gameTest);
-        gameTest.setupGame();
+
         TeacherAssignment card = new TeacherAssignment();
         System.out.println(card.getEffectOfTheCard());
     }
@@ -53,7 +53,7 @@ public class TeacherAssignmentTest {
         gameTest.setNumberOfPlayers(2);
         LoginManager.login("jaz",gameTest);
         LoginManager.login("nic",gameTest);
-        gameTest.setupGame();
+
         TeacherAssignment card = new TeacherAssignment();
         Player player_one = gameTest.getPlist().getPlayers().get(0);
         Player player_two = gameTest.getPlist().getPlayers().get(1);

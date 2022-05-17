@@ -3,8 +3,6 @@ package it.polimi.ingsw.client.view;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.comunication.*;
-import it.polimi.ingsw.model.PawnColor;
-import it.polimi.ingsw.model.Student;
 
 
 import java.io.BufferedReader;
@@ -32,6 +30,50 @@ public class ClientOut extends Thread {
         this.socket = socket;
     }
 
+    @Override
+    public void run() {
+        while (true) {
+            String socketLine;
+            try {
+                socketLine = socketIn.readLine();
+                if (socketLine != null) {
+                    Gson gson = new Gson();
+                    message = gson.fromJson(socketLine, TextMessage.class);
+                    if (Objects.equals(message.type, "msg")) {
+                        System.out.println(message.message);
+                    } else if (Objects.equals(message.type, "error")) {
+                        System.out.println(RED + message.message + ANSI_RESET);
+                    } else if (Objects.equals(message.type, "warning")) {
+                        System.out.println(YELLOW + message.message + ANSI_RESET);
+                    } else if (Objects.equals(message.type, "notify")) {
+                        System.out.println(GREEN + message.message + ANSI_RESET);
+                    } else if (Objects.equals(message.type, "characterCards")) {
+                        printCharacterCards();
+                    } else if (Objects.equals(message.type, "islands")) {
+                        printIslands();
+                    } else if (Objects.equals(message.type, "dashboard")) {
+                        printDashboard();
+                    } else if (Objects.equals(message.type, "cloudCard")) {
+                        printCloudCard();
+                    } else if (Objects.equals(message.type, "hall")) {
+                        printHall();
+                    } else if (Objects.equals(message.type, "studentsRoom")) {
+                        printStudentsRoom();
+                    } else if (Objects.equals(message.type, "quit")) {
+                        System.out.println(message.message);
+                        socket.close();
+                        break;
+                    }
+                }
+            } catch (IOException e) {
+                System.out.println("No connection to the server");
+                break;
+            }
+
+
+        }
+
+    }
     private void draw(String color) {
         if (Objects.equals(color, "EMPTY")) {
             System.out.print("^^^");
@@ -155,50 +197,7 @@ public class ClientOut extends Thread {
 
     }
 
-    @Override
-    public void run() {
-        while (true) {
-            String socketLine;
-            try {
-                socketLine = socketIn.readLine();
-                if (socketLine != null) {
-                    Gson gson = new Gson();
-                    message = gson.fromJson(socketLine, TextMessage.class);
-                    if (Objects.equals(message.type, "msg")) {
-                        System.out.println(message.message);
-                    } else if (Objects.equals(message.type, "error")) {
-                        System.out.println(RED + message.message + ANSI_RESET);
-                    } else if (Objects.equals(message.type, "warning")) {
-                        System.out.println(YELLOW + message.message + ANSI_RESET);
-                    } else if (Objects.equals(message.type, "notify")) {
-                        System.out.println(GREEN + message.message + ANSI_RESET);
-                    } else if (Objects.equals(message.type, "characterCards")) {
-                        printCharacterCards();
-                    } else if (Objects.equals(message.type, "islands")) {
-                        printIslands();
-                    } else if (Objects.equals(message.type, "dashboard")) {
-                        printDashboard();
-                    } else if (Objects.equals(message.type, "cloudCard")) {
-                        printCloudCard();
-                    } else if (Objects.equals(message.type, "hall")) {
-                        printHall();
-                    } else if (Objects.equals(message.type, "studentsRoom")) {
-                        printStudentsRoom();
-                    } else if (Objects.equals(message.type, "quit")) {
-                        System.out.println(message.message);
-                        socket.close();
-                        break;
-                    }
-                }
-            } catch (IOException e) {
-                System.out.println("No connection to the server");
-                break;
-            }
 
-
-        }
-
-    }
 
 }
 

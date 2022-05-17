@@ -1,6 +1,7 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.client.view.LineClient;
+import it.polimi.ingsw.client.ClientGUI;
+import it.polimi.ingsw.client.LineClient;
 
 import java.util.Objects;
 
@@ -14,14 +15,22 @@ public class Main {
             if (args[0].equals("-server")) {
                 MultiEchoServer echoServer = new MultiEchoServer(port);
                 echoServer.startServer();
-            } else {
+            } else if (args[0].equals("-cli")) {
                 startClient(ip,port);
+            } else {
+                startGuiClient(ip, port);
             }
 
         } else {
-            startClient(ip,port);
+            startGuiClient(ip, port);
         }
 
+
+    }
+
+    public static void  startGuiClient(String ip, int port){
+
+        ClientGUI.main(ip, port);
 
     }
 
