@@ -415,52 +415,7 @@ public class Game {
         }
     }
 
-    /**
-     * public void assignTeacher() {
-     * if (numberOfPlayers == 2) {
-     * Dashboard d1 = plist.getPlayers().get(0).getDashboard();
-     * Dashboard d2 = plist.getPlayers().get(1).getDashboard();
-     * for (int i = 0; i < 5; i++) {
-     * if (d1.countStudentByColor(teachers[i].getColor()) > d2.countStudentByColor(teachers[i].getColor())) {
-     * d1.addTeacherToTable(teachers[i]);
-     * if (d2.getTeacherTable()[i] != null)
-     * d2.removeTeacherFromTable(teachers[i]);
-     * } else if (d2.countStudentByColor(teachers[i].getColor()) > d1.countStudentByColor(teachers[i].getColor())) {
-     * d2.addTeacherToTable(teachers[i]);
-     * if (d1.getTeacherTable()[i] != null)
-     * d1.removeTeacherFromTable(teachers[i]);
-     * }
-     * }
-     * <p>
-     * } else if (numberOfPlayers == 3) {
-     * Dashboard d1 = plist.getPlayers().get(0).getDashboard();
-     * Dashboard d2 = plist.getPlayers().get(1).getDashboard();
-     * Dashboard d3 = plist.getPlayers().get(2).getDashboard();
-     * for (int i = 0; i < 5; i++) {
-     * if (d1.countStudentByColor(teachers[i].getColor()) > d2.countStudentByColor(teachers[i].getColor()) && d1.countStudentByColor(teachers[i].getColor()) > d3.countStudentByColor(teachers[i].getColor())) {
-     * d1.addTeacherToTable(teachers[i]);
-     * if (d2.getTeacherTable()[i] != null)
-     * d2.removeTeacherFromTable(teachers[i]);
-     * else if (d3.getTeacherTable()[i] != null)
-     * d3.removeTeacherFromTable(teachers[i]);
-     * } else if (d2.countStudentByColor(teachers[i].getColor()) > d1.countStudentByColor(teachers[i].getColor()) && d2.countStudentByColor(teachers[i].getColor()) > d3.countStudentByColor(teachers[i].getColor())) {
-     * d2.addTeacherToTable(teachers[i]);
-     * if (d1.getTeacherTable()[i] != null)
-     * d1.removeTeacherFromTable(teachers[i]);
-     * else if (d3.getTeacherTable()[i] != null)
-     * d3.removeTeacherFromTable(teachers[i]);
-     * } else if (d3.countStudentByColor(teachers[i].getColor()) > d1.countStudentByColor(teachers[i].getColor()) && d3.countStudentByColor(teachers[i].getColor()) > d2.countStudentByColor(teachers[i].getColor())) {
-     * d3.addTeacherToTable(teachers[i]);
-     * if (d1.getTeacherTable()[i] != null)
-     * d1.removeTeacherFromTable(teachers[i]);
-     * else if (d2.getTeacherTable()[i] != null)
-     * d2.removeTeacherFromTable(teachers[i]);
-     * }
-     * <p>
-     * }
-     * }
-     * }
-     **/
+
 
     public void assignTower() {
         int i = 0;
@@ -537,6 +492,8 @@ public class Game {
                 p.setTeacherAssignerModifier(false);
             }
             plist.notifyAllClients("notify", "Planning phase");
+            for (CloudCard c : cloudCards )
+                cloudCardFill(c);
             phase = 0;
             round++;
             for (CloudCard cloudCard : cloudCards) {
@@ -578,20 +535,29 @@ public class Game {
     }
 
 
-    public void chooseCloudCard(int numberOfCloudCard, Player player) {
-        ArrayList<Student> students;
-        students = cloudCards.get(numberOfCloudCard).getAllStudents();
-        Dashboard actualDashboard = player.getDashboard();
-        for (Student s : students)
-            actualDashboard.addStudentToHall(s);
-        player.setHasPlayed(true);
+    public boolean chooseCloudCard(int numberOfCloudCard, Player player) {
+        try{
+            ArrayList<Student> students;
+            students = cloudCards.get(numberOfCloudCard).getAllStudents();
+            if (students.size() == 0){
+                return true;
+            }else {
+                Dashboard actualDashboard = player.getDashboard();
+                for (Student s : students)
+                    actualDashboard.addStudentToHall(s);
+                player.setHasPlayed(true);
+                return false;
+            }
+        }catch (Exception IO){
+            return true;
+        }
+
     }
 
     /**
      * Fill up cloudCard with 3 or 4 students each depending on the number of players
      */
     public void cloudCardFill(CloudCard cloudCard) {
-
         if (numberOfPlayers == 2) {
             for (int i = 0; i < 3; i++) {
                 cloudCard.addStudent(studentsBag.casualExtraction());

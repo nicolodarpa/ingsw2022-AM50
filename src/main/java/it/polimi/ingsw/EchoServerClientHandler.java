@@ -335,8 +335,7 @@ public class EchoServerClientHandler extends Thread {
 
             }
         }
-
-    }
+     }
 
 
     private void errorSelectionNotify() {
@@ -361,9 +360,13 @@ public class EchoServerClientHandler extends Thread {
 
     private void chooseCC() throws IOException {
         player.sendToClient("cloudCard", game.sendCloudCards());
-        player.sendToClient("msg", "select cloud card");
-        int cloudCardIndex = Integer.parseInt(in.readLine());
-        game.chooseCloudCard(cloudCardIndex - 1, player);
+
+        boolean check = true;
+        while (check){
+            player.sendToClient("msg", "select a valid cloud card");
+            int cloudCardIndex = Integer.parseInt(in.readLine());
+            check = game.chooseCloudCard(cloudCardIndex - 1, player);
+        }
         player.sendToClient("dashboard", game.sendPlayerDashboard(player));
         game.setActualPlayer();
     }
