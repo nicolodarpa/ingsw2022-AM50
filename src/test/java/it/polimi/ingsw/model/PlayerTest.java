@@ -32,7 +32,7 @@ public class PlayerTest{
         Deck testDeck = new Deck(1);
         Player p = new Player("nic");
         p.setDeck(testDeck);
-        p.playAssistantCard(4);
+        p.playAssistantCard(5);
         assertEquals(5, p.getOrder());
         assertEquals(3, p.getMovesOfMN());
     }

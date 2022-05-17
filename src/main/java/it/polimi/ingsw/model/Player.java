@@ -186,16 +186,17 @@ public class Player {
     /**
      * The player choose based on the number of the card of its deck which one to play
      *
-     * @param cardIndex indicate the order of the card
+     * @param cardOrder indicate the order of the card
      */
-    public void playAssistantCard(int cardIndex) {
+    public void playAssistantCard(int cardOrder) {
         try {
-            if (!checkCardAvailability(cardIndex)) {
-                assistantCardsPlayed.add(deck.getCardsList().get(cardIndex));
-                order = deck.getCardsList().get(cardIndex).getOrder();
-                movesOfMN = deck.getCardsList().get(cardIndex).getMoveOfMN();
-                deck.getCardsList().remove(deck.getCardsList().get(cardIndex));
-                sendToClient("msg", "played card " + (cardIndex + 1) + "\nvalue: " + order + "\nmoves of MN available: " + movesOfMN);
+            if (!checkCardAvailability(cardOrder)) {
+                AssistantCard cardToPlay = deck.getCardOrder(cardOrder);
+                assistantCardsPlayed.add(cardToPlay);
+                order = cardToPlay.order();
+                movesOfMN = cardToPlay.movesOfMN();
+                deck.getCardsList().remove(cardToPlay);
+                sendToClient("msg", "played card " + cardOrder  + "\nvalue: " + order + "\nmoves of MN available: " + movesOfMN);
                 this.hasPlayed = true;
                 lastPlayedAC = order;
             } else {
@@ -207,11 +208,11 @@ public class Player {
 
     /**
      * checks if the card it's been already played and if it is the last card of the deck
-     * @param cardIndex indicate the index of the card in the deck
+     * @param cardOrder indicate the order of the card
      * @return true if the card is playable or false if is not playable
      */
-    public boolean checkCardAvailability(int cardIndex) {
-        AssistantCard assistantCard = deck.getCardsList().get(cardIndex);
+    public boolean checkCardAvailability(int cardOrder) {
+        AssistantCard assistantCard = deck.getCardOrder(cardOrder);
         for (int i = 1; i < assistantCardsPlayed.size(); i++) {
             if (assistantCard == assistantCardsPlayed.get(i)) {
                 return true;

@@ -194,9 +194,10 @@ public class EchoServerClientHandler extends Thread {
     }
 
     private void sendAssistantCardDeck() {
-        for (AssistantCard assistantCard : player.getDeck().getCardsList())
+        for (AssistantCard assistantCard : player.getDeck().getCardsList()){
             if (!game.checkLastPlayedAssistant(assistantCard.getOrder()))
-                player.sendToClient("warning", assistantCard.getOrder() + ") you can play card with order " + assistantCard.getOrder() + " and #" + assistantCard.getMoveOfMN() + " moves of MN available");
+                player.sendToClient("warning", assistantCard.order() + ") order: " + assistantCard.getOrder() + " and #" + assistantCard.getMoveOfMN() + " moves of MN available");
+        }
     }
 
     private void playCharacterCard(Command command) {

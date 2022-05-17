@@ -582,7 +582,7 @@ public class Game {
     }
 
     public void playAssistantCard(Player player, int cardNumber) {
-        if (player.checkCardAvailability(cardNumber - 1)) {
+        if (player.checkCardAvailability(cardNumber)) {
             player.sendToClient("error", "card already played");
             return;
         }
@@ -590,22 +590,23 @@ public class Game {
         if (checkLastPlayedAssistant(cardNumber)) {
             player.sendToClient("error", "Assistant card already played by another player");
             for (AssistantCard assistantCard : player.getDeck().getCardsList()) {
-                if (!checkLastPlayedAssistant(assistantCard.getOrder())) {
-                    player.sendToClient("warning", assistantCard.getOrder() + ") you can play card with order " + assistantCard.getOrder() + " and #" + assistantCard.getMoveOfMN() + " moves of MN available");
+                if (!checkLastPlayedAssistant(assistantCard.order())) {
+                    player.sendToClient("warning", assistantCard.order()+ ") order: " + assistantCard.order() + " and #" + assistantCard.movesOfMN() + " moves of MN available");
                     check = true;
                 }
 
             }
             if (!check) {
-                player.playAssistantCard(cardNumber - 1);
+                player.playAssistantCard(cardNumber);
                 setActualPlayer();
             }
             return;
         }
-        player.playAssistantCard(cardNumber - 1);
+        player.playAssistantCard(cardNumber);
         setActualPlayer();
         if (player.deckSize()) {
             plist.notifyAllClients("notify", "the game has finished");
+            calculateWinner();
         }
 
 

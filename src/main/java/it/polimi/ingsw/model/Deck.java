@@ -46,5 +46,12 @@ public class Deck {
         return cardsList;
     }
 
+    public AssistantCard getCardOrder(int order){
+        for(AssistantCard c : cardsList)
+            if(c.getOrder() == order)
+                return c;
+        return null;
+    }
+
 
 }
