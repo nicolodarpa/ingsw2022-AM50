@@ -2,9 +2,11 @@ package it.polimi.ingsw.client;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.comunication.Command;
+import it.polimi.ingsw.comunication.TextMessage;
 import it.polimi.ingsw.model.Game;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.PrintWriter;
 
 
@@ -48,6 +50,19 @@ public final class ClientInput {
 
     public BufferedReader getSocketIn(){
         return socketIn;
+    }
+
+
+    public TextMessage readLine(){
+        BufferedReader socketIn = ClientInput.getInstance().getSocketIn();
+        String msg;
+        try {
+            msg = socketIn.readLine();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        Gson gson = new Gson();
+        return gson.fromJson(msg, TextMessage.class);
     }
 
 

@@ -66,23 +66,19 @@ public class SelectionFormController implements Initializable {
 
     @FXML
     protected void joinGameButton(ActionEvent actionEvent) throws IOException {
+        Window window = ((Node) actionEvent.getSource()).getScene().getWindow();
         ClientInput.getInstance().sendString("joinGame", selectedGame);
+        TextMessage message = ClientInput.getInstance().readLine();
+        AlertHelper.showAlert(Alert.AlertType.CONFIRMATION, window, "Game", message.message);
         setLoginPage(actionEvent);
 
     }
 
     @FXML
-    private void refreshGames(){
+    private void refreshGames() {
         ClientInput.getInstance().sendString("avlGames", "");
-        BufferedReader socketIn = ClientInput.getInstance().getSocketIn();
-        String msg;
-        try {
-            msg = socketIn.readLine();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        TextMessage message = ClientInput.getInstance().readLine();
         Gson gson = new Gson();
-        TextMessage message = gson.fromJson(msg, TextMessage.class);
         if (!Objects.equals(message.type, "error")) {
             gamesList.getItems().clear();
             GameStatus[] gameStatuses = gson.fromJson(message.message, GameStatus[].class);
