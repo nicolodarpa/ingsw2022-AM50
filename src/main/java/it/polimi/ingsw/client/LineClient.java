@@ -1,13 +1,15 @@
-package it.polimi.ingsw.client.view;
+package it.polimi.ingsw.client;
 
-import it.polimi.ingsw.client.view.ClientOut;
+import it.polimi.ingsw.client.ClientInput;
 
 import com.google.gson.Gson;
+import it.polimi.ingsw.client.view.ClientOut;
 import it.polimi.ingsw.comunication.GameStatus;
 import it.polimi.ingsw.comunication.TextMessage;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class LineClient {

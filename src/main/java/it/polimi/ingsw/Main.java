@@ -2,9 +2,7 @@ package it.polimi.ingsw;
 
 import it.polimi.ingsw.client.ClientGUI;
 import it.polimi.ingsw.client.LineClient;
-import it.polimi.ingsw.client.view.LineClient;
 
-import java.io.IOException;
 import java.util.Objects;
 
 
