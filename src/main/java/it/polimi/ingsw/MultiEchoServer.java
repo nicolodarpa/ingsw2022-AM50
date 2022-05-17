@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class MultiEchoServer {
     private final int port;
@@ -31,6 +30,7 @@ public class MultiEchoServer {
         while (true) {
             try {
                 Socket clientSocket = serverSocket.accept();
+                System.out.println(clientSocket.getInetAddress()+" connected");
                 EchoServerClientHandler serverThread = new EchoServerClientHandler(clientSocket, gameArrayList);
                 threadList.add(serverThread);
                 serverThread.start();

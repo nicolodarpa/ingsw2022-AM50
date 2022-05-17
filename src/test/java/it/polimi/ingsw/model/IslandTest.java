@@ -41,11 +41,11 @@ public class IslandTest {
     @Test
     @DisplayName(" Calculate the influence ")
     public void calcInfluenceTest(){
-        Game gameTest = new Game();
-        gameTest.setNumberOfPlayers(2);
+        Game gameTest = new Game(2);
+
         LoginManager.login("ale", gameTest);
         LoginManager.login("jaz", gameTest);
-        gameTest.setupGame();
+
         Table tableTest = new Table(gameTest.getCloudCards(), gameTest.getIslands());
         Player plyr_1 = gameTest.getPlist().getPlayers().get(0);
         Player plyr_2 = gameTest.getPlist().getPlayers().get(1);
@@ -68,11 +68,11 @@ public class IslandTest {
     @Test
     @DisplayName(" add 1 tower to the island")
     public void testAddTower(){
-        Game gameTest = new Game();
-        gameTest.setNumberOfPlayers(2);
+        Game gameTest = new Game(2);
+
         LoginManager.login("ale", gameTest);
         LoginManager.login("jaz", gameTest);
-        gameTest.setupGame();
+
         Player p = gameTest.getPlist().getPlayerByName("jaz");
         islandTest.setOwner(p);
         islandTest.addTower();
@@ -85,8 +85,8 @@ public class IslandTest {
     @Test
     @DisplayName(" Calculate the influence with tower")
     public void calcInfluenceWithTowerTest(){
-        Game gameTest = new Game();
-        gameTest.setNumberOfPlayers(2);
+        Game gameTest = new Game(2);
+
         LoginManager.login("ale", gameTest);
         LoginManager.login("jaz", gameTest);
         gameTest.assignTower();

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.SelectionFormController">
+    <padding>
+        <Insets bottom="40" left="40" right="40" top="40" />
+    </padding>
+   <ListView fx:id="gamesList" layoutX="14.0" layoutY="88.0" prefHeight="200.0" prefWidth="196.0" />
+   <Button fx:id="joinGameButton" layoutX="14.0" layoutY="314.0" mnemonicParsing="false" onAction="#joinGameButton" text="Join game" GridPane.columnIndex="1" />
+   <Label layoutX="16.0" layoutY="20.0" prefHeight="40.0" prefWidth="196.0" text="Available Games" />
+   <Button fx:id="refreshGames" layoutX="123.0" layoutY="314.0" mnemonicParsing="false" text="Check games" onAction="#refreshGames"/>
+    <RadioButton fx:id="twoPlayersRadio" layoutX="472.0" layoutY="100.0" mnemonicParsing="false" selected="true" text="2">
+        <toggleGroup>
+            <ToggleGroup fx:id="numberOfPlayers" />
+        </toggleGroup></RadioButton>
+    <RadioButton fx:id="threePlayersRadio" layoutX="472.0" layoutY="134.0" mnemonicParsing="false" text="3" toggleGroup="$numberOfPlayers" />
+    <Button fx:id="startGame" layoutX="371.0" layoutY="201.0" mnemonicParsing="false" onAction="#startGame" text="Start new Game" />
+   <Label layoutX="306.0" layoutY="88.0" prefHeight="40.0" prefWidth="131.0" text="Select number of players" />
+
+</AnchorPane>

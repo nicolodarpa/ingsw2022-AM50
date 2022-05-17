@@ -10,11 +10,11 @@ class SpecialInfluenceTest {
 
     @Test
     void effect() {
-        Game gameTest = new Game();
+        Game gameTest = new Game(3);
         LoginManager.login("ale", gameTest);
         LoginManager.login("nic", gameTest);
         LoginManager.login("jaz", gameTest);
-        gameTest.startGame();
+
         Island island = new Island(3);
         Player p1 = gameTest.getPlist().getPlayerByName("ale");
         Player p2 = gameTest.getPlist().getPlayerByName("jaz");

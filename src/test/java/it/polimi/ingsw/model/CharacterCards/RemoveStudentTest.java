@@ -33,7 +33,6 @@ class RemoveStudentTest {
         gameTest.setNumberOfPlayers(2);
         LoginManager.login("ale", gameTest);
         LoginManager.login("jaz", gameTest);
-        gameTest.startGame();
         Player ale = gameTest.getPlist().getPlayerByName("ale");
         Dashboard dashboardTest = ale.getDashboard();
         for (int i = 0; i<3;i++){

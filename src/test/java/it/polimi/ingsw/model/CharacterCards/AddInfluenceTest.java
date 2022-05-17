@@ -15,11 +15,11 @@ public class AddInfluenceTest {
 
     @Test
     public void testGetCost() {
-        gameTest = new Game();
-        gameTest.setNumberOfPlayers(2);
+        gameTest = new Game(2);
+
         LoginManager.login("jaz", gameTest);
         LoginManager.login("nic", gameTest);
-        gameTest.setupGame();
+
         AddInfluence card = new AddInfluence();
         card.update(gameTest.getPlist(), gameTest.getActualPlayer(), gameTest.getIslands(), null, 1, gameTest.getStudentsBag());
         assertEquals(2, card.getCost());
@@ -27,11 +27,11 @@ public class AddInfluenceTest {
 
     @Test
     public void testAddCost() {
-        gameTest = new Game();
-        gameTest.setNumberOfPlayers(2);
+        gameTest = new Game(2);
+
         LoginManager.login("jaz", gameTest);
         LoginManager.login("nic", gameTest);
-        gameTest.setupGame();
+
         AddInfluence card = new AddInfluence();
         card.update(gameTest.getPlist(), gameTest.getActualPlayer(), gameTest.getIslands(), null, 1, gameTest.getStudentsBag());
         card.addCost();
@@ -40,11 +40,11 @@ public class AddInfluenceTest {
 
     @Test
     public void testGetEffectOfTheCard() {
-        gameTest = new Game();
-        gameTest.setNumberOfPlayers(2);
+        gameTest = new Game(2);
+
         LoginManager.login("jaz", gameTest);
         LoginManager.login("nic", gameTest);
-        gameTest.setupGame();
+
         AddInfluence card = new AddInfluence();
         card.update(gameTest.getPlist(), gameTest.getActualPlayer(), gameTest.getIslands(), null, 1, gameTest.getStudentsBag());
         System.out.println(card.getEffectOfTheCard());

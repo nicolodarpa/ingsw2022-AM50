@@ -39,11 +39,11 @@ public class PlayerTest{
 
     @Test
     public void testMoveStudentToClassroom(){
-        gameTest = new Game();
-        gameTest.setNumberOfPlayers(2);
+        gameTest = new Game(2);
+
         LoginManager.login("ale",gameTest);
         LoginManager.login("nic",gameTest);
-        gameTest.setupGame();
+
         Player player = gameTest.getPlist().getPlayerByName("ale");
         player.moveStudentToClassroom(3, gameTest);
         player.getDashboard().drawDashboard();
@@ -52,11 +52,11 @@ public class PlayerTest{
 
     @Test
     public void testMoveStudentToIsland(){
-        Game gameTest = new Game();
-        gameTest.setNumberOfPlayers(2);
+        Game gameTest = new Game(2);
+
         LoginManager.login("ale",gameTest);
         LoginManager.login("nic",gameTest);
-        gameTest.setupGame();
+
         Player player = gameTest.getPlist().getPlayers().get(0);
         player.moveStudentToIsland(gameTest.getIslands().get(2), 3);
         if(gameTest.getIslands().get(2).getOppositeMN() || gameTest.getIslands().get(2).getPresenceMN())
@@ -68,22 +68,22 @@ public class PlayerTest{
 
     @Test
     public void testPlaySpecialCard(){
-        Game gameTest = new Game();
-        gameTest.setNumberOfPlayers(2);
+        Game gameTest = new Game(2);
+
         LoginManager.login("ale",gameTest);
         LoginManager.login("nic",gameTest);
-        gameTest.setupGame();
+
         Player p1 = gameTest.getPlist().getPlayerByName("ale");
         //p1.playSpecialCard(gameTest, 2);
     }
 
     @Test
     public void changeStudentTest(){
-        Game gameTest = new Game();
-        gameTest.setNumberOfPlayers(2);
+        Game gameTest = new Game(2);
+
         LoginManager.login("ale",gameTest);
         LoginManager.login("nic",gameTest);
-        gameTest.setupGame();
+
         Player p1 = gameTest.getPlist().getPlayerByName("ale");
         p1.getDashboard().addStudentToClassroom(new Student(PawnColor.RED));
         p1.getDashboard().drawDashboard();

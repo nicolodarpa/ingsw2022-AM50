@@ -13,46 +13,45 @@ public class MotherNatureInfluenceTest {
     private Game gameTest;
 
     @Test
-    public void testGetCost(){
-        gameTest = new Game();
-        gameTest.setNumberOfPlayers(2);
-        LoginManager.login("jaz",gameTest);
-        LoginManager.login("nic",gameTest);
-        gameTest.setupGame();
+    public void testGetCost() {
+        gameTest = new Game(2);
+
+        LoginManager.login("jaz", gameTest);
+        LoginManager.login("nic", gameTest);
+
         MotherNatureInfluence card = new MotherNatureInfluence();
         assertEquals(3, card.getCost());
     }
 
     @Test
-    public void testAddCost(){
-        gameTest = new Game();
-        gameTest.setNumberOfPlayers(2);
-        LoginManager.login("jaz",gameTest);
-        LoginManager.login("nic",gameTest);
-        gameTest.setupGame();
+    public void testAddCost() {
+        gameTest = new Game(2);
+
+        LoginManager.login("jaz", gameTest);
+        LoginManager.login("nic", gameTest);
+
         MotherNatureInfluence card = new MotherNatureInfluence();
         card.addCost();
         assertEquals(4, card.getCost());
     }
 
     @Test
-    public void testGetEffectOfTheCard(){
-        gameTest = new Game();
-        gameTest.setNumberOfPlayers(2);
-        LoginManager.login("jaz",gameTest);
-        LoginManager.login("nic",gameTest);
-        gameTest.setupGame();
+    public void testGetEffectOfTheCard() {
+        gameTest = new Game(2);
+        LoginManager.login("jaz", gameTest);
+        LoginManager.login("nic", gameTest);
+
         MotherNatureInfluence card = new MotherNatureInfluence();
         System.out.println(card.getEffectOfTheCard());
     }
 
     @Test
     void effect() {
-        gameTest = new Game();
-        gameTest.setNumberOfPlayers(2);
+        gameTest = new Game(2);
+
         LoginManager.login("ale", gameTest);
         LoginManager.login("jaz", gameTest);
-        gameTest.startGame();
+
         Player ale = gameTest.getPlist().getPlayerByName("ale");
         ale.getDashboard().addTeacherToTable(new Teacher(PawnColor.RED));
         Island island = gameTest.getIslands().get(3);
@@ -62,9 +61,7 @@ public class MotherNatureInfluenceTest {
         card.setIslands(gameTest.getIslands());
         card.setIndex(3);
         card.effect();
-        assertEquals("ale",island.getOwner());
-
-
+        assertEquals("ale", island.getOwner());
 
 
     }
