@@ -78,7 +78,7 @@ public class EchoServerClientHandler extends Thread {
                         System.out.println("join game");
                         try {
                             game = gameArrayList.get(Integer.parseInt(command.value1));
-                            TextMessage textMessage = new TextMessage("confirm", "You joined game " + game.getGameStatus());
+                            TextMessage textMessage = new TextMessage("confirm", "You joined the game ");
                             String json = gson.toJson(textMessage, TextMessage.class);
                             out.println(json);
                         } catch (Exception e) {
@@ -95,6 +95,8 @@ public class EchoServerClientHandler extends Thread {
                         player.sendToClient("dashboard", game.sendDashboard());
                     } else if (command.cmd.equals("islands")) {
                         player.sendToClient("islands", game.sendIslands());
+                    } else if (command.cmd.equals("sendCloudCards")) {
+                        sendCloudCards();
                     } else if (command.cmd.equals("assistantCardDeck")) {
                         sendAssistantCardDeck();
                     } else if (command.cmd.equals("characterCards")) {
@@ -147,7 +149,7 @@ public class EchoServerClientHandler extends Thread {
 
     private void Login(String name) throws IOException {
         String json;
-        switch (LoginManager.login(name, game)) {//check = false;
+        switch (LoginManager.login(name, game)) {
             case 0:
                 player = game.getPlist().getPlayerByName(name);
                 player.setOut(out);
@@ -200,6 +202,10 @@ public class EchoServerClientHandler extends Thread {
         }
     }
 
+    private void sendCloudCards(){
+        player.sendToClient("cloudCard", game.sendCloudCards());
+    }
+
     private void playCharacterCard(Command command) {
         int specialCardIndex = 0;
         SpecialCard specialCard;
@@ -250,7 +256,7 @@ public class EchoServerClientHandler extends Thread {
 
 
     private void moveStudentToIsland(Command command) {
-        player.sendToClient("msg", "select student from hall to move to an island:");
+        //player.sendToClient("msg", "select student from hall to move to an island:");
         int numPlayer = Integer.parseInt(command.value1);
         int indexIsland = Integer.parseInt(command.value2);
         if (player.moveStudentToIsland(numPlayer - 1, indexIsland - 1, game)) {
@@ -275,40 +281,8 @@ public class EchoServerClientHandler extends Thread {
     }
 
 
-    private int indexStudentInput() {
-        int numPlayer = 0;
-        try {
-            String line = in.readLine();
-            numPlayer = Integer.parseInt(line);
-            if (numPlayer < 1 || numPlayer > 7) {
-                player.sendToClient("msg", "Error input, please insert a value between 1 and 7");
-                indexStudentInput();
-            }
-        } catch (Exception e) {
-            player.sendToClient("msg", "Error input, please insert a value between 1 and 7");
-            indexStudentInput();
-        }
-        return numPlayer;
-    }
 
-    private int indexIslandInput() {
-        player.sendToClient("msg", "Select an island");
-        while (true) {
-            try {
-                String line = in.readLine();
-                int numIsland = Integer.parseInt(line);
-                if (numIsland < 1 || numIsland > game.getIslands().size()) {
-                    player.sendToClient("msg", "Error input, please select a value between 1 and " + game.getIslands().size());
-                    indexIslandInput();
-                }
-                return numIsland;
-            } catch (Exception e) {
-                player.sendToClient("msg", "Error input, please select a value between 1 and " + game.getIslands().size());
 
-            }
-        }
-
-    }
 
 
     private void errorSelectionNotify() {
@@ -331,12 +305,9 @@ public class EchoServerClientHandler extends Thread {
 
 
     private void chooseCC(Command command) {
-        player.sendToClient("cloudCard", game.sendCloudCards());
-        player.sendToClient("msg", "select cloud card");
         int cloudCardIndex = Integer.parseInt(command.value1);
         game.chooseCloudCard(cloudCardIndex - 1, player);
         player.sendToClient("dashboard", game.sendPlayerDashboard(player));
-        game.setActualPlayer();
     }
 
 }

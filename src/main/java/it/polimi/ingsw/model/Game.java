@@ -537,21 +537,21 @@ public class Game {
     }
 
 
-    public boolean chooseCloudCard(int numberOfCloudCard, Player player) {
+    public void chooseCloudCard(int numberOfCloudCard, Player player) {
         try{
             ArrayList<Student> students;
             students = cloudCards.get(numberOfCloudCard).getAllStudents();
             if (students.size() == 0){
-                return true;
+                player.sendToClient("warning","Select a different cloud card");
             }else {
                 Dashboard actualDashboard = player.getDashboard();
                 for (Student s : students)
                     actualDashboard.addStudentToHall(s);
                 player.setHasPlayed(true);
-                return false;
+                setActualPlayer();
             }
         }catch (Exception IO){
-            return true;
+            player.sendToClient("error","Error choosing cloud card");
         }
 
     }

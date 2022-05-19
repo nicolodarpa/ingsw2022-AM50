@@ -8,6 +8,8 @@ import it.polimi.ingsw.comunication.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Objects;
 
 public class ClientOut extends Thread {
@@ -17,6 +19,7 @@ public class ClientOut extends Thread {
     private static final String YELLOW = "\u001B[33m";
     private static final String RED = "\u001B[31m";
     private static final String GREEN = "\u001B[32m";
+    private static final String SPACE = "11";
 
     private final Gson gson = new Gson();
     private TextMessage message;
@@ -74,6 +77,7 @@ public class ClientOut extends Thread {
         }
 
     }
+
     private void draw(String color) {
         if (Objects.equals(color, "EMPTY")) {
             System.out.print("^^^");
@@ -95,26 +99,37 @@ public class ClientOut extends Thread {
     private void printIslands() {
         IslandStatus[] statuses = gson.fromJson(message.message, IslandStatus[].class);
         System.out.println("Islands");
+        StringBuilder id = new StringBuilder();
+        StringBuilder dim = new StringBuilder();
+        StringBuilder owner = new StringBuilder();
+        StringBuilder towers = new StringBuilder();
+        StringBuilder mn = new StringBuilder();
+        StringBuilder line = new StringBuilder();
+
         for (IslandStatus islandStatus : statuses) {
-            if (islandStatus.presenceMN) {
-                System.out.print(YELLOW);
-            }
-            System.out.println("============");
-            System.out.println("=Island #" + islandStatus.id);
-            System.out.println("=Dimension : " + islandStatus.dimension);
-            System.out.println("=Is conquered: " + islandStatus.islandConquered);
-            System.out.println("=Owner: " + islandStatus.owner);
-            System.out.println("=Towers #: " + islandStatus.towerNumber);
-            System.out.println("=Presence of MN: " + islandStatus.presenceMN);
-            System.out.println("=Students: ");
-            System.out.print(ANSI_RESET);
-            for (String student : islandStatus.students) {
-                draw(student);
-                System.out.println(" ");
-            }
+
+            line.append("---------------");
+            id.append(String.format("%s %-" + SPACE + "s %s","|" ,"Id #: " + islandStatus.id,"|"));
+            dim.append(String.format("%s %-" + SPACE + "s %s", "|","Dim: " + islandStatus.dimension,"|"));
+            owner.append(String.format("%s %-" + SPACE + "s %s", "|","Owner: " + islandStatus.owner,"|"));
+            towers.append(String.format("%s %-" + SPACE + "s %s", "|","Towers #:" + islandStatus.towerNumber,"|"));
+            mn.append(String.format("%s %-" + SPACE + "s %s", "|","MN: " + islandStatus.presenceMN,"|"));
 
 
+            //st.addRow(4,j"Students: ");
         }
+        ArrayList<StringBuilder> table = new ArrayList<>();
+        table.add(id);
+        table.add(dim);
+        table.add(owner);
+        table.add(towers);
+        table.add(mn);
+        System.out.println(line);
+        for (StringBuilder row : table) {
+            System.out.println(row);
+        }
+        System.out.println(line);
+
     }
 
     private void printDashboard() {
@@ -153,7 +168,7 @@ public class ClientOut extends Thread {
     private void printCloudCard() {
         CloudCardStatus[] cloudCardStatuses = gson.fromJson(message.message, CloudCardStatus[].class);
         for (CloudCardStatus cloudCardStatus : cloudCardStatuses) {
-            System.out.println("=====CLoudCard: ");
+            System.out.println("=====CLoudCard=====");
             for (String student : cloudCardStatus.students) {
                 draw(student);
                 System.out.println(" ");
@@ -196,7 +211,6 @@ public class ClientOut extends Thread {
         System.out.println(" ");
 
     }
-
 
 
 }
