@@ -10,12 +10,10 @@ public class CloudCardStatus {
 
     public ArrayList<String> students = new ArrayList<>();
 
-    public CloudCardStatus(CloudCard cloudCard){
+    public CloudCardStatus(CloudCard cloudCard) {
         ArrayList<Student> cloudCardStudents = cloudCard.getStudents();
-        for (Student student: cloudCardStudents){
-            if (student != null){
-                students.add(String.valueOf(student.getColor()));
-            } else students.add("EMPTY");
+        for (Student student : cloudCardStudents) {
+            students.add(String.valueOf(student.getColor().getCode()));
 
         }
 

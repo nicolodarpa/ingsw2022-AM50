@@ -9,7 +9,7 @@ public class StudentRoom {
     public StudentRoom(ArrayList<Student> studentsRoom){
         int i = 0;
         for (Student student: studentsRoom){
-            students[i] = String.valueOf(student.getColor());
+            students[i] = String.valueOf(student.getColor().getCode());
             i++;
         }
     }

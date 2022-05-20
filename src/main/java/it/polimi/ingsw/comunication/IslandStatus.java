@@ -18,7 +18,7 @@ public class IslandStatus {
     public int towerNumber;
     public String towerColor;
 
-    public IslandStatus(Island island){
+    public IslandStatus(Island island) {
         this.id = island.getId();
         this.idGroup = island.getIdGroup();
         this.islandConquered = island.getConquered();
@@ -28,10 +28,12 @@ public class IslandStatus {
         this.towerNumber = island.getTowerNumber();
         this.towerColor = String.valueOf(island.getTowerColor());
         ArrayList<Student> studentArrayList = island.getStudents();
-        for (Student student: studentArrayList){
-            if(student != null){
-                students.add(String.valueOf(student.getColor()));
-            } else students.add("EMPTY");
+        for (Student student : studentArrayList) {
+            if (student!=null){
+                students.add(String.valueOf(student.getColor().getCode()));
+            } else students.add(null);
+
+
         }
 
     }

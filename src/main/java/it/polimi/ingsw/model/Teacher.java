@@ -8,6 +8,7 @@ public class Teacher extends Pawn {
     private PawnColor color;
 
 
+
     public void setColor(PawnColor color) {
         this.color = color;
     }
