@@ -19,7 +19,7 @@ public class ClientOut extends Thread {
     private static final String YELLOW = "\u001B[33m";
     private static final String RED = "\u001B[31m";
     private static final String GREEN = "\u001B[32m";
-    private static final String SPACE = "11";
+    private static final String SPACE = "10";
 
     private final Gson gson = new Gson();
     private TextMessage message;
@@ -79,19 +79,9 @@ public class ClientOut extends Thread {
     }
 
     private void draw(String color) {
-        if (Objects.equals(color, "EMPTY")) {
-            System.out.print("^^^");
-        } else if (Objects.equals(color, "CYAN")) {
-            System.out.print(CYAN + "+++");
-        } else if (Objects.equals(color, "MAGENTA")) {
-            System.out.print(MAGENTA + "+++");
-        } else if (Objects.equals(color, "YELLOW")) {
-            System.out.print(YELLOW + "+++");
-        } else if (Objects.equals(color, "RED")) {
-            System.out.print(RED + "+++");
-        } else if (Objects.equals(color, "GREEN")) {
-            System.out.print(GREEN + "+++");
-        }
+        if (color == null) {
+            System.out.print("_");
+        } else System.out.printf(color + "+");
         System.out.print(ANSI_RESET);
 
     }
@@ -105,18 +95,32 @@ public class ClientOut extends Thread {
         StringBuilder towers = new StringBuilder();
         StringBuilder mn = new StringBuilder();
         StringBuilder line = new StringBuilder();
-
+        StringBuilder students = new StringBuilder();
+        int j = 0;
         for (IslandStatus islandStatus : statuses) {
+            j++;
+            int space = Integer.parseInt(SPACE) + 2;
+            line.append("--------------");
+            if (islandStatus.presenceMN) {
+                id.append(String.format("%s" + YELLOW + " %-" + SPACE + "s" + ANSI_RESET + " %s", "|", "Id #: " + islandStatus.id, "|"));
+            } else id.append(String.format("%s %-" + SPACE + "s %s", "|", "Id #: " + islandStatus.id, "|"));
+            dim.append(String.format("%s %-" + SPACE + "s %s", "|", "Dim: " + islandStatus.dimension, "|"));
+            owner.append(String.format("%s %-" + SPACE + "s %s", "|", "Own: " + islandStatus.owner, "|"));
+            towers.append(String.format("%s %-" + SPACE + "s %s", "|", "Twrs #:" + islandStatus.towerNumber, "|"));
+            mn.append(String.format("%s %-" + SPACE + "s %s", "|", "MN: " + islandStatus.presenceMN, "|"));
+            int length = students.length();
+            students.append("| St:");
+            for (String student : islandStatus.students) {
+                students.append(student).append("+").append(ANSI_RESET);
+                space = space +9;
+            }
+            int i = students.length();
+            while (i < length+space) {
+                students.append("_");
+                i++;
+            }
+            students.append(" |");
 
-            line.append("---------------");
-            id.append(String.format("%s %-" + SPACE + "s %s","|" ,"Id #: " + islandStatus.id,"|"));
-            dim.append(String.format("%s %-" + SPACE + "s %s", "|","Dim: " + islandStatus.dimension,"|"));
-            owner.append(String.format("%s %-" + SPACE + "s %s", "|","Owner: " + islandStatus.owner,"|"));
-            towers.append(String.format("%s %-" + SPACE + "s %s", "|","Towers #:" + islandStatus.towerNumber,"|"));
-            mn.append(String.format("%s %-" + SPACE + "s %s", "|","MN: " + islandStatus.presenceMN,"|"));
-
-
-            //st.addRow(4,j"Students: ");
         }
         ArrayList<StringBuilder> table = new ArrayList<>();
         table.add(id);
@@ -124,6 +128,7 @@ public class ClientOut extends Thread {
         table.add(owner);
         table.add(towers);
         table.add(mn);
+        table.add(students);
         System.out.println(line);
         for (StringBuilder row : table) {
             System.out.println(row);
@@ -139,24 +144,26 @@ public class ClientOut extends Thread {
             System.out.println("Dashboard of " + dashboardStatus.nameOwner);
             System.out.print("Hall: ");
             for (String student : dashboardStatus.studentsHall) {
-                System.out.print("-");
+                System.out.print("|");
                 draw(student);
+                System.out.print("| ");
             }
             System.out.println(" ");
             System.out.println("Classrooms");
             for (int i = 0; i < 5; i++) {
 
                 for (int j = 0; j < 10; j++) {
-
+                    System.out.print("|");
                     draw(dashboardStatus.studentsClassroom[i][j]);
-                    System.out.print("--");
+                    System.out.print("| ");
                 }
                 System.out.println(" ");
             }
             System.out.print("Teacher Table: ");
             for (String teacher : dashboardStatus.teacherTable) {
-                System.out.print("-");
+                System.out.print("|");
                 draw(teacher);
+                System.out.print("| ");
             }
             System.out.println(" ");
             System.out.println("Towers available: " + dashboardStatus.towers);
@@ -171,8 +178,9 @@ public class ClientOut extends Thread {
             System.out.println("=====CLoudCard=====");
             for (String student : cloudCardStatus.students) {
                 draw(student);
-                System.out.println(" ");
+                System.out.print(" ");
             }
+            System.out.println(" ");
 
         }
     }
@@ -192,8 +200,9 @@ public class ClientOut extends Thread {
         for (HallStatus hallStatus : hallStatuses) {
             System.out.println("=====Hall: ");
             for (String student : hallStatus.students) {
-                System.out.print("-");
+                System.out.print("|");
                 draw(student);
+                System.out.print("| ");
             }
             System.out.println(" ");
 
@@ -205,8 +214,9 @@ public class ClientOut extends Thread {
         StudentRoom studentRoom = gson.fromJson(message.message, StudentRoom.class);
         System.out.println("=====Students Room: ");
         for (String student : studentRoom.students) {
-            System.out.print("-");
+            System.out.print("|");
             draw(student);
+            System.out.print("| ");
         }
         System.out.println(" ");
 
