@@ -288,7 +288,6 @@ public class EchoServerClientHandler extends Thread {
     private void errorSelectionNotify() {
         player.sendToClient("msg", "select a valid student");
         player.sendToClient("hall", game.sendHall(player));
-
     }
 
     private void moveMotherNature(Command command) {

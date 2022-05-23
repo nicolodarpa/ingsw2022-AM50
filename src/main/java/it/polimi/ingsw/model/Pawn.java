@@ -18,7 +18,7 @@ public class Pawn {
     }
 
     /**
-     * draw a pawn, and it visualizes in terminal in the correspondence color
+     * draw a pawn represented by "+++" , and it visualizes in terminal in the correspondence color
      */
     public void draw() {
         PawnColor color = getColor();
