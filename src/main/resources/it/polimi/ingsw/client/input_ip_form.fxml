@@ -18,7 +18,7 @@
       <children>
       
                                           
-                                              <TextField fx:id="ip_input" layoutX="48.0" layoutY="110.0" promptText="ip" text="127.0.0.1" />
+          <TextField fx:id="ip_input" layoutX="48.0" layoutY="110.0" promptText="ip" text="127.0.0.1" />
           <TextField fx:id="port_input" layoutX="48.0" layoutY="203.0" promptText="port" text="1337" />
           <Button fx:id="connectButton" layoutX="111.0" layoutY="301.0" mnemonicParsing="false" onAction="#connectButton" text="Connect" />
          <Text layoutX="48.0" layoutY="105.0" strokeType="OUTSIDE" strokeWidth="0.0" text="IP:" />

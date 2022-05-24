@@ -26,7 +26,7 @@ public class ClientGUI extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("input_ip_form.fxml"));
 
         Scene scene = new Scene(root);
-        Image icon = new Image("C:\\Users\\zarle\\ingsw2022-AM50\\src\\main\\resources\\images\\LOGO CRANIO CREATIONS_bianco.png");
+        Image icon = new Image("@../../../../images/LOGO CRANIO CREATIONS_bianco.png");
 
         stage.getIcons().add(icon);
         stage.setTitle("Eryantis GUI");

@@ -36,7 +36,7 @@
       </ImageView>
       <ImageView fitHeight="133.33" fitWidth="90.66" layoutX="495.0" layoutY="49.0">
          <image>
-            <Image url="@../../../../assets/assistantCard/Assistente (4).png" />
+            <Image url="@../../../../assets/assistantCard/Assistente (5).png" />
          </image>
       </ImageView>
       <Button fx:id="playCard1" layoutX="29.0" layoutY="187.0" mnemonicParsing="false" onAction="#playAssistantCard1" text="Choose " />

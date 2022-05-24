@@ -22,17 +22,27 @@
             <Font size="16.0" />
          </font>
       </Label>
-      <Label layoutX="525.0" layoutY="38.0" text="3">
-         <font>
-            <Font size="16.0" />
-         </font>
-      </Label>
-      <Label layoutX="38.0" layoutY="48.0" text="It is your turn">
+      <Label fx:id = "movesAvailableCounter" layoutX="525.0" layoutY="38.0" text="3">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
       <Label layoutX="38.0" layoutY="28.0" text="Round #: ">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id = "roundCounter" layoutX="108.0" layoutY="28.0" text="1">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="38.0" layoutY="48.0" text="Order: ">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id = "order" layoutX="108.0" layoutY="48.0" text="1">
          <font>
             <Font size="16.0" />
          </font>
