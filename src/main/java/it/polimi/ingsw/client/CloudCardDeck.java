@@ -15,10 +15,10 @@ public class CloudCardDeck {
     private ArrayList<Image> imgCloudcard3 = new ArrayList<>(3);
     private Map<Integer,Image> deckCloudCard = new HashMap<>();
     private ArrayList<Image> cloudCardsInGame = new ArrayList<>();
-    Image cc1 = new Image("C:\\Users\\zarle\\ingsw2022-AM50\\src\\main\\resources\\images\\cloudcard\\cc1.png", false);
-    Image cc2 = new Image("C:\\Users\\zarle\\ingsw2022-AM50\\src\\main\\resources\\images\\cloudcard\\cc2.png", false);
-    Image cc3 = new Image("C:\\Users\\zarle\\ingsw2022-AM50\\src\\main\\resources\\images\\cloudcard\\cc3.png", false);
-    Image cc4= new Image("C:\\Users\\zarle\\ingsw2022-AM50\\src\\main\\resources\\images\\cloudcard\\cc4.png", false);
+    Image cc1 = new Image("@../../../../images/cloudcard/cc1.png", false);
+    Image cc2 = new Image("@../../../../images/cloudcard/cc2.png", false);
+    Image cc3 = new Image("@../../../../images/cloudcard/cc3.png", false);
+    Image cc4= new Image("@../../../../images/cloudcard/cc4.png", false);
 
 
     public CloudCardDeck(){
@@ -37,7 +37,6 @@ public class CloudCardDeck {
     }
 
     public void extractRandomCloudCard() {
-        //if( )
         ArrayList<Integer> cloudCard = getRandomNonRepeatingCC(3, 0, 3);
         for (Integer integer : cloudCard) {
             cloudCardsInGame.add(getCloudCard(integer));

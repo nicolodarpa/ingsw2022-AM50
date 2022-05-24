@@ -84,27 +84,15 @@ public class TableController implements Initializable {
             cloudcardCircle.add(circle3);
             cloudCardDeck.extractRandomCloudCard();
             cloudCardsInGame = cloudCardDeck.getCloudCardsInGame();
-        int i=0;
 
+            int i=0;
             for (Circle c : cloudcardCircle){
                 c.setStroke(Color.WHITE);
                 c.setFill(new ImagePattern(cloudCardsInGame.get(i)));
                 i++;
             }
 
-       /* circle.setStroke(Color.WHITE);
-        Image cc1 = new Image("C:\\Users\\zarle\\ingsw2022-AM50\\src\\main\\resources\\images\\Assistenti\\cloudcard\\cc1.png", false);
-        circle.setFill(new ImagePattern(cc1));
-
-        circle2.setStroke(Color.WHITE);
-        Image cc2 = new Image("C:\\Users\\zarle\\ingsw2022-AM50\\src\\main\\resources\\images\\Assistenti\\cloudcard\\cc2.png", false);
-        circle2.setFill(new ImagePattern(cc2));
-
-        circle3.setFill(Color.WHITE);
-        Image cc3 = new Image("C:\\Users\\zarle\\ingsw2022-AM50\\src\\main\\resources\\images\\Assistenti\\cloudcard\\cc3.png", false);
-        circle3.setFill(new ImagePattern(cc3));
-
-        }
+        /*}
         else {
             circle.setStroke(Color.WHITE);
             Image cc1 = new Image("C:\\Users\\zarle\\ingsw2022-AM50\\src\\main\\resources\\images\\Assistenti\\cloudcard\\cc1.png", false);
@@ -139,29 +127,29 @@ public class TableController implements Initializable {
 
 
     public void addYellowStudent(MouseEvent event)  {
-        Image yellowStudent = new Image("C:\\Users\\zarle\\ingsw2022-AM50\\src\\main\\resources\\images\\Assistenti\\Pawn\\yellow_student.png",false);
+        Image yellowStudent = new Image("@../../../../images/Pawn/yellow_student.png",false);
         student.setImage(yellowStudent);
 
     }
 
     public void addRedStudent (MouseEvent event){
-        Image redStudent = new Image("C:\\Users\\zarle\\ingsw2022-AM50\\src\\main\\resources\\images\\Assistenti\\Pawn\\red_student.png",false);
+        Image redStudent = new Image("@../../../../images/Pawn/red_student.png",false);
         student.setImage(redStudent);
 
     }
 
     public void addGreenStudent (MouseEvent event){
-        Image greenStudent = new Image("C:\\Users\\zarle\\ingsw2022-AM50\\src\\main\\resources\\images\\Assistenti\\Pawn\\green_student.png",false);
+        Image greenStudent = new Image("@../../../../images/Pawn/green_student.png",false);
         student.setImage(greenStudent);
     }
 
     public void addCyanoStudent (MouseEvent event){
-        Image cyanoStudent = new Image("C:\\Users\\zarle\\ingsw2022-AM50\\src\\main\\resources\\images\\Assistenti\\Pawn\\cyano_student.png",false);
+        Image cyanoStudent = new Image("@../../../../images/Pawn/cyano_student.png",false);
         student.setImage(cyanoStudent);
     }
 
     public void addMagentaStudent (MouseEvent event){
-        Image magentaStudent = new Image("C:\\Users\\zarle\\ingsw2022-AM50\\src\\main\\resources\\images\\Assistenti\\Pawn\\magenta_student.png",false);
+        Image magentaStudent = new Image("@../../../../images/Pawn/magenta_student.png",false);
         student.setImage(magentaStudent);
     }
 

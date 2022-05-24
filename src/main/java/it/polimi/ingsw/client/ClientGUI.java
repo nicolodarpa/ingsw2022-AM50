@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 
 
 import java.io.IOException;
+import java.util.Objects;
 
 
 public class ClientGUI extends Application {
@@ -23,7 +24,7 @@ public class ClientGUI extends Application {
     @Override
     public void start(Stage stage) throws IOException {
 
-        Parent root = FXMLLoader.load(getClass().getResource("input_ip_form.fxml"));
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("input_ip_form.fxml")));
 
         Scene scene = new Scene(root);
         Image icon = new Image("@../../../../images/LOGO CRANIO CREATIONS_bianco.png");
