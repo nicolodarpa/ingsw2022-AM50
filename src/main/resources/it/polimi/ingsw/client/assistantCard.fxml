@@ -7,8 +7,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-
-<Pane fx:controller="it.polimi.ingsw.client.AssistantCardController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+<Pane fx:id="anchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.AssistantCardController">
    <children>
       <ImageView fitHeight="133.33" fitWidth="90.66" layoutX="14.0" layoutY="49.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fitHeight="133.33" fitWidth="90.66" layoutX="14.0" layoutY="49.0">
@@ -40,13 +39,13 @@
             <Image url="@../../../../assets/assistantCard/Assistente (4).png" />
          </image>
       </ImageView>
-      <Button fx:id="playCard1" layoutX="29.0" layoutY="187.0" mnemonicParsing="false"  onAction="#playAssistantCard1" text="Choose " />
+      <Button fx:id="playCard1" layoutX="29.0" layoutY="187.0" mnemonicParsing="false" onAction="#playAssistantCard1" text="Choose " />
       <Button fx:id="playCard2" layoutX="156.0" layoutY="187.0" mnemonicParsing="false" onAction="#playAssistantCard2" text="Choose" />
       <Button fx:id="playCard3" layoutX="271.0" layoutY="187.0" mnemonicParsing="false" onAction="#playAssistantCard3" text="Choose" />
       <Button fx:id="playCard4" layoutX="391.0" layoutY="187.0" mnemonicParsing="false" onAction="#playAssistantCard4" text="Choose" />
       <Button fx:id="playCard5" layoutX="510.0" layoutY="187.0" mnemonicParsing="false" onAction="#playAssistantCard5" text="Choose" />
       <ImageView fitHeight="133.33" fitWidth="90.66" layoutX="14.0" layoutY="225.0" pickOnBounds="true" preserveRatio="true" />
-      <Button fx:id="playCard6" layoutX="29.0" layoutY="363.0" mnemonicParsing="false"  onAction="#playAssistantCard6" text="Choose " />
+      <Button fx:id="playCard6" layoutX="29.0" layoutY="363.0" mnemonicParsing="false" onAction="#playAssistantCard6" text="Choose " />
       <Button fx:id="playCard7" layoutX="156.0" layoutY="363.0" mnemonicParsing="false" onAction="#playAssistantCard7" text="Choose" />
       <Button fx:id="playCard8" layoutX="271.0" layoutY="363.0" mnemonicParsing="false" onAction="#playAssistantCard8" text="Choose" />
       <Button fx:id="playCard9" layoutX="391.0" layoutY="363.0" mnemonicParsing="false" onAction="#playAssistantCard9" text="Choose" />

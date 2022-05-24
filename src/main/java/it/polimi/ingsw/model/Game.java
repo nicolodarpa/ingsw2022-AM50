@@ -498,9 +498,6 @@ public class Game {
                 cloudCardFill(c);
             phase = 0;
             round++;
-            for (CloudCard cloudCard : cloudCards) {
-                cloudCardFill(cloudCard);
-            }
             if(studentsBag.endOfStudents()){
                 calculateWinner();
             }
@@ -537,22 +534,24 @@ public class Game {
     }
 
 
-    public void chooseCloudCard(int numberOfCloudCard, Player player) {
+
+    public boolean chooseCloudCard(int numberOfCloudCard, Player player) {
+        ArrayList<Student> students;
         try{
-            ArrayList<Student> students;
-            students = cloudCards.get(numberOfCloudCard).getAllStudents();
-            if (students.size() == 0){
-                player.sendToClient("warning","Select a different cloud card");
-            }else {
+            if (cloudCards.get(numberOfCloudCard).getStudents().size() != 0){
+                students = cloudCards.get(numberOfCloudCard).getAllStudents();
                 Dashboard actualDashboard = player.getDashboard();
                 for (Student s : students)
                     actualDashboard.addStudentToHall(s);
                 player.setHasPlayed(true);
                 setActualPlayer();
-            }
-        }catch (Exception IO){
-            player.sendToClient("error","Error choosing cloud card");
+                return false;
+        } else
+                return true;
+        }catch(Exception ignored){
+            return true;
         }
+
 
     }
 
