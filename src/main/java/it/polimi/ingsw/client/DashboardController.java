@@ -124,7 +124,7 @@ public class DashboardController implements Initializable {
         setUpHallImages(studentsBag);
         Tower tower = new Tower(TowerColor.grey);
         setUpTowerImages(tower);
-        Teacher teacher = new Teacher(PawnColor.CYAN);
+        Teacher teacher = new Teacher(PawnColor.YELLOW);
         setUpProfessor(teacher);
         //setOrder();
     }
@@ -182,25 +182,7 @@ public class DashboardController implements Initializable {
             c.setStroke(null);
             c.setFill(null);
         }
-        for (int i = 0 ; i<5; i++){
-            if(teacher.getColor().getName() == "green" && i==teacher.getColor().ordinal()){
-               professorsPosition.get(i).setFill(new ImagePattern(new Image(String.valueOf(getClass().getClassLoader().getResource("images/Pawn/green_professor.png")))));
-            }
-            else if(teacher.getColor().getName() == "magenta" && i==teacher.getColor().ordinal()){
-                professorsPosition.get(i).setFill(new ImagePattern(new Image(String.valueOf(getClass().getClassLoader().getResource("images/Pawn/magenta_professor.png")))));
-            }
-            else if(teacher.getColor().getName() == "yellow" && i==teacher.getColor().ordinal()){
-                professorsPosition.get(i).setFill(new ImagePattern(new Image(String.valueOf(getClass().getClassLoader().getResource("images/Pawn/yellow_professor.png")))));
-            }
-            else if(teacher.getColor().getName() == "cyan" && i==teacher.getColor().ordinal()){
-                professorsPosition.get(i).setFill(new ImagePattern(new Image(String.valueOf(getClass().getClassLoader().getResource("images/Pawn/cyano_professor.png")))));
-            }
-            else if(teacher.getColor().getName() == "red" && i==teacher.getColor().ordinal()){
-                professorsPosition.get(i).setFill(new ImagePattern(new Image(String.valueOf(getClass().getClassLoader().getResource("images/Pawn/red_professor.png")))));
-            }
-
-        }
-
+        professorsPosition.get(teacher.getColor().ordinal()).setFill(new ImagePattern(new Image(String.valueOf(getClass().getClassLoader().getResource("images/Pawn/"+teacher.getColor().getName()+"_professor.png")))));
     }
 
 
