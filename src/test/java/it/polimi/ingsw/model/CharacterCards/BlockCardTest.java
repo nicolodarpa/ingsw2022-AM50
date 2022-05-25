@@ -32,7 +32,7 @@ class BlockCardTest {
         assertTrue(gameTest.getIslands().get(1).getBlock());
         if(gameTest.getIslandWithMN().getId() != card.index){
             gameTest.moveMN(p1,1);
-            assertFalse(gameTest.getIslands().get(1).getBlock());
+            assertFalse(gameTest.getIslands().get(1).getBlock());  ///check error
             assertEquals(3,card.getAvailableBlockCards());
             card.update(gameTest.getPlist(),gameTest.getActualPlayer(), gameTest.getIslands(), null, 5, gameTest.getStudentsBag());
             card.effect();

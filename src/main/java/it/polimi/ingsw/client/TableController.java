@@ -66,7 +66,7 @@ public class TableController implements Initializable {
     private Text txt3;
 
     private ArrayList<Circle> cloudcardCircle = new ArrayList<>(3);
-    private CloudCardDeck cloudCardDeck = new CloudCardDeck();
+    private CloudCardDeckImages cloudCardDeck = new CloudCardDeckImages();
     private ArrayList<Image> cloudCardsInGame = new ArrayList<>(3);
 
     public ArrayList<Image> getCloudCardsInGame() {

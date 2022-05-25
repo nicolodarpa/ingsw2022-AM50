@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.LoginManager;
-import it.polimi.ingsw.PlayersList;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -69,7 +68,7 @@ public class DashboardTest {
         testD.setupHall(2);
         Teacher teacher = new Teacher(PawnColor.RED);
         testD.addTeacherToTable(teacher);
-        assertNotNull(testD.getTeacherTable()[3]);
+        assertNotNull(testD.getTeacherTable()[1]);
         testD.drawDashboard();
     }
 
@@ -97,27 +96,17 @@ public class DashboardTest {
     @DisplayName("Add Coin to the wallet of the player")
 
     public void addCoinTest() {
+        gameTest = new Game(2);
+        Player p1 = new Player("p1");
+        Dashboard p1dashboard = p1.getDashboard();
 
-        gameTest = new Game();
-        gameTest.setNumberOfPlayers(2);
-        LoginManager.login("ale", gameTest);
-        LoginManager.login("nic", gameTest);
-
-        Player p1 = gameTest.getPlist().getPlayers().get(0);
-        for (int i = 0; i < 7; i++) {
-            p1.moveStudentToClassroom(i, gameTest);
-        }
-
-        Student s = new Student(PawnColor.CYAN);
         for (int j = 0; j < 4; j++) {
-            p1.getDashboard().addStudentToHall(s);
+            Student s = new Student(PawnColor.GREEN);
+            p1dashboard.addStudentToClassroom(s);
         }
-        for (int i = 0; i < 4; i++) {
-            p1.moveStudentToClassroom(i, gameTest);
-        }
-        p1.getDashboard().drawDashboard();
-        //p1.getDashboard().addCoin(p1.getWallet());
-        System.out.println("Il player ha #" + p1.getWallet() + " monete");
+        p1dashboard.addCoin(p1.getWallet());
+        System.out.println("Il player ha #" + p1.getCoins() + " monete");
+
         assertFalse(p1.getDashboard().getCoinPos()[0][2]);
     }
 

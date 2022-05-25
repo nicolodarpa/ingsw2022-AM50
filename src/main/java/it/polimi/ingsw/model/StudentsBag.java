@@ -5,7 +5,7 @@ import java.util.Random;
 
 public class StudentsBag {
 
-    private ArrayList<Student> bag;
+    private final ArrayList<Student> bag = new ArrayList<>();
     private final PawnColor[] colors = {PawnColor.CYAN,PawnColor.MAGENTA,PawnColor.YELLOW,PawnColor.RED,PawnColor.GREEN } ;
 
     public ArrayList<Student> getBag() {
@@ -17,7 +17,6 @@ public class StudentsBag {
      * @param numberOfStudents represent the total number of students in the game (120)
      */
     public void fillBag(int numberOfStudents){
-        bag = new ArrayList<>();
         final int totalNumberOfPawnColor = PawnColor.numberOfColors;
         for(int j = 1; j < numberOfStudents+1; j++){
             bag.add(new Student(colors[j%totalNumberOfPawnColor]));
@@ -41,9 +40,7 @@ public class StudentsBag {
     }
 
     public boolean endOfStudents(){
-        if(bag.size() == 0)
-            return true;
-     return false;
+        return bag.size() == 0;
     }
 
 

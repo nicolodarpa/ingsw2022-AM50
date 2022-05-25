@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class GameTest{
+public class GameTest {
 
     private Game gameTest;
 
@@ -20,7 +20,7 @@ public class GameTest{
         LoginManager.login("ale", gameTest);
         LoginManager.login("nic", gameTest);
 
-        assertEquals(100, gameTest.getStudentsInBag() );
+        assertEquals(100, gameTest.getStudentsInBag());
     }
 
     @Test
@@ -33,14 +33,14 @@ public class GameTest{
         LoginManager.login("nic", gameTest);
 
         assertEquals(100, gameTest.getStudentsInBag());
-        assertEquals(2,gameTest.getCloudCards().size());
-        for(int i = 0; i < 2; i++)
-            assertEquals(3,gameTest.getCloudCards().get(i).getStudents().size());
-        assertEquals(12,gameTest.getIslands().size());
+        assertEquals(2, gameTest.getCloudCards().size());
+        for (int i = 0; i < 2; i++)
+            assertEquals(3, gameTest.getCloudCards().get(i).getStudents().size());
+        assertEquals(12, gameTest.getIslands().size());
         Table t = new Table(gameTest.getCloudCards(), gameTest.getIslands());
         t.drawTable();
-        for(Player p : gameTest.getPlist().getPlayers())
-            assertEquals(8,p.getDashboard().getTowers().size());
+        for (Player p : gameTest.getPlist().getPlayers())
+            assertEquals(8, p.getDashboard().getTowers().size());
         assertEquals(3, gameTest.getCardsInGame().size());
     }
 
@@ -49,12 +49,12 @@ public class GameTest{
     public void createIslandTest() {
         gameTest = new Game();
         gameTest.createIslands();
-        assertEquals(12,gameTest.getIslands().size());
+        assertEquals(12, gameTest.getIslands().size());
     }
 
     @Test
     @DisplayName(" Test the assignment of the Teacher")
-    public void assignTeacherTest(){
+    public void assignTeacherTest() {
         gameTest = new Game(2);
 
         LoginManager.login("jaz", gameTest);
@@ -78,9 +78,9 @@ public class GameTest{
         LoginManager.login("jaz", gameTest);
         LoginManager.login("nic", gameTest);
 
-        for(Island i : gameTest.getIslands()){
-            if(!i.getPresenceMN() && !i.getOppositeMN()){
-                assertEquals(1,i.getStudentList().size());
+        for (Island i : gameTest.getIslands()) {
+            if (!i.getPresenceMN() && !i.getOppositeMN()) {
+                assertEquals(1, i.getStudentList().size());
             }
         }
     }
@@ -96,7 +96,7 @@ public class GameTest{
         Player p = gameTest.getPlist().getPlayers().get(0);
         Player q = gameTest.getPlist().getPlayers().get(1);
         for (Island i : gameTest.getIslands()) {
-            System.out.println("Numero isola: " + i.getId()+ " - dimension: " + i.getDimension() +", owner: " + i.getOwner());
+            System.out.println("Numero isola: " + i.getId() + " - dimension: " + i.getDimension() + ", owner: " + i.getOwner());
         }
         System.out.println(" ");
         gameTest.getIslands().get(2).setOwner(p);
@@ -117,12 +117,11 @@ public class GameTest{
         }
 
 
-
     }
 
     @Test
     @DisplayName("connect island 1 an 12")
-    public  void connectExtremeIslands(){
+    public void connectExtremeIslands() {
         gameTest = new Game(2);
 
         LoginManager.login("jaz", gameTest);
@@ -139,20 +138,19 @@ public class GameTest{
             System.out.println("Numero isola: " + i.getId() + " - dimension: " + i.getDimension() + ", owner: " + i.getOwner());
         }
 
-        assertEquals(q.getName(),gameTest.getIslands().get(9).getOwner());
-
+        assertEquals(q.getName(), gameTest.getIslands().get(9).getOwner());
 
 
     }
 
     @Test
-    public void setActualPlayerTest(){
+    public void setActualPlayerTest() {
         gameTest = new Game(2);
         LoginManager.login("jaz", gameTest);
         LoginManager.login("nic", gameTest);
 
-        Deck deck1 = new Deck(1,"BLUE");
-        Deck deck2 = new Deck(2,"PINK");
+        Deck deck1 = new Deck(1, "BLUE");
+        Deck deck2 = new Deck(2, "PINK");
         Player playerOne = gameTest.getPlist().getPlayerByName("jaz");
         Player playerTwo = gameTest.getPlist().getPlayerByName("nic");
         playerOne.setDeck(deck1);
@@ -164,21 +162,21 @@ public class GameTest{
     }
 
     @Test
-    public void extractSpecialCardTest(){
+    public void extractSpecialCardTest() {
         gameTest = new Game(2);
 
         LoginManager.login("jaz", gameTest);
         LoginManager.login("nic", gameTest);
 
         assertEquals(3, gameTest.getCardsInGame().size());
-        for(SpecialCard card : gameTest.getCardsInGame()){
+        for (SpecialCard card : gameTest.getCardsInGame()) {
             System.out.println("==" + card.getEffectOfTheCard());
         }
 
     }
 
     @Test
-    public void chooseCloudCard(){
+    public void chooseCloudCard() {
         gameTest = new Game(2);
 
         LoginManager.login("jaz", gameTest);
@@ -194,7 +192,7 @@ public class GameTest{
 
     @Test
     @DisplayName("move MN")
-    public void moveMN(){
+    public void moveMN() {
         gameTest = new Game(2);
 
         LoginManager.login("jaz", gameTest);
@@ -204,71 +202,66 @@ public class GameTest{
         p1.setMovesOfMN(12);
         int i = gameTest.getIslandWithMNIndex();
         System.out.println(i);
-        if(i != 8)
+        if (i != 8)
             assertTrue(gameTest.moveMN(p1, 8));
         else
             assertFalse(gameTest.moveMN(p1, 8));
-        if (i!=8){
+        if (i != 8) {
             assertFalse(gameTest.getIslands().get(i).getPresenceMN());
         } else assertTrue(gameTest.getIslands().get(i).getPresenceMN());
     }
 
 
-
-
     @Test
     @DisplayName(" Test the assignment of the Teacher for 3 players")
-    public void assignTeacherForThreePlayersTest(){
+    public void assignTeacherForThreePlayersTest() {
         gameTest = new Game(3);
-
         LoginManager.login("ale", gameTest);
         LoginManager.login("nic", gameTest);
-        LoginManager.login("jaz",gameTest);
-
+        LoginManager.login("jaz", gameTest);
         Player player_one = gameTest.getPlist().getPlayers().get(0);
         Player player_two = gameTest.getPlist().getPlayers().get(1);
-        Player player_three= gameTest.getPlist().getPlayers().get(2);
+        Player player_three = gameTest.getPlist().getPlayers().get(2);
 
-        player_one.moveStudentToClassroom(1, gameTest);
-        for (int i = 0; i<2; i++){
+        player_one.moveStudentToClassroom(0, gameTest);
+        for (int i = 0; i < 2; i++) {
             Student studentColor = new Student(PawnColor.CYAN);
             player_one.getDashboard().addStudentToHall(studentColor);
-            player_one.moveStudentToClassroom(1,gameTest);
+            player_one.moveStudentToClassroom(0, gameTest);
         }
 
-        player_two.moveStudentToClassroom(1,gameTest);
-        for (int i = 0; i<4; i++){
+        player_two.moveStudentToClassroom(0, gameTest);
+        for (int i = 0; i < 4; i++) {
             Student studentColor = new Student(PawnColor.CYAN);
             player_two.getDashboard().addStudentToHall(studentColor);
-            player_two.moveStudentToClassroom(1,gameTest);
+            player_two.moveStudentToClassroom(0, gameTest);
         }
 
-        player_three.moveStudentToClassroom(0,gameTest);
+        player_three.moveStudentToClassroom(0, gameTest);
 
 
         player_one.getDashboard().drawDashboard();
         player_two.getDashboard().drawDashboard();
         player_three.getDashboard().drawDashboard();
-        assertEquals(player_two.getDashboard().getTeacherTable()[0].getColor(),PawnColor.CYAN);
+        assertEquals(player_two.getDashboard().getTeacherTable()[4].getColor(), PawnColor.CYAN);
 
     }
 
 
-
     @Test
     @DisplayName("The player choose a cloud card")
-    public void chooseCloudCardTest(){
+    public void chooseCloudCardTest() {
         gameTest = new Game(2);
 
         LoginManager.login("ale", gameTest);
         LoginManager.login("nic", gameTest);
 
         Player playerTest = gameTest.getPlist().getPlayerByName("ale");
-        playerTest.moveStudentToClassroom(2,gameTest);
-        playerTest.moveStudentToClassroom(3,gameTest);
-        playerTest.moveStudentToClassroom(4,gameTest);
+        playerTest.moveStudentToClassroom(2, gameTest);
+        playerTest.moveStudentToClassroom(3, gameTest);
+        playerTest.moveStudentToClassroom(4, gameTest);
         gameTest.chooseCloudCard(1, playerTest);
-        assertEquals(7,playerTest.getDashboard().getHall().length);
+        assertEquals(7, playerTest.getDashboard().getHall().length);
         assertEquals(0, gameTest.getCloudCards().get(1).getAllStudents().size());
     }
 

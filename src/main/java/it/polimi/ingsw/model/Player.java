@@ -54,8 +54,12 @@ public class Player {
         this.dashboard = dashboard;
     }
 
-    public int getWallet() {
+    public int getCoins() {
         return wallet.getCoins();
+    }
+
+    public Wallet getWallet() {
+        return wallet;
     }
 
     public void addCoin(int coin) {
@@ -196,7 +200,7 @@ public class Player {
                 order = cardToPlay.order();
                 movesOfMN = cardToPlay.movesOfMN();
                 deck.getCardsList().remove(cardToPlay);
-                sendToClient("msg", "played card " + cardOrder  + "\nvalue: " + order + "\nmoves of MN available: " + movesOfMN);
+                sendToClient("msg", "played card " + cardOrder + "\nvalue: " + order + "\nmoves of MN available: " + movesOfMN);
                 this.hasPlayed = true;
                 lastPlayedAC = order;
             } else {
@@ -208,6 +212,7 @@ public class Player {
 
     /**
      * checks if the card it's been already played and if it is the last card of the deck
+     *
      * @param cardOrder indicate the order of the card
      * @return true if the card is playable or false if is not playable
      */
@@ -284,8 +289,9 @@ public class Player {
 
     /**
      * switch the position of a student in the hall and a student in the classroom
+     *
      * @param studentColor is the color of the student in the classroom
-     * @param pos_hall is the position of the student in the hall
+     * @param pos_hall     is the position of the student in the hall
      */
     public void changeStudent(PawnColor studentColor, int pos_hall) {
         Student studentFromClassroom = dashboard.getStudentFromClassroom(studentColor);

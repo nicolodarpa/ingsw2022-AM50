@@ -198,7 +198,7 @@ public class EchoServerClientHandler extends Thread {
 
     private void sendCharacterCardDeck() {
         player.sendToClient("characterCards", game.sendCharacterCardsDeck());
-        player.sendToClient("notify", "Wallet: #" + player.getWallet() + " coins");
+        player.sendToClient("notify", "Wallet: #" + player.getCoins() + " coins");
     }
 
     private void sendAssistantCardDeck() {
@@ -219,7 +219,7 @@ public class EchoServerClientHandler extends Thread {
         int islandIndex = 0;
         int value2 = Integer.parseInt(command.value2);
         specialCard = game.getCardsInGame().get(Integer.parseInt(command.value1)-1);
-        if (specialCard.getCost() > player.getWallet()) {
+        if (specialCard.getCost() > player.getCoins()) {
             player.sendToClient("error", "You don't have enough coins to play this card");
             return;
         }
