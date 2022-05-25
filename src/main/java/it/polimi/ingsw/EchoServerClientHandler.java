@@ -57,7 +57,7 @@ public class EchoServerClientHandler extends Thread {
                             ArrayList<GameStatus> list = new ArrayList<>();
                             for (Game game1 : gameArrayList) {
                                 if (Objects.equals(game1.getGameStatus(), "Waiting for players")) {
-                                    list.add(new GameStatus(game1.getCurrentNumberOfPlayers(), game1.getNumberOfPlayers()));
+                                    list.add(new GameStatus(game1.getCurrentNumberOfPlayers(), game1.getNumberOfPlayers(), game1.getPlist()));
                                 }
                             }
                             TextMessage text = new TextMessage("avlGames", gson.toJson(list));
@@ -178,7 +178,6 @@ public class EchoServerClientHandler extends Thread {
 
     private void chooseDeck(Command command) {
         String numDeck = command.value1;
-
         try {
             if (game.chooseDeck(Integer.parseInt(numDeck), player) == 1) {
                 player.sendToClient("msg", "Deck " + numDeck + " chosen");

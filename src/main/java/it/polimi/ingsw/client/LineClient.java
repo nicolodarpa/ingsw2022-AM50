@@ -148,7 +148,7 @@ public class LineClient {
         GameStatus[] gameStatuses = gson.fromJson(message.message, GameStatus[].class);
         int i = 0;
         for (GameStatus gameStatus : gameStatuses) {
-            System.out.println("game # " + i + ": " + gameStatus.currentNumber + "/" + gameStatus.totalPlayers + " players");
+            System.out.println("-"+i + ": " + gameStatus.currentNumber + "/" + gameStatus.totalPlayers + " players: " + gameStatus.playersName);
             i++;
         }
         clientInput.sendString("joinGame", stdin.nextLine());

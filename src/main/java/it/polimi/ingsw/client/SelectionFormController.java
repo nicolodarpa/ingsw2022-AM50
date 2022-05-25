@@ -84,7 +84,7 @@ public class SelectionFormController implements Initializable {
             GameStatus[] gameStatuses = gson.fromJson(message.message, GameStatus[].class);
             int i = 0;
             for (GameStatus gameStatus : gameStatuses) {
-                gamesList.getItems().add("game # " + i + ": " + gameStatus.currentNumber + "/" + gameStatus.totalPlayers + " players");
+                gamesList.getItems().add("-" + i + ": " + gameStatus.currentNumber + "/" + gameStatus.totalPlayers + " players:" + gameStatus.playersName);
                 i++;
             }
         }
