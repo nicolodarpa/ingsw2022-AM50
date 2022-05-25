@@ -26,8 +26,8 @@ public class AddMoveMNTest {
 
         Player p1 = gameTest.getPlist().getPlayers().get(0);
         Player p2 = gameTest.getPlist().getPlayers().get(1);
-        Deck d1 = new Deck(1);
-        Deck d2 = new Deck(2);
+        Deck d1 = new Deck(1,"BLUE");
+        Deck d2 = new Deck(2,"PINK");
         p1.setDeck(d1);
         p2.setDeck(d2);
         p1.playAssistantCard(3);

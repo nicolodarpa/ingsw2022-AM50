@@ -89,7 +89,10 @@ public class EchoServerClientHandler extends Thread {
 
                     } else if (command.cmd.equals("login")) {
                         Login(command.value1);
-                    } else if (command.cmd.equals("chooseDeck")) {
+                    } else if (command.cmd.equals("sendAssistantDecks")){
+                        sendAssistantDecks();
+                    }
+                    else if (command.cmd.equals("chooseDeck")) {
                         chooseDeck(command);
                     } else if (command.cmd.equals("dashboard")) {
                         player.sendToClient("dashboard", game.sendDashboard());
@@ -188,6 +191,10 @@ public class EchoServerClientHandler extends Thread {
         }
 
 
+    }
+
+    private void sendAssistantDecks(){
+        player.sendToClient("msg", game.sendDeck());
     }
 
     private void sendCharacterCardDeck() {

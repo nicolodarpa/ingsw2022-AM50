@@ -151,8 +151,8 @@ public class GameTest{
         LoginManager.login("jaz", gameTest);
         LoginManager.login("nic", gameTest);
 
-        Deck deck1 = new Deck(1);
-        Deck deck2 = new Deck(2);
+        Deck deck1 = new Deck(1,"BLUE");
+        Deck deck2 = new Deck(2,"PINK");
         Player playerOne = gameTest.getPlist().getPlayerByName("jaz");
         Player playerTwo = gameTest.getPlist().getPlayerByName("nic");
         playerOne.setDeck(deck1);

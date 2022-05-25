@@ -4,11 +4,14 @@ import it.polimi.ingsw.client.ClientInput;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.client.view.ClientOut;
+import it.polimi.ingsw.comunication.DeckStatus;
 import it.polimi.ingsw.comunication.GameStatus;
 import it.polimi.ingsw.comunication.TextMessage;
 
 import java.io.*;
+import java.lang.reflect.Type;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -176,7 +179,14 @@ public class LineClient {
     }
 
     private void chooseDeck() throws IOException {
-        System.out.println("Select your deck:\n1-BLUE\n2-PURPLE\n3-GREEN\n4-PINK");
+        clientInput.sendString("sendAssistantDecks", "");
+        String response = socketIn.readLine();
+        TextMessage message = gson.fromJson(response, TextMessage.class);
+        DeckStatus[] deckStatusArrayList = gson.fromJson(message.message, DeckStatus[].class);
+        System.out.println("Select your deck:");
+        for (DeckStatus deckStatus : deckStatusArrayList) {
+            System.out.println(deckStatus.id + "-" + deckStatus.color + ": " + deckStatus.playerName);
+        }
         String index = stdin.nextLine();
         while (!Objects.equals(index, "4") && !Objects.equals(index, "1") && !Objects.equals(index, "2") && !Objects.equals(index, "3")) {
             System.out.println("Please input a valid index");
@@ -184,8 +194,8 @@ public class LineClient {
         }
 
         clientInput.sendString("chooseDeck", index);
-        String response = socketIn.readLine();
-        TextMessage message = gson.fromJson(response, TextMessage.class);
+        response = socketIn.readLine();
+        message = gson.fromJson(response, TextMessage.class);
         if (Objects.equals(message.type, "error")) {
             System.out.println(message.message);
             chooseDeck();

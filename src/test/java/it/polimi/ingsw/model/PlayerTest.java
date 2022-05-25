@@ -29,7 +29,7 @@ public class PlayerTest{
     @Test
     @DisplayName("Play card with order 5 and 3 moves available")
     public void testPlayAssistantCard() {
-        Deck testDeck = new Deck(1);
+        Deck testDeck = new Deck(1,"BLUE");
         Player p = new Player("nic");
         p.setDeck(testDeck);
         p.playAssistantCard(5);

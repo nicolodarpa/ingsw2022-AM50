@@ -231,6 +231,17 @@ public class Game {
         return gson.toJson(cardList);
     }
 
+    public String sendDeck(){
+        ArrayList<DeckStatus> deckStatusArrayList = new ArrayList<>();
+        for (Deck deck: deckMap.values()){
+            deckStatusArrayList.add(new DeckStatus(deck));
+
+        }
+        Gson gson = new Gson();
+        return gson.toJson(deckStatusArrayList);
+
+    }
+
 
     public void createIslands() {
         for (int i = 1; i <= numberOfIslands; i++) {
@@ -325,10 +336,10 @@ public class Game {
 
 
     public void createDecks() {
-        deckMap.put(1, new Deck(1));
-        deckMap.put(2, new Deck(2));
-        deckMap.put(3, new Deck(3));
-        deckMap.put(4, new Deck(4));
+        deckMap.put(1, new Deck(1,"BLUE"));
+        deckMap.put(2, new Deck(2,"PURPLE"));
+        deckMap.put(3, new Deck(3,"GREEN"));
+        deckMap.put(4, new Deck(4,"PINK"));
     }
 
 
@@ -577,6 +588,7 @@ public class Game {
                 return 0;
         }
         player.setDeck(deck);
+        deck.setPlayer(player);
         return 1;
     }
 

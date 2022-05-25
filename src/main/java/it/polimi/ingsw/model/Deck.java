@@ -6,13 +6,19 @@ import java.util.ArrayList;
  * Represent the deck of the assistant cards in the game
  */
 public class Deck {
-    private int id;
+    private final int id;
+
+    private final String color;
+
+
+    private Player player = null;
     private boolean hasChosen;
     private final ArrayList<AssistantCard> cardsList = new ArrayList<AssistantCard>();
 
 
-    public Deck(int id){
+    public Deck(int id, String color){
         this.id = id;
+        this.color = color;
         this.hasChosen = false;
         cardsList.add(new AssistantCard(1,1));
         cardsList.add(new AssistantCard(2,1));
@@ -28,6 +34,18 @@ public class Deck {
 
     public int getId() {
         return id;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
+    public Player getPlayer() {
+        return player;
     }
 
     public boolean getChosen() {
