@@ -2,7 +2,10 @@ package it.polimi.ingsw.client;
 
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
@@ -10,7 +13,9 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
@@ -75,10 +80,6 @@ public class TableController implements Initializable {
 
     @Override
     public void initialize (URL url, ResourceBundle rb) {
-
-       //Game game;
-
-        //if(){
             cloudcardCircle.add(circle);
             cloudcardCircle.add(circle2);
             cloudcardCircle.add(circle3);
@@ -120,7 +121,13 @@ public class TableController implements Initializable {
         }*/
     }
 
-    public void seeDashboard (MouseEvent event){
+    @FXML
+    public void seeDashboard (MouseEvent event) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("dashboard.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
 
     }
 

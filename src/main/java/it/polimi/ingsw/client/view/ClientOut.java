@@ -33,6 +33,7 @@ public class ClientOut extends Thread {
         this.socket = socket;
     }
 
+
     @Override
     public void run() {
         while (true) {
@@ -62,6 +63,8 @@ public class ClientOut extends Thread {
                         printHall();
                     } else if (Objects.equals(message.type, "studentsRoom")) {
                         printStudentsRoom();
+                    } else if(Objects.equals(message.type, "player")){
+                        printPlayer();
                     } else if (Objects.equals(message.type, "quit")) {
                         System.out.println(message.message);
                         socket.close();
@@ -182,6 +185,18 @@ public class ClientOut extends Thread {
             }
             System.out.println(" ");
 
+        }
+    }
+
+    private void printPlayer(){
+        PlayersStatus[] playersStatuses = gson.fromJson(message.message, PlayersStatus[].class);
+        for(PlayersStatus playersStatus : playersStatuses){
+            System.out.println("=====Player=====");
+            System.out.println("Name: " + playersStatus.name);
+            System.out.println("Order: " + playersStatus.order);
+            System.out.println("Moves of mother nature: " + playersStatus.movesOfMN);
+            System.out.println("Moves available: " + playersStatus.movesOfMN);
+            System.out.println("Has played: " + playersStatus.hasPlayed);
         }
     }
 

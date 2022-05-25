@@ -116,9 +116,8 @@ public class Game {
         if (getCurrentNumberOfPlayers() == numberOfPlayers) {
             setupGame();
         }
-
-
     }
+
 
     public void removePlayer(Player player) {
         plist.removePlayer(player);
@@ -230,6 +229,15 @@ public class Game {
         return gson.toJson(cardList);
     }
 
+    public String sendPlayers(){
+        ArrayList<PlayersStatus> players = new ArrayList<>();
+        for(Player p : plist.getPlayers()){
+            players.add(new PlayersStatus(p));
+        }
+        Gson gson = new Gson();
+        return gson.toJson(players);
+    }
+
     public String sendDeck() {
         ArrayList<DeckStatus> deckStatusArrayList = new ArrayList<>();
         for (Deck deck : deckMap.values()) {
@@ -238,7 +246,6 @@ public class Game {
         }
         Gson gson = new Gson();
         return gson.toJson(deckStatusArrayList);
-
     }
 
 

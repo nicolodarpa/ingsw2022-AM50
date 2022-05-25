@@ -28,10 +28,10 @@ public class EchoServerClientHandler extends Thread {
 
     private PrintWriter out;
 
+
     public EchoServerClientHandler(Socket socket, ArrayList<Game> gameArrayList) throws IOException {
         this.socket = socket;
         this.gameArrayList = gameArrayList;
-
     }
 
     public void run() {
@@ -91,8 +91,9 @@ public class EchoServerClientHandler extends Thread {
                         Login(command.value1);
                     } else if (command.cmd.equals("sendAssistantDecks")){
                         sendAssistantDecks();
-                    }
-                    else if (command.cmd.equals("chooseDeck")) {
+                    } else if (command.cmd.equals("player")){
+                        sendPlayers();
+                    } else if (command.cmd.equals("chooseDeck")) {
                         chooseDeck(command);
                     } else if (command.cmd.equals("dashboard")) {
                         player.sendToClient("dashboard", game.sendDashboard());
@@ -120,6 +121,7 @@ public class EchoServerClientHandler extends Thread {
                                     case "moveStudentToClassroom" -> moveStudentToClassroom(command);
                                     case "actions" ->
                                             player.sendToClient("msg", "You can move student to classroom or you can move student to island");
+
                                     default -> player.sendToClient("msg", "move all you students before moving MN");
                                 }
                             } else if (player.getMovesOfStudents() == 0 && command.cmd.equals("moveMN")) {
@@ -196,6 +198,10 @@ public class EchoServerClientHandler extends Thread {
         player.sendToClient("msg", game.sendDeck());
     }
 
+    private void sendPlayers(){
+        player.sendToClient("player", game.sendPlayers());
+    }
+
     private void sendCharacterCardDeck() {
         player.sendToClient("characterCards", game.sendCharacterCardsDeck());
         player.sendToClient("notify", "Wallet: #" + player.getCoins() + " coins");
@@ -253,8 +259,9 @@ public class EchoServerClientHandler extends Thread {
 
             if (numCard > 0 && numCard < 11) {
                 game.playAssistantCard(player, numCard);
-
-            } else player.sendToClient("error", "Input a number between 1 and 10");
+            } else {
+                player.sendToClient("error", "Input a number between 1 and 10");
+            }
         } catch (Exception e) {
             player.sendToClient("error", "Input a number between 1 and 10");
         }

@@ -1,5 +1,9 @@
 package it.polimi.ingsw.client;
 
+import com.google.gson.Gson;
+import it.polimi.ingsw.comunication.PlayersStatus;
+import it.polimi.ingsw.comunication.TextMessage;
+import it.polimi.ingsw.model.Student;
 import it.polimi.ingsw.model.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -8,27 +12,23 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.stage.Window;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class DashboardController implements Initializable {
 
-    private Counter movesAvailable;
-    private OrderOfPlayer orderOfGame;
-
+    private Counter movesAvailable = new Counter();
 
     @FXML
     private Label movesAvailableCounter;
@@ -38,6 +38,10 @@ public class DashboardController implements Initializable {
 
     @FXML
     private Label order;
+
+    private Student[] students = new Student[7];
+
+    private String username;
 
     @FXML
     private Circle studentPosition1;
@@ -105,12 +109,13 @@ public class DashboardController implements Initializable {
         AlertHelper.showAlert(Alert.AlertType.ERROR, window, "Finish moves", "You run out of available moves");
     }
 
+    public void setUsername(String username){
+        this.username = username;
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        this.movesAvailable = new Counter();
         roundCounter.setText(String.valueOf(1)); //set the round at the beginning of a new match
-        this.orderOfGame = new OrderOfPlayer();
-
         setUpHall();
         setUpTowers();
         setUpProfessor();
@@ -121,7 +126,18 @@ public class DashboardController implements Initializable {
         setUpTowerImages(tower);
         Teacher teacher = new Teacher(PawnColor.CYAN);
         setUpProfessor(teacher);
+        //setOrder();
+    }
 
+    public void setOrder(){
+        ClientInput.getInstance().sendString("player", "");
+        TextMessage message = ClientInput.getInstance().readLine();
+        Gson gson = new Gson();
+        PlayersStatus[] playersStatuses = gson.fromJson(message.message, PlayersStatus[].class);
+        for(PlayersStatus playersStatus : playersStatuses){
+            if(Objects.equals(username, playersStatus.name))
+                order.setText(String.valueOf(playersStatus.order));
+        }
     }
 
     public void setUpTowerImages(Tower tower){
@@ -211,31 +227,35 @@ public class DashboardController implements Initializable {
         }
     }
 
-    public void moveStudentToClassroom(ActionEvent actionEvent) {
+    public void moveStudentToClassroom(ActionEvent actionEvent) throws IOException{
         if(movesAvailable.getCounter() > 0){
             this.movesAvailable.decrement();
             movesAvailableCounter.setText(movesAvailable.toString());
         }
         else{
             alertRunOut(actionEvent); //show an alert when you finish the moves
+            setWaiting(actionEvent);
         }
-
     }
+
 
     public void addStudentToClassroom(MouseEvent event){
 
     }
 
 
-    public void moveStudentToIsland(ActionEvent actionEvent) {
+    public void moveStudentToIsland(ActionEvent actionEvent) throws IOException {
         if(movesAvailable.getCounter() > 0){
             this.movesAvailable.decrement();
             movesAvailableCounter.setText(movesAvailable.toString());
+            setTable(actionEvent);
         }
         else{
             alertRunOut(actionEvent); //show an alert when you finish the moves
+            setWaiting(actionEvent);
         }
     }
+
 
 
     public void playCharacterCard(ActionEvent actionEvent) {
@@ -250,4 +270,11 @@ public class DashboardController implements Initializable {
     }
 
 
+    public void setWaiting(ActionEvent actionEvent) throws IOException{
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("waiting.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
+    }
 }

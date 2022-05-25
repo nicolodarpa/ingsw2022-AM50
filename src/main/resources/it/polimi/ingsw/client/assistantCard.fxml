@@ -79,7 +79,7 @@
             <Image url="@../../../../assets/assistantCard/Assistente (10).png" />
          </image>
       </ImageView>
-      <Label layoutX="257.0" layoutY="14.0" text="Your Deck" textFill="#0839cd">
+      <Label fx:id="yourDeck" layoutX="257.0" layoutY="14.0" text="Your Deck" textFill="#0839cd">
          <font>
             <Font size="20.0" />
          </font>

@@ -20,7 +20,6 @@ public class Main {
             } else {
                 startGuiClient(ip, port);
             }
-
         } else {
             startGuiClient(ip, port);
         }
@@ -29,9 +28,7 @@ public class Main {
     }
 
     public static void  startGuiClient(String ip, int port){
-
         ClientGUI.main(ip, port);
-
     }
 
     public static void startClient(String ip, int port){

@@ -24,7 +24,7 @@
       <Image url="@../../../../assets/CarteTOT_back_31@3x.png" />
    </ImageView>
 
-   <Label layoutX="220.0" layoutY="30.0" text="Choose your Deck" textAlignment="CENTER">
+   <Label fx:id="choose" layoutX="220.0" layoutY="30.0" text="Choose your Deck" textAlignment="CENTER">
       <font>
          <Font size="24.0" />
       </font>

@@ -17,7 +17,7 @@
          </image>
       </ImageView>
       <Button fx:id="moveToClassroom" layoutX="57.0" layoutY="335.0" mnemonicParsing="false" onAction="#moveStudentToClassroom" text="move student to classroom" />
-      <Button fx:id="moveToIsland" layoutX="254.0" layoutY="335.0" mnemonicParsing="false" onAction="#setTable" text="move student to island" />
+      <Button fx:id="moveToIsland" layoutX="254.0" layoutY="335.0" mnemonicParsing="false" onAction="#moveStudentToIsland" text="move student to island" />
       <Label layoutX="401.0" layoutY="38.0" text="Moves available: ">
          <font>
             <Font size="16.0" />

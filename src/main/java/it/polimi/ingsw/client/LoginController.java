@@ -1,12 +1,10 @@
 package it.polimi.ingsw.client;
 
-import com.google.gson.Gson;
 import it.polimi.ingsw.comunication.TextMessage;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -29,6 +27,7 @@ public class LoginController {
     @FXML Button lobbyButton;
 
 
+
     @FXML
     protected void submitLogin(ActionEvent actionEvent) throws IOException {
         String name = name_input.getText();
@@ -47,6 +46,7 @@ public class LoginController {
         }
     }
 
+    @FXML
     public void setSelectionFormController(ActionEvent actionEvent) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("selection_form.fxml"));
         Scene scene = new Scene(fxmlLoader.load());

@@ -29,6 +29,7 @@ public class LineClient {
     private final String ip;
     private final int port;
 
+
     public LineClient(String ip, int port) {
         this.ip = ip;
         this.port = port;
@@ -53,7 +54,6 @@ public class LineClient {
             while (!socket.isClosed()) {
                 String inputLine = stdin.nextLine();
                 switch (inputLine) {
-
                     case "clear" -> clearConsole();
                     case "play character card" -> playCharacterCard();
                     case "play assistant card" -> playAssistantCard();
@@ -64,6 +64,8 @@ public class LineClient {
                     case "islands" -> clientInput.sendString("islands", "");
                     case "dashboard" -> clientInput.sendString("dashboard", "");
                     case "cloud cards" -> clientInput.sendString("sendCloudCards", "");
+                    case "player" -> clientInput.sendString("player","");
+                    case "quit" -> clientInput.sendString("quit","");
                     default -> printCommands();
 
                 }
@@ -104,12 +106,13 @@ public class LineClient {
                 -islands (show islands)
                 -dashboard (show dashboards of both players)
                 -cloud cards (show cloud cards)
+                -player (show all player and their order and Move of MN)
+                -quit (quit the game)
                 -clear""");
     }
 
 
     private void initSetup() throws IOException {
-
         System.out.println("0-New Game\n" +
                 "1-Join Game");
         while (true) {
@@ -123,7 +126,6 @@ public class LineClient {
             }
             System.out.println("Select\n0-New Game\n1-Join Game");
         }
-
         login();
     }
 
@@ -234,7 +236,6 @@ public class LineClient {
         System.out.println("Select assistant card to play");
         clientInput.sendString("assistantCardDeck", "");
         clientInput.sendString("playAssistantCard", stdin.nextLine());
-
     }
 
     private void moveStudentToIsland() {
@@ -267,7 +268,6 @@ public class LineClient {
     }
 
     private void moveMN() {
-
         System.out.println("Select destination island");
         String indexIsland = stdin.nextLine();
         while (Integer.parseInt(indexIsland) > 12 || Integer.parseInt(indexIsland) < 1) {

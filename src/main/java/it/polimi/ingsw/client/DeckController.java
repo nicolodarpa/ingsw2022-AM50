@@ -21,7 +21,8 @@ import java.util.ResourceBundle;
 
 public class DeckController implements Initializable {
 
-
+    @FXML
+    private Label choose;
     @FXML
     protected Label deck1Owner;
     @FXML
@@ -30,6 +31,8 @@ public class DeckController implements Initializable {
     protected Label deck3Owner;
     @FXML
     protected Label deck4Owner;
+
+    private String username;
 
 
     @Override
@@ -42,8 +45,8 @@ public class DeckController implements Initializable {
         deck2Owner.setText(deckStatusArrayList[1].playerName);
         deck3Owner.setText(deckStatusArrayList[2].playerName);
         deck4Owner.setText(deckStatusArrayList[3].playerName);
-
     }
+
 
     public void setPhasePage(ActionEvent actionEvent) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("assistantCard.fxml"));
@@ -51,6 +54,18 @@ public class DeckController implements Initializable {
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         stage.setScene(scene);
         stage.show();
+    }
+
+    public void setWaitingPage(ActionEvent actionEvent) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("waiting.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    public void setUsername(String username){
+        this.username = username;
     }
 
     @FXML
@@ -63,6 +78,7 @@ public class DeckController implements Initializable {
             AlertHelper.showAlert(Alert.AlertType.CONFIRMATION, window, "Deck", "Deck #" + deckNumber + " chosen");
             setPhasePage(actionEvent);
         }
+
 
     }
 
@@ -89,7 +105,6 @@ public class DeckController implements Initializable {
         ClientInput.getInstance().sendString("chooseDeck", String.valueOf(4));
         alertChosenDeck(actionEvent, 4);
     }
-
 
 }
 

@@ -3,21 +3,19 @@ package it.polimi.ingsw.client;
 import com.google.gson.Gson;
 import it.polimi.ingsw.comunication.GameStatus;
 import it.polimi.ingsw.comunication.TextMessage;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
@@ -41,9 +39,11 @@ public class SelectionFormController implements Initializable {
     private Button startGame;
 
 
+    private Parent root;
+
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
         refreshGames();
         gamesList.getSelectionModel().selectedItemProperty().addListener((observableValue, s, t1) -> selectedGame = String.valueOf(gamesList.getSelectionModel().getSelectedIndex()));
     }
@@ -59,8 +59,6 @@ public class SelectionFormController implements Initializable {
         System.out.println("start new game, #p :" + numberOfPlayers);
         ClientInput.getInstance().sendString("newGame", String.valueOf(numberOfPlayers));
         setLoginPage(actionEvent);
-
-
     }
 
 
@@ -98,4 +96,5 @@ public class SelectionFormController implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
+
 }
