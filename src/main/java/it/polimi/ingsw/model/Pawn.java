@@ -1,6 +1,8 @@
 package it.polimi.ingsw.model;
 
 
+import javafx.scene.image.ImageView;
+
 /**
  * represent the pawn of the game: the students and the teachers
  */
@@ -29,6 +31,8 @@ public class Pawn {
         }
         System.out.print(ANSI_RESET);
     }
+
+
 
 
 }

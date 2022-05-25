@@ -9,19 +9,19 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-public class CloudCardDeck {
+public class CloudCardDeckImages {
 
     private ArrayList<Image> imgCloudcard2 = new ArrayList<>(2);
     private ArrayList<Image> imgCloudcard3 = new ArrayList<>(3);
     private Map<Integer,Image> deckCloudCard = new HashMap<>();
     private ArrayList<Image> cloudCardsInGame = new ArrayList<>();
-    Image cc1 = new Image("@../../../../images/cloudcard/cc1.png", false);
-    Image cc2 = new Image("@../../../../images/cloudcard/cc2.png", false);
-    Image cc3 = new Image("@../../../../images/cloudcard/cc3.png", false);
-    Image cc4= new Image("@../../../../images/cloudcard/cc4.png", false);
+    Image cc1 = new Image(String.valueOf(getClass().getClassLoader().getResource("images/cloudcard/cc1.png")), false);
+    Image cc2 = new Image(String.valueOf(getClass().getClassLoader().getResource("images/cloudcard/cc2.png")), false);
+    Image cc3 = new Image(String.valueOf(getClass().getClassLoader().getResource("images/cloudcard/cc3.png")), false);
+    Image cc4= new Image(String.valueOf(getClass().getClassLoader().getResource("images/cloudcard/cc4.png")), false);
 
 
-    public CloudCardDeck(){
+    public CloudCardDeckImages(){
         deckCloudCard.put(0,cc1);
         deckCloudCard.put(1,cc2);
         deckCloudCard.put(2,cc3);

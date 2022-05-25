@@ -5,6 +5,7 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
 <Pane fx:id="anchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.DashboardController">
@@ -16,13 +17,13 @@
          </image>
       </ImageView>
       <Button fx:id="moveToClassroom" layoutX="57.0" layoutY="335.0" mnemonicParsing="false" onAction="#moveStudentToClassroom" text="move student to classroom" />
-      <Button fx:id="moveToIsland" layoutX="254.0" layoutY="335.0" mnemonicParsing="false" onAction="#moveStudentToIsland" text="move student to island" />
+      <Button fx:id="moveToIsland" layoutX="254.0" layoutY="335.0" mnemonicParsing="false" onAction="#setTable" text="move student to island" />
       <Label layoutX="401.0" layoutY="38.0" text="Moves available: ">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
-      <Label fx:id = "movesAvailableCounter" layoutX="525.0" layoutY="38.0" text="3">
+      <Label fx:id="movesAvailableCounter" layoutX="525.0" layoutY="38.0" text="3">
          <font>
             <Font size="16.0" />
          </font>
@@ -32,7 +33,7 @@
             <Font size="16.0" />
          </font>
       </Label>
-      <Label fx:id = "roundCounter" layoutX="108.0" layoutY="28.0" text="1">
+      <Label fx:id="roundCounter" layoutX="108.0" layoutY="28.0" text="1">
          <font>
             <Font size="16.0" />
          </font>
@@ -42,11 +43,65 @@
             <Font size="16.0" />
          </font>
       </Label>
-      <Label fx:id = "order" layoutX="108.0" layoutY="48.0" text="1">
+      <Label fx:id="order" layoutX="108.0" layoutY="48.0" text="1">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
       <Button fx:id="characterCard" layoutX="428.0" layoutY="335.0" mnemonicParsing="false" onAction="#playCharacterCard" text="Play character card" />
+      <Circle fx:id="studentPosition1" fill="#1f93ff04" layoutX="107.0" layoutY="130.0" onMouseClicked="#addStudentToClassroom" radius="10.0" stroke="#ffffff00" strokeType="INSIDE" />
+      <Circle fx:id="studentPosition2" fill="#ffffff00" layoutX="78.0" layoutY="167.0" radius="10.0" stroke="TRANSPARENT" strokeType="INSIDE" />
+      <Circle fx:id="studentPosition3" fill="#1f93ff00" layoutX="107.0" layoutY="165.0" radius="10.0" stroke="#e5e5e500" strokeType="INSIDE" />
+      <Circle fx:id="studentPosition4" fill="#1f93ff00" layoutX="78.0" layoutY="201.0" radius="10.0" stroke="#e5e5e500" strokeType="INSIDE" />
+      <Circle fx:id="studentPosition5" fill="#1f93ff00" layoutX="107.0" layoutY="201.0" radius="10.0" stroke="#e5e5e500" strokeType="INSIDE" />
+      <Circle fx:id="studentPosition6" fill="#1f93ff00" layoutX="78.0" layoutY="236.0" radius="10.0" stroke="#e5e5e500" strokeType="INSIDE" />
+      <Circle fx:id="studentPosition7" fill="#1f93ff00" layoutX="107.0" layoutY="236.0" radius="10.0" stroke="#e5e5e500" strokeType="INSIDE" />
+      <Circle fx:id="studentPosition8" fill="#1f93ff00" layoutX="78.0" layoutY="271.0" radius="10.0" stroke="#e5e5e500" strokeType="INSIDE" />
+      <Circle fx:id="studentPosition9" fill="#1f93ff00" layoutX="108.0" layoutY="271.0" radius="10.0" stroke="#e5e5e500" strokeType="INSIDE" />
+      <ImageView fx:id="towerPosition1" fitHeight="50.0" fitWidth="28.0" layoutX="455.0" layoutY="110.0">
+         <image>
+            <Image url="@../../../../images/Tower/black_tower.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="towerPosition2" fitHeight="50.0" fitWidth="28.0" layoutX="493.0" layoutY="110.0">
+         <image>
+            <Image url="@../../../../images/Tower/black_tower.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="towerPosition3" fitHeight="50.0" fitWidth="28.0" layoutX="455.0" layoutY="150.0">
+         <image>
+            <Image url="@../../../../images/Tower/black_tower.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="towerPosition4" fitHeight="50.0" fitWidth="28.0" layoutX="493.0" layoutY="150.0">
+         <image>
+            <Image url="@../../../../images/Tower/black_tower.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="towerPosition5" fitHeight="50.0" fitWidth="28.0" layoutX="455.0" layoutY="184.0">
+         <image>
+            <Image url="@../../../../images/Tower/black_tower.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="towerPosition6" fitHeight="50.0" fitWidth="28.0" layoutX="493.0" layoutY="184.0">
+         <image>
+            <Image url="@../../../../images/Tower/black_tower.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="towerPosition7" fitHeight="50.0" fitWidth="28.0" layoutX="455.0" layoutY="219.0">
+         <image>
+            <Image url="@../../../../images/Tower/black_tower.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="towerPosition8" fitHeight="50.0" fitWidth="28.0" layoutX="493.0" layoutY="219.0">
+         <image>
+            <Image url="@../../../../images/Tower/black_tower.png" />
+         </image>
+      </ImageView>
+      <Circle fx:id="professorPosition1" fill="DODGERBLUE" layoutX="414.0" layoutY="131.0" radius="15.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle fx:id="professorPosition2" fill="DODGERBLUE" layoutX="414.0" layoutY="165.0" radius="15.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle fx:id="professorPosition4" fill="DODGERBLUE" layoutX="414.0" layoutY="233.0" radius="15.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle fx:id="professorPosition3" fill="DODGERBLUE" layoutX="414.0" layoutY="199.0" radius="15.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle fx:id="professorPosition5" fill="DODGERBLUE" layoutX="414.0" layoutY="267.0" radius="15.0" stroke="BLACK" strokeType="INSIDE" />
    </children>
 </Pane>
