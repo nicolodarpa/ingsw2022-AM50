@@ -15,7 +15,7 @@ public class MultiEchoServer {
         this.port = port;
     }
 
-    public void startServer() {
+    public void startServer()  {
         System.out.println("====Eriantys CLI Server====");
         ArrayList<EchoServerClientHandler> threadList = new ArrayList<>();
         ArrayList<Game> gameArrayList = new ArrayList<>();

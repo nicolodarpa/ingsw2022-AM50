@@ -1,6 +1,5 @@
 package it.polimi.ingsw.client;
 
-import it.polimi.ingsw.client.ClientInput;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.client.view.ClientOut;
@@ -9,9 +8,8 @@ import it.polimi.ingsw.comunication.GameStatus;
 import it.polimi.ingsw.comunication.TextMessage;
 
 import java.io.*;
-import java.lang.reflect.Type;
 import java.net.Socket;
-import java.util.ArrayList;
+
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -64,8 +62,8 @@ public class LineClient {
                     case "islands" -> clientInput.sendString("islands", "");
                     case "dashboard" -> clientInput.sendString("dashboard", "");
                     case "cloud cards" -> clientInput.sendString("sendCloudCards", "");
-                    case "player" -> clientInput.sendString("player","");
-                    case "quit" -> clientInput.sendString("quit","");
+                    case "player" -> clientInput.sendString("player", "");
+                    case "quit" -> clientInput.sendString("quit", "");
                     default -> printCommands();
 
                 }
@@ -111,6 +109,16 @@ public class LineClient {
                 -clear""");
     }
 
+    private boolean checkTurn() {
+        return true;
+        /**
+         clientInput.sendString("checkTurn", "");
+         String response = socketIn.readLine();
+         TextMessage message = gson.fromJson(response, TextMessage.class);
+         return Objects.equals(message.type, "true");
+         **/
+    }
+
 
     private void initSetup() throws IOException {
         System.out.println("0-New Game\n" +
@@ -139,6 +147,7 @@ public class LineClient {
     }
 
     private void joinGame() throws IOException {
+
         clientInput.sendString("avlGames", "");
         String msg = socketIn.readLine();
         TextMessage message = gson.fromJson(msg, TextMessage.class);
@@ -150,7 +159,7 @@ public class LineClient {
         GameStatus[] gameStatuses = gson.fromJson(message.message, GameStatus[].class);
         int i = 0;
         for (GameStatus gameStatus : gameStatuses) {
-            System.out.println("-"+i + ": " + gameStatus.currentNumber + "/" + gameStatus.totalPlayers + " players: " + gameStatus.playersName);
+            System.out.println("-" + i + ": " + gameStatus.currentNumber + "/" + gameStatus.totalPlayers + " players: " + gameStatus.playersName);
             i++;
         }
         clientInput.sendString("joinGame", stdin.nextLine());
@@ -160,6 +169,7 @@ public class LineClient {
             System.out.println(message.message);
             joinGame();
         } else System.out.println(message.message);
+
     }
 
     private void login() throws IOException {
@@ -208,7 +218,7 @@ public class LineClient {
 
     private void playCharacterCard() {
         System.out.println("Select character card to play");
-        clientInput.sendString("characterCards", "");
+        clientInput.sendString("sendCharacterCardDeck", "");
         String index;
 
         while (true) {
@@ -232,56 +242,71 @@ public class LineClient {
         clientInput.sendString("playCharacterCard", index, index2);
     }
 
-    private void playAssistantCard() {
-        System.out.println("Select assistant card to play");
-        clientInput.sendString("assistantCardDeck", "");
-        clientInput.sendString("playAssistantCard", stdin.nextLine());
+    private void playAssistantCard() throws IOException {
+        if (checkTurn()) {
+            System.out.println("Select assistant card to play");
+            clientInput.sendString("sendAssistantCardDeck", "");
+            clientInput.sendString("playAssistantCard", stdin.nextLine());
+        } else System.out.println("Not your turn");
+
     }
 
-    private void moveStudentToIsland() {
-        System.out.println("Select student from hall");
-        String indexStudent = stdin.nextLine();
-        while (Integer.parseInt(indexStudent) > 7 || Integer.parseInt(indexStudent) < 1) {
-            System.out.println("Input a valid index");
-            indexStudent = stdin.nextLine();
-        }
+    private void moveStudentToIsland() throws IOException {
+        if (checkTurn()) {
+            System.out.println("Select student from hall");
+            String indexStudent = stdin.nextLine();
+            while (Integer.parseInt(indexStudent) > 7 || Integer.parseInt(indexStudent) < 1) {
+                System.out.println("Input a valid index");
+                indexStudent = stdin.nextLine();
+            }
 
-        System.out.println("Select destination island");
-        String indexIsland = stdin.nextLine();
-        while (Integer.parseInt(indexIsland) > 12 || Integer.parseInt(indexIsland) < 1) {
-            System.out.println("Input a valid index");
-            indexIsland = stdin.nextLine();
-        }
+            System.out.println("Select destination island");
+            String indexIsland = stdin.nextLine();
+            while (Integer.parseInt(indexIsland) > 12 || Integer.parseInt(indexIsland) < 1) {
+                System.out.println("Input a valid index");
+                indexIsland = stdin.nextLine();
+            }
 
-        clientInput.sendString("moveStudentToIsland", indexStudent, indexIsland);
+            clientInput.sendString("moveStudentToIsland", indexStudent, indexIsland);
+        } else System.out.println("Not your turn");
+
     }
 
-    private void moveStudentToClassroom() {
-        System.out.println("Select student from hall");
-        String indexStudent = stdin.nextLine();
-        while (Integer.parseInt(indexStudent) > 7 || Integer.parseInt(indexStudent) < 1) {
-            System.out.println("Input a valid index");
-            indexStudent = stdin.nextLine();
-        }
+    private void moveStudentToClassroom() throws IOException {
+        if (checkTurn()) {
+            System.out.println("Select student from hall");
+            String indexStudent = stdin.nextLine();
+            while (Integer.parseInt(indexStudent) > 7 || Integer.parseInt(indexStudent) < 1) {
+                System.out.println("Input a valid index");
+                indexStudent = stdin.nextLine();
+            }
 
-        clientInput.sendString("moveStudentToClassroom", indexStudent);
+            clientInput.sendString("moveStudentToClassroom", indexStudent);
+        } else System.out.println("Not your turn");
+
     }
 
-    private void moveMN() {
-        System.out.println("Select destination island");
-        String indexIsland = stdin.nextLine();
-        while (Integer.parseInt(indexIsland) > 12 || Integer.parseInt(indexIsland) < 1) {
-            System.out.println("Input a valid index");
-            indexIsland = stdin.nextLine();
-        }
+    private void moveMN() throws IOException {
+        if (checkTurn()) {
+            System.out.println("Select destination island");
+            String indexIsland = stdin.nextLine();
+            while (Integer.parseInt(indexIsland) > 12 || Integer.parseInt(indexIsland) < 1) {
+                System.out.println("Input a valid index");
+                indexIsland = stdin.nextLine();
+            }
 
-        clientInput.sendString("moveMN", indexIsland);
+            clientInput.sendString("moveMN", indexIsland);
+        } else System.out.println("Not your turn");
+
     }
 
-    private void chooseCC() {
-        clientInput.sendString("sendCloudCards", "");
-        System.out.println("Select Cloud Card");
-        String indexCC = stdin.nextLine();
-        clientInput.sendString("chooseCC", indexCC);
+    private void chooseCC() throws IOException {
+        if (checkTurn()) {
+         clientInput.sendString("sendCloudCards", "");
+         System.out.println("Select Cloud Card");
+         String indexCC = stdin.nextLine();
+         clientInput.sendString("chooseCC", indexCC);
+         } else System.out.println("Not your turn");
+
     }
 }

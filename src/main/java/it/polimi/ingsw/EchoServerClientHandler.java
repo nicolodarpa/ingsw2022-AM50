@@ -11,8 +11,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.lang.reflect.Method;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Objects;
 
 
@@ -27,14 +29,40 @@ public class EchoServerClientHandler extends Thread {
     private BufferedReader in;
 
     private PrintWriter out;
+    HashMap<String, Commd> commandMap = new HashMap<>();
 
+
+    interface Commd {
+        void runCommand(Command command) throws IOException;
+    }
 
     public EchoServerClientHandler(Socket socket, ArrayList<Game> gameArrayList) throws IOException {
         this.socket = socket;
         this.gameArrayList = gameArrayList;
+
+
     }
 
     public void run() {
+        commandMap.put("newGame", this::newGame);
+        commandMap.put("avlGames", this::avlGames);
+        commandMap.put("joinGame", this::joinGame);
+        commandMap.put("login", this::login);
+        commandMap.put("chooseDeck", this::chooseDeck);
+        commandMap.put("sendAssistantDecks", this::sendAssistantDecks);
+        commandMap.put("sendPlayers", this::sendPlayers);
+        commandMap.put("islands", this::sendIslands);
+        commandMap.put("dashboard", this::sendDashboard);
+        commandMap.put("sendCharacterCardDeck", this::sendCharacterCardDeck);
+        commandMap.put("sendAssistantCardDeck", this::sendAssistantCardDeck);
+        commandMap.put("sendCloudCards", this::sendCloudCards);
+        commandMap.put("playCharacterCard", this::playCharacterCard);
+        commandMap.put("playAssistantCard", this::playAssistantCard);
+        commandMap.put("moveStudentToIsland", this::moveStudentToIsland);
+        commandMap.put("moveStudentToClassroom", this::moveStudentToClassroom);
+        commandMap.put("moveMN", this::moveMotherNature);
+        commandMap.put("chooseCC", this::chooseCC);
+
 
         try {
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -48,94 +76,14 @@ public class EchoServerClientHandler extends Thread {
                 Command command = gson.fromJson(line, Command.class);
 
                 if (command.cmd != null) {
-                    if (command.cmd.equals("quit")) {
-                        player.sendToClient("quit", "Goodbye " + player.getName());
-                        game.removePlayer(player);
-                        socket.close();
-                    } else if (command.cmd.equals("avlGames")) {
-                        if (gameArrayList.size() > 0) {
-                            ArrayList<GameStatus> list = new ArrayList<>();
-                            for (Game game1 : gameArrayList) {
-                                if (Objects.equals(game1.getGameStatus(), "Waiting for players")) {
-                                    list.add(new GameStatus(game1.getCurrentNumberOfPlayers(), game1.getNumberOfPlayers(), game1.getPlist()));
-                                }
-                            }
-                            TextMessage text = new TextMessage("avlGames", gson.toJson(list));
-                            String json = gson.toJson(text, TextMessage.class);
-                            out.println(json);
-                        } else {
-                            TextMessage text = new TextMessage("error", "No games available");
-                            String json = gson.toJson(text, TextMessage.class);
-                            out.println(json);
-                        }
-
-                    } else if (command.cmd.equals("newGame")) {
-                        System.out.println("New game for " + command.value1);
-                        int num = Integer.parseInt(command.value1);
-                        game = new Game(num);
-                        gameArrayList.add(game);
-                    } else if (command.cmd.equals("joinGame")) {
-                        System.out.println("join game");
-                        try {
-                            game = gameArrayList.get(Integer.parseInt(command.value1));
-                            TextMessage textMessage = new TextMessage("confirm", "You joined the game ");
-                            String json = gson.toJson(textMessage, TextMessage.class);
-                            out.println(json);
-                        } catch (Exception e) {
-                            TextMessage textMessage = new TextMessage("errInvIndex", "Invalid index, please input a valid game index");
-                            String json = gson.toJson(textMessage, TextMessage.class);
-                            out.println(json);
-                        }
-
-                    } else if (command.cmd.equals("login")) {
-                        Login(command.value1);
-                    } else if (command.cmd.equals("sendAssistantDecks")){
-                        sendAssistantDecks();
-                    } else if (command.cmd.equals("player")){
-                        sendPlayers();
-                    } else if (command.cmd.equals("chooseDeck")) {
-                        chooseDeck(command);
-                    } else if (command.cmd.equals("dashboard")) {
-                        player.sendToClient("dashboard", game.sendDashboard());
-                    } else if (command.cmd.equals("islands")) {
-                        player.sendToClient("islands", game.sendIslands());
-                    } else if (command.cmd.equals("sendCloudCards")) {
-                        sendCloudCards();
-                    } else if (command.cmd.equals("assistantCardDeck")) {
-                        sendAssistantCardDeck();
-                    } else if (command.cmd.equals("characterCards")) {
-                        sendCharacterCardDeck();
-                    } else if (command.cmd.equals("playCharacterCard")) {
-                        playCharacterCard(command);
-                    } else if (game != null) {
-                        if (player != game.getActualPlayer()) {
-                            player.sendToClient("msg", "not your turn");
-                        } else if (command.cmd.equals("playAssistantCard") && game.getPhase() == 0) {
-                            playAssistantCard(command);
-                        } else if (command.cmd.equals("actions") && game.getPhase() == 0) {
-                            player.sendToClient("msg", "play an assistant card of your deck");
-                        } else if (game.getPhase() == 1) {
-                            if (player.getMovesOfStudents() > 0) {
-                                switch (command.cmd) {
-                                    case "moveStudentToIsland" -> moveStudentToIsland(command);
-                                    case "moveStudentToClassroom" -> moveStudentToClassroom(command);
-                                    case "actions" ->
-                                            player.sendToClient("msg", "You can move student to classroom or you can move student to island");
-
-                                    default -> player.sendToClient("msg", "move all you students before moving MN");
-                                }
-                            } else if (player.getMovesOfStudents() == 0 && command.cmd.equals("moveMN")) {
-                                moveMotherNature(command);
-                            } else if (command.cmd.equals("chooseCC")) {
-                                chooseCC(command);
-                            }
-                        }
-                    } else {
+                    try {
+                        commandMap.get(command.cmd).runCommand(command);
+                    } catch (Exception e) {
                         TextMessage text = new TextMessage("msg", "Received " + command.cmd);
                         String json = gson.toJson(text, TextMessage.class);
                         out.println(json);
-
                     }
+
                 } else System.out.println("null cmd");
 
             }
@@ -152,8 +100,61 @@ public class EchoServerClientHandler extends Thread {
         }
     }
 
-    private void Login(String name) throws IOException {
+
+    public boolean checkTurn() {
+        if (player == game.getActualPlayer()) {
+            return true;
+        } else {
+            TextMessage message = new TextMessage("error", "Not your turn, wait for " + game.getActualPlayer().getName() + " to finish his turn");
+            String json = gson.toJson(message, TextMessage.class);
+            out.println(json);
+            return false;
+        }
+
+    }
+
+    public void newGame(Command command) {
+        System.out.println("New game for " + command.value1);
+        int num = Integer.parseInt(command.value1);
+        game = new Game(num);
+        gameArrayList.add(game);
+    }
+
+    public void avlGames(Command command) {
+        if (gameArrayList.size() > 0) {
+            ArrayList<GameStatus> list = new ArrayList<>();
+            for (Game game1 : gameArrayList) {
+                if (Objects.equals(game1.getGameStatus(), "Waiting for players")) {
+                    list.add(new GameStatus(game1.getCurrentNumberOfPlayers(), game1.getNumberOfPlayers(), game1.getPlist()));
+                }
+            }
+            TextMessage text = new TextMessage("avlGames", gson.toJson(list));
+            String json = gson.toJson(text, TextMessage.class);
+            out.println(json);
+        } else {
+            TextMessage text = new TextMessage("error", "No games available");
+            String json = gson.toJson(text, TextMessage.class);
+            out.println(json);
+        }
+    }
+
+    public void joinGame(Command command) {
+        System.out.println("join game");
+        try {
+            game = gameArrayList.get(Integer.parseInt(command.value1));
+            TextMessage textMessage = new TextMessage("confirm", "You joined the game ");
+            String json = gson.toJson(textMessage, TextMessage.class);
+            out.println(json);
+        } catch (Exception e) {
+            TextMessage textMessage = new TextMessage("errInvIndex", "Invalid index, please input a valid game index");
+            String json = gson.toJson(textMessage, TextMessage.class);
+            out.println(json);
+        }
+    }
+
+    public void login(Command command) throws IOException {
         String json;
+        String name = command.value1;
         switch (LoginManager.login(name, game)) {
             case 0:
                 player = game.getPlist().getPlayerByName(name);
@@ -178,7 +179,7 @@ public class EchoServerClientHandler extends Thread {
     }
 
 
-    private void chooseDeck(Command command) {
+    public void chooseDeck(Command command) {
         String numDeck = command.value1;
         try {
             if (game.chooseDeck(Integer.parseInt(numDeck), player) == 1) {
@@ -194,37 +195,46 @@ public class EchoServerClientHandler extends Thread {
 
     }
 
-    private void sendAssistantDecks(){
+    public void sendAssistantDecks(Command command) {
         player.sendToClient("msg", game.sendDeck());
     }
 
-    private void sendPlayers(){
+    public void sendPlayers(Command command) {
         player.sendToClient("player", game.sendPlayers());
     }
 
-    private void sendCharacterCardDeck() {
+    public void sendCharacterCardDeck(Command command) {
         player.sendToClient("characterCards", game.sendCharacterCardsDeck());
         player.sendToClient("notify", "Wallet: #" + player.getCoins() + " coins");
     }
 
-    private void sendAssistantCardDeck() {
-        for (AssistantCard assistantCard : player.getDeck().getCardsList()){
+    public void sendAssistantCardDeck(Command command) {
+        for (AssistantCard assistantCard : player.getDeck().getCardsList()) {
             if (!game.checkLastPlayedAssistant(assistantCard.getOrder()))
                 player.sendToClient("warning", assistantCard.order() + ") order: " + assistantCard.getOrder() + " and #" + assistantCard.getMoveOfMN() + " moves of MN available");
         }
     }
 
-    private void sendCloudCards(){
+    public void sendIslands(Command command) {
+        player.sendToClient("islands", game.sendIslands());
+    }
+
+
+    public void sendDashboard(Command command) {
+        player.sendToClient("dashboard", game.sendDashboard());
+    }
+
+    public void sendCloudCards(Command command) {
         player.sendToClient("cloudCard", game.sendCloudCards());
     }
 
-    private void playCharacterCard(Command command) {
+    public void playCharacterCard(Command command) {
         int specialCardIndex = 0;
         SpecialCard specialCard;
         PawnColor studentColor = null;
         int islandIndex = 0;
         int value2 = Integer.parseInt(command.value2);
-        specialCard = game.getCardsInGame().get(Integer.parseInt(command.value1)-1);
+        specialCard = game.getCardsInGame().get(Integer.parseInt(command.value1) - 1);
         if (specialCard.getCost() > player.getCoins()) {
             player.sendToClient("error", "You don't have enough coins to play this card");
             return;
@@ -252,74 +262,84 @@ public class EchoServerClientHandler extends Thread {
     }
 
 
-    private void playAssistantCard(Command command) {
-        int numCard;
-        try {
-            numCard = Integer.parseInt(command.value1);
+    public void playAssistantCard(Command command) {
+        if (checkTurn()) {
+            int numCard;
+            try {
+                numCard = Integer.parseInt(command.value1);
 
-            if (numCard > 0 && numCard < 11) {
-                game.playAssistantCard(player, numCard);
-            } else {
+                if (numCard > 0 && numCard < 11) {
+                    game.playAssistantCard(player, numCard);
+                } else {
+                    player.sendToClient("error", "Input a number between 1 and 10");
+                }
+            } catch (Exception e) {
                 player.sendToClient("error", "Input a number between 1 and 10");
             }
-        } catch (Exception e) {
-            player.sendToClient("error", "Input a number between 1 and 10");
         }
+
     }
 
 
-    private void moveStudentToIsland(Command command) {
+    public void moveStudentToIsland(Command command) {
+        if (checkTurn()) {
+            int numPlayer = Integer.parseInt(command.value1);
+            int indexIsland = Integer.parseInt(command.value2);
+            if (player.moveStudentToIsland(numPlayer - 1, indexIsland - 1, game)) {
+                player.sendToClient("hall", game.sendHall(player));
+                player.sendToClient("islands", game.sendIslands());
+            } else {
+                errorSelectionNotify();
+
+            }
+        }
         //player.sendToClient("msg", "select student from hall to move to an island:");
-        int numPlayer = Integer.parseInt(command.value1);
-        int indexIsland = Integer.parseInt(command.value2);
-        if (player.moveStudentToIsland(numPlayer - 1, indexIsland - 1, game)) {
-            player.sendToClient("hall", game.sendHall(player));
-            player.sendToClient("islands", game.sendIslands());
-        } else {
-            errorSelectionNotify();
 
-        }
 
     }
 
-    private void moveStudentToClassroom(Command command) {
-        player.sendToClient("msg", "select student from hall to move to a classroom:");
-        int numPlayer = Integer.parseInt(command.value1);
-        if (player.moveStudentToClassroom(numPlayer - 1, game)) {
-            player.sendToClient("dashboard", game.sendDashboard());
-        } else {
-            errorSelectionNotify();
+    public void moveStudentToClassroom(Command command) {
+        if (checkTurn()) {
+            player.sendToClient("msg", "select student from hall to move to a classroom:");
+            int numPlayer = Integer.parseInt(command.value1);
+            if (player.moveStudentToClassroom(numPlayer - 1, game)) {
+                player.sendToClient("dashboard", game.sendDashboard());
+            } else {
+                errorSelectionNotify();
+            }
         }
 
     }
 
 
-
-
-
-
-    private void errorSelectionNotify() {
+    public void errorSelectionNotify() {
         player.sendToClient("msg", "select a valid student");
         player.sendToClient("hall", game.sendHall(player));
     }
 
-    private void moveMotherNature(Command command) {
-        int island = Integer.parseInt(command.value1);
-        if (game.moveMN(player, island - 1)) {
-            player.sendToClient("islands", game.sendIslands());
+    public void moveMotherNature(Command command) {
+        if (checkTurn()) {
+            int island = Integer.parseInt(command.value1);
+            if (game.moveMN(player, island - 1)) {
+                player.sendToClient("islands", game.sendIslands());
 
-        } else {
-            player.sendToClient("error", "error, you can move mother nature of " + player.getMovesOfMN() + "moves");
+            } else {
+                player.sendToClient("error", "error, you can move mother nature of " + player.getMovesOfMN() + "moves");
 
+            }
         }
+
 
     }
 
 
-    private void chooseCC(Command command) {
-        int cloudCardIndex = Integer.parseInt(command.value1);
-        game.chooseCloudCard(cloudCardIndex - 1, player);
-        player.sendToClient("dashboard", game.sendPlayerDashboard(player));
+    public void chooseCC(Command command) {
+        if (checkTurn()) {
+            int cloudCardIndex = Integer.parseInt(command.value1);
+            game.chooseCloudCard(cloudCardIndex - 1, player);
+            player.sendToClient("dashboard", game.sendPlayerDashboard(player));
+        }
+
     }
 
 }

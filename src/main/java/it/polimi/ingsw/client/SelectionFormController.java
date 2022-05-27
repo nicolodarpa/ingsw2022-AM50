@@ -1,8 +1,10 @@
 package it.polimi.ingsw.client;
 
 import com.google.gson.Gson;
+import it.polimi.ingsw.client.view.AlertThread;
 import it.polimi.ingsw.comunication.GameStatus;
 import it.polimi.ingsw.comunication.TextMessage;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
@@ -45,11 +47,13 @@ public class SelectionFormController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         refreshGames();
+        //Window owner = gamesList.getScene().getWindow();
+        //new AlertThread().start();
         gamesList.getSelectionModel().selectedItemProperty().addListener((observableValue, s, t1) -> selectedGame = String.valueOf(gamesList.getSelectionModel().getSelectedIndex()));
     }
 
     @FXML
-    private void startGame(javafx.event.ActionEvent actionEvent) throws IOException {
+    private void startGame(ActionEvent actionEvent) throws IOException {
         int numberOfPlayers = 0;
         if (threePlayersRadio.isSelected()) {
             numberOfPlayers = Integer.parseInt(threePlayersRadio.getText());

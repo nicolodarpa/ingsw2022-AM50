@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client;
 
+import it.polimi.ingsw.client.view.AlertThread;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -44,7 +45,7 @@ public class ConnectFormController {
             BufferedReader socketIn = new BufferedReader(new InputStreamReader((socket.getInputStream())));
             ClientInput.getInstance().setSocketOut(socketOut);
             ClientInput.getInstance().setSocketIn(socketIn);
-
+            //new AlertThread().start();
         } catch (Exception e) {
 
             AlertHelper.showAlert(Alert.AlertType.WARNING, owner, "Connection", "Connection failed");

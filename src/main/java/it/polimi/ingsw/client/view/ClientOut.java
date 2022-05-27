@@ -63,13 +63,13 @@ public class ClientOut extends Thread {
                         printHall();
                     } else if (Objects.equals(message.type, "studentsRoom")) {
                         printStudentsRoom();
-                    } else if(Objects.equals(message.type, "player")){
+                    } else if (Objects.equals(message.type, "player")) {
                         printPlayer();
                     } else if (Objects.equals(message.type, "quit")) {
                         System.out.println(message.message);
                         socket.close();
                         break;
-                    }
+                    } else System.out.println(message.message);
                 }
             } catch (IOException e) {
                 System.out.println("No connection to the server");
@@ -115,10 +115,10 @@ public class ClientOut extends Thread {
             students.append("| St:");
             for (String student : islandStatus.students) {
                 students.append(student).append("+").append(ANSI_RESET);
-                space = space +9;
+                space = space + 9;
             }
             int i = students.length();
-            while (i < length+space) {
+            while (i < length + space) {
                 students.append("_");
                 i++;
             }
@@ -188,9 +188,9 @@ public class ClientOut extends Thread {
         }
     }
 
-    private void printPlayer(){
+    private void printPlayer() {
         PlayersStatus[] playersStatuses = gson.fromJson(message.message, PlayersStatus[].class);
-        for(PlayersStatus playersStatus : playersStatuses){
+        for (PlayersStatus playersStatus : playersStatuses) {
             System.out.println("=====Player=====");
             System.out.println("Name: " + playersStatus.name);
             System.out.println("Order: " + playersStatus.order);

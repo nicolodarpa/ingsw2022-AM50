@@ -102,12 +102,6 @@ public class Game {
     public void startGame() {
         System.out.println("Game starting");
         plist.notifyAllClients("notify", "Game started");
-        String islandStatus = sendIslands();
-        plist.notifyAllClients("islands", islandStatus);
-        String cloudCardsStatus = sendCloudCards();
-        plist.notifyAllClients("cloudCard", cloudCardsStatus);
-        String dashboardStatus = sendDashboard();
-        plist.notifyAllClients("dashboard", dashboardStatus);
         setActualPlayer();
     }
 
@@ -606,7 +600,7 @@ public class Game {
 
     public void playAssistantCard(Player player, int cardNumber) {
         if (player.checkCardAvailability(cardNumber)) {
-            player.sendToClient("error", "card already played");
+            player.sendToClient("error", "Assistant card already played by another player");
             return;
         }
         boolean check = false;
