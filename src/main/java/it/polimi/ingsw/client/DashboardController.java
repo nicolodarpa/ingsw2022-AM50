@@ -2,6 +2,7 @@ package it.polimi.ingsw.client;
 
 import com.google.gson.Gson;
 import com.sun.javafx.stage.EmbeddedWindow;
+import it.polimi.ingsw.comunication.DashboardStatus;
 import it.polimi.ingsw.comunication.PlayersStatus;
 import it.polimi.ingsw.comunication.TextMessage;
 import it.polimi.ingsw.model.Student;
@@ -21,6 +22,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import org.w3c.dom.Text;
@@ -200,13 +202,17 @@ public class DashboardController implements Initializable {
     @FXML
     private Circle cyanPosition10;
 
+    @FXML
+    private Rectangle classRoom;
 
 
 
 
 
 
-    private ArrayList<Circle> studentsPosition = new ArrayList<>(7);
+
+
+    private ArrayList<Circle> studentsPosition = new ArrayList<>(9);
     private ArrayList<Image> imgsColorPawn = new ArrayList<>(7);
     private ArrayList<String> colorPawn= new ArrayList<>(7);
     private ArrayList<Student> studentsHall= new ArrayList<>(7);
@@ -244,13 +250,11 @@ public class DashboardController implements Initializable {
     }
 
 
-
-
-
     /**
      * Open a window and show the message : "You run out of available moves"
      * @param actionEvent
      */
+
     public void alertRunOut(ActionEvent actionEvent){
         Window window = ((Node) actionEvent.getSource()).getScene().getWindow();
         AlertHelper.showAlert(Alert.AlertType.INFORMATION, window, "Finish moves", "You run out of available moves");
@@ -314,6 +318,7 @@ public class DashboardController implements Initializable {
     }
 
     public void setUpHall (){
+
         studentsPosition.add(studentPosition1);
         studentsPosition.add(studentPosition2);
         studentsPosition.add(studentPosition3);
@@ -321,8 +326,7 @@ public class DashboardController implements Initializable {
         studentsPosition.add(studentPosition5);
         studentsPosition.add(studentPosition6);
         studentsPosition.add(studentPosition7);
-        for (Circle c : studentsPosition)
-            c.setDisable(true);
+
     }
 
     public void setUpTowers(){
@@ -468,20 +472,17 @@ public class DashboardController implements Initializable {
     public void moveStudentToClassroom(MouseEvent mouseEvent) throws IOException {
         ActionEvent ae = new ActionEvent(mouseEvent.getSource(),mouseEvent.getTarget());
 
-        for (Circle c : studentsPosition)
-            c.setDisable(false);
-
        if (mouseEvent.isConsumed() != true){
-           for (Circle c : studentsPosition) {
-               c.setOnMouseClicked(event -> {
+                classRoom.setOnMouseClicked(event -> {
                    try {
-                       moveToClassroom(event);
+                       moveToClassroom(mouseEvent);
                        if (movesAvailable.getCounter() > 0) {
                            this.movesAvailable.decrement();
                            movesAvailableCounter.setText(movesAvailable.toString());
                            if (movesAvailable.getCounter() == 0) {
-                               moveStudentToClassroom.setOnMouseClicked(null);
                                alertFinishedTurn(ae);
+                               for (Circle c : studentsPosition)
+                                   c.setDisable(true);
                            }
                        }
                    } catch (IOException e) {
@@ -489,9 +490,7 @@ public class DashboardController implements Initializable {
                    }
                }
                );
-           }
        }
-
 
     }
 
@@ -511,8 +510,7 @@ public class DashboardController implements Initializable {
                     classroomFilled[1][j] = true;
                     studentsPosition.get(i).setFill(null);
                     colorPawn.set(i,null);
-                    for (Circle c : studentsPosition)
-                        c.setDisable(true);
+
                     return;
                 }
             }
@@ -524,8 +522,7 @@ public class DashboardController implements Initializable {
                     classroomFilled[0][j] = true;
                     studentsPosition.get(i).setFill(null);
                     colorPawn.set(i,null);
-                    for (Circle c : studentsPosition)
-                        c.setDisable(true);
+
                     return;
                 }
             }
@@ -537,8 +534,7 @@ public class DashboardController implements Initializable {
                     classroomFilled[2][j] = true;
                     studentsPosition.get(i).setFill(null);
                     colorPawn.set(i,null);
-                    for (Circle c : studentsPosition)
-                        c.setDisable(true);
+
                     return;
                 }
             }
@@ -550,8 +546,7 @@ public class DashboardController implements Initializable {
                     classroomFilled[3][j] = true;
                     studentsPosition.get(i).setFill(null);
                     colorPawn.set(i,null);
-                    for (Circle c : studentsPosition)
-                        c.setDisable(true);
+
                     return;
                 }
             }
@@ -563,8 +558,7 @@ public class DashboardController implements Initializable {
                     classroomFilled[4][j] = true;
                     studentsPosition.get(i).setFill(null);
                     colorPawn.set(i,null);
-                    for (Circle c : studentsPosition)
-                        c.setDisable(true);
+
                     return;
                 }
             }
