@@ -286,6 +286,7 @@ public class DashboardController implements Initializable {
         setUpHall();
         setUpTowers();
         setUpProfessor();
+        setUpRectangle();
 
 
         StudentsBag studentsBag = new StudentsBag();
@@ -296,6 +297,9 @@ public class DashboardController implements Initializable {
         Teacher teacher = new Teacher(PawnColor.YELLOW);
         setUpProfessor(teacher);
         //setOrder();
+    }
+    public void setUpRectangle(){
+        classRoom.setDisable(true);
     }
 
     public void setOrder(){
@@ -471,6 +475,7 @@ public class DashboardController implements Initializable {
 
     public void moveStudentToClassroom(MouseEvent mouseEvent) throws IOException {
         ActionEvent ae = new ActionEvent(mouseEvent.getSource(),mouseEvent.getTarget());
+        classRoom.setDisable(false);
 
        if (mouseEvent.isConsumed() != true){
                 classRoom.setOnMouseClicked(event -> {
