@@ -515,6 +515,7 @@ public class DashboardController implements Initializable {
                     classroomFilled[1][j] = true;
                     studentsPosition.get(i).setFill(null);
                     colorPawn.set(i,null);
+                    classRoom.setDisable(true);
 
                     return;
                 }
@@ -527,7 +528,7 @@ public class DashboardController implements Initializable {
                     classroomFilled[0][j] = true;
                     studentsPosition.get(i).setFill(null);
                     colorPawn.set(i,null);
-
+                    classRoom.setDisable(true);
                     return;
                 }
             }
@@ -539,7 +540,7 @@ public class DashboardController implements Initializable {
                     classroomFilled[2][j] = true;
                     studentsPosition.get(i).setFill(null);
                     colorPawn.set(i,null);
-
+                    classRoom.setDisable(true);
                     return;
                 }
             }
@@ -551,7 +552,7 @@ public class DashboardController implements Initializable {
                     classroomFilled[3][j] = true;
                     studentsPosition.get(i).setFill(null);
                     colorPawn.set(i,null);
-
+                    classRoom.setDisable(true);
                     return;
                 }
             }
@@ -563,7 +564,7 @@ public class DashboardController implements Initializable {
                     classroomFilled[4][j] = true;
                     studentsPosition.get(i).setFill(null);
                     colorPawn.set(i,null);
-
+                    classRoom.setDisable(true);
                     return;
                 }
             }
