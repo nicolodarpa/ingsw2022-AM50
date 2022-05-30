@@ -9,7 +9,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<Pane fx:id="anchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.DashboardController">
+<Pane fx:id="anchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1080.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.DashboardController">
    <children>
       <ImageView fitHeight="215.0" fitWidth="500.0" layoutX="50.0" layoutY="93.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fitHeight="215.0" fitWidth="500.0" layoutX="50.0" layoutY="93.0">
@@ -18,32 +18,32 @@
          </image>
       </ImageView>
       <Button fx:id="moveToIsland" layoutX="254.0" layoutY="335.0" mnemonicParsing="false" onAction="#setTable" text="move student to island" />
-      <Label layoutX="401.0" layoutY="38.0" text="Moves available: ">
+      <Label layoutX="870.0" layoutY="37.0" text="Moves available: ">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
-      <Label fx:id="movesAvailableCounter" layoutX="525.0" layoutY="38.0" text="3">
+      <Label fx:id="movesAvailableCounter" layoutX="986.0" layoutY="37.0" text="3">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
-      <Label layoutX="38.0" layoutY="28.0" text="Round #: ">
+      <Label layoutX="39.0" layoutY="37.0" text="Round #: ">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
-      <Label fx:id="roundCounter" layoutX="108.0" layoutY="28.0" text="1">
+      <Label fx:id="roundCounter" layoutX="109.0" layoutY="37.0" text="1">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
-      <Label layoutX="38.0" layoutY="48.0" text="Order: ">
+      <Label layoutX="317.0" layoutY="40.0" text="Order: ">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
-      <Label fx:id="order" layoutX="108.0" layoutY="48.0" text="1">
+      <Label fx:id="order" layoutX="366.0" layoutY="40.0" text="1">
          <font>
             <Font size="16.0" />
          </font>
@@ -154,6 +154,26 @@
       <Circle fx:id="cyanPosition9" fill="DODGERBLUE" layoutX="345.0" layoutY="271.0" radius="12.0" stroke="BLACK" strokeType="INSIDE" />
       <Circle fx:id="cyanPosition10" fill="DODGERBLUE" layoutX="369.0" layoutY="271.0" radius="12.0" stroke="BLACK" strokeType="INSIDE" />
       <Rectangle fx:id="classRoom" arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="222.0" layoutX="125.0" layoutY="91.0" onMouseClicked="#moveToClassroom" stroke="TRANSPARENT" strokeType="INSIDE" width="274.0" />
+      <Label layoutX="446.0" layoutY="40.0" text="Moves of MN : ">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="movesOfMn" layoutX="554.0" layoutY="40.0" text="3">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="39.0" layoutY="10.0" text="Username: ">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="Username" layoutX="119.0" layoutY="10.0" text="nic">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
 
    </children>
 </Pane>

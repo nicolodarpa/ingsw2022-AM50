@@ -38,173 +38,27 @@ public class DashboardController implements Initializable {
     private Counter movesAvailable = new Counter();
 
     @FXML
-    private Button moveStudentToClassroom;
-
-    @FXML
-    private Label movesAvailableCounter;
-
-    @FXML
-    private Label roundCounter;
-
-    @FXML
-    private Label order;
+    private Label movesAvailableCounter, roundCounter, order, movesOfMn, Username;
 
     private Student[] students = new Student[7];
-
-    private String username;
-
     @FXML
-    private Circle studentPosition1;
+    private Circle studentPosition1, studentPosition2, studentPosition3, studentPosition4, studentPosition5, studentPosition6, studentPosition7;
     @FXML
-    private Circle studentPosition2;
+    private ImageView towerPosition1, towerPosition2, towerPosition3, towerPosition4, towerPosition5, towerPosition6, towerPosition7, towerPosition8;
     @FXML
-    private Circle studentPosition3;
+    private Circle professorPosition1, professorPosition2, professorPosition3, professorPosition4, professorPosition5;
     @FXML
-    private Circle studentPosition4;
+    private Circle redPosition1, redPosition2, redPosition3, redPosition4, redPosition5, redPosition6, redPosition7, redPosition8, redPosition9, redPosition10;
     @FXML
-    private Circle studentPosition5;
+    private Circle greenPosition1, greenPosition2, greenPosition3, greenPosition4, greenPosition5, greenPosition6, greenPosition7, greenPosition8, greenPosition9, greenPosition10;
     @FXML
-    private Circle studentPosition6;
+    private Circle yellowPosition1, yellowPosition2, yellowPosition3, yellowPosition4, yellowPosition5, yellowPosition6, yellowPosition7, yellowPosition8, yellowPosition9, yellowPosition10;
     @FXML
-    private Circle studentPosition7;
-
+    private Circle magentaPosition1, magentaPosition2, magentaPosition3, magentaPosition4, magentaPosition5, magentaPosition6, magentaPosition7, magentaPosition8, magentaPosition9, magentaPosition10;
     @FXML
-    private ImageView towerPosition1;
-    @FXML
-    private ImageView towerPosition2;
-    @FXML
-    private ImageView towerPosition3;
-    @FXML
-    private ImageView towerPosition4;
-    @FXML
-    private ImageView towerPosition5;
-    @FXML
-    private ImageView towerPosition6;
-    @FXML
-    private ImageView towerPosition7;
-    @FXML
-    private ImageView towerPosition8;
-
-    @FXML
-    private Circle professorPosition1;
-    @FXML
-    private Circle professorPosition2;
-    @FXML
-    private Circle professorPosition3;
-    @FXML
-    private Circle professorPosition4;
-    @FXML
-    private Circle professorPosition5;
-
-
-    @FXML
-    private Circle redPosition1;
-    @FXML
-    private Circle redPosition2;
-    @FXML
-    private Circle redPosition3;
-    @FXML
-    private Circle redPosition4;
-    @FXML
-    private Circle redPosition5;
-    @FXML
-    private Circle redPosition6;
-    @FXML
-    private Circle redPosition7;
-    @FXML
-    private Circle redPosition8;
-    @FXML
-    private Circle redPosition9;
-    @FXML
-    private Circle redPosition10;
-
-    @FXML
-    private Circle greenPosition1;
-    @FXML
-    private Circle greenPosition2;
-    @FXML
-    private Circle greenPosition3;
-    @FXML
-    private Circle greenPosition4;
-    @FXML
-    private Circle greenPosition5;
-    @FXML
-    private Circle greenPosition6;
-    @FXML
-    private Circle greenPosition7;
-    @FXML
-    private Circle greenPosition8;
-    @FXML
-    private Circle greenPosition9;
-    @FXML
-    private Circle greenPosition10;
-
-    @FXML
-    private Circle yellowPosition1;
-    @FXML
-    private Circle yellowPosition2;
-    @FXML
-    private Circle yellowPosition3;
-    @FXML
-    private Circle yellowPosition4;
-    @FXML
-    private Circle yellowPosition5;
-    @FXML
-    private Circle yellowPosition6;
-    @FXML
-    private Circle yellowPosition7;
-    @FXML
-    private Circle yellowPosition8;
-    @FXML
-    private Circle yellowPosition9;
-    @FXML
-    private Circle yellowPosition10;
-
-    @FXML
-    private Circle magentaPosition1;
-    @FXML
-    private Circle magentaPosition2;
-    @FXML
-    private Circle magentaPosition3;
-    @FXML
-    private Circle magentaPosition4;
-    @FXML
-    private Circle magentaPosition5;
-    @FXML
-    private Circle magentaPosition6;
-    @FXML
-    private Circle magentaPosition7;
-    @FXML
-    private Circle magentaPosition8;
-    @FXML
-    private Circle magentaPosition9;
-    @FXML
-    private Circle magentaPosition10;
-
-    @FXML
-    private Circle cyanPosition1;
-    @FXML
-    private Circle cyanPosition2;
-    @FXML
-    private Circle cyanPosition3;
-    @FXML
-    private Circle cyanPosition4;
-    @FXML
-    private Circle cyanPosition5;
-    @FXML
-    private Circle cyanPosition6;
-    @FXML
-    private Circle cyanPosition7;
-    @FXML
-    private Circle cyanPosition8;
-    @FXML
-    private Circle cyanPosition9;
-    @FXML
-    private Circle cyanPosition10;
-
+    private Circle cyanPosition1, cyanPosition2, cyanPosition3, cyanPosition4, cyanPosition5, cyanPosition6, cyanPosition7, cyanPosition8, cyanPosition9, cyanPosition10;
     @FXML
     private Rectangle classRoom;
-
 
 
 
@@ -221,11 +75,7 @@ public class DashboardController implements Initializable {
 
     private ArrayList<Circle> professorsPosition = new ArrayList<>(5);
 
-    private ArrayList<Circle> greenPositions = new ArrayList<>();
-    private ArrayList<Circle> redPositions = new ArrayList<>();
-    private ArrayList<Circle> yellowPositions = new ArrayList<>();
-    private ArrayList<Circle> magentaPositions = new ArrayList<>();
-    private ArrayList<Circle> cyanPositions = new ArrayList<>();
+    private ArrayList<Circle> greenPositions = new ArrayList<>(), redPositions = new ArrayList<>(), yellowPositions = new ArrayList<>(), magentaPositions = new ArrayList<>(), cyanPositions = new ArrayList<>();
 
     private Boolean [][] classroomFilled = new Boolean[5][10];
 
@@ -261,7 +111,11 @@ public class DashboardController implements Initializable {
     }
 
     public void setUsername(String username){
-        this.username = username;
+        Username.setText(username);
+    }
+
+    public void setMovesOfMn(int movesOfMN){
+        movesOfMn.setText(String.valueOf(movesOfMN));
     }
 
     public void alertFinishedTurn(ActionEvent actionEvent){
@@ -276,19 +130,12 @@ public class DashboardController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         roundCounter.setText(String.valueOf(1)); //set the round at the beginning of a new match
         setUpClassroomFilled();
-
         setUpNameColor();
-        setUpRedPositions();
-        setUpCyanPositions();
-        setUpGreenPositions();
-        setUpYellowPositions();
-        setUpMagentaPositions();
         setUpHall();
+        setUpClassroom();
         setUpTowers();
         setUpProfessor();
         setUpRectangle();
-
-
         StudentsBag studentsBag = new StudentsBag();
         studentsBag.fillBag(120);
         setUpHallImages(studentsBag);
@@ -296,22 +143,16 @@ public class DashboardController implements Initializable {
         setUpTowerImages(tower);
         Teacher teacher = new Teacher(PawnColor.YELLOW);
         setUpProfessor(teacher);
-        //setOrder();
     }
     public void setUpRectangle(){
         classRoom.setDisable(true);
     }
 
-    public void setOrder(){
-        ClientInput.getInstance().sendString("player", "");
-        TextMessage message = ClientInput.getInstance().readLine();
-        Gson gson = new Gson();
-        PlayersStatus[] playersStatuses = gson.fromJson(message.message, PlayersStatus[].class);
-        for(PlayersStatus playersStatus : playersStatuses){
-            if(Objects.equals(username, playersStatus.name))
-                order.setText(String.valueOf(playersStatus.order));
-        }
+    public void setOrder(int orderOfPlayer){
+        order.setText(String.valueOf(orderOfPlayer));
     }
+
+
 
     public void setUpTowerImages(Tower tower){
         String color = tower.getColor().getName();
@@ -322,7 +163,6 @@ public class DashboardController implements Initializable {
     }
 
     public void setUpHall (){
-
         studentsPosition.add(studentPosition1);
         studentsPosition.add(studentPosition2);
         studentsPosition.add(studentPosition3);
@@ -330,7 +170,6 @@ public class DashboardController implements Initializable {
         studentsPosition.add(studentPosition5);
         studentsPosition.add(studentPosition6);
         studentsPosition.add(studentPosition7);
-
     }
 
     public void setUpTowers(){
@@ -352,91 +191,38 @@ public class DashboardController implements Initializable {
         professorsPosition.add(professorPosition5);
     }
 
-    public void setUpRedPositions(){
-        redPositions.add(redPosition1);
-        redPositions.add(redPosition2);
-        redPositions.add(redPosition3);
-        redPositions.add(redPosition4);
-        redPositions.add(redPosition5);
-        redPositions.add(redPosition6);
-        redPositions.add(redPosition7);
-        redPositions.add(redPosition8);
-        redPositions.add(redPosition9);
-        redPositions.add(redPosition10);
-        for (Circle circle : redPositions){
+    /**
+     * set to transparent the background of the position of the students in the classroom
+     * @param colorPosition indicate the student's color of the row in the classroom
+     */
+    public void setTransparentCircle(ArrayList<Circle> colorPosition) {
+        for (Circle circle : colorPosition) {
             circle.setFill(null);
             circle.setStroke(null);
         }
-
     }
 
-    public void setUpGreenPositions(){
-        greenPositions.add(greenPosition1);
-        greenPositions.add(greenPosition2);
-        greenPositions.add(greenPosition3);
-        greenPositions.add(greenPosition4);
-        greenPositions.add(greenPosition5);
-        greenPositions.add(greenPosition6);
-        greenPositions.add(greenPosition7);
-        greenPositions.add(greenPosition8);
-        greenPositions.add(greenPosition9);
-        greenPositions.add(greenPosition10);
-        for (Circle circle : greenPositions){
-            circle.setFill(null);
-            circle.setStroke(null);
-        }
 
-
+    public void setUpClassroom(){
+        setUpColorPosition(greenPositions, greenPosition1, greenPosition2, greenPosition3, greenPosition4, greenPosition5, greenPosition6, greenPosition7, greenPosition8, greenPosition9, greenPosition10);
+        setUpColorPosition(magentaPositions, magentaPosition1, magentaPosition2, magentaPosition3, magentaPosition4, magentaPosition5, magentaPosition6, magentaPosition7, magentaPosition8, magentaPosition9, magentaPosition10);
+        setUpColorPosition(yellowPositions, yellowPosition1, yellowPosition2, yellowPosition3, yellowPosition4, yellowPosition5, yellowPosition6, yellowPosition7, yellowPosition8, yellowPosition9, yellowPosition10);
+        setUpColorPosition(cyanPositions, cyanPosition1, cyanPosition2, cyanPosition3, cyanPosition4, cyanPosition5, cyanPosition6, cyanPosition7, cyanPosition8, cyanPosition9, cyanPosition10);
+        setUpColorPosition(redPositions, redPosition1, redPosition2, redPosition3, redPosition4, redPosition5, redPosition6, redPosition7, redPosition8, redPosition9, redPosition10);
     }
-    public void setUpMagentaPositions(){
-        magentaPositions.add(magentaPosition1);
-        magentaPositions.add(magentaPosition2);
-        magentaPositions.add(magentaPosition3);
-        magentaPositions.add(magentaPosition4);
-        magentaPositions.add(magentaPosition5);
-        magentaPositions.add(magentaPosition6);
-        magentaPositions.add(magentaPosition7);
-        magentaPositions.add(magentaPosition8);
-        magentaPositions.add(magentaPosition9);
-        magentaPositions.add(magentaPosition10);
-        for (Circle circle : magentaPositions){
-            circle.setFill(null);
-            circle.setStroke(null);
-        }
 
-    }
-    public void setUpYellowPositions(){
-        yellowPositions.add(yellowPosition1);
-        yellowPositions.add(yellowPosition2);
-        yellowPositions.add(yellowPosition3);
-        yellowPositions.add(yellowPosition4);
-        yellowPositions.add(yellowPosition5);
-        yellowPositions.add(yellowPosition6);
-        yellowPositions.add(yellowPosition7);
-        yellowPositions.add(yellowPosition8);
-        yellowPositions.add(yellowPosition9);
-        yellowPositions.add(yellowPosition10);
-        for (Circle circle : yellowPositions){
-            circle.setFill(null);
-            circle.setStroke(null);
-        }
-
-    }
-    public void setUpCyanPositions(){
-        cyanPositions.add(cyanPosition1);
-        cyanPositions.add(cyanPosition2);
-        cyanPositions.add(cyanPosition3);
-        cyanPositions.add(cyanPosition4);
-        cyanPositions.add(cyanPosition5);
-        cyanPositions.add(cyanPosition6);
-        cyanPositions.add(cyanPosition7);
-        cyanPositions.add(cyanPosition8);
-        cyanPositions.add(cyanPosition9);
-        cyanPositions.add(cyanPosition10);
-        for (Circle circle : cyanPositions){
-            circle.setFill(null);
-            circle.setStroke(null);
-        }
+    private void setUpColorPosition(ArrayList<Circle> colorPositions, Circle colorPosition1, Circle colorPosition2, Circle colorPosition3, Circle colorPosition4, Circle colorPosition5, Circle colorPosition6, Circle colorPosition7, Circle colorPosition8, Circle colorPosition9, Circle colorPosition10) {
+        colorPositions.add(colorPosition1);
+        colorPositions.add(colorPosition2);
+        colorPositions.add(colorPosition3);
+        colorPositions.add(colorPosition4);
+        colorPositions.add(colorPosition5);
+        colorPositions.add(colorPosition6);
+        colorPositions.add(colorPosition7);
+        colorPositions.add(colorPosition8);
+        colorPositions.add(colorPosition9);
+        colorPositions.add(colorPosition10);
+        setTransparentCircle(colorPositions);
     }
 
     public void setUpProfessor(Teacher teacher){
@@ -499,77 +285,39 @@ public class DashboardController implements Initializable {
 
     }
 
+    public void setHallNull(int positionOfTheHall){
+        studentsPosition.get(positionOfTheHall).setFill(null);
+        colorPawn.set(positionOfTheHall,null);
+        classRoom.setDisable(true);
+    }
+
+    public void setImages(ArrayList<Circle> colorPositions, int position, int positionHall){
+        colorPositions.get(position).setFill(new ImagePattern(new Image(String.valueOf(getClass().getClassLoader().getResource("images/Pawn/" + colorPawn.get(positionHall) + "_student.png")))));
+    }
+
     public void moveToClassroom(MouseEvent event) throws IOException {
-
+        Window window = ((Node) event.getSource()).getScene().getWindow();
         String idStudentPosition = event.getPickResult().getIntersectedNode().getId();
-        int i = 0;
-        for (int j = 0; j <7 ; j++){
-            if (idStudentPosition == studentsPosition.get(j).getId())
-                 i=j;
+        int positionHall = 0;
+        for (int positionClicked = 0; positionClicked < 7 ; positionClicked++){
+            if (Objects.equals(idStudentPosition, studentsPosition.get(positionClicked).getId()))
+                positionHall = positionClicked;
+                ClientInput.getInstance().sendString("moveStudentToClassroom", String.valueOf(positionHall+1));
+                TextMessage message = ClientInput.getInstance().readLine();
+                if(Objects.equals(message.type, "error"))
+                    AlertHelper.showAlert(Alert.AlertType.ERROR, window, "Invalid position", message.message);
         }
-
-        if (colorPawn.get(i)== "red"){
-            for (int j=0 ; j<10 ; j++){
-                if (classroomFilled[1][j]== false) {
-                    redPositions.get(j).setFill(new ImagePattern(new Image(String.valueOf(getClass().getClassLoader().getResource("images/Pawn/" + colorPawn.get(i) + "_student.png")))));
-                    classroomFilled[1][j] = true;
-                    studentsPosition.get(i).setFill(null);
-                    colorPawn.set(i,null);
-                    classRoom.setDisable(true);
-
-                    return;
-                }
-            }
-        }
-        else if (colorPawn.get(i)== "green"){
-            for (int j=0 ; j<10 ; j++){
-                if (classroomFilled[0][j]== false) {
-                    greenPositions.get(j).setFill(new ImagePattern(new Image(String.valueOf(getClass().getClassLoader().getResource("images/Pawn/" + colorPawn.get(i) + "_student.png")))));
-                    classroomFilled[0][j] = true;
-                    studentsPosition.get(i).setFill(null);
-                    colorPawn.set(i,null);
-                    classRoom.setDisable(true);
-                    return;
-                }
-            }
-        }
-        else if (colorPawn.get(i)== "yellow"){
-            for (int j=0 ; j<10 ; j++){
-                if (classroomFilled[2][j]== false) {
-                    yellowPositions.get(j).setFill(new ImagePattern(new Image(String.valueOf(getClass().getClassLoader().getResource("images/Pawn/" + colorPawn.get(i) + "_student.png")))));
-                    classroomFilled[2][j] = true;
-                    studentsPosition.get(i).setFill(null);
-                    colorPawn.set(i,null);
-                    classRoom.setDisable(true);
-                    return;
-                }
-            }
-        }
-        else if (colorPawn.get(i)== "magenta"){
-            for (int j=0 ; j<10 ; j++){
-                if (classroomFilled[3][j]== false) {
-                    magentaPositions.get(j).setFill(new ImagePattern(new Image(String.valueOf(getClass().getClassLoader().getResource("images/Pawn/" + colorPawn.get(i) + "_student.png")))));
-                    classroomFilled[3][j] = true;
-                    studentsPosition.get(i).setFill(null);
-                    colorPawn.set(i,null);
-                    classRoom.setDisable(true);
-                    return;
-                }
-            }
-        }
-        else if (colorPawn.get(i)== "cyan"){
-            for (int j=0 ; j<10 ; j++){
-                if (classroomFilled[4][j]== false) {
-                    cyanPositions.get(j).setFill(new ImagePattern(new Image(String.valueOf(getClass().getClassLoader().getResource("images/Pawn/" + colorPawn.get(i) + "_student.png")))));
-                    classroomFilled[4][j] = true;
-                    studentsPosition.get(i).setFill(null);
-                    colorPawn.set(i,null);
-                    classRoom.setDisable(true);
-                    return;
-                }
+        PawnColor color = studentsHall.get(positionHall).getColor();
+        for ( int classroomPosition = 0 ; classroomPosition < 10 ; classroomPosition++ ){
+            if (!classroomFilled[color.ordinal()][classroomPosition]) {
+                setImages(nameColor.get(color.ordinal()), classroomPosition, positionHall);
+                classroomFilled[color.ordinal()][classroomPosition] = true;
+                setHallNull(positionHall);
+                return;
             }
         }
     }
+
 
 
 

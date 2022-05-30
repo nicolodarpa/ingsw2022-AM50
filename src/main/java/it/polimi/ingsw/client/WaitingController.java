@@ -60,6 +60,10 @@ public class WaitingController implements Initializable{
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        try {
+            checkPhasePage();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

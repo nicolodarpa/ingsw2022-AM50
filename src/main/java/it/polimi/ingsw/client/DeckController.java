@@ -105,5 +105,13 @@ public class DeckController implements Initializable {
         alertChosenDeck(actionEvent);
     }
 
+    public void setWaitingPage(ActionEvent actionEvent) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("waiting.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
+    }
+
 }
 
