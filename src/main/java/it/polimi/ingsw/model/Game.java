@@ -2,6 +2,7 @@ package it.polimi.ingsw.model;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.PlayersList;
+import it.polimi.ingsw.client.ClientInput;
 import it.polimi.ingsw.comunication.*;
 import it.polimi.ingsw.model.CharacterCards.SpecialCard;
 
@@ -41,6 +42,9 @@ public class Game {
     private Player actualPlayer;
     private SpecialDeck specialDeck = new SpecialDeck();
     private static ArrayList<SpecialCard> cardsInGame = new ArrayList<>();
+
+    private ClientInput clientInput = ClientInput.getInstance();
+
 
 
     public Game() {
@@ -484,7 +488,6 @@ public class Game {
 
     }
 
-
     /**
      * switches the teacher of the actual player when another player has more students of the teacher's color than the actual player
      */
@@ -608,7 +611,7 @@ public class Game {
     }
 
 
-    public void chooseCloudCard(int numberOfCloudCard, Player player) {
+    public boolean chooseCloudCard(int numberOfCloudCard, Player player) {
         ArrayList<Student> students;
         try {
             if (cloudCards.get(numberOfCloudCard).getStudents().size() != 0) {
@@ -618,9 +621,12 @@ public class Game {
                     actualDashboard.addStudentToHall(s);
                 player.setHasPlayed(true);
                 setActualPlayer();
+                return false;
             } else
                 player.sendToClient("error", "Cloud card already chosen by another player");
+            return true;
         } catch (Exception ignored) {
+            return true;
         }
 
 
@@ -672,11 +678,8 @@ public class Game {
         if (checkLastPlayedAssistant(cardNumber)) {
             player.sendToClient("error", "Assistant card already played by another player");
             for (AssistantCard assistantCard : player.getDeck().getCardsList()) {
-                if (!checkLastPlayedAssistant(assistantCard.order())) {
-                    player.sendToClient("warning", assistantCard.order() + ") order: " + assistantCard.order() + " and #" + assistantCard.movesOfMN() + " moves of MN available");
+                if (!checkLastPlayedAssistant(assistantCard.order()))
                     check = true;
-                }
-
             }
             if (!check) {
                 player.playAssistantCard(cardNumber);
@@ -686,7 +689,7 @@ public class Game {
         }
         player.playAssistantCard(cardNumber);
         setActualPlayer();
-        if (player.deckSize()) {
+        if (player.deckSize()) { //return 1 if the player has finished his cards
             plist.notifyAllClients("notify", "the game has finished");
             calculateWinner();
         }

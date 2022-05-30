@@ -47,14 +47,12 @@ public class AssistantCardController implements Initializable {
 
     public void alertChosenCard(ActionEvent actionEvent, int order) throws IOException {
         Window window = ((Node) actionEvent.getSource()).getScene().getWindow();
-        ClientInput.getInstance().readLine();
         TextMessage message = ClientInput.getInstance().readLine();
-        if(Objects.equals(message.type, "error")){
-            AlertHelper.showAlert(Alert.AlertType.INFORMATION, window, "Select card", "Select another card to play");
-            AlertHelper.showAlert(Alert.AlertType.ERROR, window, "Invalid Card", "Card already played");
+        if(Objects.equals(message.type, "error")){;
+            AlertHelper.showAlert(Alert.AlertType.ERROR, window, "Invalid Card", message.message);
         }
         else{
-            AlertHelper.showAlert(Alert.AlertType.CONFIRMATION, window, "Card chosen", "Card #" + order + " chosen");
+            AlertHelper.showAlert(Alert.AlertType.CONFIRMATION, window, "Card chosen", message.message);
             setActionPage(actionEvent);
         }
     }

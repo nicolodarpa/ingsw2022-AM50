@@ -111,7 +111,6 @@ public class EchoServerClientHandler extends Thread {
             out.println(json);
             return false;
         }
-
     }
 
     public void newGame(Command command) {
@@ -127,10 +126,12 @@ public class EchoServerClientHandler extends Thread {
     public void avlGames(Command command) {
 
         ArrayList<GameStatus> list = new ArrayList<>();
+        int gameId = 0;
         for (Game game1 : gameArrayList) {
             if (Objects.equals(game1.getGameStatus(), "Waiting for players")) {
-                list.add(new GameStatus(game1.getCurrentNumberOfPlayers(), game1.getNumberOfPlayers(), game1.getPlist()));
+                list.add(new GameStatus(gameId, game1.getCurrentNumberOfPlayers(), game1.getNumberOfPlayers(), game1.getPlist()));
             }
+            gameId ++;
         }
         if (list.size() != 0) {
             TextMessage text = new TextMessage("avlGames", gson.toJson(list));
@@ -298,7 +299,6 @@ public class EchoServerClientHandler extends Thread {
                 player.sendToClient("islands", game.sendIslands());
             } else {
                 errorSelectionNotify();
-
             }
         }
         //player.sendToClient("msg", "select student from hall to move to an island:");
@@ -341,13 +341,20 @@ public class EchoServerClientHandler extends Thread {
     }
 
 
-    public void chooseCC(Command command) {
-        if (checkTurn()) {
-            int cloudCardIndex = Integer.parseInt(command.value1);
-            game.chooseCloudCard(cloudCardIndex - 1, player);
+    private void chooseCC(Command command) {
+        player.sendToClient("cloudCard", game.sendCloudCards());
+        boolean check = false;
+        int cloudCardIndex = Integer.parseInt(command.value1);
+        check = game.chooseCloudCard(cloudCardIndex - 1, player);
+        if (cloudCardIndex > game.getCloudCards().size() || cloudCardIndex < 0)
+            player.sendToClient("error", "Error, choose a valid cloud card");
+        else if(check)
+            player.sendToClient("error", "Error, choose a valid cloud card");
+        if(!check) {
             player.sendToClient("dashboard", game.sendPlayerDashboard(player));
+            game.setActualPlayer();
         }
+    }
 
     }
 
-}
