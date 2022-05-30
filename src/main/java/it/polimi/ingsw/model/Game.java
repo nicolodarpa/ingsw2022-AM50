@@ -41,6 +41,7 @@ public class Game {
     private static ArrayList<SpecialCard> cardsInGame = new ArrayList<>();
 
 
+
     public Game() {
     }
 
@@ -415,14 +416,12 @@ public class Game {
                 } else if (currentDashboard.countStudentByColor(teachers[i].getColor()) != 0) {
                     if (current.isTeacherAssignerModifier()) {
                         switchTeacher(nextDashboard, currentDashboard, i);
-
                     } else if (next.isTeacherAssignerModifier()) {
                         switchTeacher(currentDashboard, nextDashboard, i);
                     }
                 }
             }
         }
-
     }
 
     /**
@@ -550,7 +549,7 @@ public class Game {
     }
 
 
-    public void chooseCloudCard(int numberOfCloudCard, Player player) {
+    public boolean chooseCloudCard(int numberOfCloudCard, Player player) {
         ArrayList<Student> students;
         try {
             if (cloudCards.get(numberOfCloudCard).getStudents().size() != 0) {
@@ -560,9 +559,12 @@ public class Game {
                     actualDashboard.addStudentToHall(s);
                 player.setHasPlayed(true);
                 setActualPlayer();
+                return false;
             } else
                 player.sendToClient("error", "Cloud card already chosen by another player");
+            return true;
         } catch (Exception ignored) {
+            return true;
         }
 
 

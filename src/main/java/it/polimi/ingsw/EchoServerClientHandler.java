@@ -341,13 +341,20 @@ public class EchoServerClientHandler extends Thread {
     }
 
 
-    public void chooseCC(Command command) {
-        if (checkTurn()) {
-            int cloudCardIndex = Integer.parseInt(command.value1);
-            game.chooseCloudCard(cloudCardIndex - 1, player);
+    private void chooseCC(Command command) {
+        player.sendToClient("cloudCard", game.sendCloudCards());
+        boolean check = false;
+        int cloudCardIndex = Integer.parseInt(command.value1);
+        check = game.chooseCloudCard(cloudCardIndex - 1, player);
+        if (cloudCardIndex > game.getCloudCards().size() || cloudCardIndex < 0)
+            player.sendToClient("error", "Error, choose a valid cloud card");
+        else if(check)
+            player.sendToClient("error", "Error, choose a valid cloud card");
+        if(!check) {
             player.sendToClient("dashboard", game.sendPlayerDashboard(player));
+            game.setActualPlayer();
         }
+    }
 
     }
 
-}
