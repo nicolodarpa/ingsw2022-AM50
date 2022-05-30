@@ -9,18 +9,22 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
 
+import static it.polimi.ingsw.model.Game.MOVES;
+
 /**
  * Player contains all method that allows player to play a match
  */
 
 public class Player {
+
+
     private final String name;
     private Socket socket;
     private PrintWriter out;
     private int order = 10;
     private int movesOfMN = 0;
 
-    private int movesOfStudents = 3;
+    private int movesOfStudents = MOVES;
     private static final Wallet wallet = new Wallet();
     private Dashboard dashboard = new Dashboard();
     private Deck deck;
@@ -71,7 +75,7 @@ public class Player {
     }
 
     public void resetMovesOfStudents() {
-        movesOfStudents = 3;
+        movesOfStudents = MOVES;
     }
 
     public int getMovesOfStudents() {
@@ -267,7 +271,7 @@ public class Player {
     public boolean moveStudentToIsland(int position, int index, Game game) {
         Student student = dashboard.getStudentFromHall(position);
         try {
-            if (student != null) {
+            if (student != null && movesOfStudents>0) {
                 game.getIslands().get(index).addStudent(student);
                 movesOfStudents--;
                 return true;
@@ -288,7 +292,7 @@ public class Player {
      */
     public boolean moveStudentToClassroom(int position, Game game) {
         Student student = dashboard.getStudentFromHall(position);
-        if (student != null) {
+        if (student != null && movesOfStudents>0 ) {
             dashboard.addStudentToClassroom(student);
             dashboard.addCoin(wallet);
             movesOfStudents--;

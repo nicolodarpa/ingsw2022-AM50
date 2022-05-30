@@ -165,11 +165,11 @@ public class Dashboard {
      * add a student in the classroom in the correspondence row, based on this color:
      * <p>
      *     <ul>
-     *      <li> Row 1 : Cyan </li>
-     *      <li> Row 2 : Magenta </li>
+     *      <li> Row 1 : Green </li>
+     *      <li> Row 2 : Red </li>
      *      <li> Row 3 : Yellow </li>
-     *      <li> Row 4 : Red </li>
-     *      <li> Row 5 : Green </li>
+     *      <li> Row 4 : Magenta </li>
+     *      <li> Row 5 : Cyan </li>
      *     </ul>
      * </p>
      */

@@ -24,6 +24,8 @@ import java.util.*;
  * @since 1.0
  */
 public class Game {
+
+    public static int MOVES;
     private String gameStatus = "Waiting for players";
     private int round = 0;
     private int phase = 0;
@@ -34,7 +36,7 @@ public class Game {
     private ArrayList<CloudCard> cloudCards = new ArrayList<>();
     private Map<Integer, Deck> deckMap = new HashMap<>();
     private ArrayList<Island> islands = new ArrayList<>(12);
-    private final Teacher[] teachers = {new Teacher(PawnColor.CYAN), new Teacher(PawnColor.MAGENTA), new Teacher(PawnColor.YELLOW), new Teacher(PawnColor.RED), new Teacher(PawnColor.GREEN)};
+    private final Teacher[] teachers = {new Teacher(PawnColor.GREEN), new Teacher(PawnColor.RED), new Teacher(PawnColor.YELLOW), new Teacher(PawnColor.MAGENTA), new Teacher(PawnColor.CYAN)};
     private Island islandWithMN;
     private Player actualPlayer;
     private SpecialDeck specialDeck = new SpecialDeck();
@@ -45,6 +47,9 @@ public class Game {
     }
 
     public Game(int numberOfPlayers) {
+        if (numberOfPlayers == 2) {
+            MOVES = 3;
+        } else MOVES = 4;
         setNumberOfPlayers(numberOfPlayers);
         createDecks();
     }
@@ -309,8 +314,9 @@ public class Game {
                 return true;
             } else {
                 islandWithMN.calcInfluence(plist);
-                connectIsland();
+                player.setMovesOfMN(0);
             }
+            connectIsland();
             return true;
         }
     }
@@ -402,37 +408,89 @@ public class Game {
      * assigns the teacher to a teacher table of the player who has more students of a color in his classroom
      */
     public void assignTeacher() {
-        for (int i = 0; i < PawnColor.numberOfColors; i++) {
-            for (int j = 0; j < numberOfPlayers - 1; j++) {
-                Player current = plist.getPlayers().get(j);
-                Player next = plist.getPlayers().get(j + 1);
-                Dashboard currentDashboard = current.getDashboard();
-                Dashboard nextDashboard = next.getDashboard();
-                if (currentDashboard.countStudentByColor(teachers[i].getColor()) > nextDashboard.countStudentByColor(teachers[i].getColor())) {
-                    switchTeacher(nextDashboard, currentDashboard, i);
-                } else if (nextDashboard.countStudentByColor(teachers[i].getColor()) > currentDashboard.countStudentByColor(teachers[i].getColor())) {
-                    switchTeacher(currentDashboard, nextDashboard, i);
-                } else if (currentDashboard.countStudentByColor(teachers[i].getColor()) != 0) {
-                    if (current.isTeacherAssignerModifier()) {
-                        switchTeacher(nextDashboard, currentDashboard, i);
+        if (numberOfPlayers == 2) {
+            for (int i = 0; i < PawnColor.numberOfColors; i++) {
 
-                    } else if (next.isTeacherAssignerModifier()) {
-                        switchTeacher(currentDashboard, nextDashboard, i);
+                for (int j = 0; j < numberOfPlayers - 1; j++) {
+                    Player current = plist.getPlayers().get(j);
+                    for (int k = j + 1; k < numberOfPlayers; k++) {
+                        Player next = plist.getPlayers().get(k);
+                        Dashboard currentDashboard = current.getDashboard();
+                        Dashboard nextDashboard = next.getDashboard();
+                        if (currentDashboard.countStudentByColor(teachers[i].getColor()) > nextDashboard.countStudentByColor(teachers[i].getColor())) {
+                            switchTeacher(nextDashboard, currentDashboard, i);
+                        } else if (nextDashboard.countStudentByColor(teachers[i].getColor()) > currentDashboard.countStudentByColor(teachers[i].getColor())) {
+                            switchTeacher(currentDashboard, nextDashboard, i);
+                        } else if (currentDashboard.countStudentByColor(teachers[i].getColor()) != 0) {
+                            if (current.isTeacherAssignerModifier()) {
+                                switchTeacher(nextDashboard, currentDashboard, i);
+
+                            } else if (next.isTeacherAssignerModifier()) {
+                                switchTeacher(currentDashboard, nextDashboard, i);
+                            }
+                        }
                     }
                 }
+            }
+        } else if (numberOfPlayers == 3) {
+            Player p1 = plist.getPlayers().get(0);
+            Player p2 = plist.getPlayers().get(1);
+            Player p3 = plist.getPlayers().get(2);
+            Dashboard d1 = p1.getDashboard();
+            Dashboard d2 = p2.getDashboard();
+            Dashboard d3 = p3.getDashboard();
+            for (int i = 0; i < 5; i++) {
+                if (d1.countStudentByColor(teachers[i].getColor()) > d2.countStudentByColor(teachers[i].getColor()) && d1.countStudentByColor(teachers[i].getColor()) > d3.countStudentByColor(teachers[i].getColor())) {
+                    d1.addTeacherToTable(teachers[i]);
+                    if (d2.getTeacherTable()[i] != null)
+                        d2.removeTeacherFromTable(teachers[i]);
+                    else if (d3.getTeacherTable()[i] != null)
+                        d3.removeTeacherFromTable(teachers[i]);
+                } else if (d2.countStudentByColor(teachers[i].getColor()) > d1.countStudentByColor(teachers[i].getColor()) && d2.countStudentByColor(teachers[i].getColor()) > d3.countStudentByColor(teachers[i].getColor())) {
+                    d2.addTeacherToTable(teachers[i]);
+                    if (d1.getTeacherTable()[i] != null)
+                        d1.removeTeacherFromTable(teachers[i]);
+                    else if (d3.getTeacherTable()[i] != null)
+                        d3.removeTeacherFromTable(teachers[i]);
+                } else if (d3.countStudentByColor(teachers[i].getColor()) > d1.countStudentByColor(teachers[i].getColor()) && d3.countStudentByColor(teachers[i].getColor()) > d2.countStudentByColor(teachers[i].getColor())) {
+                    d3.addTeacherToTable(teachers[i]);
+                    if (d1.getTeacherTable()[i] != null)
+                        d1.removeTeacherFromTable(teachers[i]);
+                    else if (d2.getTeacherTable()[i] != null)
+                        d2.removeTeacherFromTable(teachers[i]);
+                }
+                if (d1.countStudentByColor(teachers[i].getColor()) != 0 && p1.isTeacherAssignerModifier()) {
+                    d1.addTeacherToTable(teachers[i]);
+                    if (d2.getTeacherTable()[i] != null)
+                        d2.removeTeacherFromTable(teachers[i]);
+                    else if (d3.getTeacherTable()[i] != null)
+                        d3.removeTeacherFromTable(teachers[i]);
+                } else if (d2.countStudentByColor(teachers[i].getColor()) != 0 && p2.isTeacherAssignerModifier()) {
+                    d2.addTeacherToTable(teachers[i]);
+                    if (d1.getTeacherTable()[i] != null)
+                        d1.removeTeacherFromTable(teachers[i]);
+                    else if (d3.getTeacherTable()[i] != null)
+                        d3.removeTeacherFromTable(teachers[i]);
+                } else if (d3.countStudentByColor(teachers[i].getColor()) != 0 && p3.isTeacherAssignerModifier()) {
+                    d3.addTeacherToTable(teachers[i]);
+                    if (d1.getTeacherTable()[i] != null)
+                        d1.removeTeacherFromTable(teachers[i]);
+                    else if (d2.getTeacherTable()[i] != null)
+                        d2.removeTeacherFromTable(teachers[i]);
+                }
+
             }
         }
 
     }
+
 
     /**
      * switches the teacher of the actual player when another player has more students of the teacher's color than the actual player
      */
     private void switchTeacher(Dashboard previousOwner, Dashboard newOwner, int i) {
         newOwner.addTeacherToTable(teachers[i]);
-        if (previousOwner.getTeacherTable()[i] != null) {
-            previousOwner.removeTeacherFromTable(teachers[i]);
-        }
+        previousOwner.removeTeacherFromTable(teachers[i]);
     }
 
 

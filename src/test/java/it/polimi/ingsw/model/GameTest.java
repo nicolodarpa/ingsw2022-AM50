@@ -247,6 +247,44 @@ public class GameTest {
 
     }
 
+    @Test
+    @DisplayName("Test assignment of teacher with same number of students")
+    public void assignTeacherSameNumber(){
+        gameTest = new Game(3);
+        LoginManager.login("ale", gameTest);
+        LoginManager.login("nic", gameTest);
+        LoginManager.login("jaz", gameTest);
+        Player player_one = gameTest.getPlist().getPlayers().get(0);
+        Player player_two = gameTest.getPlist().getPlayers().get(1);
+        Player player_three = gameTest.getPlist().getPlayers().get(2);
+        player_one.moveStudentToIsland(0,1,gameTest);
+        player_three.moveStudentToIsland(0,1,gameTest);
+        for (int i = 0; i < 2; i++) {
+            Student studentColor = new Student(PawnColor.CYAN);
+            player_one.getDashboard().addStudentToHall(studentColor);
+            player_one.moveStudentToClassroom(0, gameTest);
+        }
+        assertEquals(player_one.getDashboard().getTeacherTable()[4].getColor(), PawnColor.CYAN);
+        for (int i = 0; i < 2; i++) {
+            Student studentColor = new Student(PawnColor.CYAN);
+            player_three.getDashboard().addStudentToHall(studentColor);
+            player_three.moveStudentToClassroom(0, gameTest);
+        }
+        player_one.getDashboard().drawDashboard();
+        player_three.getDashboard().drawDashboard();
+
+        assertNotNull(player_one.getDashboard().getTeacherTable()[4]);
+        assertNull(player_three.getDashboard().getTeacherTable()[4]);
+        Student studentColor = new Student(PawnColor.CYAN);
+        player_three.getDashboard().addStudentToHall(studentColor);
+        player_three.moveStudentToClassroom(0, gameTest);
+        player_three.getDashboard().drawDashboard();
+        player_one.getDashboard().drawDashboard();
+        assertNull(player_one.getDashboard().getTeacherTable()[4]);
+
+        assertEquals(player_three.getDashboard().getTeacherTable()[4].getColor(), PawnColor.CYAN);
+    }
+
 
     @Test
     @DisplayName("The player choose a cloud card")

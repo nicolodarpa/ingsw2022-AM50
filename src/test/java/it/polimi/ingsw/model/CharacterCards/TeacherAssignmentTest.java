@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.PawnColor;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.Student;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -15,10 +16,10 @@ public class TeacherAssignmentTest {
 
 
     @Test
-    public void testGetCost(){
+    public void testGetCost() {
         gameTest.setNumberOfPlayers(2);
-        LoginManager.login("jaz",gameTest);
-        LoginManager.login("nic",gameTest);
+        LoginManager.login("jaz", gameTest);
+        LoginManager.login("nic", gameTest);
 
         TeacherAssignment card = new TeacherAssignment();
         assertEquals(2, card.getCost());
@@ -27,10 +28,10 @@ public class TeacherAssignmentTest {
     }
 
     @Test
-    public void testAddCost(){
+    public void testAddCost() {
         gameTest.setNumberOfPlayers(2);
-        LoginManager.login("jaz",gameTest);
-        LoginManager.login("nic",gameTest);
+        LoginManager.login("jaz", gameTest);
+        LoginManager.login("nic", gameTest);
 
         TeacherAssignment card = new TeacherAssignment();
         card.addCost();
@@ -38,21 +39,22 @@ public class TeacherAssignmentTest {
     }
 
     @Test
-    public void testGetEffectOfTheCard(){
+    public void testGetEffectOfTheCard() {
         gameTest = new Game(2);
 
-        LoginManager.login("jaz",gameTest);
-        LoginManager.login("nic",gameTest);
+        LoginManager.login("jaz", gameTest);
+        LoginManager.login("nic", gameTest);
 
         TeacherAssignment card = new TeacherAssignment();
         System.out.println(card.getEffectOfTheCard());
     }
 
     @Test
-    public void testEffectOfTheCard(){
+    @DisplayName("Test effect with 2 players")
+    public void testEffectOfTheCard() {
         gameTest.setNumberOfPlayers(2);
-        LoginManager.login("jaz",gameTest);
-        LoginManager.login("nic",gameTest);
+        LoginManager.login("jaz", gameTest);
+        LoginManager.login("nic", gameTest);
 
         TeacherAssignment card = new TeacherAssignment();
         Player player_one = gameTest.getPlist().getPlayers().get(0);
@@ -69,5 +71,29 @@ public class TeacherAssignmentTest {
         assertNotNull(player_one.getDashboard().getTeacherTable()[PawnColor.GREEN.ordinal()]);
         player_one.getDashboard().drawDashboard();
         player_two.getDashboard().drawDashboard();
+    }
+
+    @Test
+    @DisplayName("Test effect with 3 players")
+    public void testEffectOfTheCardThreePlayers() {
+        gameTest.setNumberOfPlayers(3);
+        LoginManager.login("jaz", gameTest);
+        LoginManager.login("nic", gameTest);
+        LoginManager.login("ale", gameTest);
+        TeacherAssignment card = new TeacherAssignment();
+        Player player_one = gameTest.getPlist().getPlayers().get(0);
+        Player player_two = gameTest.getPlist().getPlayers().get(1);
+        Player player_three = gameTest.getPlist().getPlayers().get(2);
+        card.setActualPlayer(player_one);
+        player_two.getDashboard().addStudentToClassroom(new Student(PawnColor.RED));
+        gameTest.assignTeacher();
+        player_one.getDashboard().addStudentToClassroom(new Student(PawnColor.RED));
+        assertNotNull(player_two.getDashboard().getTeacherTable()[PawnColor.RED.ordinal()]);
+        assertNull(player_one.getDashboard().getTeacherTable()[PawnColor.RED.ordinal()]);
+        card.effect();
+        player_two.getDashboard().addStudentToClassroom(new Student(PawnColor.GREEN));
+        player_one.getDashboard().addStudentToClassroom(new Student(PawnColor.GREEN));
+        gameTest.assignTeacher();
+        assertNotNull(player_one.getDashboard().getTeacherTable()[PawnColor.GREEN.ordinal()]);
     }
 }
