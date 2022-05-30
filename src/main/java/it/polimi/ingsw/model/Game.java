@@ -101,7 +101,7 @@ public class Game {
 
     public void startGame() {
         System.out.println("Game starting");
-        plist.notifyAllClients("notify", "Game started");
+        plist.notifyAllClients("startGame", "Game started");
         setActualPlayer();
     }
 
@@ -223,9 +223,16 @@ public class Game {
         return gson.toJson(cardList);
     }
 
-    public String sendPlayers(){
+    public String sendPlayer(Player player) {
+        ArrayList<PlayersStatus> playersStatuses = new ArrayList<>();
+        playersStatuses.add(new PlayersStatus(player));
+        Gson gson = new Gson();
+        return gson.toJson(playersStatuses);
+    }
+
+    public String sendAllPlayers() {
         ArrayList<PlayersStatus> players = new ArrayList<>();
-        for(Player p : plist.getPlayers()){
+        for (Player p : plist.getPlayers()) {
             players.add(new PlayersStatus(p));
         }
         Gson gson = new Gson();
@@ -451,8 +458,7 @@ public class Game {
         for (Island island : islands) {
             island.setTowerMultiplier(1);
         }
-        for (int i = 0;
-             i < PawnColor.numberOfColors; i++) {
+        for (int i = 0; i < PawnColor.numberOfColors; i++) {
             PawnColor.values()[i].setInfluenceMultiplier(1);
         }
 
@@ -544,7 +550,7 @@ public class Game {
     }
 
 
-    public boolean chooseCloudCard(int numberOfCloudCard, Player player) {
+    public void chooseCloudCard(int numberOfCloudCard, Player player) {
         ArrayList<Student> students;
         try {
             if (cloudCards.get(numberOfCloudCard).getStudents().size() != 0) {
@@ -554,11 +560,9 @@ public class Game {
                     actualDashboard.addStudentToHall(s);
                 player.setHasPlayed(true);
                 setActualPlayer();
-                return false;
             } else
-                return true;
+                player.sendToClient("error", "Cloud card already chosen by another player");
         } catch (Exception ignored) {
-            return true;
         }
 
 
@@ -579,23 +583,26 @@ public class Game {
         }
     }
 
-    public int chooseDeck(int numberOfDeck, Player player) {
+    public void chooseDeck(int numberOfDeck, Player player) {
         Deck deck = deckMap.get(numberOfDeck);
         for (Player p : plist.getPlayers()) {
-            if (deck.getChosen())
-                return 0;
+            if (deck.getChosen()) {
+                player.sendToClient("error", "chooseDeck", "Deck already chosen by another player");
+                return;
+            }
+
         }
         player.setDeck(deck);
+        player.sendToClient("confirmation", "chooseDeck", "Deck " + numberOfDeck + " chosen");
         deck.setPlayer(player);
         if (getCurrentNumberOfPlayers() == getNumberOfPlayers()) {
             for (Player player1 : plist.getPlayers()) {
                 if (player1.getDeck() == null) {
-                    return 1;
+                    return;
                 }
             }
             startGame();
         }
-        return 1;
     }
 
     public void playAssistantCard(Player player, int cardNumber) {

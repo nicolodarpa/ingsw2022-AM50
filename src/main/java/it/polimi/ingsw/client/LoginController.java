@@ -34,7 +34,7 @@ public class LoginController {
         ClientInput.getInstance().sendString("login", name);
         Window window = ((Node) actionEvent.getSource()).getScene().getWindow();
         TextMessage message = ClientInput.getInstance().readLine();
-        if (!Objects.equals(message.type, "msg")) {
+        if (!Objects.equals(message.type, "confirmation")) {
             AlertHelper.showAlert(Alert.AlertType.WARNING, window, "Login", message.message);
         } else{
             AlertHelper.showAlert(Alert.AlertType.CONFIRMATION, window, "Login", message.message);

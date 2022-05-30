@@ -11,7 +11,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.lang.reflect.Method;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,7 +28,7 @@ public class EchoServerClientHandler extends Thread {
     private BufferedReader in;
 
     private PrintWriter out;
-    HashMap<String, Commd> commandMap = new HashMap<>();
+    private final HashMap<String, Commd> commandMap = new HashMap<>();
 
 
     interface Commd {
@@ -50,7 +49,8 @@ public class EchoServerClientHandler extends Thread {
         commandMap.put("login", this::login);
         commandMap.put("chooseDeck", this::chooseDeck);
         commandMap.put("sendAssistantDecks", this::sendAssistantDecks);
-        commandMap.put("sendPlayers", this::sendPlayers);
+        commandMap.put("player", this::sendPlayerInfo);
+        commandMap.put("allPlayers", this::sendAllPlayers);
         commandMap.put("islands", this::sendIslands);
         commandMap.put("dashboard", this::sendDashboard);
         commandMap.put("sendCharacterCardDeck", this::sendCharacterCardDeck);
@@ -62,6 +62,7 @@ public class EchoServerClientHandler extends Thread {
         commandMap.put("moveStudentToClassroom", this::moveStudentToClassroom);
         commandMap.put("moveMN", this::moveMotherNature);
         commandMap.put("chooseCC", this::chooseCC);
+        commandMap.put("hall", this::sendHall);
 
 
         try {
@@ -118,21 +119,25 @@ public class EchoServerClientHandler extends Thread {
         int num = Integer.parseInt(command.value1);
         game = new Game(num);
         gameArrayList.add(game);
+        TextMessage text = new TextMessage("confirmation", "newGame", "Created game for " + num + " players");
+        String json = gson.toJson(text, TextMessage.class);
+        out.println(json);
     }
 
     public void avlGames(Command command) {
-        if (gameArrayList.size() > 0) {
-            ArrayList<GameStatus> list = new ArrayList<>();
-            for (Game game1 : gameArrayList) {
-                if (Objects.equals(game1.getGameStatus(), "Waiting for players")) {
-                    list.add(new GameStatus(game1.getCurrentNumberOfPlayers(), game1.getNumberOfPlayers(), game1.getPlist()));
-                }
+
+        ArrayList<GameStatus> list = new ArrayList<>();
+        for (Game game1 : gameArrayList) {
+            if (Objects.equals(game1.getGameStatus(), "Waiting for players")) {
+                list.add(new GameStatus(game1.getCurrentNumberOfPlayers(), game1.getNumberOfPlayers(), game1.getPlist()));
             }
+        }
+        if (list.size() != 0) {
             TextMessage text = new TextMessage("avlGames", gson.toJson(list));
             String json = gson.toJson(text, TextMessage.class);
             out.println(json);
         } else {
-            TextMessage text = new TextMessage("error", "No games available");
+            TextMessage text = new TextMessage("error","No games available");
             String json = gson.toJson(text, TextMessage.class);
             out.println(json);
         }
@@ -142,11 +147,11 @@ public class EchoServerClientHandler extends Thread {
         System.out.println("join game");
         try {
             game = gameArrayList.get(Integer.parseInt(command.value1));
-            TextMessage textMessage = new TextMessage("confirm", "You joined the game ");
+            TextMessage textMessage = new TextMessage("confirmation", "joinGame", "You joined the game");
             String json = gson.toJson(textMessage, TextMessage.class);
             out.println(json);
         } catch (Exception e) {
-            TextMessage textMessage = new TextMessage("errInvIndex", "Invalid index, please input a valid game index");
+            TextMessage textMessage = new TextMessage("error", "joinGame02", "Invalid index, please input a valid game index");
             String json = gson.toJson(textMessage, TextMessage.class);
             out.println(json);
         }
@@ -160,17 +165,17 @@ public class EchoServerClientHandler extends Thread {
                 player = game.getPlist().getPlayerByName(name);
                 player.setOut(out);
                 player.setSocket(socket);
-                player.sendToClient("msg", "Welcome " + player.getName());
+                player.sendToClient("confirmation", "login", "Welcome " + player.getName());
                 return;
             case 2:
                 out = new PrintWriter(socket.getOutputStream(), true);
-                TextMessage text = new TextMessage("error02", "Name already in use by another player, please select a unique username");
+                TextMessage text = new TextMessage("error", "login02", "Name already in use by another player, please select a unique username");
                 json = gson.toJson(text, TextMessage.class);
                 out.println(json);
                 return;
             case 1:
                 out = new PrintWriter(socket.getOutputStream(), true);
-                text = new TextMessage("error01", "Max number of players reached for this game");
+                text = new TextMessage("error", "login01", "Max number of players reached for this game");
                 json = gson.toJson(text, TextMessage.class);
                 out.println(json);
         }
@@ -182,11 +187,7 @@ public class EchoServerClientHandler extends Thread {
     public void chooseDeck(Command command) {
         String numDeck = command.value1;
         try {
-            if (game.chooseDeck(Integer.parseInt(numDeck), player) == 1) {
-                player.sendToClient("msg", "Deck " + numDeck + " chosen");
-            } else {
-                player.sendToClient("error", "Deck already chosen by another player");
-            }
+            game.chooseDeck(Integer.parseInt(numDeck), player);
         } catch (Exception e) {
             player.sendToClient("error", "Error choosing deck");
 
@@ -196,11 +197,15 @@ public class EchoServerClientHandler extends Thread {
     }
 
     public void sendAssistantDecks(Command command) {
-        player.sendToClient("msg", game.sendDeck());
+        player.sendToClient("assistantDecks", game.sendDeck());
     }
 
-    public void sendPlayers(Command command) {
-        player.sendToClient("player", game.sendPlayers());
+    public void sendPlayerInfo(Command command) {
+        player.sendToClient("player", game.sendPlayer(player));
+    }
+
+    public void sendAllPlayers(Command command) {
+        player.sendToClient("player", game.sendAllPlayers());
     }
 
     public void sendCharacterCardDeck(Command command) {
@@ -219,6 +224,9 @@ public class EchoServerClientHandler extends Thread {
         player.sendToClient("islands", game.sendIslands());
     }
 
+    private void sendHall(Command command) {
+        player.sendToClient("hall", game.sendHall(player));
+    }
 
     public void sendDashboard(Command command) {
         player.sendToClient("dashboard", game.sendDashboard());

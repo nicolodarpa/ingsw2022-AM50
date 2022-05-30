@@ -62,6 +62,7 @@ public class SelectionFormController implements Initializable {
         }
         System.out.println("start new game, #p :" + numberOfPlayers);
         ClientInput.getInstance().sendString("newGame", String.valueOf(numberOfPlayers));
+        TextMessage response = ClientInput.getInstance().readLine();
         setLoginPage(actionEvent);
     }
 

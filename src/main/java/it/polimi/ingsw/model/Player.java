@@ -170,6 +170,19 @@ public class Player {
         }
     }
 
+    public void sendToClient(String type,String context, Object message) {
+        try {
+            TextMessage text = new TextMessage(type, context,(String) message);
+            Gson gson = new Gson();
+            String json = gson.toJson(text, TextMessage.class);
+            getOut().println(json);
+        } catch (Exception e) {
+            System.out.println("No connection to client");
+        }
+    }
+
+
+
 
     public Deck getDeck() {
         return deck;

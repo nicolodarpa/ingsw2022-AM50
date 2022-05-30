@@ -2,6 +2,8 @@ package it.polimi.ingsw.client.view;
 
 
 import com.google.gson.Gson;
+import it.polimi.ingsw.client.ClientInput;
+import it.polimi.ingsw.client.LineClient;
 import it.polimi.ingsw.comunication.*;
 
 
@@ -9,8 +11,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Objects;
+
+import java.util.HashMap;
+import java.util.concurrent.CompletableFuture;
 
 public class ClientOut extends Thread {
     private static final String ANSI_RESET = "\u001B[0m";
@@ -28,48 +31,54 @@ public class ClientOut extends Thread {
 
     private final Socket socket;
 
+    private final HashMap<String, Commd> commandHashMap = new HashMap<>();
+
+    private ClientInput clientInput;
+
+    interface Commd {
+        void runCommand() throws IOException;
+
+    }
+
     public ClientOut(BufferedReader socketIn, Socket socket) {
         this.socketIn = socketIn;
         this.socket = socket;
+        commandHashMap.put("startGame", this::startGame);
+        commandHashMap.put("avlGames", this::printGames);
+        commandHashMap.put("assistantDecks", this::printAssistantDecks);
+        commandHashMap.put("msg", this::printMsg);
+        commandHashMap.put("error", this::manageError);
+        commandHashMap.put("confirmation", this::manageConfirmation);
+        commandHashMap.put("warning", this::printWarning);
+        commandHashMap.put("notify", this::printNotify);
+        commandHashMap.put("characterCards", this::printCharacterCards);
+        commandHashMap.put("islands", this::printIslands);
+        commandHashMap.put("dashboard", this::printDashboard);
+        commandHashMap.put("cloudCard", this::printCloudCard);
+        commandHashMap.put("hall", this::printHall);
+        commandHashMap.put("studentsRoom", this::printStudentsRoom);
+        commandHashMap.put("player", this::printPlayer);
+        commandHashMap.put("quit", this::quit);
+
+
     }
 
 
     @Override
     public void run() {
-        while (true) {
+        while (!socket.isClosed()) {
             String socketLine;
             try {
                 socketLine = socketIn.readLine();
                 if (socketLine != null) {
                     Gson gson = new Gson();
                     message = gson.fromJson(socketLine, TextMessage.class);
-                    if (Objects.equals(message.type, "msg")) {
-                        System.out.println(message.message);
-                    } else if (Objects.equals(message.type, "error")) {
-                        System.out.println(RED + message.message + ANSI_RESET);
-                    } else if (Objects.equals(message.type, "warning")) {
-                        System.out.println(YELLOW + message.message + ANSI_RESET);
-                    } else if (Objects.equals(message.type, "notify")) {
-                        System.out.println(GREEN + message.message + ANSI_RESET);
-                    } else if (Objects.equals(message.type, "characterCards")) {
-                        printCharacterCards();
-                    } else if (Objects.equals(message.type, "islands")) {
-                        printIslands();
-                    } else if (Objects.equals(message.type, "dashboard")) {
-                        printDashboard();
-                    } else if (Objects.equals(message.type, "cloudCard")) {
-                        printCloudCard();
-                    } else if (Objects.equals(message.type, "hall")) {
-                        printHall();
-                    } else if (Objects.equals(message.type, "studentsRoom")) {
-                        printStudentsRoom();
-                    } else if (Objects.equals(message.type, "player")) {
-                        printPlayer();
-                    } else if (Objects.equals(message.type, "quit")) {
-                        System.out.println(message.message);
-                        socket.close();
-                        break;
-                    } else System.out.println(message.message);
+                    try {
+                        commandHashMap.get(message.type).runCommand();
+                    } catch (Exception e) {
+                        System.out.println("Received " + message.type + "\n" + message.message);
+                    }
+
                 }
             } catch (IOException e) {
                 System.out.println("No connection to the server");
@@ -80,6 +89,93 @@ public class ClientOut extends Thread {
         }
 
     }
+
+    private void printGames() {
+        int i = 0;
+        GameStatus[] gameStatuses = gson.fromJson(message.message, GameStatus[].class);
+        for (GameStatus gameStatus : gameStatuses) {
+            System.out.println("-" + i + ": " + gameStatus.currentNumber + "/" + gameStatus.totalPlayers + " players: " + gameStatus.playersName);
+            i++;
+        }
+    }
+
+    private void printAssistantDecks() {
+        DeckStatus[] deckStatusArrayList = gson.fromJson(message.message, DeckStatus[].class);
+        for (DeckStatus deckStatus : deckStatusArrayList) {
+            System.out.println(deckStatus.id + "-" + deckStatus.color + ": " + deckStatus.playerName);
+        }
+    }
+
+    private void startGame() {
+        LineClient.clearConsole();
+        printNotify();
+    }
+
+    private void quit() throws IOException {
+        System.out.println(message.message);
+        socket.close();
+    }
+
+
+    private void printMsg() {
+        System.out.println(message.message);
+    }
+
+    private void manageError() {
+        System.out.println(RED + message.message + ANSI_RESET);
+        CompletableFuture.runAsync(() -> {
+            switch (message.context) {
+                case "chooseDeck" -> LineClient.chooseDeck();
+                case "joinGame01" -> LineClient.joinGame();
+                case "joinGame02", "login01" -> LineClient.initSetup();
+                case "login02" -> {
+                    try {
+                        LineClient.login();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+
+            }
+        });
+
+
+    }
+
+    private void manageConfirmation() throws IOException {
+        System.out.println(GREEN + message.message + ANSI_RESET);
+        CompletableFuture.runAsync(() -> {
+            switch (message.context) {
+                case "newGame", "joinGame" -> {
+                    try {
+                        LineClient.login();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                case "login" -> LineClient.chooseDeck();
+                case "chooseDeck" -> {
+                    try {
+                        LineClient.stdinScan();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+
+            }
+        });
+
+
+    }
+
+    private void printWarning() {
+        System.out.println(YELLOW + message.message + ANSI_RESET);
+    }
+
+    private void printNotify() {
+        System.out.println(GREEN + message.message + ANSI_RESET);
+    }
+
 
     private void draw(String color) {
         if (color == null) {
@@ -99,9 +195,7 @@ public class ClientOut extends Thread {
         StringBuilder mn = new StringBuilder();
         StringBuilder line = new StringBuilder();
         StringBuilder students = new StringBuilder();
-        int j = 0;
         for (IslandStatus islandStatus : statuses) {
-            j++;
             int space = Integer.parseInt(SPACE) + 2;
             line.append("--------------");
             if (islandStatus.presenceMN) {
@@ -191,12 +285,7 @@ public class ClientOut extends Thread {
     private void printPlayer() {
         PlayersStatus[] playersStatuses = gson.fromJson(message.message, PlayersStatus[].class);
         for (PlayersStatus playersStatus : playersStatuses) {
-            System.out.println("=====Player=====");
-            System.out.println("Name: " + playersStatus.name);
-            System.out.println("Order: " + playersStatus.order);
-            System.out.println("Moves of mother nature: " + playersStatus.movesOfMN);
-            System.out.println("Moves available: " + playersStatus.movesOfMN);
-            System.out.println("Has played: " + playersStatus.hasPlayed);
+            System.out.println(YELLOW + "-Username: " + playersStatus.name + "  -Moves MN: " + playersStatus.movesOfMN + ANSI_RESET);
         }
     }
 

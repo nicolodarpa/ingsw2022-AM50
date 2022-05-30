@@ -18,14 +18,15 @@ public class LineClient {
     private final static String ANSI_SECONDARY = "\u001B[32m";
     private static final String ANSI_RESET = "\u001B[0m";
 
-    private ClientInput clientInput;
+    private static ClientInput clientInput;
 
-    private BufferedReader socketIn;
+    private static BufferedReader socketIn;
 
-    private final Gson gson = new Gson();
-    private Scanner stdin;
+    private static final Gson gson = new Gson();
+    private static Scanner stdin;
     private final String ip;
     private final int port;
+    private static Socket socket;
 
 
     public LineClient(String ip, int port) {
@@ -36,7 +37,6 @@ public class LineClient {
 
     public void startClient() {
         System.out.println(ANSI_PRIMARY + "====Eriantys CLI Client====" + ANSI_RESET);
-        Socket socket;
         try {
             socket = new Socket(ip, port);
             System.out.println(ANSI_SECONDARY + "Connection established" + ANSI_RESET);
@@ -46,29 +46,8 @@ public class LineClient {
             ClientOut clientOut = new ClientOut(socketIn, socket);
             clientInput = ClientInput.getInstance();
             clientInput.setSocketOut(socketOut);
-            initSetup();
-            chooseDeck();
             clientOut.start();
-            while (!socket.isClosed()) {
-                String inputLine = stdin.nextLine();
-                switch (inputLine) {
-                    case "clear" -> clearConsole();
-                    case "play character card" -> playCharacterCard();
-                    case "play assistant card" -> playAssistantCard();
-                    case "move student to island" -> moveStudentToIsland();
-                    case "move student to classroom" -> moveStudentToClassroom();
-                    case "move mn" -> moveMN();
-                    case "choose cc" -> chooseCC();
-                    case "islands" -> clientInput.sendString("islands", "");
-                    case "dashboard" -> clientInput.sendString("dashboard", "");
-                    case "cloud cards" -> clientInput.sendString("sendCloudCards", "");
-                    case "player" -> clientInput.sendString("player", "");
-                    case "quit" -> clientInput.sendString("quit", "");
-                    default -> printCommands();
-
-                }
-
-            }
+            initSetup();
 
 
         } catch (Exception e) {
@@ -78,7 +57,7 @@ public class LineClient {
 
     }
 
-    private static void clearConsole() {
+    public static void clearConsole() {
         try {
             if (System.getProperty("os.name").contains("Windows")) {
                 new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
@@ -89,10 +68,37 @@ public class LineClient {
             System.out.println(ex);
         }
         System.out.println(ANSI_PRIMARY + "====Eriantys CLI Client====" + ANSI_RESET);
+        clientInput.sendString("player", "");
+
+
+    }
+
+    public static void stdinScan() throws IOException {
+        while (!socket.isClosed()) {
+            String inputLine = stdin.nextLine();
+            switch (inputLine) {
+                case "clear" -> clearConsole();
+                case "play character card" -> playCharacterCard();
+                case "play assistant card" -> playAssistantCard();
+                case "move student to island" -> moveStudentToIsland();
+                case "move student to classroom" -> moveStudentToClassroom();
+                case "move mn" -> moveMN();
+                case "choose cc" -> chooseCC();
+                case "islands" -> clientInput.sendString("islands", "");
+                case "dashboard" -> clientInput.sendString("dashboard", "");
+                case "cloud cards" -> clientInput.sendString("sendCloudCards", "");
+                case "player" -> clientInput.sendString("player", "");
+                case "quit" -> clientInput.sendString("quit", "");
+                case "help", "h" -> printCommands();
+                default -> clientInput.sendString(inputLine, "");
+
+            }
+
+        }
     }
 
 
-    private void printCommands() {
+    private static void printCommands() {
         System.out.println("""
                 Available commands:
                 -play character card
@@ -109,18 +115,8 @@ public class LineClient {
                 -clear""");
     }
 
-    private boolean checkTurn() {
-        return true;
-        /**
-         clientInput.sendString("checkTurn", "");
-         String response = socketIn.readLine();
-         TextMessage message = gson.fromJson(response, TextMessage.class);
-         return Objects.equals(message.type, "true");
-         **/
-    }
 
-
-    private void initSetup() throws IOException {
+    public static void initSetup() {
         System.out.println("0-New Game\n" +
                 "1-Join Game");
         while (true) {
@@ -134,10 +130,9 @@ public class LineClient {
             }
             System.out.println("Select\n0-New Game\n1-Join Game");
         }
-        login();
     }
 
-    private void newGame() {
+    public static void newGame() {
         System.out.println("Starting new Game\nHow many players?");
         String value = stdin.nextLine();
         if (!Objects.equals(value, "2") && !Objects.equals(value, "3")) {
@@ -146,59 +141,21 @@ public class LineClient {
         clientInput.sendString("newGame", value);
     }
 
-    private void joinGame() throws IOException {
-
+    public static void joinGame() {
         clientInput.sendString("avlGames", "");
-        String msg = socketIn.readLine();
-        TextMessage message = gson.fromJson(msg, TextMessage.class);
-        if (Objects.equals(message.type, "error")) {
-            System.out.println(message.message);
-            newGame();
-            return;
-        }
-        GameStatus[] gameStatuses = gson.fromJson(message.message, GameStatus[].class);
-        int i = 0;
-        for (GameStatus gameStatus : gameStatuses) {
-            System.out.println("-" + i + ": " + gameStatus.currentNumber + "/" + gameStatus.totalPlayers + " players: " + gameStatus.playersName);
-            i++;
-        }
         clientInput.sendString("joinGame", stdin.nextLine());
-        msg = socketIn.readLine();
-        message = gson.fromJson(msg, TextMessage.class);
-        if (Objects.equals(message.type, "errInvIndex")) {
-            System.out.println(message.message);
-            joinGame();
-        } else System.out.println(message.message);
 
     }
 
-    private void login() throws IOException {
+    public static void login() throws IOException {
         System.out.print("Login\nUsername: ");
         String username = stdin.nextLine();
         clientInput.sendString("login", username);
-        String response = socketIn.readLine();
-        TextMessage message = gson.fromJson(response, TextMessage.class);
-        if (Objects.equals(message.type, "error02")) { //name already in use
-            System.out.println(message.message);
-            login();
-            return;
-        } else if (Objects.equals(message.type, "error01")) { //max number of players reached
-            System.out.println(message.message);
-            initSetup();
-            return;
-        }
-        System.out.println(message.message);
     }
 
-    private void chooseDeck() throws IOException {
-        clientInput.sendString("sendAssistantDecks", "");
-        String response = socketIn.readLine();
-        TextMessage message = gson.fromJson(response, TextMessage.class);
-        DeckStatus[] deckStatusArrayList = gson.fromJson(message.message, DeckStatus[].class);
+    public static void chooseDeck() {
         System.out.println("Select your deck:");
-        for (DeckStatus deckStatus : deckStatusArrayList) {
-            System.out.println(deckStatus.id + "-" + deckStatus.color + ": " + deckStatus.playerName);
-        }
+        clientInput.sendString("sendAssistantDecks", "");
         String index = stdin.nextLine();
         while (!Objects.equals(index, "4") && !Objects.equals(index, "1") && !Objects.equals(index, "2") && !Objects.equals(index, "3")) {
             System.out.println("Please input a valid index");
@@ -206,17 +163,17 @@ public class LineClient {
         }
 
         clientInput.sendString("chooseDeck", index);
-        response = socketIn.readLine();
-        message = gson.fromJson(response, TextMessage.class);
-        if (Objects.equals(message.type, "error")) {
-            System.out.println(message.message);
-            chooseDeck();
-        } else System.out.println(message.message);
-
-
+        /**
+         response = socketIn.readLine();
+         message = gson.fromJson(response, TextMessage.class);
+         if (Objects.equals(message.type, "error")) {
+         System.out.println(message.message);
+         chooseDeck();
+         } else System.out.println(message.message);
+         **/
     }
 
-    private void playCharacterCard() {
+    private static void playCharacterCard() {
         System.out.println("Select character card to play");
         clientInput.sendString("sendCharacterCardDeck", "");
         String index;
@@ -242,71 +199,70 @@ public class LineClient {
         clientInput.sendString("playCharacterCard", index, index2);
     }
 
-    private void playAssistantCard() throws IOException {
-        if (checkTurn()) {
-            System.out.println("Select assistant card to play");
-            clientInput.sendString("sendAssistantCardDeck", "");
-            clientInput.sendString("playAssistantCard", stdin.nextLine());
-        } else System.out.println("Not your turn");
+    private static void playAssistantCard() {
+
+        System.out.println("Select assistant card to play");
+        clientInput.sendString("sendAssistantCardDeck", "");
+        clientInput.sendString("playAssistantCard", stdin.nextLine());
+
 
     }
 
-    private void moveStudentToIsland() throws IOException {
-        if (checkTurn()) {
-            System.out.println("Select student from hall");
-            String indexStudent = stdin.nextLine();
-            while (Integer.parseInt(indexStudent) > 7 || Integer.parseInt(indexStudent) < 1) {
-                System.out.println("Input a valid index");
-                indexStudent = stdin.nextLine();
-            }
+    private static void moveStudentToIsland() {
 
-            System.out.println("Select destination island");
-            String indexIsland = stdin.nextLine();
-            while (Integer.parseInt(indexIsland) > 12 || Integer.parseInt(indexIsland) < 1) {
-                System.out.println("Input a valid index");
-                indexIsland = stdin.nextLine();
-            }
+        String indexStudent = getStudentFromHall();
+        System.out.println("Select destination island");
+        String indexIsland = stdin.nextLine();
+        while (Integer.parseInt(indexIsland) > 12 || Integer.parseInt(indexIsland) < 1) {
+            System.out.println("Input a valid index");
+            indexIsland = stdin.nextLine();
+        }
 
-            clientInput.sendString("moveStudentToIsland", indexStudent, indexIsland);
-        } else System.out.println("Not your turn");
+        clientInput.sendString("moveStudentToIsland", indexStudent, indexIsland);
+
 
     }
 
-    private void moveStudentToClassroom() throws IOException {
-        if (checkTurn()) {
-            System.out.println("Select student from hall");
-            String indexStudent = stdin.nextLine();
-            while (Integer.parseInt(indexStudent) > 7 || Integer.parseInt(indexStudent) < 1) {
-                System.out.println("Input a valid index");
-                indexStudent = stdin.nextLine();
-            }
+    private static void moveStudentToClassroom() {
 
-            clientInput.sendString("moveStudentToClassroom", indexStudent);
-        } else System.out.println("Not your turn");
+        String indexStudent = getStudentFromHall();
+        clientInput.sendString("moveStudentToClassroom", indexStudent);
+
 
     }
 
-    private void moveMN() throws IOException {
-        if (checkTurn()) {
-            System.out.println("Select destination island");
-            String indexIsland = stdin.nextLine();
-            while (Integer.parseInt(indexIsland) > 12 || Integer.parseInt(indexIsland) < 1) {
-                System.out.println("Input a valid index");
-                indexIsland = stdin.nextLine();
-            }
+    private static String getStudentFromHall() {
+        System.out.println("Select student from hall");
+        clientInput.sendString("hall", "");
+        String indexStudent = stdin.nextLine();
+        while (Integer.parseInt(indexStudent) > 7 || Integer.parseInt(indexStudent) < 1) {
+            System.out.println("Input a valid index");
+            indexStudent = stdin.nextLine();
 
-            clientInput.sendString("moveMN", indexIsland);
-        } else System.out.println("Not your turn");
+        }
+        return indexStudent;
+    }
+
+    private static void moveMN() {
+
+        System.out.println("Select destination island");
+        String indexIsland = stdin.nextLine();
+        while (Integer.parseInt(indexIsland) > 12 || Integer.parseInt(indexIsland) < 1) {
+            System.out.println("Input a valid index");
+            indexIsland = stdin.nextLine();
+        }
+
+        clientInput.sendString("moveMN", indexIsland);
+
 
     }
 
-    private void chooseCC() throws IOException {
-        if (checkTurn()) {
-         clientInput.sendString("sendCloudCards", "");
-         System.out.println("Select Cloud Card");
-         String indexCC = stdin.nextLine();
-         clientInput.sendString("chooseCC", indexCC);
-         } else System.out.println("Not your turn");
+    private static void chooseCC() {
+        clientInput.sendString("sendCloudCards", "");
+        System.out.println("Select Cloud Card");
+        String indexCC = stdin.nextLine();
+        clientInput.sendString("chooseCC", indexCC);
+
 
     }
 }
