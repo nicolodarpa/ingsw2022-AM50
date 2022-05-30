@@ -82,6 +82,8 @@ public class DashboardController implements Initializable {
 
     private ArrayList<ArrayList> nameColor = new ArrayList<>();
     private EmbeddedWindow stage;
+    private final ClientInput clientInput = ClientInput.getInstance();
+    private final Gson gson = new Gson();
 
     public void setUpNameColor(){
         nameColor.add(greenPositions);
@@ -136,9 +138,7 @@ public class DashboardController implements Initializable {
         setUpTowers();
         setUpProfessor();
         setUpRectangle();
-        StudentsBag studentsBag = new StudentsBag();
-        studentsBag.fillBag(120);
-        setUpHallImages(studentsBag);
+        setDashboard();
         Tower tower = new Tower(TowerColor.grey);
         setUpTowerImages(tower);
         Teacher teacher = new Teacher(PawnColor.YELLOW);
@@ -235,9 +235,9 @@ public class DashboardController implements Initializable {
 
 
 
-    public void setUpHallImages(StudentsBag studentsBag){
-        for (int i=0; i<7; i++){
-            Student s =studentsBag.casualExtraction();
+    public void setUpHallImages(PawnColor[] hall){
+        for (PawnColor student: hall){
+            Student s = new Student(student);
             studentsHall.add(s);
         }
         for (Student student : studentsHall){
@@ -255,6 +255,18 @@ public class DashboardController implements Initializable {
             c.setFill(new ImagePattern(imgsColorPawn.get(i)));
             i++;
         }
+    }
+
+    private void setDashboard() {
+        clientInput.sendString("singleDashboard", "");
+        TextMessage response = clientInput.readLine();
+        while (!Objects.equals(response.type, "dashboard")) {
+            response = clientInput.readLine();
+        }
+        DashboardStatus dashboardStatus = gson.fromJson(response.message, DashboardStatus[].class)[0];
+        PawnColor[] hall = dashboardStatus.studentsHallColors;
+        setUpHallImages(hall);
+
     }
 
 
@@ -284,6 +296,7 @@ public class DashboardController implements Initializable {
        }
 
     }
+
 
     public void setHallNull(int positionOfTheHall){
         studentsPosition.get(positionOfTheHall).setFill(null);
