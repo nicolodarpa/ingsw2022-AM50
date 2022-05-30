@@ -2,6 +2,7 @@ package it.polimi.ingsw.model;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.PlayersList;
+import it.polimi.ingsw.client.ClientInput;
 import it.polimi.ingsw.comunication.*;
 import it.polimi.ingsw.model.CharacterCards.SpecialCard;
 
@@ -39,6 +40,8 @@ public class Game {
     private Player actualPlayer;
     private SpecialDeck specialDeck = new SpecialDeck();
     private static ArrayList<SpecialCard> cardsInGame = new ArrayList<>();
+
+    private ClientInput clientInput = ClientInput.getInstance();
 
 
 
@@ -167,6 +170,7 @@ public class Game {
         extractSpecialCard();
         this.round = 1;
         System.out.println("Setup complete");
+
 
 
     }
@@ -427,10 +431,10 @@ public class Game {
     /**
      * switches the teacher of the actual player when another player has more students of the teacher's color than the actual player
      */
-    private void switchTeacher(Dashboard previousOwner, Dashboard newOwner, int i) {
-        newOwner.addTeacherToTable(teachers[i]);
-        if (previousOwner.getTeacherTable()[i] != null) {
-            previousOwner.removeTeacherFromTable(teachers[i]);
+    private void switchTeacher(Dashboard previousOwner, Dashboard newOwner, int indexOfTeacher) {
+        newOwner.addTeacherToTable(teachers[indexOfTeacher]);
+        if (previousOwner.getTeacherTable()[indexOfTeacher] != null) {
+            previousOwner.removeTeacherFromTable(indexOfTeacher);
         }
     }
 
@@ -518,7 +522,6 @@ public class Game {
             }
         }
         setActualPlayer();
-
     }
 
     public Player getActualPlayer() {
@@ -616,11 +619,8 @@ public class Game {
         if (checkLastPlayedAssistant(cardNumber)) {
             player.sendToClient("error", "Assistant card already played by another player");
             for (AssistantCard assistantCard : player.getDeck().getCardsList()) {
-                if (!checkLastPlayedAssistant(assistantCard.order())) {
-                    player.sendToClient("warning", assistantCard.order() + ") order: " + assistantCard.order() + " and #" + assistantCard.movesOfMN() + " moves of MN available");
+                if (!checkLastPlayedAssistant(assistantCard.order()))
                     check = true;
-                }
-
             }
             if (!check) {
                 player.playAssistantCard(cardNumber);
@@ -630,7 +630,7 @@ public class Game {
         }
         player.playAssistantCard(cardNumber);
         setActualPlayer();
-        if (player.deckSize()) {
+        if (player.deckSize()) { //return 1 if the player has finished his cards
             plist.notifyAllClients("notify", "the game has finished");
             calculateWinner();
         }

@@ -5,12 +5,14 @@ import it.polimi.ingsw.model.Player;
 
 public class GameStatus {
 
+    public int gameId;
     public int currentNumber;
     public int totalPlayers;
 
     public StringBuilder playersName= new StringBuilder("");
 
-    public GameStatus(int currentNumber, int totalPlayers, PlayersList playersList){
+    public GameStatus(int gameId, int currentNumber, int totalPlayers, PlayersList playersList){
+        this.gameId = gameId;
         this.currentNumber = currentNumber;
         this.totalPlayers = totalPlayers;
         for (Player player: playersList.getPlayers()){

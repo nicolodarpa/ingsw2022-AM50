@@ -215,9 +215,8 @@ public class Dashboard {
 
     }
 
-    public void removeTeacherFromTable(Teacher teacher) {
-        PawnColor color = teacher.getColor();
-        teacherTable[color.ordinal()] = null;
+    public void removeTeacherFromTable(int indexOfTeacher) {
+        teacherTable[indexOfTeacher] = null;
     }
 
 

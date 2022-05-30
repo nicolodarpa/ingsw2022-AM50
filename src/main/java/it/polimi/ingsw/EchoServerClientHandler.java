@@ -111,7 +111,6 @@ public class EchoServerClientHandler extends Thread {
             out.println(json);
             return false;
         }
-
     }
 
     public void newGame(Command command) {
@@ -127,10 +126,12 @@ public class EchoServerClientHandler extends Thread {
     public void avlGames(Command command) {
 
         ArrayList<GameStatus> list = new ArrayList<>();
+        int gameId = 0;
         for (Game game1 : gameArrayList) {
             if (Objects.equals(game1.getGameStatus(), "Waiting for players")) {
-                list.add(new GameStatus(game1.getCurrentNumberOfPlayers(), game1.getNumberOfPlayers(), game1.getPlist()));
+                list.add(new GameStatus(gameId, game1.getCurrentNumberOfPlayers(), game1.getNumberOfPlayers(), game1.getPlist()));
             }
+            gameId ++;
         }
         if (list.size() != 0) {
             TextMessage text = new TextMessage("avlGames", gson.toJson(list));
@@ -298,7 +299,6 @@ public class EchoServerClientHandler extends Thread {
                 player.sendToClient("islands", game.sendIslands());
             } else {
                 errorSelectionNotify();
-
             }
         }
         //player.sendToClient("msg", "select student from hall to move to an island:");
