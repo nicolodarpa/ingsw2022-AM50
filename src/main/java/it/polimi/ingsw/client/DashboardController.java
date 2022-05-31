@@ -3,12 +3,12 @@ package it.polimi.ingsw.client;
 import com.google.gson.Gson;
 import com.sun.javafx.stage.EmbeddedWindow;
 import it.polimi.ingsw.comunication.DashboardStatus;
+import it.polimi.ingsw.comunication.GameStatus;
 import it.polimi.ingsw.comunication.PlayersStatus;
 import it.polimi.ingsw.comunication.TextMessage;
 import it.polimi.ingsw.model.Student;
 import it.polimi.ingsw.model.*;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -25,7 +25,6 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.stage.Window;
-import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.net.URL;
@@ -40,9 +39,9 @@ public class DashboardController implements Initializable {
     @FXML
     private Label movesAvailableCounter, roundCounter, order, movesOfMn, Username;
 
-    private Student[] students = new Student[7];
+    private Student[] students = new Student[9];
     @FXML
-    private Circle studentPosition1, studentPosition2, studentPosition3, studentPosition4, studentPosition5, studentPosition6, studentPosition7;
+    private Circle studentPosition1, studentPosition2, studentPosition3, studentPosition4, studentPosition5, studentPosition6, studentPosition7, studentPosition8,studentPosition9;
     @FXML
     private ImageView towerPosition1, towerPosition2, towerPosition3, towerPosition4, towerPosition5, towerPosition6, towerPosition7, towerPosition8;
     @FXML
@@ -67,17 +66,20 @@ public class DashboardController implements Initializable {
 
 
     private ArrayList<Circle> studentsPosition = new ArrayList<>(9);
-    private ArrayList<Image> imgsColorPawn = new ArrayList<>(7);
-    private ArrayList<String> colorPawn= new ArrayList<>(7);
-    private ArrayList<Student> studentsHall= new ArrayList<>(7);
+    private ArrayList<Image> imgsColorPawn = new ArrayList<>(9);
+    private ArrayList<String> colorPawn= new ArrayList<>(9);
+    private ArrayList<Student> studentsHall= new ArrayList<>(9);
 
     private ArrayList<ImageView> towerPosition = new ArrayList<>(8);
+
 
     private ArrayList<Circle> professorsPosition = new ArrayList<>(5);
 
     private ArrayList<Circle> greenPositions = new ArrayList<>(), redPositions = new ArrayList<>(), yellowPositions = new ArrayList<>(), magentaPositions = new ArrayList<>(), cyanPositions = new ArrayList<>();
 
-    private Boolean [][] classroomFilled = new Boolean[5][10];
+    private final int numberOfPositionClassroom = 10;
+
+    private Boolean [][] classroomFilled = new Boolean[PawnColor.numberOfColors][numberOfPositionClassroom];
 
 
     private ArrayList<ArrayList> nameColor = new ArrayList<>();
@@ -133,16 +135,14 @@ public class DashboardController implements Initializable {
         roundCounter.setText(String.valueOf(1)); //set the round at the beginning of a new match
         setUpClassroomFilled();
         setUpNameColor();
-        setUpHall();
         setUpClassroom();
-        setUpTowers();
         setUpProfessor();
         setUpRectangle();
         setDashboard();
-        Tower tower = new Tower(TowerColor.grey);
-        setUpTowerImages(tower);
+
+
         Teacher teacher = new Teacher(PawnColor.YELLOW);
-        setUpProfessor(teacher);
+        setUpProfessorImages(teacher);
     }
     public void setUpRectangle(){
         classRoom.setDisable(true);
@@ -154,15 +154,27 @@ public class DashboardController implements Initializable {
 
 
 
-    public void setUpTowerImages(Tower tower){
-        String color = tower.getColor().getName();
+    public void setUpTowerImages( DashboardStatus dashboard){
+        towerPosition.add(towerPosition1);
+        towerPosition.add(towerPosition2);
+        towerPosition.add(towerPosition3);
+        towerPosition.add(towerPosition4);
+        towerPosition.add(towerPosition5);
+        towerPosition.add(towerPosition6);
+        if (dashboard.studentsHall.length < 7){
+            towerPosition.add(towerPosition7);
+            towerPosition.add(towerPosition8);
+        }
+        String color = dashboard.towerColor.getName();
+
         Image imgTower = new Image(String.valueOf(getClass().getClassLoader().getResource("images/Tower/"+color+"_tower.png")));
         for(ImageView tow: towerPosition){
             tow.setImage(imgTower);
         }
+
     }
 
-    public void setUpHall (){
+    public void setUpHall (DashboardStatus dashboard){
         studentsPosition.add(studentPosition1);
         studentsPosition.add(studentPosition2);
         studentsPosition.add(studentPosition3);
@@ -170,20 +182,14 @@ public class DashboardController implements Initializable {
         studentsPosition.add(studentPosition5);
         studentsPosition.add(studentPosition6);
         studentsPosition.add(studentPosition7);
-    }
-
-    public void setUpTowers(){
-        towerPosition.add(towerPosition1);
-        towerPosition.add(towerPosition2);
-        towerPosition.add(towerPosition3);
-        towerPosition.add(towerPosition4);
-        towerPosition.add(towerPosition5);
-        towerPosition.add(towerPosition6);
-        towerPosition.add(towerPosition7);
-        towerPosition.add(towerPosition8);
+        if (dashboard.studentsHall.length > 7){
+            studentsPosition.add(studentPosition8);
+            studentsPosition.add(studentPosition9);
+        }
     }
 
     public void setUpProfessor(){
+
         professorsPosition.add(professorPosition1);
         professorsPosition.add(professorPosition2);
         professorsPosition.add(professorPosition3);
@@ -225,7 +231,7 @@ public class DashboardController implements Initializable {
         setTransparentCircle(colorPositions);
     }
 
-    public void setUpProfessor(Teacher teacher){
+    public void setUpProfessorImages(Teacher teacher){
         for (Circle c: professorsPosition){
             c.setStroke(null);
             c.setFill(null);
@@ -265,8 +271,9 @@ public class DashboardController implements Initializable {
         }
         DashboardStatus dashboardStatus = gson.fromJson(response.message, DashboardStatus[].class)[0];
         PawnColor[] hall = dashboardStatus.studentsHallColors;
+        setUpHall(dashboardStatus);
         setUpHallImages(hall);
-
+        setUpTowerImages(dashboardStatus);
     }
 
 
@@ -312,7 +319,7 @@ public class DashboardController implements Initializable {
         Window window = ((Node) event.getSource()).getScene().getWindow();
         String idStudentPosition = event.getPickResult().getIntersectedNode().getId();
         int positionHall = 0;
-        for (int positionClicked = 0; positionClicked < 7 ; positionClicked++){
+        for (int positionClicked = 0; positionClicked < studentsPosition.size() ; positionClicked++){
             if (Objects.equals(idStudentPosition, studentsPosition.get(positionClicked).getId()))
                 positionHall = positionClicked;
                 ClientInput.getInstance().sendString("moveStudentToClassroom", String.valueOf(positionHall+1));

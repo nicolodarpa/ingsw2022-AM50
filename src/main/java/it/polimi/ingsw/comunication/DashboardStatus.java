@@ -1,9 +1,6 @@
 package it.polimi.ingsw.comunication;
 
-import it.polimi.ingsw.model.Dashboard;
-import it.polimi.ingsw.model.PawnColor;
-import it.polimi.ingsw.model.Student;
-import it.polimi.ingsw.model.Teacher;
+import it.polimi.ingsw.model.*;
 
 public class DashboardStatus {
 
@@ -14,12 +11,14 @@ public class DashboardStatus {
 
     public String[] teacherTable = new String[5];
     public int towers;
+    public TowerColor towerColor = null;
 
 
     public DashboardStatus(String nameOwner, Dashboard dashboard) {
         this.nameOwner = nameOwner;
         Student[][] classroom = dashboard.getClassroom();
         Student[] hall = dashboard.getHall();
+        towerColor=dashboard.getTowers().get(0).getColor();
         studentsHall = new String[hall.length];
         studentsHallColors = new PawnColor[hall.length];
         Teacher[] teachers = dashboard.getTeacherTable();

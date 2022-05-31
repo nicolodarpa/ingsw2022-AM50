@@ -59,44 +59,28 @@
       <Circle fx:id="studentPosition8" fill="#1f93ff00" layoutX="78.0" layoutY="271.0" radius="10.0" stroke="#e5e5e500" strokeType="INSIDE" />
       <Circle fx:id="studentPosition9" fill="#1f93ff00" layoutX="108.0" layoutY="271.0" radius="10.0" stroke="#e5e5e500" strokeType="INSIDE" />
       <ImageView fx:id="towerPosition1" fitHeight="50.0" fitWidth="28.0" layoutX="455.0" layoutY="110.0">
-         <image>
-            <Image url="@../../../../images/Tower/black_tower.png" />
-         </image>
+
       </ImageView>
       <ImageView fx:id="towerPosition2" fitHeight="50.0" fitWidth="28.0" layoutX="493.0" layoutY="110.0">
-         <image>
-            <Image url="@../../../../images/Tower/black_tower.png" />
-         </image>
+
       </ImageView>
       <ImageView fx:id="towerPosition3" fitHeight="50.0" fitWidth="28.0" layoutX="455.0" layoutY="150.0">
-         <image>
-            <Image url="@../../../../images/Tower/black_tower.png" />
-         </image>
+
       </ImageView>
       <ImageView fx:id="towerPosition4" fitHeight="50.0" fitWidth="28.0" layoutX="493.0" layoutY="150.0">
-         <image>
-            <Image url="@../../../../images/Tower/black_tower.png" />
-         </image>
+
       </ImageView>
       <ImageView fx:id="towerPosition5" fitHeight="50.0" fitWidth="28.0" layoutX="455.0" layoutY="184.0">
-         <image>
-            <Image url="@../../../../images/Tower/black_tower.png" />
-         </image>
+
       </ImageView>
       <ImageView fx:id="towerPosition6" fitHeight="50.0" fitWidth="28.0" layoutX="493.0" layoutY="184.0">
-         <image>
-            <Image url="@../../../../images/Tower/black_tower.png" />
-         </image>
+
       </ImageView>
       <ImageView fx:id="towerPosition7" fitHeight="50.0" fitWidth="28.0" layoutX="455.0" layoutY="219.0">
-         <image>
-            <Image url="@../../../../images/Tower/black_tower.png" />
-         </image>
+
       </ImageView>
       <ImageView fx:id="towerPosition8" fitHeight="50.0" fitWidth="28.0" layoutX="493.0" layoutY="219.0">
-         <image>
-            <Image url="@../../../../images/Tower/black_tower.png" />
-         </image>
+
       </ImageView>
       <Circle fx:id="professorPosition1" fill="DODGERBLUE" layoutX="414.0" layoutY="131.0" radius="15.0" stroke="BLACK" strokeType="INSIDE" />
       <Circle fx:id="professorPosition2" fill="DODGERBLUE" layoutX="414.0" layoutY="165.0" radius="15.0" stroke="BLACK" strokeType="INSIDE" />
