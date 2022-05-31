@@ -1,7 +1,6 @@
 package it.polimi.ingsw.client;
 
 import com.google.gson.Gson;
-import com.sun.javafx.stage.EmbeddedWindow;
 import it.polimi.ingsw.client.view.ClientOut;
 import it.polimi.ingsw.comunication.DashboardStatus;
 import it.polimi.ingsw.comunication.TextMessage;
@@ -28,7 +27,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import org.jetbrains.annotations.NotNull;
-import org.w3c.dom.Text;
+
 
 import java.io.IOException;
 import java.net.URL;
@@ -45,7 +44,6 @@ public class DashboardController implements Initializable, DisplayLabel {
     @FXML
     private Label movesAvailableCounter, order, movesOfMn, username;
 
-    private Student[] students = new Student[9];
     @FXML
     private Circle studentPosition1, studentPosition2, studentPosition3, studentPosition4, studentPosition5, studentPosition6, studentPosition7, studentPosition8, studentPosition9;
     @FXML
@@ -85,7 +83,7 @@ public class DashboardController implements Initializable, DisplayLabel {
 
 
     private ArrayList<ArrayList<Circle>> nameColor = new ArrayList<>();
-    private EmbeddedWindow stage;
+
     private final ClientInput clientInput = ClientInput.getInstance();
     private final Gson gson = new Gson();
 
@@ -146,7 +144,6 @@ public class DashboardController implements Initializable, DisplayLabel {
         commandHashMap.put("warning", this::printWarning);
         commandHashMap.put("notify", this::printNotify);
         commandHashMap.put("dashboard", this::setDashboard);
-        //roundCounter.setText(String.valueOf(1)); //set the round at the beginning of a new match
         setUpClassroomFilled();
         setUpNameColor();
         setUpClassroom();
@@ -258,6 +255,8 @@ public class DashboardController implements Initializable, DisplayLabel {
         setUpColorPosition(cyanPositions, cyanPosition1, cyanPosition2, cyanPosition3, cyanPosition4, cyanPosition5, cyanPosition6, cyanPosition7, cyanPosition8, cyanPosition9, cyanPosition10);
         setUpColorPosition(redPositions, redPosition1, redPosition2, redPosition3, redPosition4, redPosition5, redPosition6, redPosition7, redPosition8, redPosition9, redPosition10);
     }
+
+
 
     /**
      * set to transparent the background of the position of the students in the classroom
@@ -380,15 +379,8 @@ public class DashboardController implements Initializable, DisplayLabel {
     }
 
 
-    public void setHallNull(int positionOfTheHall) {
-        studentsPosition.get(positionOfTheHall).setFill(null);
-        colorPawn.set(positionOfTheHall, null);
-        classRoom.setDisable(true);
-    }
 
-    public void setImages(ArrayList<Circle> colorPositions, int position, int positionHall) {
-        colorPositions.get(position).setFill(new ImagePattern(new Image(String.valueOf(getClass().getClassLoader().getResource("images/Pawn/" + colorPawn.get(positionHall) + "_student.png")))));
-    }
+
 
 
     public void moveStudentToIsland(ActionEvent actionEvent) throws IOException {
