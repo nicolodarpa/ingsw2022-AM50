@@ -161,7 +161,7 @@ public class DashboardController implements Initializable {
         towerPosition.add(towerPosition4);
         towerPosition.add(towerPosition5);
         towerPosition.add(towerPosition6);
-        if (dashboard.studentsHall.length < 7){
+        if (dashboard.towers > 7){
             towerPosition.add(towerPosition7);
             towerPosition.add(towerPosition8);
         }
