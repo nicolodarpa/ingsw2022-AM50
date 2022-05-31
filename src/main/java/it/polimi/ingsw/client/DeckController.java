@@ -78,7 +78,7 @@ public class DeckController implements Initializable, DisplayLabel {
     @FXML
     public void alertChosenDeck(ActionEvent actionEvent) throws IOException {
         Window window = ((Node) actionEvent.getSource()).getScene().getWindow();
-        while(true){
+        do{
             TextMessage message = ClientInput.getInstance().readLine();
             if(!Objects.equals(message, null))
                 if (Objects.equals(message.type, "notify")) {
@@ -89,7 +89,7 @@ public class DeckController implements Initializable, DisplayLabel {
                     AlertHelper.showAlert(Alert.AlertType.WARNING, window, "Invalid Deck", message.message);
                     break;
                 }
-        }
+        }while(true);
     }
 
 
