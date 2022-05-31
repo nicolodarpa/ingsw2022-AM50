@@ -327,10 +327,10 @@ public class EchoServerClientHandler extends Thread {
 
     public void moveStudentToClassroom(Command command) {
         if (checkTurn() && game.getPhase() == 1) {
-            player.sendToClient("msg", "select student from hall to move to a classroom:");
+            //player.sendToClient("msg", "select student from hall to move to a classroom:");
             int numPlayer = Integer.parseInt(command.value1);
             if (player.moveStudentToClassroom(numPlayer - 1, game)) {
-                player.sendToClient("dashboard", game.sendDashboard());
+               sendSingleDashboard(command);
             } else {
                 errorSelectionNotify();
             }

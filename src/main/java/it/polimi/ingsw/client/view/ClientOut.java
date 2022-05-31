@@ -35,7 +35,7 @@ public class ClientOut extends Thread {
 
     private ClientInput clientInput;
 
-    interface Commd {
+    public interface Commd {
         void runCommand() throws IOException;
 
     }
