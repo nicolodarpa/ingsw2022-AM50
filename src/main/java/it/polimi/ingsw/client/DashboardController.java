@@ -3,6 +3,7 @@ package it.polimi.ingsw.client;
 import com.google.gson.Gson;
 import it.polimi.ingsw.client.view.ClientOut;
 import it.polimi.ingsw.comunication.DashboardStatus;
+import it.polimi.ingsw.comunication.PlayersStatus;
 import it.polimi.ingsw.comunication.TextMessage;
 import it.polimi.ingsw.model.Student;
 import it.polimi.ingsw.model.*;
@@ -39,10 +40,10 @@ public class DashboardController implements Initializable, DisplayLabel {
     public Button characterCard;
     public Button moveToIsland;
     public Pane anchor;
-    private Counter movesAvailable = new Counter();
-
     @FXML
-    private Label movesAvailableCounter, order, movesOfMn, username;
+    private Label movesAvailableCounter,movesOfMn, username;
+
+    private Counter movesOfStudents = new Counter();
 
     @FXML
     private Circle studentPosition1, studentPosition2, studentPosition3, studentPosition4, studentPosition5, studentPosition6, studentPosition7, studentPosition8, studentPosition9;
@@ -97,18 +98,6 @@ public class DashboardController implements Initializable, DisplayLabel {
         DisplayLabel.super.displayLabel(text, label, textLabel);
     }
 
-    public Label getMovesOfMnLabel() {
-        return movesOfMn;
-    }
-
-    public Label getOrderLabel() {
-        return order;
-    }
-
-    public Label getUsernameLabel() {
-        return username;
-    }
-
     public void setUpNameColor() {
         nameColor.add(greenPositions);
         nameColor.add(redPositions);
@@ -143,8 +132,10 @@ public class DashboardController implements Initializable, DisplayLabel {
         commandHashMap.put("confirmation", this::manageConfirmation);
         commandHashMap.put("warning", this::printWarning);
         commandHashMap.put("notify", this::printNotify);
+        commandHashMap.put("msg", this::printMessage);
         commandHashMap.put("dashboard", this::setDashboard);
-        //roundCounter.setText(String.valueOf(1)); //set the round at the beginning of a new match
+        commandHashMap.put("player",this::setUpPlayerInfo);
+        commandHashMap.put("quit", this::quit);
         setUpClassroomFilled();
         setUpNameColor();
         setUpClassroom();
@@ -159,7 +150,7 @@ public class DashboardController implements Initializable, DisplayLabel {
                             @Override
                             public void run() {
                                 try {
-                                    commandHashMap.get(message.type).runCommand();
+                                     commandHashMap.get(message.type).runCommand();
                                 } catch (IOException e) {
                                     throw new RuntimeException(e);
                                 }
@@ -178,6 +169,7 @@ public class DashboardController implements Initializable, DisplayLabel {
         });
         readThread.start();
         clientInput.sendString("singleDashboard", "");
+        clientInput.sendString("player","");
 
     }
 
@@ -197,9 +189,12 @@ public class DashboardController implements Initializable, DisplayLabel {
         AlertHelper.showAlert(Alert.AlertType.WARNING, classRoom.getScene().getWindow(), "Warning", message.message);
     }
 
+    private void printMessage() {
+        AlertHelper.showAlert(Alert.AlertType.INFORMATION, classRoom.getScene().getWindow(), "Message", message.message);
+    }
 
-    public void setOrder(int orderOfPlayer) {
-        order.setText(String.valueOf(orderOfPlayer));
+    private void quit(){
+        AlertHelper.showAlert(Alert.AlertType.INFORMATION, classRoom.getScene().getWindow(), "Quit", message.message);
     }
 
 
@@ -324,13 +319,21 @@ public class DashboardController implements Initializable, DisplayLabel {
         }
         DashboardStatus dashboardStatus = gson.fromJson(message.message, DashboardStatus[].class)[0];
         String[] hall = dashboardStatus.studentsHallColors;
-        String[][] classrroom = dashboardStatus.studentsClassroom;
+        String[][] classroom = dashboardStatus.studentsClassroom;
         String[] teachers = dashboardStatus.teacherTable;
         setUpHall(dashboardStatus);
         setUpHallImages(hall);
-        printClassroom(classrroom);
+        printClassroom(classroom);
         setUpProfessorImages(teachers);
         setUpTowerImages(dashboardStatus);
+    }
+
+    public void setUpPlayerInfo() {
+        PlayersStatus player = gson.fromJson(message.message, PlayersStatus[].class)[0];
+        displayLabel("Username", username, player.getName());
+        displayLabel("Moves of MN", movesOfMn, String.valueOf(player.getMovesOfMN()));
+        movesOfStudents.setCounter(player.getMovesOfStudents());
+        displayLabel("Moves of students", movesAvailableCounter, String.valueOf(movesOfStudents.getCounter()));
     }
 
 
@@ -343,12 +346,11 @@ public class DashboardController implements Initializable, DisplayLabel {
 
     @FXML
     private void moveStudentToClassroom(MouseEvent mouseEvent) {
-        if (movesAvailable.getCounter() > 0) {
+        if (movesOfStudents.getCounter() > 0) {
             if (index != -1) {
                 moveToClassroom(mouseEvent);
-                this.movesAvailable.decrement();
-                movesAvailableCounter.setText(movesAvailable.toString());
-
+                this.movesOfStudents.decrement();
+                displayLabel("Moves of students", movesAvailableCounter, movesOfStudents.toString());
             }
 
         } else {
@@ -366,10 +368,10 @@ public class DashboardController implements Initializable, DisplayLabel {
 
 
     public void moveStudentToIsland(ActionEvent actionEvent) throws IOException {
-        if (movesAvailable.getCounter() > 0) {
-            this.movesAvailable.decrement();
-            movesAvailableCounter.setText(movesAvailable.toString());
+        if (movesOfStudents.getCounter() > 0) {
             setTable(actionEvent);
+            this.movesOfStudents.decrement();
+            displayLabel("Moves of students", movesAvailableCounter, movesOfStudents.toString());
         } else {
             alertFinishedTurn(actionEvent); //show an alert when you finish the moves
             setWaiting(actionEvent);

@@ -41,6 +41,5 @@
    <Label fx:id="deck2Owner" layoutX="211.0" layoutY="289.0" text="Label" />
    <Label fx:id="deck3Owner" layoutX="362.0" layoutY="289.0" text="Label" />
    <Label fx:id="deck4Owner" layoutX="505.0" layoutY="289.0" text="Label" />
-   <Label fx:id="usernameLabel" layoutX="22.0" layoutY="22.0" text="Username:" />
 
 </Pane>

@@ -11,6 +11,27 @@ public class PlayersStatus {
     public int order;
     public int movesOfMN;
     public int movesOfStudents;
+
+    public String getName() {
+        return name;
+    }
+
+    public int getOrder() {
+        return order;
+    }
+
+    public int getMovesOfMN() {
+        return movesOfMN;
+    }
+
+    public int getMovesOfStudents() {
+        return movesOfStudents;
+    }
+
+    public boolean isHasPlayed() {
+        return hasPlayed;
+    }
+
     public boolean hasPlayed;
 
     public PlayersStatus(Player player) {
@@ -20,4 +41,6 @@ public class PlayersStatus {
         this.movesOfStudents = player.getMovesOfStudents();
         this.hasPlayed = player.getHasPlayed();
     }
+
+
 }

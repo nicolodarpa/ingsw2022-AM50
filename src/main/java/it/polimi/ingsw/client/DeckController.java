@@ -28,8 +28,6 @@ import java.util.ResourceBundle;
 public class DeckController implements Initializable, DisplayLabel {
 
     @FXML
-    private Label usernameLabel;
-    @FXML
     protected Label deck1Owner;
     @FXML
     protected Label deck2Owner;
@@ -38,7 +36,6 @@ public class DeckController implements Initializable, DisplayLabel {
     @FXML
     protected Label deck4Owner;
 
-    private String username;
 
 
 
@@ -54,21 +51,9 @@ public class DeckController implements Initializable, DisplayLabel {
         deck4Owner.setText(deckStatusArrayList[3].playerName);
     }
 
-    @Override
-    public void displayLabel(@NotNull String text, Label label, String textLabel) {
-        DisplayLabel.super.displayLabel(text, label, textLabel);
-        this.username = textLabel;
-    }
-
-    public Label getUsernameLabel(){
-        return usernameLabel;
-    }
-
     public void setPhasePage(ActionEvent actionEvent) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("assistantCard.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
-        AssistantCardController assistantCardController = fxmlLoader.getController();
-        assistantCardController.displayLabel("Username", assistantCardController.getUsernameLabel(), username);
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         stage.setScene(scene);
         stage.show();

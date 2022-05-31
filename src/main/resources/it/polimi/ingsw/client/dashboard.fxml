@@ -18,22 +18,12 @@
          </image>
       </ImageView>
       <Button fx:id="moveToIsland" layoutX="254.0" layoutY="335.0" mnemonicParsing="false" onAction="#setTable" text="move student to island" />
-      <Label layoutX="870.0" layoutY="37.0" text="Moves available: ">
-         <font>
-            <Font size="16.0" />
-         </font>
-      </Label>
-      <Label fx:id="movesAvailableCounter" layoutX="986.0" layoutY="37.0" text="3">
+      <Label fx:id="movesAvailableCounter" layoutX="870.0" layoutY="37.0" text="Moves available: ">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
       <Label layoutX="39.0" layoutY="37.0" text="Round #: ">
-         <font>
-            <Font size="16.0" />
-         </font>
-      </Label>
-      <Label fx:id="order" layoutX="317.0" layoutY="40.0" text="Order: ">
          <font>
             <Font size="16.0" />
          </font>

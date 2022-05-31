@@ -10,6 +10,10 @@ public class Counter {
         this.counter = 3;
     }
 
+    public void setCounter(int counter) {
+        this.counter = counter;
+    }
+
     public void decrement(){
         this.counter --;
     }
