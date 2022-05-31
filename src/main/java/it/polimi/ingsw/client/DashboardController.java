@@ -67,6 +67,7 @@ public class DashboardController implements Initializable, DisplayLabel {
     @FXML
     private Rectangle classRoom;
 
+    private int index = -1;
 
     private ArrayList<Circle> studentsPosition = new ArrayList<>(9);
     private ArrayList<Image> imgsColorPawn = new ArrayList<>(9);
@@ -85,11 +86,12 @@ public class DashboardController implements Initializable, DisplayLabel {
     private Boolean[][] classroomFilled = new Boolean[PawnColor.numberOfColors][numberOfPositionClassroom];
 
 
-    private ArrayList<ArrayList> nameColor = new ArrayList<>();
+    private ArrayList<ArrayList<Circle>> nameColor = new ArrayList<>();
     private EmbeddedWindow stage;
     private final ClientInput clientInput = ClientInput.getInstance();
     private final Gson gson = new Gson();
 
+    private static final String[] colors = {"green", "red", "yellow", "magenta", "cyan"};
     private TextMessage message;
 
     private final HashMap<String, ClientOut.Commd> commandHashMap = new HashMap<>();
@@ -237,10 +239,9 @@ public class DashboardController implements Initializable, DisplayLabel {
         studentsPosition.add(studentPosition5);
         studentsPosition.add(studentPosition6);
         studentsPosition.add(studentPosition7);
-        if (dashboard.studentsHall.length > 7) {
-            studentsPosition.add(studentPosition8);
-            studentsPosition.add(studentPosition9);
-        }
+        studentsPosition.add(studentPosition8);
+        studentsPosition.add(studentPosition9);
+
     }
 
     public void setUpProfessorPositions() {
@@ -286,34 +287,41 @@ public class DashboardController implements Initializable, DisplayLabel {
         setTransparentCircle(colorPositions);
     }
 
-    public void setUpProfessorImages(Teacher teacher) {
-        for (Circle c : professorsPosition) {
-            c.setStroke(null);
-            c.setFill(null);
+    public void setUpProfessorImages(String[] teachers) {
+        int i = 0;
+        for (String teacher : teachers) {
+            if (teacher != null) {
+                professorsPosition.get(i).setFill(new ImagePattern(new Image(String.valueOf(getClass().getClassLoader().getResource("images/Pawn/" + colors[i] + "_professor.png")))));
+            } else professorsPosition.get(i).setFill(null);
+            i++;
         }
-        professorsPosition.get(teacher.getColor().ordinal()).setFill(new ImagePattern(new Image(String.valueOf(getClass().getClassLoader().getResource("images/Pawn/" + teacher.getColor().getName() + "_professor.png")))));
+
     }
 
 
-    public void setUpHallImages(PawnColor[] hall) {
-        for (PawnColor student : hall) {
-            Student s = new Student(student);
-            studentsHall.add(s);
-        }
-        for (Student student : studentsHall) {
-            String colorOfStudent = new String();
-            colorOfStudent = student.getColor().getName();
-            colorPawn.add(colorOfStudent);
-        }
-        for (String color : colorPawn) {
-            Image image = new Image(String.valueOf(getClass().getClassLoader().getResource("images/Pawn/" + color + "_student.png")));
-            imgsColorPawn.add(image);
-        }
+    public void setUpHallImages(String[] hall) {
         int i = 0;
-        for (Circle c : studentsPosition) {
-            c.setStroke(null);
-            c.setFill(new ImagePattern(imgsColorPawn.get(i)));
+        for (String colorOfStudent : hall) {
+            if (colorOfStudent != null) {
+                studentsPosition.get(i).setDisable(false);
+                studentsPosition.get(i).setStroke(null);
+                studentsPosition.get(i).setFill(new ImagePattern(new Image(String.valueOf(getClass().getClassLoader().getResource("images/Pawn/" + colorOfStudent + "_student.png")))));
+            } else {
+                studentsPosition.get(i).setFill(null);
+                studentsPosition.get(i).setDisable(true);
+            }
             i++;
+        }
+    }
+
+    private void printClassroom(String[][] classroom) {
+
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 10; j++) {
+                if (classroom[i][j] != null) {
+                    nameColor.get(i).get(j).setFill(new ImagePattern(new Image(String.valueOf(getClass().getClassLoader().getResource("images/Pawn/" + colors[i] + "_student.png")))));
+                }
+            }
         }
     }
 
@@ -322,20 +330,33 @@ public class DashboardController implements Initializable, DisplayLabel {
             message = clientInput.readLine();
         }
         DashboardStatus dashboardStatus = gson.fromJson(message.message, DashboardStatus[].class)[0];
-        PawnColor[] hall = dashboardStatus.studentsHallColors;
+        String[] hall = dashboardStatus.studentsHallColors;
+        String[][] classrroom = dashboardStatus.studentsClassroom;
+        String[] teachers = dashboardStatus.teacherTable;
         setUpHall(dashboardStatus);
         setUpHallImages(hall);
+        printClassroom(classrroom);
+        setUpProfessorImages(teachers);
         setUpTowerImages(dashboardStatus);
     }
 
 
-    public void moveStudentToClassroom(MouseEvent mouseEvent) throws IOException {
+    @FXML
+    private int getIndex(MouseEvent event) {
+        return studentsPosition.indexOf(event.getSource());
+
+    }
+
+    @FXML
+    private void moveStudentToClassroom(MouseEvent mouseEvent) {
         ActionEvent ae = new ActionEvent(mouseEvent.getSource(), mouseEvent.getTarget());
+        index = getIndex(mouseEvent);
+        System.out.println(index);
         classRoom.setDisable(false);
 
-        if (mouseEvent.isConsumed() != true) {
+        if (!mouseEvent.isConsumed()) {
             classRoom.setOnMouseClicked(event -> {
-                        try {
+                        if (index != -1) {
                             moveToClassroom(mouseEvent);
                             if (movesAvailable.getCounter() > 0) {
                                 this.movesAvailable.decrement();
@@ -346,13 +367,18 @@ public class DashboardController implements Initializable, DisplayLabel {
                                         c.setDisable(true);
                                 }
                             }
-                        } catch (IOException e) {
-                            e.printStackTrace();
                         }
+
                     }
             );
         }
 
+    }
+
+    @FXML
+    public void moveToClassroom(MouseEvent event) {
+        ClientInput.getInstance().sendString("moveStudentToClassroom", String.valueOf(index + 1));
+        index = -1;
     }
 
 
@@ -364,27 +390,6 @@ public class DashboardController implements Initializable, DisplayLabel {
 
     public void setImages(ArrayList<Circle> colorPositions, int position, int positionHall) {
         colorPositions.get(position).setFill(new ImagePattern(new Image(String.valueOf(getClass().getClassLoader().getResource("images/Pawn/" + colorPawn.get(positionHall) + "_student.png")))));
-    }
-
-    public void moveToClassroom(MouseEvent event) throws IOException {
-        Window window = ((Node) event.getSource()).getScene().getWindow();
-        String idStudentPosition = event.getPickResult().getIntersectedNode().getId();
-        int positionHall = 0;
-        for (int positionClicked = 0; positionClicked < studentsPosition.size(); positionClicked++) {
-            if (Objects.equals(idStudentPosition, studentsPosition.get(positionClicked).getId())) {
-                positionHall = positionClicked;
-                ClientInput.getInstance().sendString("moveStudentToClassroom", String.valueOf(positionHall + 1));
-            }
-        }
-        PawnColor color = studentsHall.get(positionHall).getColor();
-        for (int classroomPosition = 0; classroomPosition < 10; classroomPosition++) {
-            if (!classroomFilled[color.ordinal()][classroomPosition]) {
-                setImages(nameColor.get(color.ordinal()), classroomPosition, positionHall);
-                classroomFilled[color.ordinal()][classroomPosition] = true;
-                setHallNull(positionHall);
-                return;
-            }
-        }
     }
 
 
@@ -419,4 +424,6 @@ public class DashboardController implements Initializable, DisplayLabel {
         stage.setScene(scene);
         stage.show();
     }
+
+
 }

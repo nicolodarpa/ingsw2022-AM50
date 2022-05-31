@@ -7,7 +7,7 @@ public class DashboardStatus {
     public String nameOwner;
     public String[][] studentsClassroom = new String[5][10];
     public String[] studentsHall;
-    public PawnColor[] studentsHallColors;
+    public String[] studentsHallColors;
 
     public String[] teacherTable = new String[5];
     public int towers;
@@ -20,7 +20,7 @@ public class DashboardStatus {
         Student[] hall = dashboard.getHall();
         towerColor=dashboard.getTowers().get(0).getColor();
         studentsHall = new String[hall.length];
-        studentsHallColors = new PawnColor[hall.length];
+        studentsHallColors = new String[hall.length];
         Teacher[] teachers = dashboard.getTeacherTable();
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 10; j++) {
@@ -36,7 +36,7 @@ public class DashboardStatus {
         for (Student student : hall) {
             if (student != null) {
                 studentsHall[i] = String.valueOf(student.getColor().getCode());
-                studentsHallColors[i] = student.getColor();
+                studentsHallColors[i] = student.getColor().getName();
             } else {
                 studentsHall[i] = null;
                 studentsHallColors[i] = null;
@@ -48,7 +48,7 @@ public class DashboardStatus {
         i = 0;
         for (Teacher teacher : teachers) {
             if (teacher != null) {
-                teacherTable[i] = String.valueOf(teacher.getColor().getCode());
+                teacherTable[i] = String.valueOf(teacher.getColor().getCode()).toLowerCase();
             } else teacherTable[i] = null;
             i++;
         }
