@@ -25,6 +25,8 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import org.jetbrains.annotations.NotNull;
+import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.net.URL;
@@ -32,12 +34,12 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
-public class DashboardController implements Initializable {
+public class DashboardController implements Initializable, DisplayLabel {
 
     private Counter movesAvailable = new Counter();
 
     @FXML
-    private Label movesAvailableCounter, roundCounter, order, movesOfMn, Username;
+    private Label movesAvailableCounter, order, movesOfMn, username;
 
     private Student[] students = new Student[9];
     @FXML
@@ -87,6 +89,23 @@ public class DashboardController implements Initializable {
     private final ClientInput clientInput = ClientInput.getInstance();
     private final Gson gson = new Gson();
 
+    @Override
+    public void displayLabel(@NotNull String text, Label label, String textLabel) {
+        DisplayLabel.super.displayLabel(text, label, textLabel);
+    }
+
+    public Label getMovesOfMnLabel() {
+        return movesOfMn;
+    }
+
+    public Label getOrderLabel(){
+        return order;
+    }
+
+    public Label getUsernameLabel(){
+        return username;
+    }
+
     public void setUpNameColor(){
         nameColor.add(greenPositions);
         nameColor.add(redPositions);
@@ -105,23 +124,9 @@ public class DashboardController implements Initializable {
 
 
     /**
-     * Open a window and show the message : "You run out of available moves"
+     * Open a window and show the message : "You finished your turn, now you have to move Mother Nature"
      * @param actionEvent
      */
-
-    public void alertRunOut(ActionEvent actionEvent){
-        Window window = ((Node) actionEvent.getSource()).getScene().getWindow();
-        AlertHelper.showAlert(Alert.AlertType.INFORMATION, window, "Finish moves", "You run out of available moves");
-    }
-
-    public void setUsername(String username){
-        Username.setText(username);
-    }
-
-    public void setMovesOfMn(int movesOfMN){
-        movesOfMn.setText(String.valueOf(movesOfMN));
-    }
-
     public void alertFinishedTurn(ActionEvent actionEvent){
         Window window = ((Node) actionEvent.getSource()).getScene().getWindow();
         AlertHelper.showAlert(Alert.AlertType.ERROR, window, "Finished turn", "You finished your turn, now you have to move Mother Nature");
@@ -132,11 +137,10 @@ public class DashboardController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        roundCounter.setText(String.valueOf(1)); //set the round at the beginning of a new match
         setUpClassroomFilled();
         setUpNameColor();
         setUpClassroom();
-        setUpProfessor();
+        setUpProfessorPositions();
         setUpRectangle();
         setDashboard();
 
@@ -188,13 +192,21 @@ public class DashboardController implements Initializable {
         }
     }
 
-    public void setUpProfessor(){
-
+    public void setUpProfessorPositions(){
         professorsPosition.add(professorPosition1);
         professorsPosition.add(professorPosition2);
         professorsPosition.add(professorPosition3);
         professorsPosition.add(professorPosition4);
         professorsPosition.add(professorPosition5);
+    }
+
+
+    public void setUpClassroom(){
+        setUpColorPosition(greenPositions, greenPosition1, greenPosition2, greenPosition3, greenPosition4, greenPosition5, greenPosition6, greenPosition7, greenPosition8, greenPosition9, greenPosition10);
+        setUpColorPosition(magentaPositions, magentaPosition1, magentaPosition2, magentaPosition3, magentaPosition4, magentaPosition5, magentaPosition6, magentaPosition7, magentaPosition8, magentaPosition9, magentaPosition10);
+        setUpColorPosition(yellowPositions, yellowPosition1, yellowPosition2, yellowPosition3, yellowPosition4, yellowPosition5, yellowPosition6, yellowPosition7, yellowPosition8, yellowPosition9, yellowPosition10);
+        setUpColorPosition(cyanPositions, cyanPosition1, cyanPosition2, cyanPosition3, cyanPosition4, cyanPosition5, cyanPosition6, cyanPosition7, cyanPosition8, cyanPosition9, cyanPosition10);
+        setUpColorPosition(redPositions, redPosition1, redPosition2, redPosition3, redPosition4, redPosition5, redPosition6, redPosition7, redPosition8, redPosition9, redPosition10);
     }
 
     /**
@@ -206,15 +218,6 @@ public class DashboardController implements Initializable {
             circle.setFill(null);
             circle.setStroke(null);
         }
-    }
-
-
-    public void setUpClassroom(){
-        setUpColorPosition(greenPositions, greenPosition1, greenPosition2, greenPosition3, greenPosition4, greenPosition5, greenPosition6, greenPosition7, greenPosition8, greenPosition9, greenPosition10);
-        setUpColorPosition(magentaPositions, magentaPosition1, magentaPosition2, magentaPosition3, magentaPosition4, magentaPosition5, magentaPosition6, magentaPosition7, magentaPosition8, magentaPosition9, magentaPosition10);
-        setUpColorPosition(yellowPositions, yellowPosition1, yellowPosition2, yellowPosition3, yellowPosition4, yellowPosition5, yellowPosition6, yellowPosition7, yellowPosition8, yellowPosition9, yellowPosition10);
-        setUpColorPosition(cyanPositions, cyanPosition1, cyanPosition2, cyanPosition3, cyanPosition4, cyanPosition5, cyanPosition6, cyanPosition7, cyanPosition8, cyanPosition9, cyanPosition10);
-        setUpColorPosition(redPositions, redPosition1, redPosition2, redPosition3, redPosition4, redPosition5, redPosition6, redPosition7, redPosition8, redPosition9, redPosition10);
     }
 
     private void setUpColorPosition(ArrayList<Circle> colorPositions, Circle colorPosition1, Circle colorPosition2, Circle colorPosition3, Circle colorPosition4, Circle colorPosition5, Circle colorPosition6, Circle colorPosition7, Circle colorPosition8, Circle colorPosition9, Circle colorPosition10) {
@@ -349,7 +352,7 @@ public class DashboardController implements Initializable {
             setTable(actionEvent);
         }
         else{
-            alertRunOut(actionEvent); //show an alert when you finish the moves
+            alertFinishedTurn(actionEvent); //show an alert when you finish the moves
             setWaiting(actionEvent);
         }
     }

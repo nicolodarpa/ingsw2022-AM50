@@ -88,7 +88,8 @@ public class LineClient {
                 case "dashboard" -> clientInput.sendString("dashboard", "");
                 case "cloud cards" -> clientInput.sendString("sendCloudCards", "");
                 case "player" -> clientInput.sendString("player", "");
-                case "quit" -> clientInput.sendString("quit", "");
+                case "allPlayer" -> clientInput.sendString("allPlayer", "");
+                case "quit" -> quit();
                 case "help", "h" -> printCommands();
                 default -> clientInput.sendString(inputLine, "");
 
@@ -110,7 +111,8 @@ public class LineClient {
                 -islands (show islands)
                 -dashboard (show dashboards of both players)
                 -cloud cards (show cloud cards)
-                -player (show all player and their order and Move of MN)
+                -allPlayer (show all player and their order and Move of MN)
+                -player (show your info like yout order and Move of MN available)
                 -quit (quit the game)
                 -clear""");
     }
@@ -200,16 +202,12 @@ public class LineClient {
     }
 
     private static void playAssistantCard() {
-
         System.out.println("Select assistant card to play");
         clientInput.sendString("sendAssistantCardDeck", "");
         clientInput.sendString("playAssistantCard", stdin.nextLine());
-
-
     }
 
     private static void moveStudentToIsland() {
-
         String indexStudent = getStudentFromHall();
         System.out.println("Select destination island");
         String indexIsland = stdin.nextLine();
@@ -217,18 +215,12 @@ public class LineClient {
             System.out.println("Input a valid index");
             indexIsland = stdin.nextLine();
         }
-
         clientInput.sendString("moveStudentToIsland", indexStudent, indexIsland);
-
-
     }
 
     private static void moveStudentToClassroom() {
-
         String indexStudent = getStudentFromHall();
         clientInput.sendString("moveStudentToClassroom", indexStudent);
-
-
     }
 
     private static String getStudentFromHall() {
@@ -262,7 +254,9 @@ public class LineClient {
         System.out.println("Select Cloud Card");
         String indexCC = stdin.nextLine();
         clientInput.sendString("chooseCC", indexCC);
+    }
 
-
+    private static void quit(){
+        clientInput.sendString("quit", "");
     }
 }

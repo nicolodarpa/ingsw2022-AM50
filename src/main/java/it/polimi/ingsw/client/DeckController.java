@@ -18,16 +18,17 @@ import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import javafx.util.Duration;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
-public class DeckController implements Initializable {
+public class DeckController implements Initializable, DisplayLabel {
 
     @FXML
-    private Label choose;
+    private Label usernameLabel;
     @FXML
     protected Label deck1Owner;
     @FXML
@@ -38,6 +39,7 @@ public class DeckController implements Initializable {
     protected Label deck4Owner;
 
     private String username;
+
 
 
     @Override
@@ -52,10 +54,21 @@ public class DeckController implements Initializable {
         deck4Owner.setText(deckStatusArrayList[3].playerName);
     }
 
+    @Override
+    public void displayLabel(@NotNull String text, Label label, String textLabel) {
+        DisplayLabel.super.displayLabel(text, label, textLabel);
+        this.username = textLabel;
+    }
+
+    public Label getUsernameLabel(){
+        return usernameLabel;
+    }
 
     public void setPhasePage(ActionEvent actionEvent) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("assistantCard.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
+        AssistantCardController assistantCardController = fxmlLoader.getController();
+        assistantCardController.displayLabel("Username", assistantCardController.getUsernameLabel(), username);
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         stage.setScene(scene);
         stage.show();
@@ -73,7 +86,7 @@ public class DeckController implements Initializable {
                     setPhasePage(actionEvent);
                     break;
                 } else if(Objects.equals(message.type, "error")){
-                    AlertHelper.showAlert(Alert.AlertType.WARNING, window, "Deck", message.message);
+                    AlertHelper.showAlert(Alert.AlertType.WARNING, window, "Invalid Deck", message.message);
                     break;
                 }
         }

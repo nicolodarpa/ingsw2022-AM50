@@ -12,6 +12,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -22,7 +23,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
-public class WaitingController implements Initializable{
+public class WaitingController implements DisplayLabel{
 
     @FXML
     Label waiting;
@@ -30,40 +31,41 @@ public class WaitingController implements Initializable{
     @FXML
     ProgressBar progress;
 
+    @FXML
+    private Label usernameLabel;
 
+    private String username;
 
-    public void checkPhasePage() throws IOException{
+    /*public void setPhasePage(ActionEvent actionEvent) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("assistantCard.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        AssistantCardController assistantCardController = fxmlLoader.getController();
+        assistantCardController.displayLabel("Username", assistantCardController.getUsernameLabel(), username);
+        Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
+    }*/
+
+    @Override
+    public void displayLabel(@NotNull String text, Label label, String textLabel) {
+        DisplayLabel.super.displayLabel(text, label, textLabel);
+    }
+
+    public Label getUsernameLabel() {
+        return usernameLabel;
+    }
+
+    public void checkPhasePage(ActionEvent actionEvent) throws IOException{
         TextMessage message = ClientInput.getInstance().readLine();
         while(!Objects.equals(message.type, "notify")){
             message = ClientInput.getInstance().readLine();
         }
-        Window owner = Stage.getWindows().stream().filter(Window::isShowing).findFirst().orElse(null);
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("assistantCard.fxml"));
-        Scene scene = new Scene(fxmlLoader.load());
-        Stage stage = (Stage) owner;
-        stage.setScene(scene);
-        stage.show();
+        //setPhasePage(actionEvent);
+
     }
 
 
 
 
 
-    /**
-     * Called to initialize a controller after its root element has been
-     * completely processed.
-     *
-     * @param location  The location used to resolve relative paths for the root object, or
-     *                  {@code null} if the location is not known.
-     * @param resources The resources used to localize the root object, or {@code null} if
-     *                  the root object was not localized.
-     */
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        try {
-            checkPhasePage();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
 }

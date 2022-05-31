@@ -8,6 +8,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.stage.Window;
@@ -22,9 +23,9 @@ public class LoginController {
     private TextField name_input;
 
     @FXML
-    private Button loginButton;
+    Label usernameLabel;
 
-    @FXML Button lobbyButton;
+
 
 
 
@@ -40,6 +41,8 @@ public class LoginController {
             AlertHelper.showAlert(Alert.AlertType.CONFIRMATION, window, "Login", message.message);
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("deck.fxml"));
             Scene scene = new Scene(fxmlLoader.load());
+            DeckController deckController = fxmlLoader.getController();
+            deckController.displayLabel("Username", deckController.getUsernameLabel(), name);
             Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
             stage.setScene(scene);
             stage.show();

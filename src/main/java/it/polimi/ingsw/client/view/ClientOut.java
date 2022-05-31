@@ -59,8 +59,6 @@ public class ClientOut extends Thread {
         commandHashMap.put("studentsRoom", this::printStudentsRoom);
         commandHashMap.put("player", this::printPlayer);
         commandHashMap.put("quit", this::quit);
-
-
     }
 
 

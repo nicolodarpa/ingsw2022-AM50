@@ -64,6 +64,7 @@ public class EchoServerClientHandler extends Thread {
         commandMap.put("moveMN", this::moveMotherNature);
         commandMap.put("chooseCC", this::chooseCC);
         commandMap.put("hall", this::sendHall);
+        commandMap.put("quit", this::quit);
 
 
         try {
@@ -100,6 +101,14 @@ public class EchoServerClientHandler extends Thread {
             //game.removePlayer(player);
 
         }
+    }
+
+    private void quit(Command command) {
+        TextMessage message = new TextMessage("quit", "Goodbye " + player.getName());
+        String json = gson.toJson(message, TextMessage.class);
+        out.println(json);
+        game.getPlist().notifyAllClients("msg" , player.getName() + " disconnected");
+        game.removePlayer(player);
     }
 
 
@@ -278,7 +287,7 @@ public class EchoServerClientHandler extends Thread {
 
 
     public void playAssistantCard(Command command) {
-        if (checkTurn()) {
+        if (checkTurn() && game.getPhase() == 0) {
             int numCard;
             try {
                 numCard = Integer.parseInt(command.value1);
@@ -291,13 +300,15 @@ public class EchoServerClientHandler extends Thread {
             } catch (Exception e) {
                 player.sendToClient("error", "Input a number between 1 and 10");
             }
+        } else {
+            player.sendToClient("error", "You can't play an assistant card in Action phase");
         }
 
     }
 
 
     public void moveStudentToIsland(Command command) {
-        if (checkTurn()) {
+        if (checkTurn() && game.getPhase() == 1) {
             int numPlayer = Integer.parseInt(command.value1);
             int indexIsland = Integer.parseInt(command.value2);
             if (player.moveStudentToIsland(numPlayer - 1, indexIsland - 1, game)) {
@@ -306,6 +317,8 @@ public class EchoServerClientHandler extends Thread {
             } else {
                 errorSelectionNotify();
             }
+        }else{
+            player.sendToClient("error","before move student to island, you have to play an assistant card");
         }
         //player.sendToClient("msg", "select student from hall to move to an island:");
 
@@ -313,7 +326,7 @@ public class EchoServerClientHandler extends Thread {
     }
 
     public void moveStudentToClassroom(Command command) {
-        if (checkTurn()) {
+        if (checkTurn() && game.getPhase() == 1) {
             player.sendToClient("msg", "select student from hall to move to a classroom:");
             int numPlayer = Integer.parseInt(command.value1);
             if (player.moveStudentToClassroom(numPlayer - 1, game)) {
@@ -321,6 +334,8 @@ public class EchoServerClientHandler extends Thread {
             } else {
                 errorSelectionNotify();
             }
+        }else{
+            player.sendToClient("error","before move student to classroom, you have to play an assistant card");
         }
 
     }
@@ -332,7 +347,7 @@ public class EchoServerClientHandler extends Thread {
     }
 
     public void moveMotherNature(Command command) {
-        if (checkTurn()) {
+        if (checkTurn() && game.getPhase() == 1 && player.getMovesOfStudents() == 0) {
             int island = Integer.parseInt(command.value1);
             if (game.moveMN(player, island - 1)) {
                 player.sendToClient("islands", game.sendIslands());
@@ -341,24 +356,28 @@ public class EchoServerClientHandler extends Thread {
                 player.sendToClient("error", "error, you can move mother nature of " + player.getMovesOfMN() + "moves");
 
             }
-        }
-
-
+        }  else
+            player.sendToClient("error", "error you can't move Mother Nature now");
     }
+    
 
 
     private void chooseCC(Command command) {
-        player.sendToClient("cloudCard", game.sendCloudCards());
-        boolean check = false;
-        int cloudCardIndex = Integer.parseInt(command.value1);
-        check = game.chooseCloudCard(cloudCardIndex - 1, player);
-        if (cloudCardIndex > game.getCloudCards().size() || cloudCardIndex < 0)
-            player.sendToClient("error", "Error, choose a valid cloud card");
-        else if(check)
-            player.sendToClient("error", "Error, choose a valid cloud card");
-        if(!check) {
-            player.sendToClient("dashboard", game.sendPlayerDashboard(player));
-            game.setActualPlayer();
+        if (checkTurn() && game.getPhase() == 1) {
+            player.sendToClient("cloudCard", game.sendCloudCards());
+            boolean check = false;
+            int cloudCardIndex = Integer.parseInt(command.value1);
+            check = game.chooseCloudCard(cloudCardIndex - 1, player);
+            if (cloudCardIndex > game.getCloudCards().size() || cloudCardIndex < 0)
+                player.sendToClient("error", "Error, choose a valid cloud card");
+            else if (check)
+                player.sendToClient("error", "Error, choose a valid cloud card");
+            if (!check) {
+                player.sendToClient("dashboard", game.sendPlayerDashboard(player));
+                //game.setActualPlayer();
+            }
+        }else{
+            player.sendToClient("error", "You can't choose a cloud card now");
         }
     }
 

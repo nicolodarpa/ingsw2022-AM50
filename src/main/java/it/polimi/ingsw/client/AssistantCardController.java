@@ -13,108 +13,124 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import org.jetbrains.annotations.NotNull;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
-public class AssistantCardController implements Initializable {
-
-    private String username;
+public class AssistantCardController implements Initializable, DisplayLabel {
 
     @FXML
-    private Label yourDeck;
+    private Label usernameLabel;
 
-    private Parent root;
+    private String username;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
     }
 
+    @Override
+    public void displayLabel(@NotNull String text, Label label, String textLabel) {
+        DisplayLabel.super.displayLabel(text, label, textLabel);
+        this.username = textLabel;
+    }
 
-    public void setActionPage(ActionEvent actionEvent) throws IOException {
+    public Label getUsernameLabel(){
+        return usernameLabel;
+    }
+
+    public void setActionPage(ActionEvent actionEvent, int order, int movesOfMN) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("dashboard.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
+        DashboardController dashboardController = fxmlLoader.getController();
+        dashboardController.displayLabel("Username", dashboardController.getUsernameLabel(), username);
+        dashboardController.displayLabel("Order", dashboardController.getOrderLabel(), String.valueOf(order));
+        dashboardController.displayLabel("Moves of MN", dashboardController.getMovesOfMnLabel(), String.valueOf(movesOfMN));
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         stage.setScene(scene);
         stage.show();
     }
 
-    public void setUsername(String username){
-        this.username = username;
-    }
-
-
-    public void alertChosenCard(ActionEvent actionEvent, int order) throws IOException {
+    public void alertChosenCard(ActionEvent actionEvent, int order, int movesOfMN) throws IOException {
         Window window = ((Node) actionEvent.getSource()).getScene().getWindow();
-        TextMessage message = ClientInput.getInstance().readLine();
-        if(Objects.equals(message.type, "error")){;
-            AlertHelper.showAlert(Alert.AlertType.ERROR, window, "Invalid Card", message.message);
-        }
-        else{
-            AlertHelper.showAlert(Alert.AlertType.CONFIRMATION, window, "Card chosen", message.message);
-            setActionPage(actionEvent);
+        while (true) {
+            TextMessage message = ClientInput.getInstance().readLine();
+            if (!Objects.equals(message, null))
+                if(Objects.equals(message.type, "notify")){
+                    AlertHelper.showAlert(Alert.AlertType.INFORMATION, window, "Turn Notification", message.message);
+                    setActionPage(actionEvent, order, movesOfMN);
+                    break;
+                /*if (Objects.equals(message.message, "Your turn started")) {
+                    AlertHelper.showAlert(Alert.AlertType.INFORMATION, window, "Turn Notification", message.message);
+                    setActionPage(actionEvent, order, movesOfMN);
+                    break;*/
+                } else if (Objects.equals(message.type, "error")) {
+                    AlertHelper.showAlert(Alert.AlertType.WARNING, window, "Invalid card", message.message);
+                    break;
+                }
         }
     }
 
     public void playAssistantCard1(ActionEvent actionEvent) throws IOException {
         ClientInput.getInstance().sendString("playAssistantCard", String.valueOf(1));
-        alertChosenCard(actionEvent, 1);
+        alertChosenCard(actionEvent, 1, 1);
     }
 
 
     public void playAssistantCard2(ActionEvent actionEvent) throws IOException{
         ClientInput.getInstance().sendString("playAssistantCard", String.valueOf(2));
-        alertChosenCard(actionEvent, 2);
+        alertChosenCard(actionEvent,2,1);
     }
 
 
     public void playAssistantCard3(ActionEvent actionEvent) throws IOException{
         ClientInput.getInstance().sendString("playAssistantCard", String.valueOf(3));
-        alertChosenCard(actionEvent, 3);
+        alertChosenCard(actionEvent, 3, 2);
     }
 
 
     public void playAssistantCard4(ActionEvent actionEvent) throws IOException{
         ClientInput.getInstance().sendString("playAssistantCard", String.valueOf(4));
-        alertChosenCard(actionEvent, 4);
+        alertChosenCard(actionEvent, 4, 2);
     }
 
 
     public void playAssistantCard5(ActionEvent actionEvent) throws IOException{
         ClientInput.getInstance().sendString("playAssistantCard", String.valueOf(5));
-        alertChosenCard(actionEvent, 5);
+        alertChosenCard(actionEvent, 5, 3);
     }
 
 
     public void playAssistantCard6(ActionEvent actionEvent) throws IOException{
         ClientInput.getInstance().sendString("playAssistantCard", String.valueOf(6));
-        alertChosenCard(actionEvent, 6);
+        alertChosenCard(actionEvent, 6, 3);
     }
 
 
     public void playAssistantCard7(ActionEvent actionEvent) throws IOException{
         ClientInput.getInstance().sendString("playAssistantCard", String.valueOf(7));
-        alertChosenCard(actionEvent, 7);
+        alertChosenCard(actionEvent,7,4);
     }
 
 
     public void playAssistantCard8(ActionEvent actionEvent) throws IOException{
         ClientInput.getInstance().sendString("playAssistantCard", String.valueOf(8));
-        alertChosenCard(actionEvent, 8);
+        alertChosenCard(actionEvent,8,4);
     }
 
 
 
     public void playAssistantCard9(ActionEvent actionEvent) throws IOException{
         ClientInput.getInstance().sendString("playAssistantCard", String.valueOf(9));
-        alertChosenCard(actionEvent, 9);
+        alertChosenCard(actionEvent,9,5);
     }
 
 
     public void playAssistantCard10(ActionEvent actionEvent) throws IOException{
         ClientInput.getInstance().sendString("playAssistantCard", String.valueOf(10));
-        alertChosenCard(actionEvent, 10);
+        alertChosenCard(actionEvent,10,5);
     }
 
 }
