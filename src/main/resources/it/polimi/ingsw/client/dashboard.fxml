@@ -71,6 +71,7 @@
       </ImageView>
       <ImageView fx:id="towerPosition8" fitHeight="50.0" fitWidth="28.0" layoutX="493.0" layoutY="219.0">
 
+
       </ImageView>
       <Circle fx:id="professorPosition1" fill="DODGERBLUE" layoutX="414.0" layoutY="131.0" radius="15.0"  strokeType="INSIDE" />
       <Circle fx:id="professorPosition2" fill="DODGERBLUE"  layoutX="414.0" layoutY="165.0" radius="15.0"  strokeType="INSIDE" />
