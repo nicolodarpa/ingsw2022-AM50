@@ -36,7 +36,7 @@ public class DashboardStatus {
         for (Student student : hall) {
             if (student != null) {
                 studentsHall[i] = String.valueOf(student.getColor().getCode());
-                studentsHallColors[i] = student.getColor().getName();
+                studentsHallColors[i] = student.getColor().getName().toLowerCase();
             } else {
                 studentsHall[i] = null;
                 studentsHallColors[i] = null;
@@ -48,7 +48,7 @@ public class DashboardStatus {
         i = 0;
         for (Teacher teacher : teachers) {
             if (teacher != null) {
-                teacherTable[i] = String.valueOf(teacher.getColor().getCode()).toLowerCase();
+                teacherTable[i] = String.valueOf(teacher.getColor().getCode());
             } else teacherTable[i] = null;
             i++;
         }

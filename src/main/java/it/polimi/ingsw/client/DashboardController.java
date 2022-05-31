@@ -144,11 +144,11 @@ public class DashboardController implements Initializable, DisplayLabel {
         commandHashMap.put("warning", this::printWarning);
         commandHashMap.put("notify", this::printNotify);
         commandHashMap.put("dashboard", this::setDashboard);
+        //roundCounter.setText(String.valueOf(1)); //set the round at the beginning of a new match
         setUpClassroomFilled();
         setUpNameColor();
         setUpClassroom();
         setUpProfessorPositions();
-        setUpRectangle();
         Thread readThread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -197,9 +197,6 @@ public class DashboardController implements Initializable, DisplayLabel {
         AlertHelper.showAlert(Alert.AlertType.WARNING, classRoom.getScene().getWindow(), "Warning", message.message);
     }
 
-    public void setUpRectangle() {
-        classRoom.setDisable(true);
-    }
 
     public void setOrder(int orderOfPlayer) {
         order.setText(String.valueOf(orderOfPlayer));
@@ -255,7 +252,6 @@ public class DashboardController implements Initializable, DisplayLabel {
         setUpColorPosition(cyanPositions, cyanPosition1, cyanPosition2, cyanPosition3, cyanPosition4, cyanPosition5, cyanPosition6, cyanPosition7, cyanPosition8, cyanPosition9, cyanPosition10);
         setUpColorPosition(redPositions, redPosition1, redPosition2, redPosition3, redPosition4, redPosition5, redPosition6, redPosition7, redPosition8, redPosition9, redPosition10);
     }
-
 
 
     /**
@@ -339,48 +335,34 @@ public class DashboardController implements Initializable, DisplayLabel {
 
 
     @FXML
-    private int getIndex(MouseEvent event) {
-        return studentsPosition.indexOf(event.getSource());
+    private void getIndex(MouseEvent event) {
+        index = studentsPosition.indexOf(event.getSource());
+        System.out.println(index);
 
     }
 
     @FXML
     private void moveStudentToClassroom(MouseEvent mouseEvent) {
-        ActionEvent ae = new ActionEvent(mouseEvent.getSource(), mouseEvent.getTarget());
-        index = getIndex(mouseEvent);
-        System.out.println(index);
-        classRoom.setDisable(false);
+        if (movesAvailable.getCounter() > 0) {
+            if (index != -1) {
+                moveToClassroom(mouseEvent);
+                this.movesAvailable.decrement();
+                movesAvailableCounter.setText(movesAvailable.toString());
 
-        if (!mouseEvent.isConsumed()) {
-            classRoom.setOnMouseClicked(event -> {
-                        if (index != -1) {
-                            moveToClassroom(mouseEvent);
-                            if (movesAvailable.getCounter() > 0) {
-                                this.movesAvailable.decrement();
-                                movesAvailableCounter.setText(movesAvailable.toString());
-                                if (movesAvailable.getCounter() == 0) {
-                                    alertFinishedTurn(ae);
-                                    for (Circle c : studentsPosition)
-                                        c.setDisable(true);
-                                }
-                            }
-                        }
+            }
 
-                    }
-            );
+        } else {
+            AlertHelper.showAlert(Alert.AlertType.WARNING, classRoom.getScene().getWindow(),"Error","You have finished you moves");
         }
+
 
     }
 
-    @FXML
-    public void moveToClassroom(MouseEvent event) {
+
+    private void moveToClassroom(MouseEvent event) {
         ClientInput.getInstance().sendString("moveStudentToClassroom", String.valueOf(index + 1));
         index = -1;
     }
-
-
-
-
 
 
     public void moveStudentToIsland(ActionEvent actionEvent) throws IOException {
