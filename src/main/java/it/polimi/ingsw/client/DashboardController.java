@@ -4,8 +4,6 @@ import com.google.gson.Gson;
 import com.sun.javafx.stage.EmbeddedWindow;
 import it.polimi.ingsw.client.view.ClientOut;
 import it.polimi.ingsw.comunication.DashboardStatus;
-import it.polimi.ingsw.comunication.GameStatus;
-import it.polimi.ingsw.comunication.PlayersStatus;
 import it.polimi.ingsw.comunication.TextMessage;
 import it.polimi.ingsw.model.Student;
 import it.polimi.ingsw.model.*;
