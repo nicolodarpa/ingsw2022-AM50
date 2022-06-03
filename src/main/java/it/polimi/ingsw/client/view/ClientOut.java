@@ -7,6 +7,7 @@ import it.polimi.ingsw.client.LineClient;
 import it.polimi.ingsw.comunication.*;
 
 
+import javax.swing.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.net.Socket;
@@ -59,6 +60,7 @@ public class ClientOut extends Thread {
         commandHashMap.put("studentsRoom", this::printStudentsRoom);
         commandHashMap.put("player", this::printPlayer);
         commandHashMap.put("quit", this::quit);
+        commandHashMap.put("gameInfo", this::printGameInfo);
     }
 
 
@@ -89,11 +91,9 @@ public class ClientOut extends Thread {
     }
 
     private void printGames() {
-        int i = 0;
         GameStatus[] gameStatuses = gson.fromJson(message.message, GameStatus[].class);
         for (GameStatus gameStatus : gameStatuses) {
-            System.out.println("-" + i + ": " + gameStatus.currentNumber + "/" + gameStatus.totalPlayers + " players: " + gameStatus.playersName);
-            i++;
+            System.out.println("-" + gameStatus.gameId + ": " + gameStatus.currentNumber + "/" + gameStatus.totalPlayers + " players: " + gameStatus.playersName);
         }
     }
 
@@ -284,6 +284,13 @@ public class ClientOut extends Thread {
         PlayersStatus[] playersStatuses = gson.fromJson(message.message, PlayersStatus[].class);
         for (PlayersStatus playersStatus : playersStatuses) {
             System.out.println(YELLOW + "-Username: " + playersStatus.name + "  -Moves MN: " + playersStatus.movesOfMN + ANSI_RESET);
+        }
+    }
+
+    private void printGameInfo(){
+        GameInfoStatus[] gameInfoStatuses = gson.fromJson(message.message, GameInfoStatus[].class);
+        for(GameInfoStatus gameInfoStatus : gameInfoStatuses){
+            System.out.println(YELLOW + "\n-Round: " + gameInfoStatus.round + "\n-Actual Player: " + gameInfoStatus.actualPlayer + "\n-Phase: " + gameInfoStatus.phase +  ANSI_RESET);
         }
     }
 

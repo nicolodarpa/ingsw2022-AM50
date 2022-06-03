@@ -2,6 +2,7 @@ package it.polimi.ingsw;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.comunication.Command;
+import it.polimi.ingsw.comunication.GameInfoStatus;
 import it.polimi.ingsw.comunication.GameStatus;
 import it.polimi.ingsw.comunication.TextMessage;
 import it.polimi.ingsw.model.*;
@@ -65,6 +66,7 @@ public class EchoServerClientHandler extends Thread {
         commandMap.put("chooseCC", this::chooseCC);
         commandMap.put("hall", this::sendHall);
         commandMap.put("quit", this::quit);
+        commandMap.put("gameInfo", this::sendGameInfo);
 
 
         try {
@@ -217,6 +219,10 @@ public class EchoServerClientHandler extends Thread {
 
     public void sendAllPlayers(Command command) {
         player.sendToClient("player", game.sendAllPlayers());
+    }
+
+    public void sendGameInfo(Command command){
+        player.sendToClient("gameInfo", game.sendGameInfo());
     }
 
     public void sendCharacterCardDeck(Command command) {

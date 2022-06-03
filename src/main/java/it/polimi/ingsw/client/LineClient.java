@@ -91,6 +91,7 @@ public class LineClient {
                 case "allPlayer" -> clientInput.sendString("allPlayer", "");
                 case "quit" -> quit();
                 case "help", "h" -> printCommands();
+                case "gameInfo" -> clientInput.sendString("gameInfo", "");
                 default -> clientInput.sendString(inputLine, "");
 
             }
@@ -108,11 +109,12 @@ public class LineClient {
                 -move student to classroom
                 -move mn
                 -choose cc
-                -islands (show islands)
-                -dashboard (show dashboards of both players)
-                -cloud cards (show cloud cards)
-                -allPlayer (show all player and their order and Move of MN)
-                -player (show your info like yout order and Move of MN available)
+                -islands (shows islands)
+                -dashboard (shows dashboards of both players)
+                -cloud cards (shows cloud cards)
+                -player (shows your info like your order and Move of MN available)
+                -allPlayer (shows all player's info)
+                -gameInfo(shows the actual player, the number of round and the actual phase)
                 -quit (quit the game)
                 -clear""");
     }

@@ -62,6 +62,10 @@ public class Game {
         return phase;
     }
 
+    public int getRound(){
+        return round;
+    }
+
     public int getNumberOfPlayers() {
         return numberOfPlayers;
     }
@@ -246,6 +250,13 @@ public class Game {
         }
         Gson gson = new Gson();
         return gson.toJson(players);
+    }
+
+    public String sendGameInfo() {
+        ArrayList<GameInfoStatus> gameInfoStatuses = new ArrayList<>();
+        gameInfoStatuses.add(new GameInfoStatus(phase, actualPlayer, round));
+        Gson gson = new Gson();
+        return gson.toJson(gameInfoStatuses);
     }
 
     public String sendDeck() {

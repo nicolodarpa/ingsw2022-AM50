@@ -3,9 +3,9 @@ package it.polimi.ingsw.client;
 import com.google.gson.Gson;
 import it.polimi.ingsw.client.view.ClientOut;
 import it.polimi.ingsw.comunication.DashboardStatus;
+import it.polimi.ingsw.comunication.GameInfoStatus;
 import it.polimi.ingsw.comunication.PlayersStatus;
 import it.polimi.ingsw.comunication.TextMessage;
-import it.polimi.ingsw.model.Student;
 import it.polimi.ingsw.model.*;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -41,7 +41,7 @@ public class DashboardController implements Initializable, DisplayLabel {
     public Button moveToIsland;
     public Pane anchor;
     @FXML
-    private Label movesAvailableCounter,movesOfMn, username;
+    private Label movesAvailableCounter,movesOfMn, username, roundCounter, actualPlayerLabel;
 
     private Counter movesOfStudents = new Counter();
 
@@ -67,9 +67,6 @@ public class DashboardController implements Initializable, DisplayLabel {
     private int index = -1;
 
     private ArrayList<Circle> studentsPosition = new ArrayList<>(9);
-    private ArrayList<Image> imgsColorPawn = new ArrayList<>(9);
-    private ArrayList<String> colorPawn = new ArrayList<>(9);
-    private ArrayList<Student> studentsHall = new ArrayList<>(9);
 
     private ArrayList<ImageView> towerPosition = new ArrayList<>(8);
 
@@ -135,41 +132,37 @@ public class DashboardController implements Initializable, DisplayLabel {
         commandHashMap.put("msg", this::printMessage);
         commandHashMap.put("dashboard", this::setDashboard);
         commandHashMap.put("player",this::setUpPlayerInfo);
+        commandHashMap.put("gameInfo", this::setUpGameInfo);
         commandHashMap.put("quit", this::quit);
         setUpClassroomFilled();
         setUpNameColor();
         setUpClassroom();
         setUpProfessorPositions();
-        Thread readThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (true) {
-                    message = clientInput.readLine();
-                    if (message != null) {
-                        Platform.runLater(new Runnable() {
-                            @Override
-                            public void run() {
-                                try {
-                                     commandHashMap.get(message.type).runCommand();
-                                } catch (IOException e) {
-                                    throw new RuntimeException(e);
-                                }
-                            }
-                        });
+        Thread readThread = new Thread(() -> {
+            while (true) {
+                message = clientInput.readLine();
+                if (message != null) {
+                    Platform.runLater(() -> {
+                        try {
+                             commandHashMap.get(message.type).runCommand();
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    });
 
 
-                    }
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
+                }
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
                 }
             }
         });
         readThread.start();
         clientInput.sendString("singleDashboard", "");
         clientInput.sendString("player","");
+        clientInput.sendString("gameInfo","");
 
     }
 
@@ -218,7 +211,7 @@ public class DashboardController implements Initializable, DisplayLabel {
 
     }
 
-    public void setUpHall(DashboardStatus dashboard) {
+    public void setUpHall() {
         studentsPosition.add(studentPosition1);
         studentsPosition.add(studentPosition2);
         studentsPosition.add(studentPosition3);
@@ -321,7 +314,7 @@ public class DashboardController implements Initializable, DisplayLabel {
         String[] hall = dashboardStatus.studentsHallColors;
         String[][] classroom = dashboardStatus.studentsClassroom;
         String[] teachers = dashboardStatus.teacherTable;
-        setUpHall(dashboardStatus);
+        setUpHall();
         setUpHallImages(hall);
         printClassroom(classroom);
         setUpProfessorImages(teachers);
@@ -336,6 +329,12 @@ public class DashboardController implements Initializable, DisplayLabel {
         displayLabel("Moves of students", movesAvailableCounter, String.valueOf(movesOfStudents.getCounter()));
     }
 
+    public void setUpGameInfo() {
+        GameInfoStatus gameInfoStatus = gson.fromJson(message.message, GameInfoStatus[].class)[0];
+        displayLabel("Round #", roundCounter, gameInfoStatus.round);
+        displayLabel("Actual Player", actualPlayerLabel, gameInfoStatus.actualPlayer);
+    }
+
 
     @FXML
     private void getIndex(MouseEvent event) {
@@ -348,7 +347,7 @@ public class DashboardController implements Initializable, DisplayLabel {
     private void moveStudentToClassroom(MouseEvent mouseEvent) {
         if (movesOfStudents.getCounter() > 0) {
             if (index != -1) {
-                moveToClassroom(mouseEvent);
+                moveToClassroom();
                 this.movesOfStudents.decrement();
                 displayLabel("Moves of students", movesAvailableCounter, movesOfStudents.toString());
             }
@@ -361,7 +360,7 @@ public class DashboardController implements Initializable, DisplayLabel {
     }
 
 
-    private void moveToClassroom(MouseEvent event) {
+    private void moveToClassroom() {
         ClientInput.getInstance().sendString("moveStudentToClassroom", String.valueOf(index + 1));
         index = -1;
     }

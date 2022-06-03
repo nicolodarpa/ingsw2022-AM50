@@ -1,6 +1,7 @@
 package it.polimi.ingsw.comunication;
 
 import it.polimi.ingsw.PlayersList;
+import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
 
 public class GameStatus {
@@ -8,6 +9,7 @@ public class GameStatus {
     public int gameId;
     public int currentNumber;
     public int totalPlayers;
+
 
     public StringBuilder playersName= new StringBuilder("");
 
@@ -17,8 +19,6 @@ public class GameStatus {
         this.totalPlayers = totalPlayers;
         for (Player player: playersList.getPlayers()){
             playersName.append(" -").append(player.getName());
-
         }
-
     }
 }
