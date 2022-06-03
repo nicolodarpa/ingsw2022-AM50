@@ -1,6 +1,7 @@
 package it.polimi.ingsw.comunication;
 
 import it.polimi.ingsw.model.Island;
+import it.polimi.ingsw.model.Pawn;
 import it.polimi.ingsw.model.Student;
 
 import java.util.ArrayList;
@@ -15,6 +16,9 @@ public class IslandStatus {
     public boolean presenceMN;
     public int idGroup;
     public ArrayList<String> students = new ArrayList<>();
+
+    public ArrayList<Integer> studentColorOrdinal = new ArrayList<>();
+
     public int towerNumber;
     public String towerColor;
 
@@ -31,12 +35,19 @@ public class IslandStatus {
         for (Student student : studentArrayList) {
             if (student!=null){
                 students.add(String.valueOf(student.getColor().getCode()));
-            } else students.add(null);
-
-
+                studentColorOrdinal.add(student.getColor().ordinal());
+            } else{
+                students.add(null);
+                studentColorOrdinal.add(null);
+            }
         }
-
+        /*
+        for (Student student : studentArrayList) {
+            if (student!=null){
+                pawns.add(student);
+            } else{
+                pawns.add(null);
+            }
+        }*/
     }
-
-
 }

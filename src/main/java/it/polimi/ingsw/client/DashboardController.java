@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import it.polimi.ingsw.client.view.ClientOut;
 import it.polimi.ingsw.comunication.DashboardStatus;
 import it.polimi.ingsw.comunication.GameInfoStatus;
+import it.polimi.ingsw.comunication.IslandStatus;
 import it.polimi.ingsw.comunication.PlayersStatus;
 import it.polimi.ingsw.comunication.TextMessage;
 import it.polimi.ingsw.model.*;
@@ -44,6 +45,7 @@ public class DashboardController implements Initializable, DisplayLabel {
     private Label movesAvailableCounter,movesOfMn, username, roundCounter, actualPlayerLabel;
 
     private Counter movesOfStudents = new Counter();
+    private Counter mnMoves = new Counter();
 
     @FXML
     private Circle studentPosition1, studentPosition2, studentPosition3, studentPosition4, studentPosition5, studentPosition6, studentPosition7, studentPosition8, studentPosition9;
@@ -63,8 +65,33 @@ public class DashboardController implements Initializable, DisplayLabel {
     private Circle cyanPosition1, cyanPosition2, cyanPosition3, cyanPosition4, cyanPosition5, cyanPosition6, cyanPosition7, cyanPosition8, cyanPosition9, cyanPosition10;
     @FXML
     private Rectangle classRoom;
+    @FXML
+    private Rectangle MNIsland1, MNIsland2, MNIsland3, MNIsland4, MNIsland5,MNIsland6, MNIsland7, MNIsland8, MNIsland9, MNIsland10, MNIsland11, MNIsland12;
+    @FXML
+    private ImageView Island1, Island2, Island3, Island4, Island5, Island6, Island7, Island8, Island9, Island10, Island11, Island12;
+    @FXML
+    private Circle greenStudentIsland1, greenStudentIsland2, greenStudentIsland3, greenStudentIsland4, greenStudentIsland5, greenStudentIsland6, greenStudentIsland7, greenStudentIsland8, greenStudentIsland9, greenStudentIsland10,greenStudentIsland11, greenStudentIsland12;
+    @FXML
+    private Circle redStudentIsland1, redStudentIsland2, redStudentIsland3, redStudentIsland4, redStudentIsland5, redStudentIsland6, redStudentIsland7, redStudentIsland8, redStudentIsland9, redStudentIsland10,redStudentIsland11, redStudentIsland12;
+    @FXML
+    private Circle yellowStudentIsland1, yellowStudentIsland2, yellowStudentIsland3, yellowStudentIsland4, yellowStudentIsland5, yellowStudentIsland6, yellowStudentIsland7, yellowStudentIsland8, yellowStudentIsland9, yellowStudentIsland10,yellowStudentIsland11, yellowStudentIsland12;
+    @FXML
+    private Circle magentaStudentIsland1, magentaStudentIsland2, magentaStudentIsland3, magentaStudentIsland4, magentaStudentIsland5, magentaStudentIsland6, magentaStudentIsland7, magentaStudentIsland8, magentaStudentIsland9, magentaStudentIsland10,magentaStudentIsland11, magentaStudentIsland12;
+    @FXML
+    private Circle cyanStudentIsland1, cyanStudentIsland2, cyanStudentIsland3, cyanStudentIsland4, cyanStudentIsland5, cyanStudentIsland6, cyanStudentIsland7, cyanStudentIsland8, cyanStudentIsland9, cyanStudentIsland10,cyanStudentIsland11, cyanStudentIsland12;
+    @FXML
+    private ImageView MNPosition1, MNPosition2, MNPosition3, MNPosition4, MNPosition5, MNPosition6, MNPosition7, MNPosition8,MNPosition9,MNPosition10, MNPosition11, MNPosition12;
 
     private int index = -1;
+    private int indexIsland = -1;
+    private int indexMN = -1;
+
+
+
+
+
+    private ArrayList<Circle> greenStudentIsland= new ArrayList<>(), redStudentIsland = new ArrayList<>(), yellowStudentIsland = new ArrayList<>(), magentaStudentIsland = new ArrayList<>(), cyanStudentIsland = new ArrayList<>();
+
 
     private ArrayList<Circle> studentsPosition = new ArrayList<>(9);
 
@@ -78,6 +105,11 @@ public class DashboardController implements Initializable, DisplayLabel {
     private final int numberOfPositionClassroom = 10;
 
     private Boolean[][] classroomFilled = new Boolean[PawnColor.numberOfColors][numberOfPositionClassroom];
+
+    private ArrayList<ImageView> Islands = new ArrayList<>(12);
+    private ArrayList<ImageView> MNPositions = new ArrayList<>(12);
+    private ArrayList<ArrayList<Circle>> studentsInEachIsland = new ArrayList<>();
+    private ArrayList<Rectangle> MnIslandPosition = new ArrayList<>(12);
 
 
     private ArrayList<ArrayList<Circle>> nameColor = new ArrayList<>();
@@ -94,6 +126,71 @@ public class DashboardController implements Initializable, DisplayLabel {
     public void displayLabel(@NotNull String text, Label label, String textLabel) {
         DisplayLabel.super.displayLabel(text, label, textLabel);
     }
+/*
+    public Label getMovesOfMnLabel() {
+        return movesOfMn;
+    }
+
+    public Label getOrderLabel() {
+        return order;
+    }
+
+    public Label getUsernameLabel() {
+        return username;
+    }*/
+
+    public void setUpIslandImageView(){
+        Islands.add(Island1);
+        Islands.add(Island2);
+        Islands.add(Island3);
+        Islands.add(Island4);
+        Islands.add(Island5);
+        Islands.add(Island6);
+        Islands.add(Island7);
+        Islands.add(Island8);
+        Islands.add(Island9);
+        Islands.add(Island10);
+        Islands.add(Island11);
+        Islands.add(Island12);
+
+       // for (ImageView island : Islands){
+         //   island.setDisable(true);
+        //}
+    }
+
+    public void setUpMNIslandPosition(){
+        MnIslandPosition.add(MNIsland1);
+        MnIslandPosition.add(MNIsland2);
+        MnIslandPosition.add(MNIsland3);
+        MnIslandPosition.add(MNIsland4);
+        MnIslandPosition.add(MNIsland5);
+        MnIslandPosition.add(MNIsland6);
+        MnIslandPosition.add(MNIsland7);
+        MnIslandPosition.add(MNIsland8);
+        MnIslandPosition.add(MNIsland9);
+        MnIslandPosition.add(MNIsland10);
+        MnIslandPosition.add(MNIsland11);
+        MnIslandPosition.add(MNIsland12);
+
+        for (Rectangle rectangle : MnIslandPosition){
+            rectangle.setDisable(true);
+        }
+    }
+
+    public void setUpMNPositions(){
+        MNPositions.add(MNPosition1);
+        MNPositions.add(MNPosition2);
+        MNPositions.add(MNPosition3);
+        MNPositions.add(MNPosition4);
+        MNPositions.add(MNPosition5);
+        MNPositions.add(MNPosition6);
+        MNPositions.add(MNPosition7);
+        MNPositions.add(MNPosition8);
+        MNPositions.add(MNPosition9);
+        MNPositions.add(MNPosition10);
+        MNPositions.add(MNPosition11);
+        MNPositions.add(MNPosition12);
+   }
 
     public void setUpNameColor() {
         nameColor.add(greenPositions);
@@ -134,37 +231,49 @@ public class DashboardController implements Initializable, DisplayLabel {
         commandHashMap.put("player",this::setUpPlayerInfo);
         commandHashMap.put("gameInfo", this::setUpGameInfo);
         commandHashMap.put("quit", this::quit);
+        commandHashMap.put("islands", this::setIslands);
+
         setUpClassroomFilled();
         setUpNameColor();
         setUpClassroom();
         setUpProfessorPositions();
-        Thread readThread = new Thread(() -> {
-            while (true) {
-                message = clientInput.readLine();
-                if (message != null) {
-                    Platform.runLater(() -> {
-                        try {
-                             commandHashMap.get(message.type).runCommand();
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        }
-                    });
-
-
-                }
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
+        setUpColorPositionOnTheIslands();
+        setUpIslandImageView();
+        setUpMNPositions();
+        Thread readThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (true) {
+                    message = clientInput.readLine();
+                    if (message != null) {
+                        Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                     commandHashMap.get(message.type).runCommand();
+                                } catch (IOException e) {
+                                    throw new RuntimeException(e);
+                                }
+                            }
+                        });
+                    }
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             }
         });
         readThread.start();
         clientInput.sendString("singleDashboard", "");
+        clientInput.sendString("islands","");
         clientInput.sendString("player","");
         clientInput.sendString("gameInfo","");
 
     }
+
+
 
     private void printNotify() {
         AlertHelper.showAlert(Alert.AlertType.CONFIRMATION, classRoom.getScene().getWindow(), "Notify", message.message);
@@ -173,6 +282,7 @@ public class DashboardController implements Initializable, DisplayLabel {
     private void manageError() {
         AlertHelper.showAlert(Alert.AlertType.ERROR, classRoom.getScene().getWindow(), "Error", message.message);
     }
+
 
     private void manageConfirmation() {
         AlertHelper.showAlert(Alert.AlertType.CONFIRMATION, classRoom.getScene().getWindow(), "Confirmation", message.message);
@@ -241,6 +351,14 @@ public class DashboardController implements Initializable, DisplayLabel {
         setUpColorPosition(redPositions, redPosition1, redPosition2, redPosition3, redPosition4, redPosition5, redPosition6, redPosition7, redPosition8, redPosition9, redPosition10);
     }
 
+    public void setUpColorPositionOnTheIslands(){
+        setUpColorPositionIslands(greenStudentIsland,greenStudentIsland1,greenStudentIsland2,greenStudentIsland3,greenStudentIsland4,greenStudentIsland5,greenStudentIsland6,greenStudentIsland7,greenStudentIsland8,greenStudentIsland9,greenStudentIsland10, greenStudentIsland11, greenStudentIsland12);
+        setUpColorPositionIslands(redStudentIsland,redStudentIsland1,redStudentIsland2,redStudentIsland3,redStudentIsland4,redStudentIsland5,redStudentIsland6,redStudentIsland7,redStudentIsland8,redStudentIsland9,redStudentIsland10, redStudentIsland11, redStudentIsland12);
+        setUpColorPositionIslands(yellowStudentIsland,yellowStudentIsland1,yellowStudentIsland2,yellowStudentIsland3,yellowStudentIsland4,yellowStudentIsland5,yellowStudentIsland6,yellowStudentIsland7,yellowStudentIsland8,yellowStudentIsland9,yellowStudentIsland10, yellowStudentIsland11, yellowStudentIsland12);
+        setUpColorPositionIslands(magentaStudentIsland,magentaStudentIsland1,magentaStudentIsland2,magentaStudentIsland3,magentaStudentIsland4,magentaStudentIsland5,magentaStudentIsland6,magentaStudentIsland7,magentaStudentIsland8,magentaStudentIsland9,magentaStudentIsland10, magentaStudentIsland11, magentaStudentIsland12);
+        setUpColorPositionIslands(cyanStudentIsland,cyanStudentIsland1,cyanStudentIsland2,cyanStudentIsland3,cyanStudentIsland4,cyanStudentIsland5,cyanStudentIsland6,cyanStudentIsland7,cyanStudentIsland8,cyanStudentIsland9,cyanStudentIsland10, cyanStudentIsland11, cyanStudentIsland12);
+
+    }
 
     /**
      * set to transparent the background of the position of the students in the classroom
@@ -268,6 +386,30 @@ public class DashboardController implements Initializable, DisplayLabel {
         setTransparentCircle(colorPositions);
     }
 
+    private void setUpColorPositionIslands(ArrayList<Circle> colorPositions, Circle colorPosition1, Circle colorPosition2, Circle colorPosition3, Circle colorPosition4, Circle colorPosition5, Circle colorPosition6, Circle colorPosition7, Circle colorPosition8, Circle colorPosition9, Circle colorPosition10, Circle colorPosition11, Circle colorPosition12) {
+        colorPositions.add(colorPosition1);
+        colorPositions.add(colorPosition2);
+        colorPositions.add(colorPosition3);
+        colorPositions.add(colorPosition4);
+        colorPositions.add(colorPosition5);
+        colorPositions.add(colorPosition6);
+        colorPositions.add(colorPosition7);
+        colorPositions.add(colorPosition8);
+        colorPositions.add(colorPosition9);
+        colorPositions.add(colorPosition10);
+        colorPositions.add(colorPosition11);
+        colorPositions.add(colorPosition12);
+        setTransparentCircle(colorPositions);
+    }
+
+   private void setUpStudentsInEachIsland () {
+       studentsInEachIsland.add(greenStudentIsland);
+       studentsInEachIsland.add(redStudentIsland);
+       studentsInEachIsland.add(yellowStudentIsland);
+       studentsInEachIsland.add(magentaStudentIsland);
+       studentsInEachIsland.add(cyanStudentIsland);
+   }
+
     public void setUpProfessorImages(String[] teachers) {
         int i = 0;
         for (String teacher : teachers) {
@@ -292,6 +434,16 @@ public class DashboardController implements Initializable, DisplayLabel {
                 studentsPosition.get(i).setDisable(true);
             }
             i++;
+        }
+    }
+
+    public void setUpStudentsOnTheIsland(ArrayList<Integer> students, int idIsland){
+        for (Integer studentColor : students){
+            if (studentColor != null){
+                studentsInEachIsland.get(studentColor).get(idIsland).setFill(new ImagePattern(new Image(String.valueOf(getClass().getClassLoader().getResource("images/Pawn/" + PawnColor.values()[studentColor].getName() + "_student.png")))));
+            } else {
+                studentsInEachIsland.get(studentColor).get(idIsland).setFill(null);
+            }
         }
     }
 
@@ -321,11 +473,77 @@ public class DashboardController implements Initializable, DisplayLabel {
         setUpTowerImages(dashboardStatus);
     }
 
+    private void setIslands(){
+       while (!Objects.equals(message.type, "islands")) {
+            message = clientInput.readLine();
+       }
+        IslandStatus[] islands = gson.fromJson(message.message, IslandStatus[].class);
+        setUpStudentsInEachIsland();
+        setUpIsland(islands);
+        setUpMNIslandPosition();
+    }
+
+    public void setUpIsland(IslandStatus[] island){
+
+        int id = 0;
+        ArrayList<Integer> studentsColorOrdinal = null;
+        boolean presenceMN = false;
+
+       for (IslandStatus islandStatus : island){
+           islandStatus.id= id;
+           studentsColorOrdinal = islandStatus.studentColorOrdinal;
+           System.out.println(studentsColorOrdinal);
+           presenceMN = islandStatus.presenceMN;
+           if (presenceMN == true ){
+               MNPositions.get(id).setImage(new Image(String.valueOf(getClass().getClassLoader().getResource("images/Pawn/MotherNature.png"))));
+               indexMN=id;
+           }
+           setUpStudentsOnTheIsland(studentsColorOrdinal , id);
+           id++;
+       }
+    }
+
+
+    @FXML
+    private void moveMNToIslands (MouseEvent event){
+        indexMN = MNPositions.indexOf(event.getSource());
+        if (mnMoves.getCounter() > 0) {
+            if (indexMN != -1) {
+                for (Rectangle islandLanded : MnIslandPosition)
+                islandLanded.setOnMouseClicked(e -> {
+                    indexIsland = MnIslandPosition.indexOf(e.getSource());
+                    moveMn(e);
+                    MNPositions.get(indexMN).setImage(null);
+                    MNPositions.get(indexIsland).setImage(new Image(String.valueOf(getClass().getClassLoader().getResource("images/Pawn/MotherNature.png"))));
+                    this.mnMoves.decrement();
+                    displayLabel("Moves of MN", movesOfMn, mnMoves.toString());
+                });
+            }
+        } else {
+            AlertHelper.showAlert(Alert.AlertType.WARNING, classRoom.getScene().getWindow(),"Error","You have finished you moves");
+        }
+    }
+
+
+    @FXML
+    private void getIndexMN(MouseEvent event){
+        indexMN = MNPositions.indexOf(event.getSource());
+        System.out.println(indexMN);
+    }
+
+    @FXML
+    private void moveMn ( MouseEvent event){
+        ClientInput.getInstance().sendString("moveMN", String.valueOf(indexIsland + 1));
+        indexIsland = -1;
+    }
+
+
     public void setUpPlayerInfo() {
         PlayersStatus player = gson.fromJson(message.message, PlayersStatus[].class)[0];
         displayLabel("Username", username, player.getName());
-        displayLabel("Moves of MN", movesOfMn, String.valueOf(player.getMovesOfMN()));
         movesOfStudents.setCounter(player.getMovesOfStudents());
+        mnMoves.setCounter(player.getMovesOfMN());
+        displayLabel("Moves of MN", movesOfMn, String.valueOf(player.getMovesOfMN()));
         displayLabel("Moves of students", movesAvailableCounter, String.valueOf(movesOfStudents.getCounter()));
     }
 
@@ -340,41 +558,65 @@ public class DashboardController implements Initializable, DisplayLabel {
     private void getIndex(MouseEvent event) {
         index = studentsPosition.indexOf(event.getSource());
         System.out.println(index);
-
     }
 
     @FXML
-    private void moveStudentToClassroom(MouseEvent mouseEvent) {
+    private void moveStudentToClassroom(MouseEvent mouseEvent) throws IOException {
         if (movesOfStudents.getCounter() > 0) {
             if (index != -1) {
-                moveToClassroom();
+                moveToClassroom(mouseEvent);
                 this.movesOfStudents.decrement();
                 displayLabel("Moves of students", movesAvailableCounter, movesOfStudents.toString());
             }
-
         } else {
             AlertHelper.showAlert(Alert.AlertType.WARNING, classRoom.getScene().getWindow(),"Error","You have finished you moves");
-        }
+            for (Rectangle rectangle : MnIslandPosition){
+                rectangle.setDisable(true);
+            }
 
+        }
+    }
+
+
+    @FXML
+    private void moveStudentToIsland (MouseEvent mouseEvent) throws IOException {
+        indexIsland = Islands.indexOf(mouseEvent.getSource());
+        System.out.println(indexIsland);
+        if (movesOfStudents.getCounter() > 0) {
+            if ( index!=-1){
+                studentsPosition.get(index).setFill(null);
+                studentsPosition.get(index).setDisable(true);
+                moveToIsland(mouseEvent);
+                this.movesOfStudents.decrement();
+                displayLabel("Moves of students", movesAvailableCounter, movesOfStudents.toString());
+
+            }
+        } else {
+            AlertHelper.showAlert(Alert.AlertType.WARNING, Islands.get(indexIsland).getScene().getWindow(),"Error","You have finished you moves");
+            for (Rectangle rectangle : MnIslandPosition){
+                rectangle.setDisable(true);
+            }
+            for (ImageView island : Islands){
+                island.setDisable(true);
+            }
+        }
 
     }
 
 
-    private void moveToClassroom() {
+
+    @FXML
+    private void moveToClassroom(MouseEvent event) {
         ClientInput.getInstance().sendString("moveStudentToClassroom", String.valueOf(index + 1));
         index = -1;
     }
 
 
-    public void moveStudentToIsland(ActionEvent actionEvent) throws IOException {
-        if (movesOfStudents.getCounter() > 0) {
-            setTable(actionEvent);
-            this.movesOfStudents.decrement();
-            displayLabel("Moves of students", movesAvailableCounter, movesOfStudents.toString());
-        } else {
-            alertFinishedTurn(actionEvent); //show an alert when you finish the moves
-            setWaiting(actionEvent);
-        }
+    @FXML
+    private void moveToIsland(MouseEvent event) throws IOException {
+        ClientInput.getInstance().sendString("moveStudentToIsland", String.valueOf(index+1),String.valueOf(indexIsland + 1));
+        indexIsland = -1;
+        index = -1;
     }
 
 
