@@ -85,6 +85,7 @@ public class DashboardController implements Initializable, DisplayLabel {
     private int index = -1;
     private int indexIsland = -1;
     private int indexMN = -1;
+    private int islandsSize= -1;
 
 
 
@@ -232,6 +233,7 @@ public class DashboardController implements Initializable, DisplayLabel {
         commandHashMap.put("gameInfo", this::setUpGameInfo);
         commandHashMap.put("quit", this::quit);
         commandHashMap.put("islands", this::setIslands);
+        commandHashMap.put("hall", this::setUpHall);
 
         setUpClassroomFilled();
         setUpNameColor();
@@ -481,6 +483,7 @@ public class DashboardController implements Initializable, DisplayLabel {
         setUpStudentsInEachIsland();
         setUpIsland(islands);
         setUpMNIslandPosition();
+
     }
 
     public void setUpIsland(IslandStatus[] island){
@@ -488,6 +491,7 @@ public class DashboardController implements Initializable, DisplayLabel {
         int id = 0;
         ArrayList<Integer> studentsColorOrdinal = null;
         boolean presenceMN = false;
+        islandsSize=island.length;
 
        for (IslandStatus islandStatus : island){
            islandStatus.id= id;
@@ -506,21 +510,32 @@ public class DashboardController implements Initializable, DisplayLabel {
 
     @FXML
     private void moveMNToIslands (MouseEvent event){
-        indexMN = MNPositions.indexOf(event.getSource());
+        indexIsland = MnIslandPosition.indexOf(event.getSource());
+        System.out.println(indexIsland + " MnIslandPosition");
+        int moves = indexIsland-indexMN;
         if (mnMoves.getCounter() > 0) {
-            if (indexMN != -1) {
-                for (Rectangle islandLanded : MnIslandPosition)
-                islandLanded.setOnMouseClicked(e -> {
-                    indexIsland = MnIslandPosition.indexOf(e.getSource());
-                    moveMn(e);
+            if (moves < 0)
+                moves = moves + islandsSize;
+
+            if (moves > mnMoves.getCounter() || moves < 1){
+                AlertHelper.showAlert(Alert.AlertType.WARNING, MnIslandPosition.get(indexIsland).getScene().getWindow(),"Error","Mother Nature has just "+mnMoves.getCounter()+" moves available" );
+            } else {
+                if (indexMN != -1 ) {
+                    moveMn(event);
                     MNPositions.get(indexMN).setImage(null);
-                    MNPositions.get(indexIsland).setImage(new Image(String.valueOf(getClass().getClassLoader().getResource("images/Pawn/MotherNature.png"))));
-                    this.mnMoves.decrement();
+                    indexIsland = -1;
+                    this.mnMoves.setCounter(0);
                     displayLabel("Moves of MN", movesOfMn, mnMoves.toString());
-                });
+                    for (Rectangle islands : MnIslandPosition){
+                        islands.setDisable(true);
+                    }
+                    for (ImageView mn : MNPositions){
+                        mn.setDisable(true);
+                    }
+                }
             }
         } else {
-            AlertHelper.showAlert(Alert.AlertType.WARNING, classRoom.getScene().getWindow(),"Error","You have finished you moves");
+            AlertHelper.showAlert(Alert.AlertType.WARNING, MnIslandPosition.get(indexIsland).getScene().getWindow(),"Error","Mother Nature has just "+mnMoves.getCounter()+" moves available" );
         }
     }
 
@@ -528,13 +543,19 @@ public class DashboardController implements Initializable, DisplayLabel {
     @FXML
     private void getIndexMN(MouseEvent event){
         indexMN = MNPositions.indexOf(event.getSource());
-        System.out.println(indexMN);
+        System.out.println(indexMN+ " it's the position of MN");
+        for (int i =0 ; i<12; i++){
+            MnIslandPosition.get(i).setDisable(false);
+            if (i == indexMN)
+                MnIslandPosition.get(i).setDisable(true);
+        }
     }
 
     @FXML
     private void moveMn ( MouseEvent event){
         ClientInput.getInstance().sendString("moveMN", String.valueOf(indexIsland + 1));
-        indexIsland = -1;
+
+
     }
 
 
@@ -567,13 +588,20 @@ public class DashboardController implements Initializable, DisplayLabel {
                 moveToClassroom(mouseEvent);
                 this.movesOfStudents.decrement();
                 displayLabel("Moves of students", movesAvailableCounter, movesOfStudents.toString());
+                if (movesOfStudents.getCounter()==0){
+                    for (ImageView island : Islands){
+                        island.setDisable(true);
+                    }
+
+                   /* for (Rectangle rectangle : MnIslandPosition){
+                        rectangle.setDisable(false);
+                        if (rectangle.getId() == "MNIsland"+(indexMN +1))
+                            rectangle.setDisable(true);
+                    }*/
+                }
             }
         } else {
             AlertHelper.showAlert(Alert.AlertType.WARNING, classRoom.getScene().getWindow(),"Error","You have finished you moves");
-            for (Rectangle rectangle : MnIslandPosition){
-                rectangle.setDisable(true);
-            }
-
         }
     }
 
@@ -588,17 +616,23 @@ public class DashboardController implements Initializable, DisplayLabel {
                 studentsPosition.get(index).setDisable(true);
                 moveToIsland(mouseEvent);
                 this.movesOfStudents.decrement();
+                if (movesOfStudents.getCounter()==0){
+                    for (ImageView island : Islands){
+                        island.setDisable(true);
+                    }
+                   /*
+                    for (Rectangle rectangle : MnIslandPosition){
+                        rectangle.setDisable(false);
+                        if (rectangle.getId() == "MNIsland"+(indexMN +1))
+                            rectangle.setDisable(true);
+                    }*/
+                }
+
                 displayLabel("Moves of students", movesAvailableCounter, movesOfStudents.toString());
 
             }
         } else {
             AlertHelper.showAlert(Alert.AlertType.WARNING, Islands.get(indexIsland).getScene().getWindow(),"Error","You have finished you moves");
-            for (Rectangle rectangle : MnIslandPosition){
-                rectangle.setDisable(true);
-            }
-            for (ImageView island : Islands){
-                island.setDisable(true);
-            }
         }
 
     }
