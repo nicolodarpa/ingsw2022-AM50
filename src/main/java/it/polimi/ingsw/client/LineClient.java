@@ -92,6 +92,7 @@ public class LineClient {
                 case "quit" -> quit();
                 case "help", "h" -> printCommands();
                 case "gameInfo" -> clientInput.sendString("gameInfo", "");
+                case "singleIsland" -> sendSingleIsland();
                 default -> clientInput.sendString(inputLine, "");
 
             }
@@ -207,6 +208,11 @@ public class LineClient {
         System.out.println("Select assistant card to play");
         clientInput.sendString("sendAssistantCardDeck", "");
         clientInput.sendString("playAssistantCard", stdin.nextLine());
+    }
+
+    private static void sendSingleIsland(){
+        System.out.println("Select an Island: ");
+        clientInput.sendString("singleIsland", stdin.nextLine());
     }
 
     private static void moveStudentToIsland() {

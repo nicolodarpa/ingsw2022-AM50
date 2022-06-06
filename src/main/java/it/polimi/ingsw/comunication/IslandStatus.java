@@ -2,6 +2,7 @@ package it.polimi.ingsw.comunication;
 
 import it.polimi.ingsw.model.Island;
 import it.polimi.ingsw.model.Pawn;
+import it.polimi.ingsw.model.PawnColor;
 import it.polimi.ingsw.model.Student;
 
 import java.util.ArrayList;
@@ -18,6 +19,8 @@ public class IslandStatus {
     public ArrayList<String> students = new ArrayList<>();
 
     public ArrayList<Integer> studentColorOrdinal = new ArrayList<>();
+
+    public ArrayList<String> colors = new ArrayList<>();
 
     public int towerNumber;
     public String towerColor;
@@ -36,9 +39,11 @@ public class IslandStatus {
             if (student!=null){
                 students.add(String.valueOf(student.getColor().getCode()));
                 studentColorOrdinal.add(student.getColor().ordinal());
+                colors.add(student.getColor().getName());
             } else{
                 students.add(null);
                 studentColorOrdinal.add(null);
+                colors.add(null);
             }
         }
         /*

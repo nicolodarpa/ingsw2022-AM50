@@ -56,6 +56,7 @@ public class DeckController implements Initializable, DisplayLabel {
         Scene scene = new Scene(fxmlLoader.load());
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         stage.setScene(scene);
+        stage.setMaximized(true);
         stage.show();
     }
 

@@ -1,8 +1,7 @@
 package it.polimi.ingsw.client;
 
-import it.polimi.ingsw.client.view.AlertThread;
+
 import javafx.application.Application;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -34,11 +33,12 @@ public class ClientGUI extends Application {
         stage.getIcons().add(icon);
         stage.setTitle("Eryantis GUI");
         stage.setScene(scene);
+        stage.setMaximized(true);
         stage.show();
 
         mainStage.setOnCloseRequest(evt -> {
 
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure to left the game ? ", ButtonType.YES, ButtonType.NO);
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure to leave the game ? ", ButtonType.YES, ButtonType.NO);
             ButtonType result = alert.showAndWait().orElse(ButtonType.NO);
             if(ButtonType.NO.equals(result)){
                 evt.consume();
@@ -52,6 +52,8 @@ public class ClientGUI extends Application {
         });
 
     }
+
+
 
 
     public static void main(String[] args) {

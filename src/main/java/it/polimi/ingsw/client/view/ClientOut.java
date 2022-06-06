@@ -61,6 +61,7 @@ public class ClientOut extends Thread {
         commandHashMap.put("player", this::printPlayer);
         commandHashMap.put("quit", this::quit);
         commandHashMap.put("gameInfo", this::printGameInfo);
+        commandHashMap.put("singleIsland", this::printSingleIsland);
     }
 
 
@@ -229,8 +230,15 @@ public class ClientOut extends Thread {
             System.out.println(row);
         }
         System.out.println(line);
-
     }
+
+    private void printSingleIsland(){
+        IslandStatus[] statuses = gson.fromJson(message.message, IslandStatus[].class);
+        for (IslandStatus islandStatus : statuses) {
+            System.out.println("Id: " + islandStatus.id + " -Owner: " + islandStatus.owner + " -Dimension: " + islandStatus.dimension);
+        }
+    }
+
 
     private void printDashboard() {
         DashboardStatus[] dashboardStatuses = gson.fromJson(message.message, DashboardStatus[].class);

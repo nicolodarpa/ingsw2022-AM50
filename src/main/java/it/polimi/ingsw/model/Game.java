@@ -192,6 +192,13 @@ public class Game {
         return gson.toJson(statusList);
     }
 
+    public String sendSingleIsland(Island island){
+        ArrayList<IslandStatus> islandStatuses = new ArrayList<>();
+        islandStatuses.add(new IslandStatus(island));
+        Gson gson = new Gson();
+        return gson.toJson(islandStatuses);
+    }
+
     public String sendHall(Player player) {
         ArrayList<HallStatus> statusList = new ArrayList<>();
         statusList.add(new HallStatus(player.getDashboard()));

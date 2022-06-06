@@ -67,6 +67,7 @@ public class EchoServerClientHandler extends Thread {
         commandMap.put("hall", this::sendHall);
         commandMap.put("quit", this::quit);
         commandMap.put("gameInfo", this::sendGameInfo);
+        commandMap.put("singleIsland", this::sendSingleIsland);
 
 
         try {
@@ -291,6 +292,15 @@ public class EchoServerClientHandler extends Thread {
 
     }
 
+    public void sendSingleIsland(Command command){
+        int indexIsland = Integer.parseInt(command.value1);
+        try{
+            player.sendToClient("singleIsland", game.sendSingleIsland(game.getIslands().get(indexIsland-1)));
+        }catch (Exception e){
+            player.sendToClient("warning", "Invalid index");
+        }
+
+    }
 
     public void playAssistantCard(Command command) {
         if (checkTurn() && game.getPhase() == 0) {
