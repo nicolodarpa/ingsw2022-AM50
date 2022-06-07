@@ -30,7 +30,6 @@ public class SpecialDeck {
 
     /**
      * creates a deck with all the special cards
-     * @return
      */
     public SpecialDeck() {
         deckMap.put(0, characterCard1);

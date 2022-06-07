@@ -248,6 +248,10 @@ public class DashboardController implements Initializable, DisplayLabel  {
         towerIslands.addAll(Arrays.asList(towerIsland1, towerIsland2, towerIsland3, towerIsland4, towerIsland5, towerIsland6, towerIsland7, towerIsland8, towerIsland9, towerIsland10, towerIsland11, towerIsland12));
     }
 
+    public void setUpTowerDashboard(){
+        towerPosition.addAll(Arrays.asList(towerPosition1, towerPosition2, towerPosition3, towerPosition4, towerPosition5, towerPosition6, towerPosition7, towerPosition8));
+    }
+
 
 
     @Override
@@ -274,6 +278,7 @@ public class DashboardController implements Initializable, DisplayLabel  {
         setUpIslandImageView();
         setUpMNPositions();
         setUpTowerIslands();
+        setUpTowerDashboard();
         Thread readThread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -387,22 +392,18 @@ public class DashboardController implements Initializable, DisplayLabel  {
 
 
 
-    public void setUpTowerImages(DashboardStatus dashboard) {
-        towerPosition.add(towerPosition1);
-        towerPosition.add(towerPosition2);
-        towerPosition.add(towerPosition3);
-        towerPosition.add(towerPosition4);
-        towerPosition.add(towerPosition5);
-        towerPosition.add(towerPosition6);
-        if (dashboard.towers > 7) {
-            towerPosition.add(towerPosition7);
-            towerPosition.add(towerPosition8);
-        }
-        String color = dashboard.towerColor.getName();
-
+    public void setUpTowerImages(int towersNumber, TowerColor towerColor) {
+        String color = towerColor.getName();
+        int j = 0;
         Image imgTower = new Image(String.valueOf(getClass().getClassLoader().getResource("images/Tower/" + color + "_tower.png")));
-        for (ImageView tow : towerPosition) {
-            tow.setImage(imgTower);
+        for (int i = 0; i < towersNumber; i++) {
+            towerPosition.get(i).setImage(imgTower);
+            j = i;
+        }
+        j++;
+        while(j < towerPosition.size()){
+            towerPosition.get(j).setImage(null);
+            j++;
         }
 
     }
@@ -515,24 +516,24 @@ public class DashboardController implements Initializable, DisplayLabel  {
         setUpHallImages(hall);
         printClassroom(classroom);
         setUpProfessorImages(teachers);
-        setUpTowerImages(dashboardStatus);
+        setUpTowerImages(dashboardStatus.towers, dashboardStatus.towerColor);
     }
 
     private void setIslands(){
         IslandStatus[] islands = gson.fromJson(message.message, IslandStatus[].class);
         setUpStudentsInEachIsland();
-        setUpIsland(islands);
         setUpMNIslandPosition();
+        setUpIsland(islands);
 
     }
 
     public void setUpIsland(IslandStatus[] island) {
-        int id = 0;
+        int id;
         ArrayList<Integer> studentsColorOrdinal;
         boolean presenceMN;
         islandsSize = island.length;
-        String towerColor = null;
-        int towerNumber = 0;
+        String towerColor;
+        int towerNumber;
 
         for (IslandStatus islandStatus : island) {
             id = islandStatus.id - 1;
@@ -573,6 +574,7 @@ public class DashboardController implements Initializable, DisplayLabel  {
                     for (ImageView mn : MNPositions){
                         mn.setDisable(true);
                     }
+                    clientInput.sendString("singleDashboard", "");
                 }
             }
         } else {

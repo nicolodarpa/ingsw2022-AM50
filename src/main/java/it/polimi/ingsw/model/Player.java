@@ -18,12 +18,25 @@ import static it.polimi.ingsw.model.Game.MOVES;
 public class Player {
 
 
+    /**
+     * Indicates the player's username
+     */
     private final String name;
     private Socket socket;
     private PrintWriter out;
+
+    /**
+     * Indicates the order of the player in the game, it's set when a player play an assistant card
+     */
     private int order = 10;
+    /**
+     * Indicates the player's available moves of Mother Nature, it's set when a player play an assistant card
+     */
     private int movesOfMN = 0;
 
+    /**
+     * Indicates the player's available moves of student in the action phase, it's set based of the number of players in the game
+     */
     private int movesOfStudents = MOVES;
     private static final Wallet wallet = new Wallet();
     private Dashboard dashboard = new Dashboard();

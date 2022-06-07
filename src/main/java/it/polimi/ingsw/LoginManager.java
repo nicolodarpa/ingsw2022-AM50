@@ -9,7 +9,6 @@ import java.net.Socket;
 public class LoginManager {
 
     public static int login(String name, Game game) {
-
         if (game.getCurrentNumberOfPlayers() >= game.getNumberOfPlayers()) //max number of player reached
             return 1;
         else if (game.containsPlayerByName(name)) //name already in use
