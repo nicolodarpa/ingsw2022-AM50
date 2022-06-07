@@ -9,7 +9,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<Pane fx:id="anchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1080.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.DashboardController">
+<Pane fx:id="anchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1080.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.DashboardController">
    <children>
       <ImageView fitHeight="215.0" fitWidth="500.0" layoutX="331.0" layoutY="491.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fitHeight="215.0" fitWidth="500.0" layoutX="331.0" layoutY="491.0">
@@ -311,9 +311,9 @@
       <ImageView fx:id="towerIsland10" fitHeight="50.0" fitWidth="28.0" layoutX="495.0" layoutY="318.0" />
       <ImageView fx:id="towerIsland11" fitHeight="50.0" fitWidth="28.0" layoutX="315.0" layoutY="318.0" />
       <ImageView fx:id="towerIsland12" fitHeight="50.0" fitWidth="28.0" layoutX="132.0" layoutY="318.0" />
-      <Circle fx:id="cloudCard1" fill="1f93ff04" layoutX="421.0" layoutY="282.0" radius="39.0" stroke="BLACK" strokeType="INSIDE" />
-      <Circle fx:id="cloudCard2" fill="1f93ff04" layoutX="573.0" layoutY="282.0" radius="39.0" stroke="BLACK" strokeType="INSIDE" />
-      <Circle fx:id="cloudCard3" fill="1f93ff04" layoutX="722.0" layoutY="281.0" radius="39.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle fx:id="cloudCard1" fill="1f93ff04" layoutX="421.0" layoutY="282.0" onMouseClicked="#chooseCC" radius="39.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle fx:id="cloudCard2" fill="1f93ff04" layoutX="573.0" layoutY="282.0" onMouseClicked="#chooseCC" radius="39.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle fx:id="cloudCard3" fill="1f93ff04" layoutX="722.0" layoutY="281.0" onMouseClicked="#chooseCC" radius="39.0" stroke="BLACK" strokeType="INSIDE" />
       <Circle fx:id="student1CC1" fill="1f93ff04" layoutX="405.0" layoutY="270.0" radius="10.0" stroke="BLACK" strokeType="INSIDE" />
       <Circle fx:id="student2CC1" fill="1f93ff04" layoutX="440.0" layoutY="269.0" radius="10.0" stroke="BLACK" strokeType="INSIDE" />
       <Circle fx:id="student3CC1" fill="1f93ff04" layoutX="403.0" layoutY="299.0" radius="10.0" stroke="BLACK" strokeType="INSIDE" />
