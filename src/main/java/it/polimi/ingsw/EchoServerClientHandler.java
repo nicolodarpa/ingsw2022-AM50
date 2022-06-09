@@ -260,7 +260,7 @@ public class EchoServerClientHandler extends Thread {
     }
 
     public void playCharacterCard(Command command) {
-        int specialCardIndex = 0;
+        int specialCardIndex = Integer.parseInt(command.value1);
         SpecialCard specialCard;
         PawnColor studentColor = null;
         int islandIndex = 0;

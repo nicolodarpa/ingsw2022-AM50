@@ -97,6 +97,7 @@ public class DashboardController implements Initializable, DisplayLabel  {
     public final ArrayList<Image> getCloudCardsInGame() {
         return cloudCardsInGame;
     }
+
     private ArrayList<Circle> studentsCC1 = new ArrayList<>();
     private ArrayList<Circle> studentsCC2 = new ArrayList<>();
     private ArrayList<Circle> studentsCC3 = new ArrayList<>();
