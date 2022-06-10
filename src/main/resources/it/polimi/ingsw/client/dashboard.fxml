@@ -9,7 +9,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<Pane fx:id="anchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1080.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.DashboardController">
+<Pane fx:id="anchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1080.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.DashboardController">
    <children>
       <ImageView fitHeight="215.0" fitWidth="500.0" layoutX="331.0" layoutY="491.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fitHeight="215.0" fitWidth="500.0" layoutX="331.0" layoutY="491.0">
@@ -342,6 +342,11 @@
       <Button fx:id="info9" layoutX="507.0" layoutY="460.0" mnemonicParsing="false" onAction="#showStudentsIsland9" text="Info" />
       <Button fx:id="info10" layoutX="329.0" layoutY="461.0" mnemonicParsing="false" onAction="#showStudentsIsland10" text="Info" />
       <Button fx:id="info11" layoutX="155.0" layoutY="461.0" mnemonicParsing="false" onAction="#showStudentsIsland11" text="Info" />
+      <Button fx:id="assistantCardButton" layoutX="24.0" layoutY="519.0" mnemonicParsing="false" onAction="#setPhasePage" text="Play Assistant Card">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Button>
 
    </children>
 </Pane>

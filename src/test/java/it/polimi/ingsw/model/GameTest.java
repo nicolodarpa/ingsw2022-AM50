@@ -1,8 +1,7 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.LoginManager;
-import it.polimi.ingsw.model.CharacterCards.SpecialCard;
-import org.junit.jupiter.api.Disabled;
+import it.polimi.ingsw.model.CharacterCards.SpecialCardStrategy;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -169,7 +168,7 @@ public class GameTest {
         LoginManager.login("nic", gameTest);
 
         assertEquals(3, gameTest.getCardsInGame().size());
-        for (SpecialCard card : gameTest.getCardsInGame()) {
+        for (SpecialCardStrategy card : gameTest.getCardsInGame()) {
             System.out.println("==" + card.getEffectOfTheCard());
         }
 

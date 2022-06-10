@@ -27,35 +27,12 @@ import java.util.ResourceBundle;
 public class AssistantCardController {
 
 
-    public void setActionPage(ActionEvent actionEvent) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("dashboard.fxml"));
-        Scene scene = new Scene(fxmlLoader.load());
-        Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        stage.setScene(scene);
-        stage.setMaximized(true);
-        stage.show();
-    }
 
 
 
     public void alertChosenCard(ActionEvent actionEvent) throws IOException {
         Window window = ((Node) actionEvent.getSource()).getScene().getWindow();
-        while (true) {
-            TextMessage message = ClientInput.getInstance().readLine();
-            if (!Objects.equals(message, null))
-                if(Objects.equals(message.type, "notify")){
-                    //AlertHelper.showAlert(Alert.AlertType.INFORMATION, window, "Turn Notification", message.message);
-                    setActionPage(actionEvent);
-                    break;
-                /*if (Objects.equals(message.message, "Your turn started")) {
-                    AlertHelper.showAlert(Alert.AlertType.INFORMATION, window, "Turn Notification", message.message);
-                    setActionPage(actionEvent, order, movesOfMN);
-                    break;*/
-                } else if (Objects.equals(message.type, "error")) {
-                    AlertHelper.showAlert(Alert.AlertType.WARNING, window, "Invalid card", message.message);
-                    break;
-                }
-        }
+        window.hide();
     }
 
     public void playAssistantCard1(ActionEvent actionEvent) throws IOException {

@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model.CharacterCards;
 
 import it.polimi.ingsw.LoginManager;
-import it.polimi.ingsw.model.CharacterCards.TeacherAssignment;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.PawnColor;
 import it.polimi.ingsw.model.Player;
@@ -11,7 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class TeacherAssignmentTest {
+public class TeacherAssignmentStrategyTest {
     private Game gameTest = new Game();
 
 
@@ -21,7 +20,7 @@ public class TeacherAssignmentTest {
         LoginManager.login("jaz", gameTest);
         LoginManager.login("nic", gameTest);
 
-        TeacherAssignment card = new TeacherAssignment();
+        TeacherAssignmentStrategy card = new TeacherAssignmentStrategy();
         assertEquals(2, card.getCost());
         card.addCost();
         assertEquals(3, card.getCost());
@@ -33,7 +32,7 @@ public class TeacherAssignmentTest {
         LoginManager.login("jaz", gameTest);
         LoginManager.login("nic", gameTest);
 
-        TeacherAssignment card = new TeacherAssignment();
+        TeacherAssignmentStrategy card = new TeacherAssignmentStrategy();
         card.addCost();
         assertEquals(3, card.getCost());
     }
@@ -45,7 +44,7 @@ public class TeacherAssignmentTest {
         LoginManager.login("jaz", gameTest);
         LoginManager.login("nic", gameTest);
 
-        TeacherAssignment card = new TeacherAssignment();
+        TeacherAssignmentStrategy card = new TeacherAssignmentStrategy();
         System.out.println(card.getEffectOfTheCard());
     }
 
@@ -56,7 +55,7 @@ public class TeacherAssignmentTest {
         LoginManager.login("jaz", gameTest);
         LoginManager.login("nic", gameTest);
 
-        TeacherAssignment card = new TeacherAssignment();
+        TeacherAssignmentStrategy card = new TeacherAssignmentStrategy();
         Player player_one = gameTest.getPlist().getPlayers().get(0);
         Player player_two = gameTest.getPlist().getPlayers().get(1);
         card.setActualPlayer(player_one);
@@ -80,7 +79,7 @@ public class TeacherAssignmentTest {
         LoginManager.login("jaz", gameTest);
         LoginManager.login("nic", gameTest);
         LoginManager.login("ale", gameTest);
-        TeacherAssignment card = new TeacherAssignment();
+        TeacherAssignmentStrategy card = new TeacherAssignmentStrategy();
         Player player_one = gameTest.getPlist().getPlayers().get(0);
         Player player_two = gameTest.getPlist().getPlayers().get(1);
         Player player_three = gameTest.getPlist().getPlayers().get(2);

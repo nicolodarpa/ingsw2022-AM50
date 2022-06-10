@@ -2,11 +2,10 @@ package it.polimi.ingsw;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.comunication.Command;
-import it.polimi.ingsw.comunication.GameInfoStatus;
 import it.polimi.ingsw.comunication.GameStatus;
 import it.polimi.ingsw.comunication.TextMessage;
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.CharacterCards.SpecialCard;
+import it.polimi.ingsw.model.CharacterCards.SpecialCardStrategy;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -260,18 +259,18 @@ public class EchoServerClientHandler extends Thread {
     }
 
     public void playCharacterCard(Command command) {
-        int specialCardIndex = Integer.parseInt(command.value1);
-        SpecialCard specialCard;
+        int specialCardIndex = 0;
+        SpecialCardStrategy specialCardStrategy;
         PawnColor studentColor = null;
         int islandIndex = 0;
         int value2 = Integer.parseInt(command.value2);
-        specialCard = game.getCardsInGame().get(Integer.parseInt(command.value1) - 1);
-        if (specialCard.getCost() > player.getCoins()) {
+        specialCardStrategy = game.getCardsInGame().get(Integer.parseInt(command.value1) - 1);
+        if (specialCardStrategy.getCost() > player.getCoins()) {
             player.sendToClient("error", "You don't have enough coins to play this card");
             return;
         }
-        player.sendToClient("notify", specialCard.getEffectOfTheCard());
-        if (Objects.equals(specialCard.getName(), "princess") || Objects.equals(specialCard.getName(), "ambassador") || Objects.equals(specialCard.getName(), "warrior")) {
+        player.sendToClient("notify", specialCardStrategy.getEffectOfTheCard());
+        if (Objects.equals(specialCardStrategy.getName(), "princess") || Objects.equals(specialCardStrategy.getName(), "ambassador") || Objects.equals(specialCardStrategy.getName(), "warrior")) {
             //player.sendToClient("msg", "Select the island");
             if (value2 < 1 || value2 > game.getIslands().size()) {
                 player.sendToClient("error", "Error selecting island");
@@ -279,7 +278,7 @@ public class EchoServerClientHandler extends Thread {
             }
             islandIndex = value2;
 
-        } else if (Objects.equals(specialCard.getName(), "thief") || Objects.equals(specialCard.getName(), "wizard")) {
+        } else if (Objects.equals(specialCardStrategy.getName(), "thief") || Objects.equals(specialCardStrategy.getName(), "wizard")) {
             //player.sendToClient("msg", "Select the color\n0-CYAN\n1-MAGENTA\n2-YELLOW\n3-RED\n4-GREEN");
             if (value2 > 4 || value2 < 0) {
                 player.sendToClient("error", "Error selecting color");

@@ -4,16 +4,13 @@ import it.polimi.ingsw.LoginManager;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import it.polimi.ingsw.model.CharacterCards.AddMoveMN;
-import it.polimi.ingsw.model.CharacterCards.NoTowerInfluence;
-import it.polimi.ingsw.model.CharacterCards.SpecialCard;
 import it.polimi.ingsw.model.Deck;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
 import org.junit.jupiter.api.Test;
 
 
-public class AddMoveMNTest {
+public class AddMoveMNStrategyTest {
 
     private Game gameTest;
 
@@ -33,7 +30,7 @@ public class AddMoveMNTest {
         p1.playAssistantCard(3);
         p2.playAssistantCard(5);
         gameTest.setActualPlayer();
-        SpecialCard cardTest = new AddMoveMN();
+        SpecialCardStrategy cardTest = new AddMoveMNStrategy();
         cardTest.update(gameTest.getPlist(),gameTest.getActualPlayer(), gameTest.getIslands(),null, 1, gameTest.getStudentsBag());
         assertEquals(2,gameTest.getActualPlayer().getMovesOfMN());
         cardTest.effect();
@@ -47,7 +44,7 @@ public class AddMoveMNTest {
         LoginManager.login("jaz",gameTest);
         LoginManager.login("nic",gameTest);
 
-        NoTowerInfluence card = new NoTowerInfluence();
+        NoTowerInfluenceStrategy card = new NoTowerInfluenceStrategy();
         System.out.println(card.getCost());
     }
 
@@ -58,7 +55,7 @@ public class AddMoveMNTest {
         LoginManager.login("jaz",gameTest);
         LoginManager.login("nic",gameTest);
 
-        NoTowerInfluence card = new NoTowerInfluence();
+        NoTowerInfluenceStrategy card = new NoTowerInfluenceStrategy();
         System.out.println(card.getCost());
         card.addCost();
         System.out.println(card.getCost());
@@ -71,7 +68,7 @@ public class AddMoveMNTest {
         LoginManager.login("jaz",gameTest);
         LoginManager.login("nic",gameTest);
 
-        NoTowerInfluence card = new NoTowerInfluence();
+        NoTowerInfluenceStrategy card = new NoTowerInfluenceStrategy();
         System.out.println(card.getEffectOfTheCard());
     }
 

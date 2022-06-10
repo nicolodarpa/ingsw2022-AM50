@@ -2,7 +2,7 @@ package it.polimi.ingsw.model.CharacterCards;
 
 import it.polimi.ingsw.model.Island;
 
-public class BlockCard extends SpecialCard {
+public class BlockCardStrategy extends SpecialCardStrategy {
 
     private int availableBlockCards;
 
@@ -10,7 +10,7 @@ public class BlockCard extends SpecialCard {
 
 
 
-    public BlockCard(){
+    public BlockCardStrategy(){
         setCost(2);
         setEffectOfTheCard("Select an island to block");
         setName("princess");

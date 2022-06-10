@@ -48,6 +48,7 @@ public final class ClientInput {
         socketOut.flush();
     }
 
+
     public BufferedReader getSocketIn(){
         return socketIn;
     }

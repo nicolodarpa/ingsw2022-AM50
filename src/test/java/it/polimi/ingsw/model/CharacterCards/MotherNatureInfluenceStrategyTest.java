@@ -1,14 +1,12 @@
 package it.polimi.ingsw.model.CharacterCards;
 
 import it.polimi.ingsw.LoginManager;
-import it.polimi.ingsw.PlayersList;
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.CharacterCards.MotherNatureInfluence;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class MotherNatureInfluenceTest {
+public class MotherNatureInfluenceStrategyTest {
 
     private Game gameTest;
 
@@ -19,7 +17,7 @@ public class MotherNatureInfluenceTest {
         LoginManager.login("jaz", gameTest);
         LoginManager.login("nic", gameTest);
 
-        MotherNatureInfluence card = new MotherNatureInfluence();
+        MotherNatureInfluenceStrategy card = new MotherNatureInfluenceStrategy();
         assertEquals(3, card.getCost());
     }
 
@@ -30,7 +28,7 @@ public class MotherNatureInfluenceTest {
         LoginManager.login("jaz", gameTest);
         LoginManager.login("nic", gameTest);
 
-        MotherNatureInfluence card = new MotherNatureInfluence();
+        MotherNatureInfluenceStrategy card = new MotherNatureInfluenceStrategy();
         card.addCost();
         assertEquals(4, card.getCost());
     }
@@ -41,7 +39,7 @@ public class MotherNatureInfluenceTest {
         LoginManager.login("jaz", gameTest);
         LoginManager.login("nic", gameTest);
 
-        MotherNatureInfluence card = new MotherNatureInfluence();
+        MotherNatureInfluenceStrategy card = new MotherNatureInfluenceStrategy();
         System.out.println(card.getEffectOfTheCard());
     }
 
@@ -56,7 +54,7 @@ public class MotherNatureInfluenceTest {
         ale.getDashboard().addTeacherToTable(new Teacher(PawnColor.RED));
         Island island = gameTest.getIslands().get(3);
         island.addStudent(new Student(PawnColor.RED));
-        MotherNatureInfluence card = new MotherNatureInfluence();
+        MotherNatureInfluenceStrategy card = new MotherNatureInfluenceStrategy();
         card.setPlayersList(gameTest.getPlist());
         card.setIslands(gameTest.getIslands());
         card.setIndex(3);

@@ -51,8 +51,8 @@ public class DeckController implements Initializable, DisplayLabel {
         deck4Owner.setText(deckStatusArrayList[3].playerName);
     }
 
-    public void setPhasePage(ActionEvent actionEvent) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("assistantCard.fxml"));
+    private void setTable(ActionEvent actionEvent) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("dashboard.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         stage.setScene(scene);
@@ -62,14 +62,14 @@ public class DeckController implements Initializable, DisplayLabel {
 
 
     @FXML
-    public void alertChosenDeck(ActionEvent actionEvent) throws IOException {
+    private void alertChosenDeck(ActionEvent actionEvent) throws IOException {
         Window window = ((Node) actionEvent.getSource()).getScene().getWindow();
         do{
             TextMessage message = ClientInput.getInstance().readLine();
             if(!Objects.equals(message, null))
                 if (Objects.equals(message.type, "notify")) {
                     AlertHelper.showAlert(Alert.AlertType.INFORMATION, window, "Turn Notification" , message.message);
-                    setPhasePage(actionEvent);
+                    setTable(actionEvent);
                     break;
                 } else if(Objects.equals(message.type, "error")){
                     AlertHelper.showAlert(Alert.AlertType.WARNING, window, "Invalid Deck", message.message);
@@ -81,35 +81,27 @@ public class DeckController implements Initializable, DisplayLabel {
 
 
     @FXML
-    public void chooseDeck1(ActionEvent actionEvent) throws IOException {
+    private void chooseDeck1(ActionEvent actionEvent) throws IOException {
         ClientInput.getInstance().sendString("chooseDeck", String.valueOf(1));
         alertChosenDeck(actionEvent);
     }
 
     @FXML
-    public void chooseDeck2(ActionEvent actionEvent) throws IOException {
+    private void chooseDeck2(ActionEvent actionEvent) throws IOException {
         ClientInput.getInstance().sendString("chooseDeck", String.valueOf(2));
         alertChosenDeck(actionEvent);
     }
 
     @FXML
-    public void chooseDeck3(ActionEvent actionEvent) throws IOException {
+    private void chooseDeck3(ActionEvent actionEvent) throws IOException {
         ClientInput.getInstance().sendString("chooseDeck", String.valueOf(3));
         alertChosenDeck(actionEvent);
     }
 
     @FXML
-    public void chooseDeck4(ActionEvent actionEvent) throws IOException {
+    private void chooseDeck4(ActionEvent actionEvent) throws IOException {
         ClientInput.getInstance().sendString("chooseDeck", String.valueOf(4));
         alertChosenDeck(actionEvent);
-    }
-
-    public void setWaitingPage(ActionEvent actionEvent) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("waiting.fxml"));
-        Scene scene = new Scene(fxmlLoader.load());
-        Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        stage.setScene(scene);
-        stage.show();
     }
 
 }

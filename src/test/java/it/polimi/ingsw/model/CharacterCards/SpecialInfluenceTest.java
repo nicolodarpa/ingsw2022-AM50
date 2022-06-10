@@ -23,7 +23,7 @@ class SpecialInfluenceTest {
         island.addStudent(new Student(PawnColor.RED));
         island.addStudent(new Student(PawnColor.RED));
         island.addStudent(new Student(PawnColor.GREEN));
-        SpecialInfluence card = new SpecialInfluence();
+        SpecialInfluenceStrategy card = new SpecialInfluenceStrategy();
         card.setPawnColor(PawnColor.RED);
         island.calcInfluence(gameTest.getPlist());
         assertEquals("ale", island.getOwner() );

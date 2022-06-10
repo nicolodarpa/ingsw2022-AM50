@@ -3,9 +3,7 @@ package it.polimi.ingsw.client;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.client.view.ClientOut;
-import it.polimi.ingsw.comunication.DeckStatus;
-import it.polimi.ingsw.comunication.GameStatus;
-import it.polimi.ingsw.comunication.TextMessage;
+
 
 import java.io.*;
 import java.net.Socket;
@@ -69,8 +67,6 @@ public class LineClient {
         }
         System.out.println(ANSI_PRIMARY + "====Eriantys CLI Client====" + ANSI_RESET);
         clientInput.sendString("player", "");
-
-
     }
 
     public static void stdinScan() throws IOException {
@@ -182,7 +178,6 @@ public class LineClient {
         System.out.println("Select character card to play");
         clientInput.sendString("sendCharacterCardDeck", "");
         String index;
-
         while (true) {
             index = stdin.nextLine();
             if (Objects.equals(index, "1") || Objects.equals(index, "2") || Objects.equals(index, "3")) {
@@ -191,7 +186,6 @@ public class LineClient {
                 System.out.println("Please input a valid index: 1-3");
             }
         }
-
         System.out.println("Select island or color if necessary");
         System.out.println("Select the color\n0-CYAN\n1-MAGENTA\n2-YELLOW\n3-RED\n4-GREEN");
         String index2;
@@ -199,8 +193,6 @@ public class LineClient {
         if (index2 == null) {
             index2 = "xxxx";
         }
-
-
         clientInput.sendString("playCharacterCard", index, index2);
     }
 
@@ -219,12 +211,14 @@ public class LineClient {
         String indexStudent = getStudentFromHall();
         System.out.println("Select destination island");
         String indexIsland = stdin.nextLine();
+        //checkIslandIndex
         while (Integer.parseInt(indexIsland) > 12 || Integer.parseInt(indexIsland) < 1) {
             System.out.println("Input a valid index");
             indexIsland = stdin.nextLine();
         }
         clientInput.sendString("moveStudentToIsland", indexStudent, indexIsland);
     }
+
 
     private static void moveStudentToClassroom() {
         String indexStudent = getStudentFromHall();
@@ -244,17 +238,13 @@ public class LineClient {
     }
 
     private static void moveMN() {
-
         System.out.println("Select destination island");
         String indexIsland = stdin.nextLine();
         while (Integer.parseInt(indexIsland) > 12 || Integer.parseInt(indexIsland) < 1) {
             System.out.println("Input a valid index");
             indexIsland = stdin.nextLine();
         }
-
         clientInput.sendString("moveMN", indexIsland);
-
-
     }
 
     private static void chooseCC() {

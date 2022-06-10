@@ -8,7 +8,7 @@ import it.polimi.ingsw.model.StudentsBag;
 
 import java.util.ArrayList;
 
-public abstract class SpecialCard {
+public abstract class SpecialCardStrategy {
 
     int usages = 0;
 

@@ -1,10 +1,10 @@
 package it.polimi.ingsw.model.CharacterCards;
 
 
-public class AddInfluence extends SpecialCard {
+public class AddInfluenceStrategy extends SpecialCardStrategy {
 
 
-    public AddInfluence() {
+    public AddInfluenceStrategy() {
         setCost(2);
         setEffectOfTheCard(" With this card you have 2 more points in the calculation of the influence. ");
         setName("knight");

@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class RemoveStudentTest {
+class RemoveStudentStrategyTest {
 
 
     @Test
@@ -18,10 +18,10 @@ class RemoveStudentTest {
             dashboardTest.addStudentToClassroom(new Student(PawnColor.GREEN));
         }
         assertEquals(3,dashboardTest.countStudentByColor(PawnColor.GREEN));
-        RemoveStudent removeStudent = new RemoveStudent();
-        removeStudent.setPawnColor(PawnColor.GREEN);
-        removeStudent.setBag(studentsBag);
-        removeStudent.removeStudent(dashboardTest);
+        RemoveStudentStrategy removeStudentStrategy = new RemoveStudentStrategy();
+        removeStudentStrategy.setPawnColor(PawnColor.GREEN);
+        removeStudentStrategy.setBag(studentsBag);
+        removeStudentStrategy.removeStudent(dashboardTest);
         assertEquals(0,dashboardTest.countStudentByColor(PawnColor.GREEN));
         assertEquals(3,studentsBag.getNum());
     }
@@ -38,7 +38,7 @@ class RemoveStudentTest {
         for (int i = 0; i<3;i++){
             dashboardTest.addStudentToClassroom(new Student(PawnColor.GREEN));
         }
-        RemoveStudent card = new RemoveStudent();
+        RemoveStudentStrategy card = new RemoveStudentStrategy();
         card.setPlayersList(gameTest.getPlist());
         card.setPawnColor(PawnColor.GREEN);
         card.setBag(gameTest.getStudentsBag());

@@ -2,15 +2,12 @@ package it.polimi.ingsw.model.CharacterCards;
 
 import it.polimi.ingsw.LoginManager;
 import it.polimi.ingsw.model.Game;
-import it.polimi.ingsw.model.Island;
 import it.polimi.ingsw.model.Player;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-
 import static org.junit.jupiter.api.Assertions.*;
 
-class BlockCardTest {
+class BlockCardTestStrategy {
     Game gameTest;
 
 
@@ -24,7 +21,7 @@ class BlockCardTest {
 
         Player p1 = gameTest.getPlist().getPlayers().get(0);
         Player p2 = gameTest.getPlist().getPlayers().get(1);
-        BlockCard card = new BlockCard();
+        BlockCardStrategy card = new BlockCardStrategy();
         card.update(gameTest.getPlist(),gameTest.getActualPlayer(), gameTest.getIslands(), null, 1, gameTest.getStudentsBag());
         p1.setMovesOfMN(12);
         assertEquals(4,card.getAvailableBlockCards());

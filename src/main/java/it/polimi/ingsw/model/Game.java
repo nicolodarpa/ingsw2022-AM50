@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import it.polimi.ingsw.PlayersList;
 import it.polimi.ingsw.client.ClientInput;
 import it.polimi.ingsw.comunication.*;
-import it.polimi.ingsw.model.CharacterCards.SpecialCard;
+import it.polimi.ingsw.model.CharacterCards.SpecialCardStrategy;
 
 import java.io.IOException;
 import java.util.*;
@@ -41,7 +41,7 @@ public class Game {
     private Island islandWithMN;
     private Player actualPlayer;
     private SpecialDeck specialDeck = new SpecialDeck();
-    private static ArrayList<SpecialCard> cardsInGame = new ArrayList<>();
+    private static ArrayList<SpecialCardStrategy> cardsInGame = new ArrayList<>();
 
     private ClientInput clientInput = ClientInput.getInstance();
 
@@ -91,7 +91,7 @@ public class Game {
         return plist.getCurrentNumberOfPlayers();
     }
 
-    public ArrayList<SpecialCard> getCardsInGame() {
+    public ArrayList<SpecialCardStrategy> getCardsInGame() {
         return cardsInGame;
     }
 
@@ -166,21 +166,32 @@ public class Game {
         createIslands();
         addMotherNatureToIsland();
         addStudentToIsland();
-
-        for (Player player : plist.getPlayers()) {
-            player.getDashboard().setupHall(numberOfPlayers);
-        }
+        setUpPlayerDashboard();
         cloudCardCreation();
-        for (CloudCard cloudCard : cloudCards) {
-            cloudCardFill(cloudCard);
-        }
+        setUpCloudCards();
         assignTower();
         moveStudentsToHall();
         extractSpecialCard();
         this.round = 1;
         System.out.println("Setup complete");
+    }
 
+    /**
+     * For each player in the game, it sets their dashboard's hall.
+     */
+    private void setUpPlayerDashboard(){
+        for (Player player : plist.getPlayers()) {
+            player.getDashboard().setupHall(numberOfPlayers);
+        }
+    }
 
+    /**
+     * For each clou card in the game, it fills them with the students
+     */
+    private void setUpCloudCards(){
+        for (CloudCard cloudCard : cloudCards) {
+            cloudCardFill(cloudCard);
+        }
     }
 
     public String sendIslands() {
@@ -236,8 +247,8 @@ public class Game {
 
     public String sendCharacterCardsDeck() {
         ArrayList<CharacterCard> cardList = new ArrayList<>();
-        for (SpecialCard specialCard : cardsInGame) {
-            cardList.add(new CharacterCard(specialCard));
+        for (SpecialCardStrategy specialCardStrategy : cardsInGame) {
+            cardList.add(new CharacterCard(specialCardStrategy));
         }
         Gson gson = new Gson();
         return gson.toJson(cardList);
@@ -315,6 +326,12 @@ public class Game {
         }
     }
 
+    /**
+     * Moves Mother Nature from an island to the destination island.
+     * @param player is who is playing.
+     * @param destinationIslandIndex is the index of the motherNature's destination island.
+     * @return true or false, respectively if mother nature can be moved to the selected destination island or not.
+     */
     public boolean moveMN(Player player, int destinationIslandIndex) {
         int playerMovesOfMN = player.getMovesOfMN();
         int islandWithMNIndex = getIslandWithMNIndex();
@@ -344,7 +361,10 @@ public class Game {
     }
 
 
-    public void fillStudentsBag() {
+    /**
+     * Fills the students bag with 120 students
+     */
+    private void fillStudentsBag() {
         studentsBag.fillBag(120);
     }
 
@@ -355,7 +375,7 @@ public class Game {
     /**
      * Creates 3 or 4 CloudCard in cloudCards and fills them with the correct amount of students
      */
-    public void cloudCardCreation() {
+    private void cloudCardCreation() {
         if (numberOfPlayers == 2) {
             for (int i = 0; i < 2; i++) {
                 cloudCards.add(new CloudCard(numberOfPlayers));
@@ -370,7 +390,7 @@ public class Game {
     }
 
 
-    public void createDecks() {
+    private void createDecks() {
         deckMap.put(1, new Deck(1, "BLUE"));
         deckMap.put(2, new Deck(2, "PURPLE"));
         deckMap.put(3, new Deck(3, "GREEN"));
@@ -574,7 +594,7 @@ public class Game {
 
     }
 
-    public void nextPhase() {
+    private void nextPhase() {
         if (phase == 0) {
             for (Player p : plist.getPlayers()) {
                 p.setHasPlayed(false);
@@ -653,7 +673,7 @@ public class Game {
     /**
      * Fill up cloudCard with 3 or 4 students each depending on the number of players
      */
-    public void cloudCardFill(CloudCard cloudCard) {
+    private void cloudCardFill(CloudCard cloudCard) {
         if (numberOfPlayers == 2) {
             for (int i = 0; i < 3; i++) {
                 cloudCard.addStudent(studentsBag.casualExtraction());
@@ -716,26 +736,24 @@ public class Game {
     }
 
     public boolean checkLastPlayedAssistant(int order) {
-
         for (Player player : plist.getPlayers()) {
             if (order == player.getLastPlayedAC()) {
                 return true;
             }
         }
-
         return false;
 
     }
 
 
     public void playCharacterCard(int specialCardIndex, int index, PawnColor color) {
-        SpecialCard specialCard = cardsInGame.get(specialCardIndex);
-        specialCard.update(plist, actualPlayer, islands, color, index, studentsBag);
-        specialCard.effect();
-        actualPlayer.spendCoins(specialCard.getCost());
+        SpecialCardStrategy specialCardStrategy = cardsInGame.get(specialCardIndex);
+        specialCardStrategy.update(plist, actualPlayer, islands, color, index, studentsBag);
+        specialCardStrategy.effect();
+        actualPlayer.spendCoins(specialCardStrategy.getCost());
     }
 
-    public void calculateWinner() {
+    private void calculateWinner() {
         int towerNumber = 8;
         Player winner = null;
         for (Player p : plist.getPlayers()) {

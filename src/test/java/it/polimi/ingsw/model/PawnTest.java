@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class PawnTest {
-    Pawn pawnTest = new Pawn();
+    Pawn pawnTest = new Student();
     @Test
     void getColor() {
         assertNull(pawnTest.getColor());

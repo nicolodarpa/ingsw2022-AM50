@@ -1,12 +1,10 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.LoginManager;
-import it.polimi.ingsw.PlayersList;
-import it.polimi.ingsw.model.CharacterCards.NoTowerInfluence;
+import it.polimi.ingsw.model.CharacterCards.NoTowerInfluenceStrategy;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.net.Socket;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -92,7 +90,7 @@ public class IslandTest {
         gameTest.assignTower();
         ArrayList<Island> islandTest = new ArrayList<>(1);
         islandTest.add(new Island(1));
-        NoTowerInfluence card = new NoTowerInfluence();
+        NoTowerInfluenceStrategy card = new NoTowerInfluenceStrategy();
         Dashboard dashboard_1 = gameTest.getPlist().getPlayers().get(0).getDashboard();
         Dashboard dashboard_2 = gameTest.getPlist().getPlayers().get(1).getDashboard();
         islandTest.get(0).addStudent(new Student(PawnColor.RED));

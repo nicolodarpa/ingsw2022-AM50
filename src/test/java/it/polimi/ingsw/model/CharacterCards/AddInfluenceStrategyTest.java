@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model.CharacterCards;
 
 import it.polimi.ingsw.LoginManager;
-import it.polimi.ingsw.model.CharacterCards.AddInfluence;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
 import org.junit.jupiter.api.DisplayName;
@@ -9,7 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class AddInfluenceTest {
+public class AddInfluenceStrategyTest {
 
     private Game gameTest;
 
@@ -20,7 +19,7 @@ public class AddInfluenceTest {
         LoginManager.login("jaz", gameTest);
         LoginManager.login("nic", gameTest);
 
-        AddInfluence card = new AddInfluence();
+        AddInfluenceStrategy card = new AddInfluenceStrategy();
         card.update(gameTest.getPlist(), gameTest.getActualPlayer(), gameTest.getIslands(), null, 1, gameTest.getStudentsBag());
         assertEquals(2, card.getCost());
     }
@@ -32,7 +31,7 @@ public class AddInfluenceTest {
         LoginManager.login("jaz", gameTest);
         LoginManager.login("nic", gameTest);
 
-        AddInfluence card = new AddInfluence();
+        AddInfluenceStrategy card = new AddInfluenceStrategy();
         card.update(gameTest.getPlist(), gameTest.getActualPlayer(), gameTest.getIslands(), null, 1, gameTest.getStudentsBag());
         card.addCost();
         assertEquals(3, card.getCost());
@@ -45,7 +44,7 @@ public class AddInfluenceTest {
         LoginManager.login("jaz", gameTest);
         LoginManager.login("nic", gameTest);
 
-        AddInfluence card = new AddInfluence();
+        AddInfluenceStrategy card = new AddInfluenceStrategy();
         card.update(gameTest.getPlist(), gameTest.getActualPlayer(), gameTest.getIslands(), null, 1, gameTest.getStudentsBag());
         System.out.println(card.getEffectOfTheCard());
     }
@@ -55,7 +54,7 @@ public class AddInfluenceTest {
     public void testEffect(){
         Player player = new Player("ale");
         assertEquals(0,player.getInfluencePoint());
-        AddInfluence card = new AddInfluence();
+        AddInfluenceStrategy card = new AddInfluenceStrategy();
         card.setActualPlayer(player);
         card.effect();
         assertEquals(2,player.getInfluencePoint());

@@ -282,9 +282,9 @@ public class Player {
 
 
     public boolean moveStudentToIsland(int position, int index, Game game) {
-        Student student = dashboard.getStudentFromHall(position);
         try {
-            if (student != null && movesOfStudents>0) {
+            if (dashboard.getHall()[position] != null && movesOfStudents > 0) {
+                Student student = dashboard.getStudentFromHall(position);
                 game.getIslands().get(index).addStudent(student);
                 movesOfStudents--;
                 return true;
@@ -304,15 +304,20 @@ public class Player {
      * @param position indicate the position of the student in the DashboardHall
      */
     public boolean moveStudentToClassroom(int position, Game game) {
-        Student student = dashboard.getStudentFromHall(position);
-        if (student != null && movesOfStudents>0 ) {
-            dashboard.addStudentToClassroom(student);
-            dashboard.addCoin(wallet);
-            movesOfStudents--;
-            game.assignTeacher();
-            return true;
-        } else {
-            System.out.println("selected null student ");
+        try{
+            if (dashboard.getHall()[position] != null && movesOfStudents>0 ) {
+                Student student = dashboard.getStudentFromHall(position);
+                dashboard.addStudentToClassroom(student);
+                dashboard.addCoin(wallet);
+                movesOfStudents--;
+                game.assignTeacher();
+                return true;
+            } else {
+                System.out.println("selected null student ");
+                return false;
+            }
+        } catch (Exception e) {
+            System.out.println(e);
             return false;
         }
     }

@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model.CharacterCards;
 
 import it.polimi.ingsw.LoginManager;
-import it.polimi.ingsw.model.CharacterCards.NoTowerInfluence;
 import it.polimi.ingsw.model.Game;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -9,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-public class NoTowerInfluenceTest {
+public class NoTowerInfluenceStrategyTest {
 
     private Game gameTest;
 
@@ -21,7 +20,7 @@ public class NoTowerInfluenceTest {
         LoginManager.login("jaz",gameTest);
         LoginManager.login("nic",gameTest);
 
-        NoTowerInfluence card = new NoTowerInfluence();
+        NoTowerInfluenceStrategy card = new NoTowerInfluenceStrategy();
         card.update(gameTest.getPlist(), gameTest.getActualPlayer(), gameTest.getIslands(), null, 1, gameTest.getStudentsBag());
         card.effect();
         assertEquals(gameTest.getIslandWithMN().getOwner(), "free");
@@ -34,7 +33,7 @@ public class NoTowerInfluenceTest {
         LoginManager.login("jaz",gameTest);
         LoginManager.login("nic",gameTest);
 
-        NoTowerInfluence card = new NoTowerInfluence();
+        NoTowerInfluenceStrategy card = new NoTowerInfluenceStrategy();
         card.update(gameTest.getPlist(), gameTest.getActualPlayer(), gameTest.getIslands(), null, 1, gameTest.getStudentsBag());        assertEquals(3, card.getCost());
     }
 
@@ -45,7 +44,7 @@ public class NoTowerInfluenceTest {
         LoginManager.login("jaz",gameTest);
         LoginManager.login("nic",gameTest);
 
-        NoTowerInfluence card = new NoTowerInfluence();
+        NoTowerInfluenceStrategy card = new NoTowerInfluenceStrategy();
         card.update(gameTest.getPlist(), gameTest.getActualPlayer(), gameTest.getIslands(), null, 1, gameTest.getStudentsBag());
         card.addCost();
         assertEquals(4, card.getCost());
@@ -58,7 +57,7 @@ public class NoTowerInfluenceTest {
         LoginManager.login("jaz",gameTest);
         LoginManager.login("nic",gameTest);
 
-        NoTowerInfluence card = new NoTowerInfluence();
+        NoTowerInfluenceStrategy card = new NoTowerInfluenceStrategy();
         card.update(gameTest.getPlist(), gameTest.getActualPlayer(), gameTest.getIslands(), null, 1, gameTest.getStudentsBag());
         System.out.println(card.getEffectOfTheCard());
     }
