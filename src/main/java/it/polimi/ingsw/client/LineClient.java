@@ -177,7 +177,7 @@ public class LineClient {
     private static void playCharacterCard() {
         System.out.println("Select character card to play");
         clientInput.sendString("sendCharacterCardDeck", "");
-        String index;
+        String specialCardIndex;
         while (true) {
             specialCardIndex = stdin.nextLine();
             if (Objects.equals(specialCardIndex, "1") || Objects.equals(specialCardIndex, "2") || Objects.equals(specialCardIndex, "3")) {
@@ -193,7 +193,7 @@ public class LineClient {
         if (index2 == "") {
             index2 = "0";
         }
-        clientInput.sendString("playCharacterCard", index, index2);
+        clientInput.sendString("playCharacterCard", specialCardIndex, index2);
     }
 
     private static void playAssistantCard() {

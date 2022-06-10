@@ -260,49 +260,44 @@ public class EchoServerClientHandler extends Thread {
 
     public void playCharacterCard(Command command) {
         int specialCardIndex = 0;
-        SpecialCardStrategy specialCardStrategy;
+        SpecialCardStrategy specialCard;
         PawnColor studentColor = null;
         int islandIndex = 0;
-        int value2 = Integer.parseInt(command.value2);
-        specialCardStrategy = game.getCardsInGame().get(Integer.parseInt(command.value1) - 1);
-        if (specialCardStrategy.getCost() > player.getCoins()) {
-        int value2;
-
         specialCard = game.getCardsInGame().get(Integer.parseInt(command.value1) - 1);
         if (specialCard.getCost() > player.getCoins()) {
-            player.sendToClient("error", "You don't have enough coins to play this card");
-            return;
+            int value2 = 0;
+
+            specialCard = game.getCardsInGame().get(Integer.parseInt(command.value1) - 1);
+            if (specialCard.getCost() > player.getCoins()) {
+                player.sendToClient("error", "You don't have enough coins to play this card");
+                return;
+            }
+            player.sendToClient("notify", specialCard.getEffectOfTheCard());
+            if (Objects.equals(specialCard.getName(), "princess") || Objects.equals(specialCard.getName(), "ambassador") || Objects.equals(specialCard.getName(), "warrior")) {
+                try {
+                    value2 = Integer.parseInt(command.value2);
+                } catch (Exception e) {
+                    player.sendToClient("error", "Error selecting island");
+                    return;
+                }
+                if (value2 < 1 || value2 > game.getIslands().size()) {
+                    player.sendToClient("error", "Error selecting island");
+                    return;
+                }
+                islandIndex = value2;
+
+            } else if (Objects.equals(specialCard.getName(), "thief") || Objects.equals(specialCard.getName(), "wizard")) {
+                //player.sendToClient("msg", "Select the color\n0-CYAN\n1-MAGENTA\n2-YELLOW\n3-RED\n4-GREEN");
+                if (value2 > 4 || value2 < 0) {
+                    player.sendToClient("error", "Error selecting color");
+                    return;
+                } else studentColor = PawnColor.values()[value2];
+
+
+            }
+            game.playCharacterCard(specialCardIndex - 1, islandIndex - 1, studentColor);
+
         }
-        player.sendToClient("notify", specialCard.getEffectOfTheCard());
-        if (Objects.equals(specialCard.getName(), "princess") || Objects.equals(specialCard.getName(), "ambassador") || Objects.equals(specialCard.getName(), "warrior")) {
-            try {
-                value2 = Integer.parseInt(command.value2);
-            } catch (Exception e) {
-                player.sendToClient("error", "Error selecting island");
-                return;
-            }
-            if (value2 < 1 || value2 > game.getIslands().size()) {
-                player.sendToClient("error", "Error selecting island");
-                return;
-            }
-            islandIndex = value2;
-
-        } else if (Objects.equals(specialCard.getName(), "thief") || Objects.equals(specialCard.getName(), "wizard")) {
-            try {
-                value2 = Integer.parseInt(command.value2);
-            } catch (Exception e) {
-                player.sendToClient("error", "Error selecting color");
-                return;
-            }
-            if (value2 > 4 || value2 < 0) {
-                player.sendToClient("error", "Error selecting color");
-                return;
-            } else studentColor = PawnColor.values()[value2];
-
-
-        }
-        game.playCharacterCard(specialCardIndex - 1, islandIndex - 1, studentColor);
-
     }
 
     public void sendSingleIsland(Command command) {
