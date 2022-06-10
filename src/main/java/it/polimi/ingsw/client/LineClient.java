@@ -179,8 +179,8 @@ public class LineClient {
         clientInput.sendString("sendCharacterCardDeck", "");
         String index;
         while (true) {
-            index = stdin.nextLine();
-            if (Objects.equals(index, "1") || Objects.equals(index, "2") || Objects.equals(index, "3")) {
+            specialCardIndex = stdin.nextLine();
+            if (Objects.equals(specialCardIndex, "1") || Objects.equals(specialCardIndex, "2") || Objects.equals(specialCardIndex, "3")) {
                 break;
             } else {
                 System.out.println("Please input a valid index: 1-3");
@@ -190,8 +190,8 @@ public class LineClient {
         System.out.println("Select the color\n0-CYAN\n1-MAGENTA\n2-YELLOW\n3-RED\n4-GREEN");
         String index2;
         index2 = stdin.nextLine();
-        if (index2 == null) {
-            index2 = "xxxx";
+        if (index2 == "") {
+            index2 = "0";
         }
         clientInput.sendString("playCharacterCard", index, index2);
     }

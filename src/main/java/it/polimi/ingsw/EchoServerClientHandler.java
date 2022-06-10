@@ -109,7 +109,7 @@ public class EchoServerClientHandler extends Thread {
         TextMessage message = new TextMessage("quit", "Goodbye " + player.getName());
         String json = gson.toJson(message, TextMessage.class);
         out.println(json);
-        game.getPlist().notifyAllClients("msg" , player.getName() + " disconnected");
+        game.getPlist().notifyAllClients("msg", player.getName() + " disconnected");
         game.removePlayer(player);
     }
 
@@ -143,14 +143,14 @@ public class EchoServerClientHandler extends Thread {
             if (Objects.equals(game1.getGameStatus(), "Waiting for players")) {
                 list.add(new GameStatus(gameId, game1.getCurrentNumberOfPlayers(), game1.getNumberOfPlayers(), game1.getPlist()));
             }
-            gameId ++;
+            gameId++;
         }
         if (list.size() != 0) {
             TextMessage text = new TextMessage("avlGames", gson.toJson(list));
             String json = gson.toJson(text, TextMessage.class);
             out.println(json);
         } else {
-            TextMessage text = new TextMessage("error","No games available");
+            TextMessage text = new TextMessage("error", "No games available");
             String json = gson.toJson(text, TextMessage.class);
             out.println(json);
         }
@@ -221,7 +221,7 @@ public class EchoServerClientHandler extends Thread {
         player.sendToClient("player", game.sendAllPlayers());
     }
 
-    public void sendGameInfo(Command command){
+    public void sendGameInfo(Command command) {
         player.sendToClient("gameInfo", game.sendGameInfo());
     }
 
@@ -266,20 +266,34 @@ public class EchoServerClientHandler extends Thread {
         int value2 = Integer.parseInt(command.value2);
         specialCardStrategy = game.getCardsInGame().get(Integer.parseInt(command.value1) - 1);
         if (specialCardStrategy.getCost() > player.getCoins()) {
+        int value2;
+
+        specialCard = game.getCardsInGame().get(Integer.parseInt(command.value1) - 1);
+        if (specialCard.getCost() > player.getCoins()) {
             player.sendToClient("error", "You don't have enough coins to play this card");
             return;
         }
-        player.sendToClient("notify", specialCardStrategy.getEffectOfTheCard());
-        if (Objects.equals(specialCardStrategy.getName(), "princess") || Objects.equals(specialCardStrategy.getName(), "ambassador") || Objects.equals(specialCardStrategy.getName(), "warrior")) {
-            //player.sendToClient("msg", "Select the island");
+        player.sendToClient("notify", specialCard.getEffectOfTheCard());
+        if (Objects.equals(specialCard.getName(), "princess") || Objects.equals(specialCard.getName(), "ambassador") || Objects.equals(specialCard.getName(), "warrior")) {
+            try {
+                value2 = Integer.parseInt(command.value2);
+            } catch (Exception e) {
+                player.sendToClient("error", "Error selecting island");
+                return;
+            }
             if (value2 < 1 || value2 > game.getIslands().size()) {
                 player.sendToClient("error", "Error selecting island");
                 return;
             }
             islandIndex = value2;
 
-        } else if (Objects.equals(specialCardStrategy.getName(), "thief") || Objects.equals(specialCardStrategy.getName(), "wizard")) {
-            //player.sendToClient("msg", "Select the color\n0-CYAN\n1-MAGENTA\n2-YELLOW\n3-RED\n4-GREEN");
+        } else if (Objects.equals(specialCard.getName(), "thief") || Objects.equals(specialCard.getName(), "wizard")) {
+            try {
+                value2 = Integer.parseInt(command.value2);
+            } catch (Exception e) {
+                player.sendToClient("error", "Error selecting color");
+                return;
+            }
             if (value2 > 4 || value2 < 0) {
                 player.sendToClient("error", "Error selecting color");
                 return;
@@ -291,11 +305,11 @@ public class EchoServerClientHandler extends Thread {
 
     }
 
-    public void sendSingleIsland(Command command){
+    public void sendSingleIsland(Command command) {
         int indexIsland = Integer.parseInt(command.value1);
-        try{
-            player.sendToClient("singleIsland", game.sendSingleIsland(game.getIslands().get(indexIsland-1)));
-        }catch (Exception e){
+        try {
+            player.sendToClient("singleIsland", game.sendSingleIsland(game.getIslands().get(indexIsland - 1)));
+        } catch (Exception e) {
             player.sendToClient("warning", "Invalid index");
         }
 
@@ -332,8 +346,8 @@ public class EchoServerClientHandler extends Thread {
             } else {
                 errorSelectionNotify();
             }
-        }else{
-            player.sendToClient("error","before move student to island, you have to play an assistant card");
+        } else {
+            player.sendToClient("error", "before move student to island, you have to play an assistant card");
         }
         //player.sendToClient("msg", "select student from hall to move to an island:");
 
@@ -345,12 +359,12 @@ public class EchoServerClientHandler extends Thread {
             //player.sendToClient("msg", "select student from hall to move to a classroom:");
             int numPlayer = Integer.parseInt(command.value1);
             if (player.moveStudentToClassroom(numPlayer - 1, game)) {
-               sendSingleDashboard(command);
+                sendSingleDashboard(command);
             } else {
                 errorSelectionNotify();
             }
-        }else{
-            player.sendToClient("error","before move student to classroom, you have to play an assistant card");
+        } else {
+            player.sendToClient("error", "before move student to classroom, you have to play an assistant card");
         }
 
     }
@@ -371,10 +385,9 @@ public class EchoServerClientHandler extends Thread {
                 player.sendToClient("error", "error, you can move mother nature of " + player.getMovesOfMN() + "moves");
 
             }
-        }  else
+        } else
             player.sendToClient("error", "error you can't move Mother Nature now");
     }
-    
 
 
     private void chooseCC(Command command) {
@@ -391,10 +404,10 @@ public class EchoServerClientHandler extends Thread {
                 player.sendToClient("dashboard", game.sendPlayerDashboard(player));
                 //game.setActualPlayer();
             }
-        }else{
+        } else {
             player.sendToClient("error", "You can't choose a cloud card now");
         }
     }
 
-    }
+}
 
