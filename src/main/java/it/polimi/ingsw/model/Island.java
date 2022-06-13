@@ -40,8 +40,8 @@ public class Island {
         this.dimension = 1;
     }
 
-    public void increaseDimension() {
-        dimension = dimension + 1;
+    public void increaseDimension(int i) {
+        dimension = dimension + i;
     }
 
     public int getDimension() {
@@ -164,8 +164,8 @@ public class Island {
         final int size = ownerDashboard.getTowers().size();
         try {
             Tower ownerTower = ownerDashboard.getTowers().get(size - 1);
+            ownerDashboard.removeTower(size - 1);
             addTower(ownerTower);
-            ownerDashboard.removeTower(ownerTower);
         } catch (Exception e) {
             System.out.println("Tower not available");
         }

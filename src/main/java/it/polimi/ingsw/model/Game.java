@@ -44,7 +44,7 @@ public class Game {
     private static ArrayList<SpecialCardStrategy> cardsInGame = new ArrayList<>();
 
     private ClientInput clientInput = ClientInput.getInstance();
-
+    private Player winner = null;
 
 
     public Game() {
@@ -62,8 +62,12 @@ public class Game {
         return phase;
     }
 
-    public int getRound(){
+    public int getRound() {
         return round;
+    }
+
+    public Player getWinner() {
+        return winner;
     }
 
     public int getNumberOfPlayers() {
@@ -179,7 +183,7 @@ public class Game {
     /**
      * For each player in the game, it sets their dashboard's hall.
      */
-    private void setUpPlayerDashboard(){
+    private void setUpPlayerDashboard() {
         for (Player player : plist.getPlayers()) {
             player.getDashboard().setupHall(numberOfPlayers);
         }
@@ -188,7 +192,7 @@ public class Game {
     /**
      * For each clou card in the game, it fills them with the students
      */
-    private void setUpCloudCards(){
+    private void setUpCloudCards() {
         for (CloudCard cloudCard : cloudCards) {
             cloudCardFill(cloudCard);
         }
@@ -203,7 +207,7 @@ public class Game {
         return gson.toJson(statusList);
     }
 
-    public String sendSingleIsland(Island island){
+    public String sendSingleIsland(Island island) {
         ArrayList<IslandStatus> islandStatuses = new ArrayList<>();
         islandStatuses.add(new IslandStatus(island));
         Gson gson = new Gson();
@@ -328,7 +332,8 @@ public class Game {
 
     /**
      * Moves Mother Nature from an island to the destination island.
-     * @param player is who is playing.
+     *
+     * @param player                 is who is playing.
      * @param destinationIslandIndex is the index of the motherNature's destination island.
      * @return true or false, respectively if mother nature can be moved to the selected destination island or not.
      */
@@ -408,7 +413,7 @@ public class Game {
      * checks if two or more island have the same owner and in that case it unifies the islands into only one
      */
     public void connectIsland() {
-        for (int i = 1; i < islands.size(); i++) {
+        for (int i = 0; i < islands.size(); i++) {
             Island curr = islands.get(i);
             Island next;
             if (i == islands.size() - 1) {
@@ -427,7 +432,7 @@ public class Game {
                 if (curr.getPresenceMN() || next.getPresenceMN()) {
                     islands.get(i).setPresenceMN(true);
                 }
-                islands.get(i).increaseDimension();
+                islands.get(i).increaseDimension(next.getDimension());
                 islands.remove(next);
                 i--;
             }
@@ -438,7 +443,7 @@ public class Game {
             i++;
         }
         /* if there are only 3 groups of islands the game has to finish */
-        if (islands.size() == 3) {
+        if (islands.size() < 4) {
             plist.notifyAllClients("notify", "the game has finished");
             calculateWinner();
         }
@@ -755,7 +760,6 @@ public class Game {
 
     private void calculateWinner() {
         int towerNumber = 8;
-        Player winner = null;
         for (Player p : plist.getPlayers()) {
             if (p.getDashboard().getTowers().size() < towerNumber) {
                 towerNumber = p.getDashboard().getTowers().size();
@@ -764,10 +768,14 @@ public class Game {
                 winner = null;
             }
         }
-        if (winner != null)
+        if (winner != null) {
+            System.out.println(winner.getName() + " won");
             winner.sendToClient("msg", "You are the winner!");
-        else
+        } else{
+            System.out.println("Draw");
             plist.notifyAllClients("msg", "It's a draw!");
+        }
+
 
     }
 

@@ -243,8 +243,9 @@ public class Dashboard {
     }
 
 
-    public void removeTower(Tower t) {
+    public void removeTower(int t) {
         towers.remove(t);
+
     }
 
     public void addTower(int towerNumber, TowerColor color) {

@@ -119,7 +119,7 @@ public class GameTest {
     }
 
     @Test
-    @DisplayName("connect island 1 an 12")
+    @DisplayName("connect island 1 and 12")
     public void connectExtremeIslands() {
         gameTest = new Game(2);
 
@@ -143,6 +143,82 @@ public class GameTest {
     }
 
     @Test
+    @DisplayName("connect island 1 and 2")
+    public void connectFirstSecondIslands() {
+        gameTest = new Game(2);
+
+        LoginManager.login("jaz", gameTest);
+        LoginManager.login("nic", gameTest);
+
+        Player p = gameTest.getPlist().getPlayers().get(0);
+        Player q = gameTest.getPlist().getPlayers().get(1);
+        gameTest.getIslands().get(0).setOwner(q);
+        gameTest.getIslands().get(1).setOwner(q);
+        gameTest.connectIsland();
+        gameTest.getIslands().get(2).setOwner(q);
+        gameTest.getIslands().get(3).setOwner(q);
+        gameTest.connectIsland();
+        for (Island i : gameTest.getIslands()) {
+            System.out.println("Numero isola: " + i.getId() + " - dimension: " + i.getDimension() + ", owner: " + i.getOwner());
+        }
+        gameTest.getIslands().get(9).setOwner(q);
+        gameTest.getIslands().get(2).setOwner(p);
+        gameTest.getIslands().get(3).setOwner(p);
+        gameTest.connectIsland();
+        for (Island i : gameTest.getIslands()) {
+            System.out.println("Numero isola: " + i.getId() + " - dimension: " + i.getDimension() + ", owner: " + i.getOwner());
+        }
+
+        //assertEquals(q.getName(), gameTest.getIslands().get(9).getOwner());
+    }
+
+    @Test
+    @DisplayName("End game for islands connection")
+    public void endGameIslandsConnection() {
+        gameTest = new Game(2);
+
+        LoginManager.login("jaz", gameTest);
+        LoginManager.login("nic", gameTest);
+
+        Player p = gameTest.getPlist().getPlayers().get(0);
+        Player q = gameTest.getPlist().getPlayers().get(1);
+        System.out.println("p: " + p.getDashboard().getTowers().size() + "\n" + "q: " + q.getDashboard().getTowers().size());
+        gameTest.getIslands().get(0).setOwner(q);
+        gameTest.getIslands().get(1).setOwner(p);
+        gameTest.getIslands().get(2).setOwner(p);
+        gameTest.getIslands().get(3).setOwner(p);
+        gameTest.getIslands().get(4).setOwner(p);
+        gameTest.getIslands().get(5).setOwner(q);
+        gameTest.getIslands().get(6).setOwner(q);
+        gameTest.connectIsland();
+        gameTest.getIslands().get(3).setOwner(p);
+        gameTest.getIslands().get(4).setOwner(p);
+        gameTest.getIslands().get(5).setOwner(q);
+        gameTest.getIslands().get(6).setOwner(q);
+        gameTest.connectIsland();
+        gameTest.getIslands().get(5).setOwner(q);
+        gameTest.connectIsland();
+        System.out.println("--------");
+        for (Island i : gameTest.getIslands()) {
+            System.out.println("Numero isola: " + i.getId() + " - dimension: " + i.getDimension() + ", owner: " + i.getOwner());
+        }
+        gameTest.getIslands().get(1).setOwner(p);
+        for (int i = 7; i >= 0; i--) {
+            p.getDashboard().removeTower(i);
+        }
+        for (int i = 7; i > 3; i--) {
+            q.getDashboard().removeTower(i);
+        }
+        System.out.println("p: " + p.getDashboard().getTowers().size() + "\n" + "q: " + q.getDashboard().getTowers().size());
+        gameTest.connectIsland();
+        assertEquals(gameTest.getWinner(), p);
+
+
+    }
+
+
+    @Test
+    @DisplayName("set actual player")
     public void setActualPlayerTest() {
         gameTest = new Game(2);
         LoginManager.login("jaz", gameTest);
@@ -161,6 +237,7 @@ public class GameTest {
     }
 
     @Test
+    @DisplayName("test special card extraction")
     public void extractSpecialCardTest() {
         gameTest = new Game(2);
 
@@ -175,6 +252,7 @@ public class GameTest {
     }
 
     @Test
+    @DisplayName("cloud card selection")
     public void chooseCloudCard() {
         gameTest = new Game(2);
 
@@ -248,7 +326,7 @@ public class GameTest {
 
     @Test
     @DisplayName("Test assignment of teacher with same number of students")
-    public void assignTeacherSameNumber(){
+    public void assignTeacherSameNumber() {
         gameTest = new Game(3);
         LoginManager.login("ale", gameTest);
         LoginManager.login("nic", gameTest);
@@ -256,8 +334,8 @@ public class GameTest {
         Player player_one = gameTest.getPlist().getPlayers().get(0);
         Player player_two = gameTest.getPlist().getPlayers().get(1);
         Player player_three = gameTest.getPlist().getPlayers().get(2);
-        player_one.moveStudentToIsland(0,1,gameTest);
-        player_three.moveStudentToIsland(0,1,gameTest);
+        player_one.moveStudentToIsland(0, 1, gameTest);
+        player_three.moveStudentToIsland(0, 1, gameTest);
         for (int i = 0; i < 2; i++) {
             Student studentColor = new Student(PawnColor.CYAN);
             player_one.getDashboard().addStudentToHall(studentColor);
