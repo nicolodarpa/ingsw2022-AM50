@@ -132,65 +132,41 @@
          </font>
       </Label>
       <ImageView fx:id="Island1" fitHeight="150.0" fitWidth="150.0" layoutX="5.0" layoutY="196.0" onMouseClicked="#moveStudentToIsland">
-         <image>
-            <Image url="@../../../../images/Reame.PNG/Island1.png" />
-         </image>
       </ImageView>
+
       <ImageView fx:id="Island4" fitHeight="150.0" fitWidth="150.0" layoutX="451.0" layoutY="60.0" onMouseClicked="#moveStudentToIsland">
-         <image>
-            <Image url="@../../../../images/Reame.PNG/Island1.png" />
-         </image>
       </ImageView>
+
       <ImageView fx:id="Island7" fitHeight="150.0" fitWidth="150.0" layoutX="930.0" layoutY="196.0" onMouseClicked="#moveStudentToIsland">
-         <image>
-            <Image url="@../../../../images/Reame.PNG/Island1.png" />
-         </image>
       </ImageView>
+
       <ImageView fx:id="Island10" fitHeight="150.0" fitWidth="150.0" layoutX="451.0" layoutY="323.0" onMouseClicked="#moveStudentToIsland">
-         <image>
-            <Image url="@../../../../images/Reame.PNG/Island1.png" />
-         </image>
       </ImageView>
+
       <ImageView fx:id="Island2" fitHeight="150.0" fitWidth="150.0" layoutX="97.0" layoutY="60.0" onMouseClicked="#moveStudentToIsland">
-         <image>
-            <Image url="@../../../../images/Reame.PNG/Isola2.png" />
-         </image>
       </ImageView>
+
       <ImageView fx:id="Island5" fitHeight="150.0" fitWidth="150.0" layoutX="628.0" layoutY="60.0" onMouseClicked="#moveStudentToIsland">
-         <image>
-            <Image url="@../../../../images/Reame.PNG/Isola2.png" />
-         </image>
       </ImageView>
+
       <ImageView fx:id="Island8" fitHeight="150.0" fitWidth="150.0" layoutX="805.0" layoutY="323.0" onMouseClicked="#moveStudentToIsland">
-         <image>
-            <Image url="@../../../../images/Reame.PNG/Isola2.png" />
-         </image>
       </ImageView>
+
       <ImageView fx:id="Island11" fitHeight="150.0" fitWidth="150.0" layoutX="274.0" layoutY="323.0" onMouseClicked="#moveStudentToIsland">
-         <image>
-            <Image url="@../../../../images/Reame.PNG/Isola2.png" />
-         </image>
       </ImageView>
+
       <ImageView fx:id="Island3" fitHeight="150.0" fitWidth="150.0" layoutX="274.0" layoutY="60.0" onMouseClicked="#moveStudentToIsland">
-         <image>
-            <Image url="@../../../../images/Reame.PNG/Isola3.png" />
-         </image>
       </ImageView>
+
       <ImageView fx:id="Island6" fitHeight="150.0" fitWidth="150.0" layoutX="805.0" layoutY="60.0" onMouseClicked="#moveStudentToIsland">
-         <image>
-            <Image url="@../../../../images/Reame.PNG/Isola3.png" />
-         </image>
       </ImageView>
+
       <ImageView fx:id="Island9" fitHeight="150.0" fitWidth="150.0" layoutX="628.0" layoutY="323.0" onMouseClicked="#moveStudentToIsland">
-         <image>
-            <Image url="@../../../../images/Reame.PNG/Isola3.png" />
-         </image>
       </ImageView>
+
       <ImageView fx:id="Island12" fitHeight="150.0" fitWidth="150.0" layoutX="97.0" layoutY="323.0" onMouseClicked="#moveStudentToIsland">
-         <image>
-            <Image url="@../../../../images/Reame.PNG/Isola3.png" />
-         </image>
       </ImageView>
+
       <ImageView fx:id="MNPosition1" fitHeight="71.0" fitWidth="49.0" layoutX="56.0" layoutY="200.0" onMouseClicked="#getIndexMN">
 
       </ImageView>

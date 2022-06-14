@@ -254,5 +254,10 @@ public class Dashboard {
             towers.add(tower);
     }
 
+    public void addTowerFromIsland (TowerColor color ){
+        towers.add(new Tower(color));
+
+    }
+
 }
 

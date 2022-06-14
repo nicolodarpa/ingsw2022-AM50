@@ -216,9 +216,11 @@ public class Island {
             Player p2 = playersList.getPlayers().get(1);
 
             if (p1.getInfluencePoint() > p2.getInfluencePoint()) {
+                removePreviousOwnerTower();
                 this.owner = p1;
                 islandConquered = true;
             } else if (p1.getInfluencePoint() < p2.getInfluencePoint()) {
+                removePreviousOwnerTower();
                 this.owner = p2;
                 islandConquered = true;
             }
@@ -229,12 +231,15 @@ public class Island {
             Player p3 = playersList.getPlayers().get(2);
 
             if (p1.getInfluencePoint() > p2.getInfluencePoint() && p1.getInfluencePoint() > p3.getInfluencePoint()) {
+                removePreviousOwnerTower();
                 this.owner = p1;
                 islandConquered = true;
             } else if (p2.getInfluencePoint() > p1.getInfluencePoint() && p2.getInfluencePoint() > p3.getInfluencePoint()) {
+                removePreviousOwnerTower();
                 this.owner = p2;
                 islandConquered = true;
             } else if (p3.getInfluencePoint() > p1.getInfluencePoint() && p3.getInfluencePoint() > p2.getInfluencePoint()) {
+                removePreviousOwnerTower();
                 this.owner = p3;
                 islandConquered = true;
             }
@@ -243,6 +248,15 @@ public class Island {
             addTower();
     }
 
+    private void removePreviousOwnerTower(){
+        if(towerArrayList.size() > 0){
+            for (int towerPosition = 0; towerPosition < towerArrayList.size(); towerPosition++){
+                owner.getDashboard().addTowerFromIsland(towerColor);
+                towerArrayList.remove(towerPosition);
+            }
+
+        }
+    }
 
     public void addMotherNature() {
         presenceMN = true;
