@@ -402,7 +402,6 @@ public class Game {
         deckMap.put(4, new Deck(4, "PINK"));
     }
 
-
     public void extractSpecialCard() {
         specialDeck.extractRandomCard();
         cardsInGame = specialDeck.getSpecialCardsInGame();
@@ -777,6 +776,10 @@ public class Game {
         }
 
 
+    }
+
+    public void notifyAllClients(String type, String message){
+        plist.notifyAllClients(type,message);
     }
 
 

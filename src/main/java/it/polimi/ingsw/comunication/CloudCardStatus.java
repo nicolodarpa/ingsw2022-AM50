@@ -14,11 +14,14 @@ public class CloudCardStatus {
     public CloudCardStatus(CloudCard cloudCard) {
         ArrayList<Student> cloudCardStudents = cloudCard.getStudents();
         for (Student student : cloudCardStudents) {
-            ordinalColorOfStudents.add(student.getColor().ordinal());
-            students.add(String.valueOf(student.getColor().getCode()));
-
-
+            if (student != null) {
+                ordinalColorOfStudents.add(student.getColor().ordinal());
+                students.add(String.valueOf(student.getColor().getCode()));
+            } else {
+                ordinalColorOfStudents.add(null);
+                students.add(null);
+            }
         }
-
     }
+
 }

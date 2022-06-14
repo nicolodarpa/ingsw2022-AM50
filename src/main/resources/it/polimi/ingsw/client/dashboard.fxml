@@ -302,7 +302,7 @@
       <Circle fx:id="student2CC3" fill="1f93ff04" layoutX="738.0" layoutY="269.0" radius="10.0" stroke="BLACK" strokeType="INSIDE" />
       <Circle fx:id="student3CC3" fill="1f93ff04" layoutX="706.0" layoutY="300.0" radius="10.0" stroke="BLACK" strokeType="INSIDE" />
       <Circle fx:id="student4CC3" fill="1f93ff04" layoutX="739.0" layoutY="300.0" radius="10.0" stroke="BLACK" strokeType="INSIDE" />
-      <Label fx:id="students" layoutX="24.0" layoutY="554.0" text="Students:">
+      <Label fx:id="students" layoutX="27.0" layoutY="601.0" text="Students:">
          <font>
             <Font size="16.0" />
          </font></Label>
@@ -318,7 +318,14 @@
       <Button fx:id="info9" layoutX="507.0" layoutY="460.0" mnemonicParsing="false" onAction="#showStudentsIsland9" text="Info" />
       <Button fx:id="info10" layoutX="329.0" layoutY="461.0" mnemonicParsing="false" onAction="#showStudentsIsland10" text="Info" />
       <Button fx:id="info11" layoutX="155.0" layoutY="461.0" mnemonicParsing="false" onAction="#showStudentsIsland11" text="Info" />
-      <Button fx:id="assistantCardButton" layoutX="24.0" layoutY="519.0" mnemonicParsing="false" onAction="#setPhasePage" text="Play Assistant Card">
+      <Button fx:id="assistantCardButton" layoutX="22.0" layoutY="520.0" mnemonicParsing="false" onAction="#setPhasePage" prefHeight="35.0" prefWidth="160.0" text="Play Assistant Card">
+
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Button>
+      <Button fx:id="characterCardButton" layoutX="21.0" layoutY="562.0" mnemonicParsing="false" onAction="#setCharacterCardsPage" prefHeight="35.0" prefWidth="178.0" text="Play Character Card">
+
          <font>
             <Font size="16.0" />
          </font>

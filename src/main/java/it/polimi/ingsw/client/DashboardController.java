@@ -5,6 +5,7 @@ import it.polimi.ingsw.client.view.ClientOut;
 import it.polimi.ingsw.comunication.*;
 import it.polimi.ingsw.model.*;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -20,6 +21,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import org.jetbrains.annotations.NotNull;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
@@ -28,7 +30,7 @@ public class DashboardController implements Initializable, DisplayLabel {
 
     public Pane anchor;
     @FXML
-    private Label movesAvailableCounter,movesOfMn, username, roundCounter, actualPlayerLabel, students;
+    private Label movesAvailableCounter, movesOfMn, username, roundCounter, actualPlayerLabel, students;
 
     int movesOfMN, movesOfStudent;
 
@@ -142,6 +144,7 @@ public class DashboardController implements Initializable, DisplayLabel {
     private final ArrayList<ArrayList<Circle>> studentsInEachIsland = new ArrayList<>();
     private final ArrayList<Rectangle> MnIslandPosition = new ArrayList<>(12);
 
+    private CharacterCard[] characterCardList = new CharacterCard[3];
     private final ArrayList<ImageView> towerIslands = new ArrayList<>();
     private final ArrayList<ArrayList<Circle>> nameColor = new ArrayList<>();
     private final ClientInput clientInput = ClientInput.getInstance();
@@ -183,14 +186,14 @@ public class DashboardController implements Initializable, DisplayLabel {
         setUpCloudCards(cloudCardStatus);
     }
 
-    public void setUpCloudCards(CloudCardStatus[] cloudCardsStatus){
-        int id=0;
+    public void setUpCloudCards(CloudCardStatus[] cloudCardsStatus) {
+        int id = 0;
         ArrayList<Integer> ordinalColor;
 
-       for (CloudCardStatus cardsStatus : cloudCardsStatus) {
-           ordinalColor = cardsStatus.ordinalColorOfStudents;
-           setUpStudentsOnTheCC (id, ordinalColor);
-           id++;
+        for (CloudCardStatus cardsStatus : cloudCardsStatus) {
+            ordinalColor = cardsStatus.ordinalColorOfStudents;
+            setUpStudentsOnTheCC(id, ordinalColor);
+            id++;
         }
     }
 
@@ -199,19 +202,19 @@ public class DashboardController implements Initializable, DisplayLabel {
         int i = 0;
         cloudCardDeckImages.extractRandomCloudCard();
 
-        for (Circle c : cloudCards){
+        for (Circle c : cloudCards) {
             c.setFill(new ImagePattern(cloudCardDeckImages.getCloudCardsInGame().get(i)));
-            if (cloudCardsStatus.length == 2 && i>=2)
+            if (cloudCardsStatus.length == 2 && i >= 2)
                 c.setFill(null);
             i++;
         }
     }
 
 
-    public void setUpStudentsOnTheCC(int id, ArrayList<Integer> ordinalColor){
-        int i=0;
-        for (Integer studentColor : ordinalColor){
-            if (ordinalColor != null) {
+    public void setUpStudentsOnTheCC(int id, ArrayList<Integer> ordinalColor) {
+        int i = 0;
+        for (Integer studentColor : ordinalColor) {
+            if (studentColor != null) {
                 studentsInEachCloudCard.get(id).get(i).setFill(new ImagePattern(new Image(String.valueOf(getClass().getClassLoader().getResource("images/Pawn/" + PawnColor.values()[studentColor].getName() + "_student.png")))));
             } else {
                 studentsInEachCloudCard.get(id).get(i).setFill(null);
@@ -281,6 +284,7 @@ public class DashboardController implements Initializable, DisplayLabel {
         commandHashMap.put("islands", this::setIslands);
         commandHashMap.put("singleIsland", this::printIsland);
         commandHashMap.put("cloudCard", this::setCloudCards);
+        commandHashMap.put("characterCards", this::setCharacterCards);
 
         setUpClassroomFilled();
         setUpNameColor();
@@ -310,13 +314,31 @@ public class DashboardController implements Initializable, DisplayLabel {
                 }
                 try {
                     Thread.sleep(400);
+
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
             }
         });
         readThread.start();
+
+        Thread guiUpdateThread = new Thread(()-> {
+            while (true){
+                refreshGUI();
+                try {
+                    Thread.sleep(20000);
+
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+        //guiUpdateThread.start();
         refreshGUI();
+    }
+
+    private void setCharacterCards() {
+        characterCardList = gson.fromJson(message.message, CharacterCard[].class);
     }
 
     private void refreshGUI() {
@@ -325,6 +347,8 @@ public class DashboardController implements Initializable, DisplayLabel {
         clientInput.sendString("player", "");
         clientInput.sendString("gameInfo", "");
         clientInput.sendString("sendCloudCards", "");
+        clientInput.sendString("sendCharacterCardDeck", "");
+
     }
 
     /**
@@ -369,7 +393,7 @@ public class DashboardController implements Initializable, DisplayLabel {
         AlertHelper.showAlert(Alert.AlertType.INFORMATION, classRoom.getScene().getWindow(), "Quit", message.message);
     }
 
-    private void printIsland(){
+    private void printIsland() {
         IslandStatus[] islandStatus = gson.fromJson(message.message, IslandStatus[].class);
         for (IslandStatus island : islandStatus) {
             ArrayList<String> studentColors = island.colors;
@@ -401,7 +425,8 @@ public class DashboardController implements Initializable, DisplayLabel {
 
     /**
      * count the number of students of one color
-     * @param colorName is the name of the color that we would to count
+     *
+     * @param colorName     is the name of the color that we would to count
      * @param studentsColor is an arrayList that contains the strings of the color name of the students
      * @return the number of the students of one color
      */
@@ -549,22 +574,22 @@ public class DashboardController implements Initializable, DisplayLabel {
 
     }
 
-    public void setIslandImages(int numberOfIslands){
+    public void setIslandImages(int numberOfIslands) {
 
-        int j=0;
-        int k=1;
+        int j = 0;
+        int k = 1;
 
-        for (int i=0; i < numberOfIslands; i++){
-            Image imgIsland = new Image(String.valueOf(getClass().getClassLoader().getResource("images/islands/Island"+k+".png")));
+        for (int i = 0; i < numberOfIslands; i++) {
+            Image imgIsland = new Image(String.valueOf(getClass().getClassLoader().getResource("images/islands/Island" + k + ".png")));
             Islands.get(i).setImage(imgIsland);
             k++;
-            if(k>3)
-                k=1;
-            System.out.println(i+" island");
-            j=i;
+            if (k > 3)
+                k = 1;
+            System.out.println(i + " island");
+            j = i;
         }
         j++;
-        while ( j < Islands.size()){
+        while (j < Islands.size()) {
             Islands.get(j).setImage(null);
             j++;
         }
@@ -582,15 +607,15 @@ public class DashboardController implements Initializable, DisplayLabel {
         int islandsSize = island.length;
         setIslandImages(islandsSize);
 
-        for (int i=0; i < islandsSize; i++){
+        for (int i = 0; i < islandsSize; i++) {
 
             studentsColorOrdinal = island[i].studentColorOrdinal;
             System.out.println(studentsColorOrdinal);
             towerColor = island[i].towerColor;
             towerNumber = island[i].towerNumber;
             presenceMN = island[i].presenceMN;
-            setUpStudentsOnTheIsland(studentsColorOrdinal , i, presenceMN, islandsSize);
-            setUpTowerOnTheIsland(i, towerColor,towerNumber);
+            setUpStudentsOnTheIsland(studentsColorOrdinal, i, presenceMN, islandsSize);
+            setUpTowerOnTheIsland(i, towerColor, towerNumber);
 
         }
 
@@ -598,44 +623,46 @@ public class DashboardController implements Initializable, DisplayLabel {
 
     /**
      * sets all the student on the island to null.
+     *
      * @param idIsland gives us the index of the island that we are considering.
      */
-    private void resetStudentsOnTheIsland(int idIsland){
-        for (PawnColor color : PawnColor.values()){
+    private void resetStudentsOnTheIsland(int idIsland) {
+        for (PawnColor color : PawnColor.values()) {
             studentsInEachIsland.get(color.ordinal()).get(idIsland).setFill(null);
         }
     }
 
     /**
      * sets the students and Mother Nature on the island considerated.
+     *
      * @param studentsOrdinal gives us the PawnColor ordinal of the students that are present on the island.
-     * @param idIsland gives us the island that we are considering.
-     * @param presenceMN is a boolean that give us if Mother Nature is present on the island or not.
+     * @param idIsland        gives us the island that we are considering.
+     * @param presenceMN      is a boolean that give us if Mother Nature is present on the island or not.
      * @param numberOfIslands give us the number of islands.
      */
-    private void setUpStudentsOnTheIsland(ArrayList<Integer> studentsOrdinal, int idIsland, boolean presenceMN, int numberOfIslands){
-        int j=0;
+    private void setUpStudentsOnTheIsland(ArrayList<Integer> studentsOrdinal, int idIsland, boolean presenceMN, int numberOfIslands) {
+        int j = 0;
         resetStudentsOnTheIsland(idIsland);
-        for (int i = 0; i < numberOfIslands ; i++){
-            if (i == idIsland){
-                for (Integer studentColor : studentsOrdinal){
+        for (int i = 0; i < numberOfIslands; i++) {
+            if (i == idIsland) {
+                for (Integer studentColor : studentsOrdinal) {
                     Image pawStudent = new Image(String.valueOf(getClass().getClassLoader().getResource("images/Pawn/" + PawnColor.values()[studentColor].getName() + "_student.png")));
                     studentsInEachIsland.get(studentColor).get(idIsland).setFill(new ImagePattern(pawStudent));
                 }
             }
-            j=i;
+            j = i;
         }
 
         j++;
 
-        for (Integer studentColor : studentsOrdinal){
-            while(j < studentsInEachIsland.get(studentColor).size()){
-            studentsInEachIsland.get(studentColor).get(j).setFill(null);
-            j++;
+        for (Integer studentColor : studentsOrdinal) {
+            while (j < studentsInEachIsland.get(studentColor).size()) {
+                studentsInEachIsland.get(studentColor).get(j).setFill(null);
+                j++;
             }
         }
 
-        if (presenceMN){
+        if (presenceMN) {
             MNPositions.get(idIsland).setImage(new Image(String.valueOf(getClass().getClassLoader().getResource("images/Pawn/MotherNature.png"))));
             indexMN = idIsland;
         } else {
@@ -644,20 +671,20 @@ public class DashboardController implements Initializable, DisplayLabel {
 
     }
 
-    private void resetTowerOnIsland(int idIsland){
+    private void resetTowerOnIsland(int idIsland) {
         towerIslands.get(idIsland).setImage(null);
 
     }
 
-    public void setUpTowerOnTheIsland(int idIsland, String towerColor, int towerNumber){
+    public void setUpTowerOnTheIsland(int idIsland, String towerColor, int towerNumber) {
         resetTowerOnIsland(idIsland);
-        if ( towerNumber!=0){
-            towerIslands.get(idIsland).setImage( new Image(String.valueOf(getClass().getClassLoader().getResource("images/Tower/" + towerColor + "_tower.png"))));
+        if (towerNumber != 0) {
+            towerIslands.get(idIsland).setImage(new Image(String.valueOf(getClass().getClassLoader().getResource("images/Tower/" + towerColor + "_tower.png"))));
         }
     }
 
     @FXML
-    public void moveMNToIslands (MouseEvent event) {
+    public void moveMNToIslands(MouseEvent event) {
         indexIsland = MnIslandPosition.indexOf((Rectangle) event.getSource());
         System.out.println(indexIsland + " MnIslandPosition");
         moveMn();
@@ -666,14 +693,14 @@ public class DashboardController implements Initializable, DisplayLabel {
         disableMN();
     }
 
-    private void enableMNIslandPosition(){
+    private void enableMNIslandPosition() {
         for (Rectangle islands : MnIslandPosition) {
             islands.setDisable(false);
         }
     }
 
-    private void enableMN(){
-        for(ImageView mn : MNPositions)
+    private void enableMN() {
+        for (ImageView mn : MNPositions)
             mn.setDisable(false);
     }
 
@@ -779,15 +806,14 @@ public class DashboardController implements Initializable, DisplayLabel {
     }
 
     @FXML
-    private void chooseCC (MouseEvent event){
-        indexCloudCard= cloudCards.indexOf(event.getSource());
+    private void chooseCC(MouseEvent event) {
+        indexCloudCard = cloudCards.indexOf(event.getSource());
         System.out.println(indexCloudCard + " is the CC chosen");
-        if (indexCloudCard != -1){
+        if (indexCloudCard != -1) {
             chooseCloudCard();
-            clientInput.sendString("islands","");
-        }
-        else{
-            AlertHelper.showAlert(Alert.AlertType.WARNING, cloudCards.get(indexCloudCard).getScene().getWindow(),"Error","Cloud Card not available" );
+            clientInput.sendString("islands", "");
+        } else {
+            AlertHelper.showAlert(Alert.AlertType.WARNING, cloudCards.get(indexCloudCard).getScene().getWindow(), "Error", "Cloud Card not available");
         }
 
         enableIslandAndHall();
@@ -796,7 +822,7 @@ public class DashboardController implements Initializable, DisplayLabel {
 
     @FXML
     private void chooseCloudCard() {
-       clientInput.sendString("chooseCC", String.valueOf(indexCloudCard + 1));
+        clientInput.sendString("chooseCC", String.valueOf(indexCloudCard + 1));
         refreshGUI();
         indexCloudCard = -1;
     }
@@ -840,10 +866,9 @@ public class DashboardController implements Initializable, DisplayLabel {
         System.out.println(indexIsland);
         if (movesOfStudent > 0) {
             moveToIsland();
-        }
-        else {
-           disableIslandAndHall();
-           enableMN();
+        } else {
+            disableIslandAndHall();
+            enableMN();
         }
 
     }
@@ -871,5 +896,19 @@ public class DashboardController implements Initializable, DisplayLabel {
     }
 
 
+    @FXML
+    private void setCharacterCardsPage(ActionEvent actionEvent) throws IOException {
+        clientInput.sendString("sendCharacterCardDeck", "");
+        CharacterCardsController controller = new CharacterCardsController();
+        controller.setCards(characterCardList);
+        Stage characterCardsStage = new Stage();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("characterCards.fxml"));
+        loader.setController(controller);
+        Scene characterCardsScene = new Scene(loader.load());
+        characterCardsStage.setScene(characterCardsScene);
+        characterCardsStage.showAndWait();
+        refreshGUI();
+        enableIslandAndHall();
+    }
 }
 
