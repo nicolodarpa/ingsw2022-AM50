@@ -12,6 +12,7 @@ public class PlayersStatus {
     public int movesOfMN;
     public int movesOfStudents;
 
+    public int wallet;
     public String getName() {
         return name;
     }
@@ -40,6 +41,7 @@ public class PlayersStatus {
         this.movesOfMN = player.getMovesOfMN();
         this.movesOfStudents = player.getMovesOfStudents();
         this.hasPlayed = player.getHasPlayed();
+        this.wallet = player.getWallet().getCoins();
     }
 
 

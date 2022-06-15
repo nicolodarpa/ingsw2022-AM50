@@ -29,7 +29,7 @@
 
     </ImageView>
          <Text fx:id="label1" disable="true" layoutX="5.0" layoutY="256.0" text="" wrappingWidth="100.0" />
-         <RadioButton  fx:id="radio1" layoutX="47.0" layoutY="210.0" mnemonicParsing="false" />
+         <RadioButton  fx:id="radio1" layoutX="47.0" layoutY="210.0" mnemonicParsing="false" selected="true" />
       </children>
    </Pane>
    <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowSpan="2">

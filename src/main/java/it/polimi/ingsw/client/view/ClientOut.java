@@ -291,7 +291,7 @@ public class ClientOut extends Thread {
     private void printPlayer() {
         PlayersStatus[] playersStatuses = gson.fromJson(message.message, PlayersStatus[].class);
         for (PlayersStatus playersStatus : playersStatuses) {
-            System.out.println(YELLOW + "-Username: " + playersStatus.name + "  -Moves MN: " + playersStatus.movesOfMN + ANSI_RESET);
+            System.out.println(YELLOW + "-Username: " + playersStatus.name + "  -Moves MN: " + playersStatus.movesOfMN + ANSI_RESET+ " -Wallet: " +playersStatus.wallet);
         }
     }
 

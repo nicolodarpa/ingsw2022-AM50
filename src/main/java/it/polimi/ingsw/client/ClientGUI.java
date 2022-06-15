@@ -33,7 +33,7 @@ public class ClientGUI extends Application {
         stage.getIcons().add(icon);
         stage.setTitle("Eryantis GUI");
         stage.setScene(scene);
-        stage.setMaximized(true);
+        //stage.setMaximized(true);
         stage.show();
 
         mainStage.setOnCloseRequest(evt -> {

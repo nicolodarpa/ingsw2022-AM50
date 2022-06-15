@@ -30,7 +30,7 @@ public class DashboardController implements Initializable, DisplayLabel {
 
     public Pane anchor;
     @FXML
-    private Label movesAvailableCounter, movesOfMn, username, roundCounter, actualPlayerLabel, students;
+    private Label movesAvailableCounter, movesOfMn, username, roundCounter, actualPlayerLabel, students, wallet;
 
     int movesOfMN, movesOfStudent;
 
@@ -445,6 +445,7 @@ public class DashboardController implements Initializable, DisplayLabel {
     private void setUpPlayerInfo() {
         PlayersStatus player = gson.fromJson(message.message, PlayersStatus[].class)[0];
         displayLabel("Username", username, player.getName());
+        displayLabel("Wallet", wallet, String.valueOf(player.wallet));
         movesOfStudent = player.getMovesOfStudents();
         movesOfMN = player.getMovesOfMN();
         displayLabel("Moves of MN", movesOfMn, String.valueOf(movesOfMN));

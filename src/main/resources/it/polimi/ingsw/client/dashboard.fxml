@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.shape.Circle?>
-<?import javafx.scene.shape.Rectangle?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 
-<Pane fx:id="anchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1080.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.DashboardController">
+<Pane fx:id="anchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1080.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.DashboardController">
    <children>
       <ImageView fitHeight="215.0" fitWidth="500.0" layoutX="331.0" layoutY="491.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fitHeight="215.0" fitWidth="500.0" layoutX="331.0" layoutY="491.0">
@@ -330,6 +327,11 @@
             <Font size="16.0" />
          </font>
       </Button>
+      <Label fx:id="wallet" layoutX="15.0" layoutY="41.0" text="Wallet:">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
 
    </children>
 </Pane>
