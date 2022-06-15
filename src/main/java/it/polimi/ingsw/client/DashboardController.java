@@ -356,6 +356,7 @@ public class DashboardController implements Initializable, DisplayLabel {
      */
     private void printNotify() {
         AlertHelper.showAlert(Alert.AlertType.CONFIRMATION, classRoom.getScene().getWindow(), "Notify", message.message);
+        refreshGUI();
     }
 
     /**
@@ -600,22 +601,22 @@ public class DashboardController implements Initializable, DisplayLabel {
 
 
     public void setUpIsland(IslandStatus[] island) {
-        int id;
         ArrayList<Integer> studentsColorOrdinal;
         boolean presenceMN;
         String towerColor;
         int towerNumber;
-        int islandsSize = island.length;
-        setIslandImages(islandsSize);
+        int numberOfIslands = island.length;
+        setIslandImages(numberOfIslands);
 
-        for (int i = 0; i < islandsSize; i++) {
+        for (int i = 0; i < numberOfIslands; i++) {
 
             studentsColorOrdinal = island[i].studentColorOrdinal;
             System.out.println(studentsColorOrdinal);
             towerColor = island[i].towerColor;
             towerNumber = island[i].towerNumber;
             presenceMN = island[i].presenceMN;
-            setUpStudentsOnTheIsland(studentsColorOrdinal, i, presenceMN, islandsSize);
+            setUpStudentsOnTheIsland(studentsColorOrdinal, i, numberOfIslands);
+            setUpMNOnTheIsland(presenceMN, i);
             setUpTowerOnTheIsland(i, towerColor, towerNumber);
 
         }
@@ -638,23 +639,16 @@ public class DashboardController implements Initializable, DisplayLabel {
      *
      * @param studentsOrdinal gives us the PawnColor ordinal of the students that are present on the island.
      * @param idIsland        gives us the island that we are considering.
-     * @param presenceMN      is a boolean that give us if Mother Nature is present on the island or not.
      * @param numberOfIslands give us the number of islands.
      */
-    private void setUpStudentsOnTheIsland(ArrayList<Integer> studentsOrdinal, int idIsland, boolean presenceMN, int numberOfIslands) {
-        int j = 0;
+    private void setUpStudentsOnTheIsland(ArrayList<Integer> studentsOrdinal, int idIsland, int numberOfIslands) {
+        int j = numberOfIslands;
         resetStudentsOnTheIsland(idIsland);
-        for (int i = 0; i < numberOfIslands; i++) {
-            if (i == idIsland) {
-                for (Integer studentColor : studentsOrdinal) {
-                    Image pawStudent = new Image(String.valueOf(getClass().getClassLoader().getResource("images/Pawn/" + PawnColor.values()[studentColor].getName() + "_student.png")));
-                    studentsInEachIsland.get(studentColor).get(idIsland).setFill(new ImagePattern(pawStudent));
-                }
-            }
-            j = i;
-        }
 
-        j++;
+        for (Integer studentColor : studentsOrdinal) {
+            Image pawStudent = new Image(String.valueOf(getClass().getClassLoader().getResource("images/Pawn/" + PawnColor.values()[studentColor].getName() + "_student.png")));
+            studentsInEachIsland.get(studentColor).get(idIsland).setFill(new ImagePattern(pawStudent));
+        }
 
         for (Integer studentColor : studentsOrdinal) {
             while (j < studentsInEachIsland.get(studentColor).size()) {
@@ -663,6 +657,18 @@ public class DashboardController implements Initializable, DisplayLabel {
             }
         }
 
+
+    }
+
+    /**
+     * sets/remove the image of Mather Nature respectively if she is on the island or not.
+     * @param presenceMN gives us the information of the presence of Mother Nature.
+     * @param idIsland gives us the index of the island that we are considering.
+     */
+    public void setUpMNOnTheIsland(boolean presenceMN, int idIsland){
+
+        int i = idIsland;
+
         if (presenceMN) {
             MNPositions.get(idIsland).setImage(new Image(String.valueOf(getClass().getClassLoader().getResource("images/Pawn/MotherNature.png"))));
             indexMN = idIsland;
@@ -670,18 +676,37 @@ public class DashboardController implements Initializable, DisplayLabel {
             MNPositions.get(idIsland).setImage(null);
         }
 
+        i++;
+
+         while (i < MNPositions.size()){   //it set all the MNPosition, that don't have an Island, null.
+             MNPositions.get(i).setImage(null);
+             i++;
+         }
+
     }
 
-    private void resetTowerOnIsland(int idIsland) {
-        towerIslands.get(idIsland).setImage(null);
-
-    }
+    /**
+     * sets the image of the tower on the island.
+     * @param idIsland gives us the index of the island that we are considering.
+     * @param towerColor gives us the color of the tower of the island's owner.
+     * @param towerNumber gives us the information if there are any tower.
+     */
 
     public void setUpTowerOnTheIsland(int idIsland, String towerColor, int towerNumber) {
-        resetTowerOnIsland(idIsland);
+
+        int j = idIsland;
+
         if (towerNumber != 0) {
             towerIslands.get(idIsland).setImage(new Image(String.valueOf(getClass().getClassLoader().getResource("images/Tower/" + towerColor + "_tower.png"))));
         }
+
+        j++;
+
+        while (j < towerIslands.size()){ //it set all the towerIslands, that don't have an Island, null.
+            towerIslands.get(j).setImage(null);
+            j++;
+        }
+
     }
 
     @FXML
@@ -793,11 +818,7 @@ public class DashboardController implements Initializable, DisplayLabel {
     private void getIndexMN(MouseEvent event) {
         indexMN = MNPositions.indexOf((ImageView) event.getSource());
         System.out.println(indexMN + " it's the position of MN");
-        for (int mnPosition = 0; mnPosition < 12; mnPosition++) {
-            MnIslandPosition.get(mnPosition).setDisable(false);
-            if (mnPosition == indexMN)
-                MnIslandPosition.get(mnPosition).setDisable(true);
-        }
+        enableMNIslandPosition();
     }
 
     @FXML
@@ -807,7 +828,7 @@ public class DashboardController implements Initializable, DisplayLabel {
     }
 
     @FXML
-    private void chooseCC(MouseEvent event) {
+    public void chooseCC(MouseEvent event) {
         indexCloudCard = cloudCards.indexOf(event.getSource());
         System.out.println(indexCloudCard + " is the CC chosen");
         if (indexCloudCard != -1) {
@@ -816,9 +837,7 @@ public class DashboardController implements Initializable, DisplayLabel {
         } else {
             AlertHelper.showAlert(Alert.AlertType.WARNING, cloudCards.get(indexCloudCard).getScene().getWindow(), "Error", "Cloud Card not available");
         }
-
-        enableIslandAndHall();
-
+        //enableIslandAndHall();
     }
 
     @FXML
@@ -830,13 +849,13 @@ public class DashboardController implements Initializable, DisplayLabel {
 
 
     @FXML
-    private void getIndex(MouseEvent event) {
+    public void getIndex(MouseEvent event) {
         index = studentsPosition.indexOf((Circle) event.getSource());
         System.out.println("student Position : " + index);
     }
 
     @FXML
-    private void moveStudentToClassroom() {
+    public void moveStudentToClassroom() {
         disableCloudCards();
         if (movesOfStudent > 0) {
             moveToClassroom();
@@ -861,7 +880,7 @@ public class DashboardController implements Initializable, DisplayLabel {
     }
 
     @FXML
-    private void moveStudentToIsland(MouseEvent mouseEvent) {
+    public void moveStudentToIsland(MouseEvent mouseEvent) {
         indexIsland = Islands.indexOf((ImageView) mouseEvent.getSource());
         disableCloudCards();
         System.out.println(indexIsland);
@@ -875,19 +894,19 @@ public class DashboardController implements Initializable, DisplayLabel {
     }
 
     @FXML
-    private void moveToClassroom() {
+    public void moveToClassroom() {
         clientInput.sendString("moveStudentToClassroom", String.valueOf(index + 1));
         refreshGUI();
     }
 
     @FXML
-    private void moveToIsland() {
+    public void moveToIsland() {
         clientInput.sendString("moveStudentToIsland", String.valueOf(index + 1), String.valueOf(indexIsland + 1));
         refreshGUI();
     }
 
     @FXML
-    private void setPhasePage() throws IOException {
+    public void setPhasePage() throws IOException {
         Stage phaseStage = new Stage();
         Scene phaseScene = new Scene(new FXMLLoader(getClass().getResource("assistantCard.fxml")).load());
         phaseStage.setScene(phaseScene);
@@ -898,7 +917,7 @@ public class DashboardController implements Initializable, DisplayLabel {
 
 
     @FXML
-    private void setCharacterCardsPage(ActionEvent actionEvent) throws IOException {
+    public void setCharacterCardsPage(ActionEvent actionEvent) throws IOException {
         clientInput.sendString("sendCharacterCardDeck", "");
         CharacterCardsController controller = new CharacterCardsController();
         controller.setCards(characterCardList);
