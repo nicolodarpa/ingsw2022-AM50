@@ -97,17 +97,24 @@ public class DashboardTest {
 
     public void addCoinTest() {
         gameTest = new Game(2);
-        Player p1 = new Player("p1");
+        LoginManager.login("ale", gameTest);
+        LoginManager.login("nic", gameTest);
+        Player p1 = gameTest.getPlist().getPlayers().get(0);
+        Player p2 = gameTest.getPlist().getPlayers().get(1);
         Dashboard p1dashboard = p1.getDashboard();
 
-        for (int j = 0; j < 4; j++) {
-            Student s = new Student(PawnColor.GREEN);
-            p1dashboard.addStudentToClassroom(s);
-        }
-        p1dashboard.addCoin(p1.getWallet());
-        System.out.println("Il player ha #" + p1.getCoins() + " monete");
+      for (int j = 0; j < 4; j++) {
+            p1.getDashboard().addStudentToClassroom(new Student(PawnColor.GREEN));
+      }
+      p1dashboard.addCoin(p1.getWallet());
+      p1.getDashboard().drawDashboard();
+      p2.getDashboard().addCoin(p2.getWallet());
+      p2.getDashboard().drawDashboard();
+      System.out.println(p1.getName()+" ha #" + p1.getCoins() + " monete");
+      System.out.println(p2.getName()+" ha #" + p2.getCoins() + " monete");
 
         assertFalse(p1.getDashboard().getCoinPos()[0][2]);
+        assertTrue(p2.getDashboard().getCoinPos()[0][2]);
     }
 
     @Test

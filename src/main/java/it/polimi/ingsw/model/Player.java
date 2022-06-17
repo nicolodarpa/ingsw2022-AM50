@@ -38,7 +38,7 @@ public class Player {
      * Indicates the player's available moves of student in the action phase, it's set based of the number of players in the game
      */
     private int movesOfStudents = MOVES;
-    private static final Wallet wallet = new Wallet();
+    private final Wallet wallet = new Wallet();
     private Dashboard dashboard = new Dashboard();
     private Deck deck;
     private int influencePoint = 0;
