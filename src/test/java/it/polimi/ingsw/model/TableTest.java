@@ -1,14 +1,13 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.LoginManager;
-import it.polimi.ingsw.PlayersList;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 public class TableTest {
 
-    private Game gameTest = new Game();
-    private Table tableTest = new Table(gameTest.getCloudCards(), gameTest.getIslands());
+    private final Game gameTest = new Game();
+    private final Table tableTest = new Table(gameTest.getIslands());
 
 
     @Test

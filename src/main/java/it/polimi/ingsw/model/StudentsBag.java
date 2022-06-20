@@ -3,6 +3,9 @@ package it.polimi.ingsw.model;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * It's a bag that contains all the students' pawn that there are in the game.
+ */
 public class StudentsBag {
 
     private final ArrayList<Student> bag = new ArrayList<>();

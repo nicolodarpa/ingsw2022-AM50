@@ -2,7 +2,11 @@ package it.polimi.ingsw.model;
 
 import java.util.ArrayList;
 
-public record Table(ArrayList<CloudCard> cloudCards, ArrayList<Island> islands) {
+/**
+ * Models the table of the game with all the islands.
+ * @param islands are the islands in the game.
+ */
+public record Table(ArrayList<Island> islands) {
 
 
     public void drawTable() {

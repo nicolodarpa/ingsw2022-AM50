@@ -1,12 +1,18 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.PlayersList;
-
 
 import java.util.ArrayList;
 import java.util.stream.IntStream;
 
 
+/**
+ * Implements the islands in the game, every island has an id and a flag that indicates if the island is conquered or not.
+ * idGroup is used when two or more islands connected together.
+ * The dimension indicates how many islands are connected together.
+ * TowerColor is the color of the tower on the island.
+ * Owner is the player that conquers island.
+ * presenceMn and oppositeMn are flags that indicate if motherNature is on the island or not and if the island is in the MN's opposite position.
+ */
 public class Island {
     private int id;
     private boolean islandConquered = false;
@@ -160,19 +166,19 @@ public class Island {
 
 
     public void addTower() {
-        final Dashboard ownerDashboard = owner.getDashboard();
-        final int size = ownerDashboard.getTowers().size();
         try {
-            Tower ownerTower = ownerDashboard.getTowers().get(size - 1);
-            ownerDashboard.removeTower(size - 1);
-            addTower(ownerTower);
+            final Dashboard ownerDashboard = owner.getDashboard();
+            final int size = ownerDashboard.getTowers().size();
+            Tower ownerTower = ownerDashboard.getTowers().get(size - 1); // takes the last tower of the towersList
+            ownerDashboard.removeTower(size-1);
+            addTowerToIsland(ownerTower);
         } catch (Exception e) {
             System.out.println("Tower not available");
         }
     }
 
 
-    public void addTower(Tower tower) {
+    public void addTowerToIsland(Tower tower) {
         towerColor = tower.getColor();
         towerArrayList.add(tower);
     }
@@ -248,15 +254,22 @@ public class Island {
             addTower();
     }
 
+    /**
+     * Remove the previous owner's tower when the island changes its owner.
+     * When two or more islands are connected together,
+     * there are more than one tower on it, so when the island's owner changes, this method with the for loop removes all the towers
+     */
     private void removePreviousOwnerTower(){
         if(towerArrayList.size() > 0){
-            for (int towerPosition = 0; towerPosition < towerArrayList.size(); towerPosition++){
+            for(int towerPosition = 0; towerPosition < towerArrayList.size(); towerPosition++){ //this forLoop removes all the towers.
                 owner.getDashboard().addTowerFromIsland(towerColor);
                 towerArrayList.remove(towerPosition);
             }
 
         }
     }
+
+
 
     public void addMotherNature() {
         presenceMN = true;

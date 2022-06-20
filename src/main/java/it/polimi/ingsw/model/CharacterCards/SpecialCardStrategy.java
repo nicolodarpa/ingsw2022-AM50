@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model.CharacterCards;
 
-import it.polimi.ingsw.PlayersList;
+import it.polimi.ingsw.model.PlayersList;
 import it.polimi.ingsw.model.Island;
 import it.polimi.ingsw.model.PawnColor;
 import it.polimi.ingsw.model.Player;

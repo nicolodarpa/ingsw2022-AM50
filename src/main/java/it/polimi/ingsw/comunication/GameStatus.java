@@ -1,7 +1,6 @@
 package it.polimi.ingsw.comunication;
 
-import it.polimi.ingsw.PlayersList;
-import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.PlayersList;
 import it.polimi.ingsw.model.Player;
 
 public class GameStatus {

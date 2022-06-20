@@ -13,7 +13,7 @@ public class Deck {
 
     private Player player = null;
     private boolean hasChosen;
-    private final ArrayList<AssistantCard> cardsList = new ArrayList<AssistantCard>();
+    private final ArrayList<AssistantCard> cardsList = new ArrayList<>();
 
 
     public Deck(int id, String color){

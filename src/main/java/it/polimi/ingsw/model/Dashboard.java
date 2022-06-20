@@ -1,11 +1,17 @@
 package it.polimi.ingsw.model;
 
+import org.codehaus.plexus.component.annotations.Requirement;
+
 import java.util.ArrayList;
 
 /**
- * classroom contains your student, hall the ones you con move to classroom
+ * Models the game's dashboard of each player:
+ * Classroom contains your student, hall the ones you con move to classroom.
+ * Towers contain all the towers in the dashboard.
+ * CoinPos is the position of special column of the classroom that gives a coin to the player when he moves a student on it.
+ * TeacherTable is the table of the professor, and it fills with professor when a player has more students of one color than the other players.
+ * HallCapacity indicates how many students can there be in hall.
  */
-
 public class Dashboard {
     private Student[][] classroom = new Student[5][10];
     private Student[] hall;
@@ -36,7 +42,6 @@ public class Dashboard {
 
     public Dashboard() {
         setCoinPos();
-
     }
 
     /**
@@ -93,8 +98,9 @@ public class Dashboard {
     }
 
     /**
-     * set the capacity of the hall, the number of students in the hall(7 or 9) based on the number of players in the game
-     * @param gameMode
+     * set the capacity of the hall, the number of students in the hall(7 or 9) based on the number of players in the game.
+     * @param gameMode is the number of players in the game.
+     * \requires gameMode == 2 || gameMode == 3
      */
     public void setupHall(int gameMode) {
         if (gameMode == 2) {
@@ -105,6 +111,11 @@ public class Dashboard {
         hall = new Student[hallCapacity];
     }
 
+    /**
+     *
+     * @param i \requires 0 <= i < hallCapacity
+     * @return the student in i hall's position or an NullPointerException if the requirements aren't respected.
+     */
     public Student getStudentFromHall(int i) {
         try {
             Student student = hall[i];
@@ -128,20 +139,25 @@ public class Dashboard {
     /**
      * remove the last student of the selected color in the classroom
      * @param studentColor the color of the student that we want to remove
-     * @return a student
+     * (\requires (studentColor.equals(CYAN);
+     *      || studentColor.equals(RED);
+     *          || studentColor.equals(GREEN);
+     *               || studentColor.equals(YELLOW);
+     *                    || studentColor.equals(MAGENTA) )
+     * @return a student of that color
      */
     public Student getStudentFromClassroom(PawnColor studentColor) {
-        Student studentToRemove = null;
-        try {
-            studentToRemove = findLastStudent(studentColor);
-        } catch (Exception ignored) {
-        }
-        return studentToRemove;
+        return findLastStudent(studentColor);
     }
 
     /**
      * find the last student of the selected color in the classroom
      * @param studentColor the color of the student that we are looking for
+     * (\requires (studentColor.equals(CYAN);
+     *       || studentColor.equals(RED);
+     *          || studentColor.equals(GREEN);
+     *              || studentColor.equals(YELLOW);
+     *                   || studentColor.equals(MAGENTA) )
      * @return the last student
      */
     public Student findLastStudent(PawnColor studentColor) {
@@ -186,8 +202,8 @@ public class Dashboard {
 
 
     /**
-     * Add one coin to the player when he moves a student on a coin position of his dashboard
-     * @param wallet
+     * Add one coin to the player when he moves a student on a coin position of his dashboard.
+     * @param wallet is the player's wallet.
      */
     public void addCoin(Wallet wallet) {
         for (int j = 0; j < PawnColor.numberOfColors; j++) {
@@ -204,13 +220,16 @@ public class Dashboard {
         return coinPos;
     }
 
+    /**
+     * adds a teacher to dashboard's teachers table corresponding row.
+     * @param teacher \requires teacher != null
+     */
     public void addTeacherToTable(Teacher teacher) {
         try {
             PawnColor color = teacher.getColor();
             teacherTable[color.ordinal()] = teacher;
-        } catch (Exception e) {
-            System.out.println(e);
-
+        } catch (NullPointerException e) {
+            System.out.println("Null teacher");
         }
 
     }
@@ -243,21 +262,33 @@ public class Dashboard {
     }
 
 
+    /**
+     * remove a tower from the dashboard
+     * @param t is the tower to remove
+     */
     public void removeTower(int t) {
         towers.remove(t);
-
     }
 
+    /**
+     * adds a tower to the dashboard
+     * @param towerNumber is the total number of towers in the dashboard
+     * @param color is the color of the towers (white, black or grey).
+     */
     public void addTower(int towerNumber, TowerColor color) {
         Tower tower = new Tower(color);
         for (int i = 0; i < towerNumber; i++)
             towers.add(tower);
     }
 
-    public void addTowerFromIsland (TowerColor color ){
+    /**
+     * Adds to the dashboard the towers from the islands.
+     * @param color is the tower's color
+     */
+    public void addTowerFromIsland(TowerColor color){
         towers.add(new Tower(color));
-
     }
+
 
 }
 

@@ -7,6 +7,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class AddInfluenceStrategyTest {
 
@@ -58,6 +59,13 @@ public class AddInfluenceStrategyTest {
         card.setActualPlayer(player);
         card.effect();
         assertEquals(2,player.getInfluencePoint());
+    }
+
+    @Test
+    @DisplayName("Test getName of the card")
+    public void testGetName(){
+        SpecialCardStrategy card = new AddInfluenceStrategy();
+        assertNotNull(card.getName());
     }
 }
 

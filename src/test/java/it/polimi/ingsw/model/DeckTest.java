@@ -40,4 +40,25 @@ public class DeckTest {
         Deck deckTest = new Deck(1,"BLUE");
         assertEquals(deckTest.getCardsList().size(),10);
     }
+
+    @Test
+    void getDeckColor() {
+        Deck deckTest = new Deck(1,"BLUE");
+        assertEquals(deckTest.getColor(),"BLUE");
+    }
+
+    @Test
+    void getPlayer() {
+        Deck deckTest = new Deck(1,"BLUE");
+        deckTest.setPlayer(new Player("nic"));
+        assertEquals(deckTest.getPlayer().getName(), "nic");
+    }
+
+    @Test
+    void getCardOrder(){
+        Deck deckTest = new Deck(1, "BLUE");
+        assertNull(deckTest.getCardOrder(11));
+        AssistantCard card = new AssistantCard(2,1);
+        assertEquals(card, deckTest.getCardOrder(2));
+    }
 }

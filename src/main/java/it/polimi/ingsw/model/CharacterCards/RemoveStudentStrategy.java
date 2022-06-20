@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.Student;
 
 /**
  * implements the character card that remove 3 students of selected color from each player's hall
+ * @see SpecialCardStrategy
  */
 public class RemoveStudentStrategy extends SpecialCardStrategy {
 

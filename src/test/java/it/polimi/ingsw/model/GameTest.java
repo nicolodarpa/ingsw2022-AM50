@@ -1,10 +1,11 @@
 package it.polimi.ingsw.model;
 
+import com.google.gson.Gson;
 import it.polimi.ingsw.LoginManager;
+import it.polimi.ingsw.comunication.*;
 import it.polimi.ingsw.model.CharacterCards.SpecialCardStrategy;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -36,7 +37,7 @@ public class GameTest {
         for (int i = 0; i < 2; i++)
             assertEquals(3, gameTest.getCloudCards().get(i).getStudents().size());
         assertEquals(12, gameTest.getIslands().size());
-        Table t = new Table(gameTest.getCloudCards(), gameTest.getIslands());
+        Table t = new Table(gameTest.getIslands());
         t.drawTable();
         for (Player p : gameTest.getPlist().getPlayers())
             assertEquals(8, p.getDashboard().getTowers().size());
@@ -300,28 +301,40 @@ public class GameTest {
         Player player_two = gameTest.getPlist().getPlayers().get(1);
         Player player_three = gameTest.getPlist().getPlayers().get(2);
 
-        player_one.moveStudentToClassroom(0, gameTest);
-        for (int i = 0; i < 2; i++) {
-            Student studentColor = new Student(PawnColor.CYAN);
-            player_one.getDashboard().addStudentToHall(studentColor);
-            player_one.moveStudentToClassroom(0, gameTest);
-        }
+        //add two students of the same color to the classroom of the first player.
+        player_one.getDashboard().addStudentToClassroom(new Student(PawnColor.CYAN));
+        player_one.getDashboard().addStudentToClassroom(new Student(PawnColor.CYAN));
+        gameTest.assignTeacher();
 
-        player_two.moveStudentToClassroom(0, gameTest);
-        for (int i = 0; i < 4; i++) {
-            Student studentColor = new Student(PawnColor.CYAN);
-            player_two.getDashboard().addStudentToHall(studentColor);
-            player_two.moveStudentToClassroom(0, gameTest);
-        }
+        assertEquals(player_one.getDashboard().getTeacherTable()[PawnColor.CYAN.ordinal()].getColor(), PawnColor.CYAN);
 
-        player_three.moveStudentToClassroom(0, gameTest);
+        //add three students of the same color to the classroom of the second player.
+        player_two.getDashboard().addStudentToClassroom(new Student(PawnColor.CYAN));
+        player_two.getDashboard().addStudentToClassroom(new Student(PawnColor.CYAN));
+        player_two.getDashboard().addStudentToClassroom(new Student(PawnColor.CYAN));
+        gameTest.assignTeacher();
+
+        assertEquals(player_two.getDashboard().getTeacherTable()[PawnColor.CYAN.ordinal()].getColor(), PawnColor.CYAN);
+
+        //add four students of the same color to the classroom of the third player.
+        player_three.getDashboard().addStudentToClassroom(new Student(PawnColor.CYAN));
+        player_three.getDashboard().addStudentToClassroom(new Student(PawnColor.CYAN));
+        player_three.getDashboard().addStudentToClassroom(new Student(PawnColor.CYAN));
+        player_three.getDashboard().addStudentToClassroom(new Student(PawnColor.CYAN));
+        gameTest.assignTeacher();
+
+        assertEquals(player_three.getDashboard().getTeacherTable()[PawnColor.CYAN.ordinal()].getColor(), PawnColor.CYAN);
+
+        // player two and three have the same number of cyan students
+        player_two.getDashboard().addStudentToClassroom(new Student(PawnColor.CYAN));
+        gameTest.assignTeacher();
+
+        assertEquals(player_three.getDashboard().getTeacherTable()[PawnColor.CYAN.ordinal()].getColor(), PawnColor.CYAN);
 
 
         player_one.getDashboard().drawDashboard();
         player_two.getDashboard().drawDashboard();
         player_three.getDashboard().drawDashboard();
-        assertEquals(player_two.getDashboard().getTeacherTable()[4].getColor(), PawnColor.CYAN);
-
     }
 
     @Test
@@ -379,5 +392,268 @@ public class GameTest {
         assertEquals(7, playerTest.getDashboard().getHall().length);
         assertEquals(0, gameTest.getCloudCards().get(1).getAllStudents().size());
     }
+
+    @Test
+    public void sendIslandTest(){
+        Gson gson = new Gson();
+        gameTest = new Game(2);
+        int id = 1;
+        LoginManager.login("ale", gameTest);
+        LoginManager.login("nic", gameTest);
+
+        IslandStatus[] statuses = gson.fromJson(gameTest.sendIslands(), IslandStatus[].class);
+        for(IslandStatus islandStatus : statuses){
+            assertEquals(islandStatus.id, id++);
+            assertEquals(islandStatus.owner, "free");
+            assertEquals(islandStatus.dimension, 1);
+            assertEquals(islandStatus.towerNumber, 0);
+            assertFalse(islandStatus.islandConquered);
+            if(islandStatus.id == gameTest.getIslandWithMN().getId())
+                assertTrue(islandStatus.presenceMN);
+        }
+    }
+
+    @Test
+    @DisplayName("Testing send Single island Test with island with mother nature")
+    public void sendSingleIslandTest(){
+        Gson gson = new Gson();
+        gameTest = new Game(2);
+        LoginManager.login("ale", gameTest);
+        LoginManager.login("nic", gameTest);
+
+        Island islandTest = gameTest.getIslandWithMN();
+
+        gameTest.sendSingleIsland(islandTest);
+        IslandStatus[] statuses = gson.fromJson(gameTest.sendSingleIsland(islandTest), IslandStatus[].class);
+        for(IslandStatus status : statuses){
+            assertTrue(status.presenceMN, " must be true ");
+            assertEquals(status.id, islandTest.getId());
+        }
+
+    }
+
+    @Test
+    public void sendHallTest(){
+        Gson gson = new Gson();
+        gameTest = new Game(2);
+        LoginManager.login("ale", gameTest);
+        LoginManager.login("nic", gameTest);
+
+        Player playerTest = gameTest.getPlist().getPlayerByName("nic");
+
+        HallStatus[] statuses = gson.fromJson(gameTest.sendHall(playerTest), HallStatus[].class);
+        for(HallStatus status : statuses){
+            assertEquals(status.students.length, 7);
+        }
+    }
+
+    @Test
+    public void sendDashboardTest(){
+        Gson gson = new Gson();
+        gameTest = new Game(2);
+        LoginManager.login("ale", gameTest);
+        LoginManager.login("nic", gameTest);
+
+
+        DashboardStatus[] statuses = gson.fromJson(gameTest.sendDashboard(), DashboardStatus[].class);
+        for(DashboardStatus status : statuses){
+            assertEquals(status.studentsHall.length, 7);
+            assertEquals(status.towers, 8);
+            assertEquals(status.teacherTable.length, 5);
+        }
+    }
+
+    @Test
+    public void sendPlayerDashboardTest(){
+        Gson gson = new Gson();
+        gameTest = new Game(2);
+        LoginManager.login("ale", gameTest);
+        LoginManager.login("nic", gameTest);
+
+        Player playerTest = gameTest.getPlist().getPlayerByName("nic");
+
+
+        DashboardStatus[] statuses = gson.fromJson(gameTest.sendPlayerDashboard(playerTest), DashboardStatus[].class);
+        for(DashboardStatus status : statuses){
+            assertEquals(status.studentsHall.length, 7);
+            assertEquals(status.towers, 8);
+            assertEquals(status.teacherTable.length, 5);
+            assertEquals(status.nameOwner, playerTest.getName());
+        }
+    }
+
+    @Test
+    public void sendCloudCards(){
+        Gson gson = new Gson();
+        gameTest = new Game(2);
+        LoginManager.login("ale", gameTest);
+        LoginManager.login("nic", gameTest);
+
+
+
+        CloudCardStatus[] statuses = gson.fromJson(gameTest.sendCloudCards(), CloudCardStatus[].class);
+        for(CloudCardStatus status : statuses){
+            assertEquals(status.students.size(), 3);
+        }
+    }
+
+    @Test
+    public void sendCharactersCardDeck() {
+        Gson gson = new Gson();
+        gameTest = new Game(2);
+
+        int specialCardIndex = 0;
+        LoginManager.login("ale", gameTest);
+        LoginManager.login("nic", gameTest);
+
+        CharacterCard[] statuses = gson.fromJson(gameTest.sendCharacterCardsDeck(), CharacterCard[].class);
+        for(CharacterCard status : statuses){
+            assertEquals(status.effect, gameTest.getCardsInGame().get(specialCardIndex++).getEffectOfTheCard());
+        }
+
+    }
+
+    @Test
+    public void sendPlayerTest() {
+        Gson gson = new Gson();
+        gameTest = new Game(2);
+
+        LoginManager.login("ale", gameTest);
+        LoginManager.login("nic", gameTest);
+
+        Player playerTest = gameTest.getPlist().getPlayerByName("nic");
+
+        PlayersStatus[] statuses = gson.fromJson(gameTest.sendPlayer(playerTest), PlayersStatus[].class);
+        for (PlayersStatus status : statuses) {
+            assertEquals(status.name, playerTest.getName());
+            assertEquals(status.movesOfMN, playerTest.getMovesOfMN());
+            assertEquals(status.wallet, playerTest.getWallet().getCoins());
+            assertEquals(status.movesOfStudents, playerTest.getMovesOfStudents());
+            assertEquals(status.order, playerTest.getOrder());
+            assertEquals(status.hasPlayed, playerTest.getHasPlayed());
+        }
+    }
+
+    @Test
+    public void sendAllPlayerTest() {
+        Gson gson = new Gson();
+        gameTest = new Game(2);
+
+        LoginManager.login("ale", gameTest);
+        LoginManager.login("nic", gameTest);
+
+
+        PlayersStatus[] statuses = gson.fromJson(gameTest.sendAllPlayers(), PlayersStatus[].class);
+        for (PlayersStatus status : statuses) {
+            for(Player playerTest : gameTest.getPlist().getPlayers()){
+                assertEquals(status.movesOfMN, playerTest.getMovesOfMN());
+                assertEquals(status.wallet, playerTest.getWallet().getCoins());
+                assertEquals(status.movesOfStudents, playerTest.getMovesOfStudents());
+                assertEquals(status.order, playerTest.getOrder());
+                assertEquals(status.hasPlayed, playerTest.getHasPlayed());
+            }
+        }
+    }
+
+    @Test
+    public void sendGameInfoTest() {
+        Gson gson = new Gson();
+        gameTest = new Game(2);
+
+        LoginManager.login("ale", gameTest);
+        LoginManager.login("nic", gameTest);
+
+        gameTest.setActualPlayer();
+
+        GameInfoStatus[] statuses = gson.fromJson(gameTest.sendGameInfo(), GameInfoStatus[].class);
+        for (GameInfoStatus status : statuses) {
+            assertEquals(status.phase, "Planning phase");
+            assertEquals(status.actualPlayer, gameTest.getActualPlayer().getName());
+            assertEquals(status.round, String.valueOf(gameTest.getRound()));
+        }
+    }
+
+    @Test
+    public void sendDeckTest(){
+        Gson gson = new Gson();
+        gameTest = new Game(2);
+
+        int idDeck = 1;
+
+        LoginManager.login("ale", gameTest);
+        LoginManager.login("nic", gameTest);
+
+        DeckStatus[] statuses = gson.fromJson(gameTest.sendDeck(), DeckStatus[].class);
+        for (DeckStatus status : statuses) {
+            assertEquals(status.id, idDeck++);
+        }
+    }
+
+    @Test
+    public void chooseDeckTest(){
+        gameTest = new Game(2);
+
+        LoginManager.login("ale", gameTest);
+        LoginManager.login("nic", gameTest);
+
+        Player p1 = gameTest.getPlist().getPlayerByName("ale");
+        Player p2 = gameTest.getPlist().getPlayerByName("nic");
+
+        //player1 choose deck with id 1
+        gameTest.chooseDeck(1, p1);
+        assertEquals(p1.getDeck().getId(), 1);
+
+        //player2 choose same deck of player1, but it's not admissible so the method doesn't assign him a deck
+        gameTest.chooseDeck(1, p2);
+        assertNull(p2.getDeck());
+
+        //player2 choose deck with id 2
+        gameTest.chooseDeck(2, p2);
+        assertEquals(p2.getDeck().getId(), 2);
+    }
+
+    @Test
+    public void playAssistantCardTest(){
+        gameTest = new Game(2);
+
+        LoginManager.login("ale", gameTest);
+        LoginManager.login("nic", gameTest);
+
+        Player p1 = gameTest.getPlist().getPlayerByName("ale");
+        Player p2 = gameTest.getPlist().getPlayerByName("nic");
+
+        p1.setDeck(new Deck(1, "blue"));
+
+        p2.setDeck(new Deck(2, "green"));
+
+        gameTest.playAssistantCard(p1, 4);
+        gameTest.playAssistantCard(p2, 2);
+        assertEquals(p2, gameTest.getActualPlayer());
+
+        gameTest.playAssistantCard(p1, 3);
+        gameTest.playAssistantCard(p2, 4);
+        assertEquals(p1, gameTest.getActualPlayer());
+
+        assertEquals(8,p1.getDeck().getCardsList().size());
+
+        gameTest.playAssistantCard(p1, 1);
+        gameTest.playAssistantCard(p1, 2);
+        gameTest.playAssistantCard(p1, 5);
+        gameTest.playAssistantCard(p1, 6);
+        gameTest.playAssistantCard(p1, 7);
+        gameTest.playAssistantCard(p1, 8);
+        gameTest.playAssistantCard(p1, 9);
+
+
+
+        //calculate the winner
+        gameTest.playAssistantCard(p1, 10);
+
+        //must be a draw
+        assertNull(gameTest.getWinner());
+
+    }
+
+
 
 }

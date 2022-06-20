@@ -19,9 +19,9 @@ class CloudCardTest {
             testCloud.addStudent(student);
         }
         assertEquals(testCloud.getStudents().get(0).getColor(), null);
-
-
+        assertEquals(testCloud.getStudents().size(), 3);
     }
+
 
     @Test
     void getStudents() {

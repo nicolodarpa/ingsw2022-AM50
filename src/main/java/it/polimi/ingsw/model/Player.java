@@ -50,7 +50,7 @@ public class Player {
     private boolean teacherAssignerModifier = false;
 
 
-    private final ArrayList<AssistantCard> assistantCardsPlayed = new ArrayList<>();
+    private final ArrayList<Integer> assistantCardsPlayed = new ArrayList<>();
 
     public Player(String name) {
         this.name = name;
@@ -226,7 +226,7 @@ public class Player {
         try {
             if (!checkCardAvailability(cardOrder)) {
                 AssistantCard cardToPlay = deck.getCardOrder(cardOrder);
-                assistantCardsPlayed.add(cardToPlay);
+                assistantCardsPlayed.add(cardOrder);
                 order = cardToPlay.order();
                 movesOfMN = cardToPlay.movesOfMN();
                 deck.getCardsList().remove(cardToPlay);
@@ -247,13 +247,7 @@ public class Player {
      * @return true if the card is playable or false if is not playable
      */
     public boolean checkCardAvailability(int cardOrder) {
-        AssistantCard assistantCard = deck.getCardOrder(cardOrder);
-        for (int i = 1; i < assistantCardsPlayed.size(); i++) {
-            if (assistantCard == assistantCardsPlayed.get(i)) {
-                return true;
-            }
-        }
-        return false;
+        return assistantCardsPlayed.contains(cardOrder);
     }
 
     /**
@@ -293,7 +287,7 @@ public class Player {
                 return false;
             }
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println("Invalid input");
             return false;
         }
     }

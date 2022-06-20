@@ -4,10 +4,9 @@ import it.polimi.ingsw.LoginManager;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.net.Socket;
 
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 public class PlayerTest{
@@ -32,9 +31,10 @@ public class PlayerTest{
         Deck testDeck = new Deck(1,"BLUE");
         Player p = new Player("nic");
         p.setDeck(testDeck);
-        p.playAssistantCard(5);
-        assertEquals(5, p.getOrder());
-        assertEquals(3, p.getMovesOfMN());
+        AssistantCard cardToPlay = testDeck.getCardOrder(5);
+        p.playAssistantCard(cardToPlay.getOrder());
+        assertEquals(cardToPlay.getOrder(), p.getOrder());
+        assertEquals(cardToPlay.getMoveOfMN(), p.getMovesOfMN());
     }
 
     @Test
@@ -59,11 +59,29 @@ public class PlayerTest{
 
         Player player = gameTest.getPlist().getPlayers().get(0);
         player.moveStudentToIsland(gameTest.getIslands().get(2), 3);
+        assertNull(player.getDashboard().getHall()[3]);
+        player.moveStudentToIsland(gameTest.getIslands().get(2), 3); //select a null student
         if(gameTest.getIslands().get(2).getOppositeMN() || gameTest.getIslands().get(2).getPresenceMN())
             assertEquals(1,gameTest.getIslands().get(2).getStudentList().size());
         else
             assertEquals(2,gameTest.getIslands().get(2).getStudentList().size());
         player.getDashboard().drawDashboard();
+    }
+
+    @Test
+    @DisplayName("Testing invalid input of island's index and student's position")
+    public void testMoveInvalidStudentToIsland(){
+        Game gameTest = new Game(2);
+
+        LoginManager.login("ale",gameTest);
+        LoginManager.login("nic",gameTest);
+        Player player = gameTest.getPlist().getPlayers().get(0);
+        assertFalse(player.moveStudentToIsland(9,15,gameTest)); //invalid Island index
+        assertFalse(player.moveStudentToIsland(9, 9, gameTest)); //invalid student's position
+        if(gameTest.getIslands().get(9).getOppositeMN() || gameTest.getIslands().get(9).getPresenceMN())
+            assertEquals(0,gameTest.getIslands().get(9).getStudentList().size()); //doesn't add any students to the selected island
+        else
+            assertEquals(1,gameTest.getIslands().get(9).getStudentList().size()); //doesn't add any students to the selected island
     }
 
     @Test
@@ -89,6 +107,31 @@ public class PlayerTest{
         p1.getDashboard().drawDashboard();
         p1.changeStudent(PawnColor.RED, 6);
         p1.getDashboard().drawDashboard();
+    }
+
+    @Test
+    public void sendToClientTest(){
+        Player p = new Player("nic");
+        p.sendToClient("msg", "must be 'no connection to client'");
+    }
+
+    @Test
+    public void setSocketTest(){
+        Player p = new Player("nic");
+        Socket socket = new Socket();
+        p.setSocket(socket);
+        assertEquals(p.getSocket(), socket, "must be equals");
+    }
+
+    @Test
+    public void spendCoinsTest(){
+        Player p = new Player("nic");
+        int coin = p.getCoins();
+        int spentCoins = 0;
+        p.addCoin(2);
+        p.spendCoins(1);
+        spentCoins = coin + 2 - 1;
+        assertEquals(p.getWallet().getCoins(), spentCoins);
     }
 
 

@@ -69,6 +69,7 @@ public class DashboardTest {
         Teacher teacher = new Teacher(PawnColor.RED);
         testD.addTeacherToTable(teacher);
         assertNotNull(testD.getTeacherTable()[1]);
+        testD.addTeacherToTable(null);
         testD.drawDashboard();
     }
 
@@ -131,8 +132,39 @@ public class DashboardTest {
         p1.getDashboard().drawDashboard();
         p1.getDashboard().getStudentFromClassroom(PawnColor.RED);
         p1.getDashboard().drawDashboard();
-
     }
+
+    @Test
+    public void getInvalidStudentFromHallTest(){
+        Dashboard dashboardTest = new Dashboard();
+        dashboardTest.getStudentFromHall(2);
+        dashboardTest.getStudentFromHall(10);
+    }
+
+    @Test
+    public void getClassroom(){
+        Dashboard dashboardTest = new Dashboard();
+        assertNotNull(dashboardTest.getClassroom());
+    }
+
+    @Test
+    public void removeTower(){
+        Dashboard dashboardTest = new Dashboard();
+        dashboardTest.setupHall(2);
+        dashboardTest.drawDashboard();
+        dashboardTest.addTower(8, TowerColor.black);
+        dashboardTest.removeTower(7);
+        assertEquals(7, dashboardTest.getTowers().size());
+        dashboardTest.drawDashboard();
+    }
+
+    @Test
+    public void removeInvalidStudentFromClassroomTest(){
+        Dashboard dashboardTest = new Dashboard();
+        dashboardTest.getStudentFromClassroom(PawnColor.RED); // is a null student
+        //It has to print "Invalid input"
+    }
+
 
 
 }

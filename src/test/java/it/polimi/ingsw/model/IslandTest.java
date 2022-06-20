@@ -2,6 +2,8 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.LoginManager;
 import it.polimi.ingsw.model.CharacterCards.NoTowerInfluenceStrategy;
+import javafx.application.Platform;
+import javafx.fxml.FXML;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -13,26 +15,19 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class IslandTest {
 
     private final Island islandTest = new Island(1);
-    private final Student cyan = new Student(PawnColor.CYAN);
-    private final Student yellow = new Student(PawnColor.YELLOW);
-    private final Student red = new Student(PawnColor.RED);
-    private final Student green = new Student(PawnColor.GREEN);
-    private final Student magenta = new Student(PawnColor.MAGENTA);
 
-
-
-    private Game gameTest;
 
     @Test
     @DisplayName(" Count 1 student cyan, 2 students yellow and 1 red")
     public void testCountStudentByColor(){
-        islandTest.addStudent(cyan);
-        islandTest.addStudent(yellow);
-        islandTest.addStudent(yellow);
-        islandTest.addStudent(red);
+        for(int i = 0; i < PawnColor.totalNumberOfPawnColors(); i++){
+            islandTest.addStudent(new Student(PawnColor.values()[i]));
+        }
         assertEquals(1,islandTest.countStudentByColor()[PawnColor.CYAN.ordinal()], " must be 1 cyan");
-        assertEquals(2,islandTest.countStudentByColor()[PawnColor.YELLOW.ordinal()], "must be 2 yellow");
+        assertEquals(1,islandTest.countStudentByColor()[PawnColor.YELLOW.ordinal()], "must be 1 yellow");
         assertEquals(1,islandTest.countStudentByColor()[PawnColor.RED.ordinal()], "must be 1 red");
+        assertEquals(1,islandTest.countStudentByColor()[PawnColor.MAGENTA.ordinal()], "must be 1 magenta");
+        assertEquals(1,islandTest.countStudentByColor()[PawnColor.GREEN.ordinal()], "must be 1 green");
     }
 
 
@@ -44,7 +39,7 @@ public class IslandTest {
         LoginManager.login("ale", gameTest);
         LoginManager.login("jaz", gameTest);
 
-        Table tableTest = new Table(gameTest.getCloudCards(), gameTest.getIslands());
+        Table tableTest = new Table(gameTest.getIslands());
         Player plyr_1 = gameTest.getPlist().getPlayers().get(0);
         Player plyr_2 = gameTest.getPlist().getPlayers().get(1);
         Dashboard dashboard_1 = plyr_1.getDashboard();
@@ -77,7 +72,12 @@ public class IslandTest {
         assertTrue(islandTest.getTowerArrayList().size()>0);
         assertEquals(7,p.getDashboard().getTowers().size());
         assertEquals(TowerColor.black, p.getDashboard().getTowers().get(0).getColor());
+    }
 
+    @Test
+    @DisplayName(" add null tower to the island")
+    public void testAddNullTower(){
+        islandTest.addTower();
     }
 
     @Test
@@ -107,6 +107,39 @@ public class IslandTest {
         card.effect();
         islandTest.get(0).calcInfluence(gameTest.getPlist());
         assertEquals(gameTest.getPlist().getPlayers().get(1).getName(), islandTest.get(0).getOwner());
+
+    }
+
+    @Test
+    public void removePreviousOwnerTower(){
+        Game gameTest = new Game(2);
+
+        LoginManager.login("ale", gameTest);
+        LoginManager.login("jaz", gameTest);
+
+        final Island islandTest = gameTest.getIslands().get(0);
+
+        final Player P1 = gameTest.getPlist().getPlayers().get(0);
+        final Player P2 = gameTest.getPlist().getPlayers().get(1);
+
+        final Dashboard D1 = P1.getDashboard();
+        final Dashboard D2 = P2.getDashboard();
+
+        D1.addTeacherToTable(new Teacher(PawnColor.RED));
+        islandTest.addStudent(new Student(PawnColor.RED));
+        islandTest.calcInfluence(gameTest.getPlist());
+        assertEquals(P1.getName(), islandTest.getOwner());
+        assertEquals(7, D1.getTowers().size());
+
+        D2.addTeacherToTable(new Teacher(PawnColor.GREEN));
+        islandTest.addStudent(new Student(PawnColor.GREEN));
+        islandTest.addStudent(new Student(PawnColor.GREEN));
+        islandTest.addStudent(new Student(PawnColor.GREEN));
+        islandTest.addStudent(new Student(PawnColor.GREEN));
+        islandTest.calcInfluence(gameTest.getPlist());
+        assertEquals(P2.getName(), islandTest.getOwner());
+        assertEquals(7, D2.getTowers().size());
+        assertEquals(8,D1.getTowers().size());
 
     }
 }

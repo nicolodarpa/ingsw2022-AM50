@@ -1,4 +1,7 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw;
+
+import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.Player;
 
 import java.io.BufferedReader;
 import java.io.IOException;

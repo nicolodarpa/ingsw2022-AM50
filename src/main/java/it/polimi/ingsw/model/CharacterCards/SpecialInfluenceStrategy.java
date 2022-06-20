@@ -4,8 +4,6 @@ import java.util.Scanner;
 
 public class SpecialInfluenceStrategy extends SpecialCardStrategy {
 
-    private final Scanner scanner = new Scanner(System.in);
-
 
 
     /**

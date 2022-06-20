@@ -13,7 +13,7 @@ public class CloudCard {
 
     /**
      * By the param numberOfPlayers, the constructor set the number of students(capacity) on the cloud cards (3 or 4)
-     * @param numberOfPlayers
+     * @param numberOfPlayers is the number of players in the game, (\requires numberOfPlayer == 2 || numberOfPlayer == 3)
      */
     public CloudCard(int numberOfPlayers) {
 

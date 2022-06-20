@@ -18,8 +18,6 @@ public enum PawnColor {
 
     private int influenceMultiplier;
 
-    private Image imgPawns;
-
     public static final int numberOfColors = 5;
 
     PawnColor(String code, int influenceMultiplier, String name) {
@@ -44,7 +42,7 @@ public enum PawnColor {
         this.influenceMultiplier = influenceMultiplier;
     }
 
-    public int totalNumberOfPawnColors(){
+    public static int totalNumberOfPawnColors(){
         return PawnColor.values().length;
     }
 

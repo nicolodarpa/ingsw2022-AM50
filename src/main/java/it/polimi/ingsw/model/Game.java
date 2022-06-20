@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model;
 
 import com.google.gson.Gson;
-import it.polimi.ingsw.PlayersList;
 import it.polimi.ingsw.client.ClientInput;
 import it.polimi.ingsw.comunication.*;
 import it.polimi.ingsw.model.CharacterCards.SpecialCardStrategy;
@@ -31,7 +30,6 @@ public class Game {
     private int round = 0;
     private int phase = 0;
     private int numberOfPlayers = 3;
-    private int numberOfIslands = 12;
     private PlayersList plist = new PlayersList();
     private StudentsBag studentsBag = new StudentsBag();
     private ArrayList<CloudCard> cloudCards = new ArrayList<>();
@@ -123,7 +121,7 @@ public class Game {
     }
 
     public void addPlayer(String name) {
-        plist.addPlayer(name);
+        plist.addPlayer(new Player(name));
         if (getCurrentNumberOfPlayers() == numberOfPlayers) {
             setupGame();
         }
@@ -293,6 +291,7 @@ public class Game {
 
 
     public void createIslands() {
+        int numberOfIslands = 12;
         for (int i = 1; i <= numberOfIslands; i++) {
             Island island = new Island(i);
             islands.add(island);
@@ -426,7 +425,7 @@ public class Game {
 
                 }
                 for (Tower tower : next.getTowerArrayList()) {
-                    islands.get(i).addTower(tower);
+                    islands.get(i).addTowerToIsland(tower);
                 }
                 if (curr.getPresenceMN() || next.getPresenceMN()) {
                     islands.get(i).setPresenceMN(true);
@@ -598,7 +597,7 @@ public class Game {
 
     }
 
-    private void nextPhase() {
+    public void nextPhase() {
         if (phase == 0) {
             for (Player p : plist.getPlayers()) {
                 p.setHasPlayed(false);
@@ -713,9 +712,10 @@ public class Game {
 
     public void playAssistantCard(Player player, int cardNumber) {
         if (player.checkCardAvailability(cardNumber)) {
-            player.sendToClient("error", "Assistant card already played by another player");
+            player.sendToClient("error", "You already played this card");
             return;
         }
+
         boolean check = false;
         if (checkLastPlayedAssistant(cardNumber)) {
             player.sendToClient("error", "Assistant card already played by another player");

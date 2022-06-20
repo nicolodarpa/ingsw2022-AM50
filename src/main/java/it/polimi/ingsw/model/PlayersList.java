@@ -1,17 +1,19 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.StudentsBag;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
- * This class contains the players list that are playing a match
+ * This class contains the list of the players that are playing a match
  */
-
 public class PlayersList {
 
-    private final ArrayList<Player> players = new ArrayList<>();
+
+    private ArrayList<Player> players = new ArrayList<>();
+
 
     public ArrayList<Player> getPlayers() {
         return players;
@@ -39,15 +41,14 @@ public class PlayersList {
     /**
      * This method add new player to the playersList
      */
-    public void addPlayer(String name) {
-        Player p = new Player(name);
-        players.add(p);
+    public void addPlayer(Player player) {
+        players.add(player);
 
     }
 
-    public  void removePlayer(Player player) {
-        players.remove(player);
-        System.out.println(player.getName() +" logged out");
+    public void removePlayer(Player player) {
+       players.remove(player);
+       System.out.println(player.getName() +" logged out");
     }
 
     public void moveStudentsToHall(StudentsBag studentsBag) {

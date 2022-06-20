@@ -3,8 +3,7 @@ package it.polimi.ingsw.model;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-
-
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 public class TowerTest {
@@ -17,4 +16,9 @@ public class TowerTest {
         t.draw();
     }
 
+    @Test
+    @DisplayName(" Get the name of the tower's color")
+    public void testGetColorName(){
+        assertEquals(t.getColor().getName(), "white");
+    }
 }
