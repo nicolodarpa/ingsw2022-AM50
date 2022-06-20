@@ -27,6 +27,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
+/**
+ * Controller of dashboard.fxml
+ */
 public class DashboardController implements Initializable, DisplayLabel  {
 
     public Pane anchor;
