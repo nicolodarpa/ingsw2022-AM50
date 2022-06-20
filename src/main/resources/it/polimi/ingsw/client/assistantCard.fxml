@@ -7,10 +7,10 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane fx:id="anchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.AssistantCardController">
+<Pane fx:id="anchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.AssistantCardController">
    <children>
       <ImageView fitHeight="133.33" fitWidth="90.66" layoutX="14.0" layoutY="49.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fitHeight="133.33" fitWidth="90.66" layoutX="14.0" layoutY="49.0">
+      <ImageView fx:id="card1" fitHeight="133.33" fitWidth="90.66" layoutX="14.0" layoutY="49.0">
          <image>
             <Image url="@../../../../assets/assistantCard/Assistente (1).png" />
          </image>
@@ -19,26 +19,14 @@
       <ImageView fitHeight="133.33" fitWidth="90.66" layoutX="256.0" layoutY="49.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fitHeight="133.33" fitWidth="90.66" layoutX="375.0" layoutY="49.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fitHeight="133.33" fitWidth="90.66" layoutX="495.0" layoutY="49.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fitHeight="133.33" fitWidth="90.66" layoutX="140.0" layoutY="49.0">
-         <image>
-            <Image url="@../../../../assets/assistantCard/Assistente (2).png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="133.33" fitWidth="90.66" layoutX="256.0" layoutY="49.0">
-         <image>
-            <Image url="@../../../../assets/assistantCard/Assistente (3).png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="133.33" fitWidth="90.66" layoutX="375.0" layoutY="49.0">
-         <image>
-            <Image url="@../../../../assets/assistantCard/Assistente (4).png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="133.33" fitWidth="90.66" layoutX="495.0" layoutY="49.0">
-         <image>
-            <Image url="@../../../../assets/assistantCard/Assistente (5).png" />
-         </image>
-      </ImageView>
+      <ImageView fx:id="card2" fitHeight="133.33" fitWidth="90.66" layoutX="140.0" layoutY="49.0">
+        </ImageView>
+      <ImageView fx:id="card3" fitHeight="133.33" fitWidth="90.66" layoutX="256.0" layoutY="49.0">
+        </ImageView>
+      <ImageView fx:id="card4" fitHeight="133.33" fitWidth="90.66" layoutX="375.0" layoutY="49.0">
+        </ImageView>
+      <ImageView fx:id="card5" fitHeight="133.33" fitWidth="90.66" layoutX="495.0" layoutY="49.0">
+         </ImageView>
       <Button fx:id="playCard1" layoutX="29.0" layoutY="187.0" mnemonicParsing="false" onAction="#playAssistantCard1" text="Choose " />
       <Button fx:id="playCard2" layoutX="156.0" layoutY="187.0" mnemonicParsing="false" onAction="#playAssistantCard2" text="Choose" />
       <Button fx:id="playCard3" layoutX="271.0" layoutY="187.0" mnemonicParsing="false" onAction="#playAssistantCard3" text="Choose" />
@@ -54,31 +42,16 @@
       <ImageView fitHeight="133.33" fitWidth="90.66" layoutX="256.0" layoutY="225.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fitHeight="133.33" fitWidth="90.66" layoutX="375.0" layoutY="225.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fitHeight="133.33" fitWidth="90.66" layoutX="495.0" layoutY="225.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fitHeight="133.33" fitWidth="90.66" layoutX="14.0" layoutY="225.0">
-         <image>
-            <Image url="@../../../../assets/assistantCard/Assistente (6).png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="133.33" fitWidth="90.66" layoutX="140.0" layoutY="225.0">
-         <image>
-            <Image url="@../../../../assets/assistantCard/Assistente (7).png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="133.33" fitWidth="90.66" layoutX="256.0" layoutY="225.0">
-         <image>
-            <Image url="@../../../../assets/assistantCard/Assistente (8).png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="133.33" fitWidth="90.66" layoutX="375.0" layoutY="225.0">
-         <image>
-            <Image url="@../../../../assets/assistantCard/Assistente (9).png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="133.33" fitWidth="90.66" layoutX="495.0" layoutY="225.0">
-         <image>
-            <Image url="@../../../../assets/assistantCard/Assistente (10).png" />
-         </image>
-      </ImageView>
+      <ImageView fx:id="card6" fitHeight="133.33" fitWidth="90.66" layoutX="14.0" layoutY="225.0">
+        </ImageView>
+      <ImageView fx:id="card7" fitHeight="133.33" fitWidth="90.66" layoutX="140.0" layoutY="225.0">
+        </ImageView>
+      <ImageView fx:id="card8" fitHeight="133.33" fitWidth="90.66" layoutX="256.0" layoutY="225.0">
+         </ImageView>
+      <ImageView fx:id="card9" fitHeight="133.33" fitWidth="90.66" layoutX="375.0" layoutY="225.0">
+        </ImageView>
+      <ImageView fx:id="card10" fitHeight="133.33" fitWidth="90.66" layoutX="495.0" layoutY="225.0">
+        </ImageView>
       <Label fx:id="yourDeck" layoutX="257.0" layoutY="14.0" text="Your Deck" textFill="#0839cd">
          <font>
             <Font size="20.0" />
