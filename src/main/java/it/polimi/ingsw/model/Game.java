@@ -188,7 +188,7 @@ public class Game {
     }
 
     /**
-     * For each clou card in the game, it fills them with the students
+     * For each cloud card in the game, it fills them with the students
      */
     private void setUpCloudCards() {
         for (CloudCard cloudCard : cloudCards) {

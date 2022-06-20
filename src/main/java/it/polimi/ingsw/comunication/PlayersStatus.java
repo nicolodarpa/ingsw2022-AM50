@@ -13,6 +13,11 @@ public class PlayersStatus {
     public int movesOfStudents;
 
     public int wallet;
+
+    public ArrayList<Integer> cardsPlayed;
+
+    public int deckId;
+
     public String getName() {
         return name;
     }
@@ -42,6 +47,8 @@ public class PlayersStatus {
         this.movesOfStudents = player.getMovesOfStudents();
         this.hasPlayed = player.getHasPlayed();
         this.wallet = player.getWallet().getCoins();
+        this.cardsPlayed = player.getAssistantCardsPlayed();
+        this.deckId = player.getDeck().getId();
     }
 
 

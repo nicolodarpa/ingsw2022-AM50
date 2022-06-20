@@ -24,6 +24,9 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.TooManyListenersException;
 
+/**
+ * Controller of characterCards.fxml
+ */
 public class CharacterCardsController implements Initializable {
 
 

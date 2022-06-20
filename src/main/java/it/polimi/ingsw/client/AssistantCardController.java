@@ -5,14 +5,14 @@ import javafx.scene.Node;
 import javafx.stage.Window;
 
 /**
- * Controller of AssistantCard.fxml
+ * Controller of AssistantCardStatus.fxml
  */
 public class AssistantCardController {
 
 
-
-
-
+    /**
+     * Close the window of assistant cards.
+     */
     public void closePage(ActionEvent actionEvent) {
         Window window = ((Node) actionEvent.getSource()).getScene().getWindow();
         window.hide();

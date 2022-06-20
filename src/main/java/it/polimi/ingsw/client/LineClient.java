@@ -89,6 +89,7 @@ public class LineClient {
                 case "help", "h" -> printCommands();
                 case "gameInfo" -> clientInput.sendString("gameInfo", "");
                 case "singleIsland" -> sendSingleIsland();
+                case "cardsPlayed" -> sendCardsPlayed();
                 default -> clientInput.sendString(inputLine, "");
 
             }
@@ -145,7 +146,6 @@ public class LineClient {
     public static void joinGame() {
         clientInput.sendString("avlGames", "");
         clientInput.sendString("joinGame", stdin.nextLine());
-
     }
 
     public static void login() throws IOException {
@@ -205,6 +205,10 @@ public class LineClient {
     private static void sendSingleIsland(){
         System.out.println("Select an Island: ");
         clientInput.sendString("singleIsland", stdin.nextLine());
+    }
+
+    private static void sendCardsPlayed(){
+        clientInput.sendString("cardsPlayed", "");
     }
 
     private static void moveStudentToIsland() {

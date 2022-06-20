@@ -19,6 +19,9 @@ import java.io.PrintWriter;
 import java.net.Socket;
 
 
+/**
+ * Controller of input_ip_form.fxml
+ */
 public class ConnectFormController {
     @FXML
     private TextField ip_input;

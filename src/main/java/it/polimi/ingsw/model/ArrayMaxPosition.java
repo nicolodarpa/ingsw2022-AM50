@@ -6,7 +6,6 @@ import java.util.OptionalInt;
 /**
  * this class find the position of the max number in an array
  */
-
 public class ArrayMaxPosition {
 
     public static int findMaxPosition(int[] a) {
