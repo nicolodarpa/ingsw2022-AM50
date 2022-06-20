@@ -10,21 +10,15 @@ import java.util.*;
 
 /**
  * Game contains all the methods that implements the match
- * <p>
- * Implemented methods allows to do the following operation:
- * <ul>
- *     <li>addPlayer add a new player to the match</li>
- *     <li>moveStudentsToHall move the students from the Entrance to the hall of the dashboard</li>
- *     <li>setupGame start a new game</li>
- *     <li>checkPlayer check that there is the correct number of players to start a new match or print that the game is waiting new players</li>
- * </ul>
- * </p>
  *
  * @author Nicolò D'Arpa, Zarlene Justrem De Mesa, Alessandro Costantini
  * @since 1.0
  */
 public class Game {
 
+    /**
+     * MOVES indicates how many students, player can move in action phase, is 3 or 4 based on the number of the players in the match.
+     */
     public static int MOVES;
     private String gameStatus = "Waiting for players";
     private int round = 0;
@@ -37,7 +31,7 @@ public class Game {
     private ArrayList<Island> islands = new ArrayList<>(12);
     private final Teacher[] teachers = {new Teacher(PawnColor.GREEN), new Teacher(PawnColor.RED), new Teacher(PawnColor.YELLOW), new Teacher(PawnColor.MAGENTA), new Teacher(PawnColor.CYAN)};
     private Island islandWithMN;
-    private Player actualPlayer;
+    private Player currentPlayer;
     private SpecialDeck specialDeck = new SpecialDeck();
     private static ArrayList<SpecialCardStrategy> cardsInGame = new ArrayList<>();
 
@@ -76,6 +70,10 @@ public class Game {
         return plist;
     }
 
+    /**
+     * @param name is the name of the player
+     * @return true if the plist contains player's name, false if is not.
+     */
     public boolean containsPlayerByName(String name) {
         for (Player player : plist.getPlayers()) {
             if (Objects.equals(player.getName(), name)) {
@@ -114,12 +112,19 @@ public class Game {
         this.numberOfPlayers = numberOfPlayers;
     }
 
+    /**
+     * Start a new game, notify all the clients connected and sets the actual player.
+     */
     public void startGame() {
         System.out.println("Game starting");
         plist.notifyAllClients("startGame", "Game started");
-        setActualPlayer();
+        setCurrentPlayer();
     }
 
+    /**
+     * Adds new player to plist.
+     * @param name is player's name.
+     */
     public void addPlayer(String name) {
         plist.addPlayer(new Player(name));
         if (getCurrentNumberOfPlayers() == numberOfPlayers) {
@@ -128,6 +133,10 @@ public class Game {
     }
 
 
+    /**
+     * Removes player from plist.
+     * @param player is the player to remove
+     */
     public void removePlayer(Player player) {
         plist.removePlayer(player);
         if (numberOfPlayers == 2 && plist.getCurrentNumberOfPlayers() == 1) {
@@ -143,6 +152,9 @@ public class Game {
 
     }
 
+    /**
+     * Moves students from studentsBag to players' hall.
+     */
     public void moveStudentsToHall() {
         plist.moveStudentsToHall(studentsBag);
     }
@@ -159,6 +171,7 @@ public class Game {
      *         <li> assigns the tower to the players </li>
      *         <li> moves the students from the student's bag to the hall </li>
      *         <li> extracts randomly 3 special cards </li>
+     *         <li> assigns the tower to the players</li>
      *     </ul>
      * </p>
      */
@@ -196,6 +209,10 @@ public class Game {
         }
     }
 
+    /**
+     * Sends to client a JSON formatted string with the status of the island in game.
+     * @return a JSON formatted as a string.
+     */
     public String sendIslands() {
         ArrayList<IslandStatus> statusList = new ArrayList<>();
         for (Island island : islands) {
@@ -205,6 +222,10 @@ public class Game {
         return gson.toJson(statusList);
     }
 
+    /**
+     * Sends to client a JSON formatted string with the status of one island in game.
+     * @return a JSON formatted as a string.
+     */
     public String sendSingleIsland(Island island) {
         ArrayList<IslandStatus> islandStatuses = new ArrayList<>();
         islandStatuses.add(new IslandStatus(island));
@@ -212,6 +233,10 @@ public class Game {
         return gson.toJson(islandStatuses);
     }
 
+    /**
+     * Sends to client a JSON formatted string with the status of the player's dashboard's hall in game.
+     * @return a JSON formatted as a string.
+     */
     public String sendHall(Player player) {
         ArrayList<HallStatus> statusList = new ArrayList<>();
         statusList.add(new HallStatus(player.getDashboard()));
@@ -220,6 +245,10 @@ public class Game {
 
     }
 
+    /**
+     * Sends to client a JSON formatted string with the status of the players' dashboards in game.
+     * @return a JSON formatted as a string.
+     */
     public String sendDashboard() {
         ArrayList<DashboardStatus> statusList = new ArrayList<>();
         for (Player player : plist.getPlayers()) {
@@ -229,6 +258,11 @@ public class Game {
         return gson.toJson(statusList);
     }
 
+    /**
+     * Sends to client a JSON formatted string with the status of the player's dashboard in game.
+     * @param player is the player's client who received the formatted string.
+     * @return a JSON formatted as a string.
+     */
     public String sendPlayerDashboard(Player player) {
         ArrayList<DashboardStatus> statusList = new ArrayList<>();
         statusList.add(new DashboardStatus(player.getName(), player.getDashboard()));
@@ -237,6 +271,10 @@ public class Game {
     }
 
 
+    /**
+     * Sends to client a JSON formatted string with the status of the cloud cards in game.
+     * @return a JSON formatted as a string.
+     */
     public String sendCloudCards() {
         ArrayList<CloudCardStatus> statusList = new ArrayList<>();
         for (CloudCard cloudCard : cloudCards) {
@@ -246,7 +284,10 @@ public class Game {
         return gson.toJson(statusList);
     }
 
-
+    /**
+     * Sends to client a JSON formatted string with the status of the character cards in game.
+     * @return a JSON formatted as a string.
+     */
     public String sendCharacterCardsDeck() {
         ArrayList<CharacterCard> cardList = new ArrayList<>();
         for (SpecialCardStrategy specialCardStrategy : cardsInGame) {
@@ -256,6 +297,10 @@ public class Game {
         return gson.toJson(cardList);
     }
 
+    /**
+     * Sends to client a JSON formatted string with the status of the player in game.
+     * @return a JSON formatted as a string.
+     */
     public String sendPlayer(Player player) {
         ArrayList<PlayersStatus> playersStatuses = new ArrayList<>();
         playersStatuses.add(new PlayersStatus(player));
@@ -263,6 +308,10 @@ public class Game {
         return gson.toJson(playersStatuses);
     }
 
+    /**
+     * Sends to client a JSON formatted string with the status of the all players in game.
+     * @return a JSON formatted as a string.
+     */
     public String sendAllPlayers() {
         ArrayList<PlayersStatus> players = new ArrayList<>();
         for (Player p : plist.getPlayers()) {
@@ -272,13 +321,21 @@ public class Game {
         return gson.toJson(players);
     }
 
+    /**
+     * Sends to client a JSON formatted string with the status of the game.
+     * @return a JSON formatted as a string.
+     */
     public String sendGameInfo() {
         ArrayList<GameInfoStatus> gameInfoStatuses = new ArrayList<>();
-        gameInfoStatuses.add(new GameInfoStatus(phase, actualPlayer, round));
+        gameInfoStatuses.add(new GameInfoStatus(phase, currentPlayer, round));
         Gson gson = new Gson();
         return gson.toJson(gameInfoStatuses);
     }
 
+    /**
+     * Sends to client a JSON formatted string with the status of the assistant cards' deck.
+     * @return a JSON formatted as a string.
+     */
     public String sendDeck() {
         ArrayList<DeckStatus> deckStatusArrayList = new ArrayList<>();
         for (Deck deck : deckMap.values()) {
@@ -289,7 +346,9 @@ public class Game {
         return gson.toJson(deckStatusArrayList);
     }
 
-
+    /**
+     * Adds to the arrayList islands, all the islands equals to the number of islands (12)
+     */
     public void createIslands() {
         int numberOfIslands = 12;
         for (int i = 1; i <= numberOfIslands; i++) {
@@ -394,6 +453,9 @@ public class Game {
     }
 
 
+    /**
+     * Adds to the deckMap all the 4 decks.
+     */
     private void createDecks() {
         deckMap.put(1, new Deck(1, "BLUE"));
         deckMap.put(2, new Deck(2, "PURPLE"));
@@ -401,6 +463,9 @@ public class Game {
         deckMap.put(4, new Deck(4, "PINK"));
     }
 
+    /**
+     * extract the special cards
+     */
     public void extractSpecialCard() {
         specialDeck.extractRandomCard();
         cardsInGame = specialDeck.getSpecialCardsInGame();
@@ -556,7 +621,7 @@ public class Game {
     /**
      * calculate the player who have to play, based on his order of game. Then it notifies to the actual player that his turn is started
      */
-    public void setActualPlayer() {
+    public void setCurrentPlayer() {
         for (Island island : islands) {
             island.setTowerMultiplier(1);
         }
@@ -570,8 +635,8 @@ public class Game {
             for (Player p : plist.getPlayers()) {
                 if (!p.getHasPlayed()) {
                     p.sendToClient("notify", "Your turn started");
-                    this.actualPlayer = p;
-                    System.out.println(actualPlayer.getName() + " turn");
+                    this.currentPlayer = p;
+                    System.out.println(currentPlayer.getName() + " turn");
                     return;
                 }
             }
@@ -587,9 +652,9 @@ public class Game {
                 }
             }
             if (temp != null) {
-                this.actualPlayer = temp;
+                this.currentPlayer = temp;
                 temp.sendToClient("notify", "Your turn started");
-                System.out.println(actualPlayer.getName() + " turn");
+                System.out.println(currentPlayer.getName() + " turn");
             } else nextPhase();
 
         }
@@ -597,6 +662,11 @@ public class Game {
 
     }
 
+    /**
+     * Set up a new phase, check if all players have played and move from planning to action phase.
+     *
+     * Whenever a phase changes, set the current player and check if there are no more students in the student's bag.
+     */
     public void nextPhase() {
         if (phase == 0) {
             for (Player p : plist.getPlayers()) {
@@ -620,15 +690,18 @@ public class Game {
                 calculateWinner();
             }
         }
-        setActualPlayer();
+        setCurrentPlayer();
 
     }
 
-    public Player getActualPlayer() {
-        return actualPlayer;
+    public Player getCurrentPlayer() {
+        return currentPlayer;
     }
 
 
+    /**
+     * @return the Island with mn.
+     */
     public Island getIslandWithMN() {
         for (Island i : islands) {
             if (i.getPresenceMN()) {
@@ -638,7 +711,9 @@ public class Game {
         return islandWithMN;
     }
 
-
+    /**
+     * @return the index of the island with mn.
+     */
     public int getIslandWithMNIndex() {
         int index = 0;
         for (Island i : islands) {
@@ -661,7 +736,7 @@ public class Game {
                 for (Student s : students)
                     actualDashboard.addStudentToHall(s);
                 player.setHasPlayed(true);
-                setActualPlayer();
+                setCurrentPlayer();
                 return false;
             } else
                 player.sendToClient("error", "Cloud card already chosen by another player");
@@ -725,12 +800,12 @@ public class Game {
             }
             if (!check) {
                 player.playAssistantCard(cardNumber);
-                setActualPlayer();
+                setCurrentPlayer();
             }
             return;
         }
         player.playAssistantCard(cardNumber);
-        setActualPlayer();
+        setCurrentPlayer();
         if (player.deckSize()) { //return 1 if the player has finished his cards
             plist.notifyAllClients("notify", "the game has finished");
             calculateWinner();
@@ -739,6 +814,11 @@ public class Game {
 
     }
 
+    /**
+     * Check which is the last cards played.
+     * @param order is the order of the card.
+     * @return true if the card is the last card played.
+     */
     public boolean checkLastPlayedAssistant(int order) {
         for (Player player : plist.getPlayers()) {
             if (order == player.getLastPlayedAC()) {
@@ -751,12 +831,14 @@ public class Game {
 
 
     public void playCharacterCard(SpecialCardStrategy characterCard, int index, PawnColor color) {
-        //SpecialCardStrategy specialCardStrategy = cardsInGame.get(specialCardIndex);
-        characterCard.update(plist, actualPlayer, islands, color, index, studentsBag);
+        characterCard.update(plist, currentPlayer, islands, color, index, studentsBag);
         characterCard.effect();
-        actualPlayer.spendCoins(characterCard.getCost());
+        currentPlayer.spendCoins(characterCard.getCost());
     }
 
+    /**
+     * Calculate the winner of the match by counting which player has the most towers on the islands and sends a message to the winner.
+     */
     private void calculateWinner() {
         int towerNumber = 8;
         for (Player p : plist.getPlayers()) {

@@ -18,7 +18,9 @@ import java.util.concurrent.CompletableFuture;
 
 public class ClientOut extends Thread {
     private static final String ANSI_RESET = "\u001B[0m";
+
     private static final String CYAN = "\u001B[34m";
+
     private static final String MAGENTA = "\u001B[35m";
     private static final String YELLOW = "\u001B[33m";
     private static final String RED = "\u001B[31m";
@@ -62,7 +64,6 @@ public class ClientOut extends Thread {
         commandHashMap.put("quit", this::quit);
         commandHashMap.put("gameInfo", this::printGameInfo);
         commandHashMap.put("singleIsland", this::printSingleIsland);
-        commandHashMap.put("cardsPlayed", this::printCardsPlayed);
     }
 
 
@@ -337,16 +338,6 @@ public class ClientOut extends Thread {
             System.out.print("| ");
         }
         System.out.println(" ");
-    }
-
-    private void printCardsPlayed(){
-        PlayersStatus[] playersStatuses = gson.fromJson(message.message, PlayersStatus[].class);
-        for(PlayersStatus playersStatus : playersStatuses){
-            System.out.println("Your deck id: " + playersStatus.deckId );
-            System.out.println("Cards Played: ");
-            for(int i = 0; i < playersStatus.cardsPlayed.size(); i++)
-                System.out.println("order: " + playersStatus.cardsPlayed.get(i));
-        }
     }
 
 

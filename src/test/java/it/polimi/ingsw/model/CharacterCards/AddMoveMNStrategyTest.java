@@ -29,12 +29,12 @@ public class AddMoveMNStrategyTest {
         p2.setDeck(d2);
         p1.playAssistantCard(3);
         p2.playAssistantCard(5);
-        gameTest.setActualPlayer();
+        gameTest.setCurrentPlayer();
         SpecialCardStrategy cardTest = new AddMoveMNStrategy();
-        cardTest.update(gameTest.getPlist(),gameTest.getActualPlayer(), gameTest.getIslands(),null, 1, gameTest.getStudentsBag());
-        assertEquals(2,gameTest.getActualPlayer().getMovesOfMN());
+        cardTest.update(gameTest.getPlist(),gameTest.getCurrentPlayer(), gameTest.getIslands(),null, 1, gameTest.getStudentsBag());
+        assertEquals(2,gameTest.getCurrentPlayer().getMovesOfMN());
         cardTest.effect();
-        assertEquals(4,gameTest.getActualPlayer().getMovesOfMN());
+        assertEquals(4,gameTest.getCurrentPlayer().getMovesOfMN());
     }
 
     @Test

@@ -21,7 +21,7 @@ public class NoTowerInfluenceStrategyTest {
         LoginManager.login("nic",gameTest);
 
         NoTowerInfluenceStrategy card = new NoTowerInfluenceStrategy();
-        card.update(gameTest.getPlist(), gameTest.getActualPlayer(), gameTest.getIslands(), null, 1, gameTest.getStudentsBag());
+        card.update(gameTest.getPlist(), gameTest.getCurrentPlayer(), gameTest.getIslands(), null, 1, gameTest.getStudentsBag());
         card.effect();
         assertEquals(gameTest.getIslandWithMN().getOwner(), "free");
     }
@@ -34,7 +34,7 @@ public class NoTowerInfluenceStrategyTest {
         LoginManager.login("nic",gameTest);
 
         NoTowerInfluenceStrategy card = new NoTowerInfluenceStrategy();
-        card.update(gameTest.getPlist(), gameTest.getActualPlayer(), gameTest.getIslands(), null, 1, gameTest.getStudentsBag());        assertEquals(3, card.getCost());
+        card.update(gameTest.getPlist(), gameTest.getCurrentPlayer(), gameTest.getIslands(), null, 1, gameTest.getStudentsBag());        assertEquals(3, card.getCost());
     }
 
     @Test
@@ -45,7 +45,7 @@ public class NoTowerInfluenceStrategyTest {
         LoginManager.login("nic",gameTest);
 
         NoTowerInfluenceStrategy card = new NoTowerInfluenceStrategy();
-        card.update(gameTest.getPlist(), gameTest.getActualPlayer(), gameTest.getIslands(), null, 1, gameTest.getStudentsBag());
+        card.update(gameTest.getPlist(), gameTest.getCurrentPlayer(), gameTest.getIslands(), null, 1, gameTest.getStudentsBag());
         card.addCost();
         assertEquals(4, card.getCost());
     }
@@ -58,7 +58,7 @@ public class NoTowerInfluenceStrategyTest {
         LoginManager.login("nic",gameTest);
 
         NoTowerInfluenceStrategy card = new NoTowerInfluenceStrategy();
-        card.update(gameTest.getPlist(), gameTest.getActualPlayer(), gameTest.getIslands(), null, 1, gameTest.getStudentsBag());
+        card.update(gameTest.getPlist(), gameTest.getCurrentPlayer(), gameTest.getIslands(), null, 1, gameTest.getStudentsBag());
         System.out.println(card.getEffectOfTheCard());
     }
 

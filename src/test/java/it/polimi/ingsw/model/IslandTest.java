@@ -2,8 +2,6 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.LoginManager;
 import it.polimi.ingsw.model.CharacterCards.NoTowerInfluenceStrategy;
-import javafx.application.Platform;
-import javafx.fxml.FXML;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -103,7 +101,7 @@ public class IslandTest {
         islandTest.get(0).addStudent(new Student(PawnColor.GREEN));
         islandTest.get(0).addStudent(new Student(PawnColor.GREEN));
         dashboard_2.addTeacherToTable(new Teacher(PawnColor.GREEN));
-        card.update(gameTest.getPlist(), gameTest.getActualPlayer(),islandTest, PawnColor.CYAN, 0, gameTest.getStudentsBag());
+        card.update(gameTest.getPlist(), gameTest.getCurrentPlayer(),islandTest, PawnColor.CYAN, 0, gameTest.getStudentsBag());
         card.effect();
         islandTest.get(0).calcInfluence(gameTest.getPlist());
         assertEquals(gameTest.getPlist().getPlayers().get(1).getName(), islandTest.get(0).getOwner());

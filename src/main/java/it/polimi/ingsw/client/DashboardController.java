@@ -174,6 +174,7 @@ public class DashboardController implements Initializable, DisplayLabel  {
      * ArrayList that contain all the ImageView to show the islands
      */
     private final ArrayList<ImageView> Islands = new ArrayList<>(12);
+
     private final ArrayList<ImageView> MNPositions = new ArrayList<>(12);
     private final ArrayList<ArrayList<Circle>> studentsInEachIsland = new ArrayList<>();
     private final ArrayList<Rectangle> MnIslandPosition = new ArrayList<>(12);
@@ -991,6 +992,14 @@ public class DashboardController implements Initializable, DisplayLabel  {
         phaseStage.showAndWait();
         refreshGUI();
         enableIslandAndHall();
+    }
+
+    @FXML
+    private void setDashboardPlayer() throws IOException{
+        Stage phaseStage = new Stage();
+        Scene phaseScene = new Scene(new FXMLLoader(getClass().getResource("dashboardPlayer.fxml")).load());
+        phaseStage.setScene(phaseScene);
+        phaseStage.showAndWait();
     }
 
     private void disablePlayAssistantCardButton() {

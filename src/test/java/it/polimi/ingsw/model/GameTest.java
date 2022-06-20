@@ -233,8 +233,8 @@ public class GameTest {
         playerTwo.setDeck(deck2);
         playerOne.playAssistantCard(3);
         playerTwo.playAssistantCard(6);
-        gameTest.setActualPlayer();
-        assertEquals(playerOne, gameTest.getActualPlayer());
+        gameTest.setCurrentPlayer();
+        assertEquals(playerOne, gameTest.getCurrentPlayer());
     }
 
     @Test
@@ -521,16 +521,19 @@ public class GameTest {
         LoginManager.login("ale", gameTest);
         LoginManager.login("nic", gameTest);
 
-        Player playerTest = gameTest.getPlist().getPlayerByName("nic");
+        Player p1 = gameTest.getPlist().getPlayerByName("ale");
 
-        PlayersStatus[] statuses = gson.fromJson(gameTest.sendPlayer(playerTest), PlayersStatus[].class);
+        gameTest.chooseDeck(1, p1);
+
+
+        PlayersStatus[] statuses = gson.fromJson(gameTest.sendPlayer(p1), PlayersStatus[].class);
         for (PlayersStatus status : statuses) {
-            assertEquals(status.name, playerTest.getName());
-            assertEquals(status.movesOfMN, playerTest.getMovesOfMN());
-            assertEquals(status.wallet, playerTest.getWallet().getCoins());
-            assertEquals(status.movesOfStudents, playerTest.getMovesOfStudents());
-            assertEquals(status.order, playerTest.getOrder());
-            assertEquals(status.hasPlayed, playerTest.getHasPlayed());
+            assertEquals(status.name, p1.getName());
+            assertEquals(status.movesOfMN, p1.getMovesOfMN());
+            assertEquals(status.wallet, p1.getWallet().getCoins());
+            assertEquals(status.movesOfStudents, p1.getMovesOfStudents());
+            assertEquals(status.order, p1.getOrder());
+            assertEquals(status.hasPlayed, p1.getHasPlayed());
         }
     }
 
@@ -541,6 +544,13 @@ public class GameTest {
 
         LoginManager.login("ale", gameTest);
         LoginManager.login("nic", gameTest);
+
+        Player p1 = gameTest.getPlist().getPlayerByName("ale");
+        Player p2 = gameTest.getPlist().getPlayerByName("nic");
+
+        gameTest.chooseDeck(1, p1);
+        gameTest.chooseDeck(2, p2);
+
 
 
         PlayersStatus[] statuses = gson.fromJson(gameTest.sendAllPlayers(), PlayersStatus[].class);
@@ -563,12 +573,12 @@ public class GameTest {
         LoginManager.login("ale", gameTest);
         LoginManager.login("nic", gameTest);
 
-        gameTest.setActualPlayer();
+        gameTest.setCurrentPlayer();
 
         GameInfoStatus[] statuses = gson.fromJson(gameTest.sendGameInfo(), GameInfoStatus[].class);
         for (GameInfoStatus status : statuses) {
             assertEquals(status.phase, "Planning phase");
-            assertEquals(status.actualPlayer, gameTest.getActualPlayer().getName());
+            assertEquals(status.actualPlayer, gameTest.getCurrentPlayer().getName());
             assertEquals(status.round, String.valueOf(gameTest.getRound()));
         }
     }
@@ -628,11 +638,11 @@ public class GameTest {
 
         gameTest.playAssistantCard(p1, 4);
         gameTest.playAssistantCard(p2, 2);
-        assertEquals(p2, gameTest.getActualPlayer());
+        assertEquals(p2, gameTest.getCurrentPlayer());
 
         gameTest.playAssistantCard(p1, 3);
         gameTest.playAssistantCard(p2, 4);
-        assertEquals(p1, gameTest.getActualPlayer());
+        assertEquals(p1, gameTest.getCurrentPlayer());
 
         assertEquals(8,p1.getDeck().getCardsList().size());
 

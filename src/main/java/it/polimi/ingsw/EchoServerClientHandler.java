@@ -116,10 +116,10 @@ public class EchoServerClientHandler extends Thread {
 
 
     public boolean checkTurn() {
-        if (player == game.getActualPlayer()) {
+        if (player == game.getCurrentPlayer()) {
             return true;
         } else {
-            TextMessage message = new TextMessage("error", "Not your turn, wait for " + game.getActualPlayer().getName() + " to finish his turn");
+            TextMessage message = new TextMessage("error", "Not your turn, wait for " + game.getCurrentPlayer().getName() + " to finish his turn");
             String json = gson.toJson(message, TextMessage.class);
             out.println(json);
             return false;
@@ -419,7 +419,7 @@ public class EchoServerClientHandler extends Thread {
                 player.sendToClient("error", invalidCloudCardError);
             if (!check) {
                 player.sendToClient("dashboard", game.sendPlayerDashboard(player));
-                //game.setActualPlayer();
+                //game.setCurrentPlayer();
             }
         }
     }

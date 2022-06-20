@@ -3,11 +3,11 @@ package it.polimi.ingsw.client;
 import com.google.gson.Gson;
 import it.polimi.ingsw.comunication.Command;
 import it.polimi.ingsw.comunication.TextMessage;
-import it.polimi.ingsw.model.Game;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+
 
 
 public final class ClientInput {

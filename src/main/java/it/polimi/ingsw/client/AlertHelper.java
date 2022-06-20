@@ -4,6 +4,9 @@ import javafx.scene.control.Alert;
 import javafx.stage.Window;
 
 
+/**
+ * Show an alert to display
+ */
 public class AlertHelper {
 
     public static void showAlert(Alert.AlertType alertType, Window owner, String title, String message){
