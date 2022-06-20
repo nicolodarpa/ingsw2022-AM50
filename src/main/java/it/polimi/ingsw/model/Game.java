@@ -751,10 +751,10 @@ public class Game {
 
 
     public void playCharacterCard(SpecialCardStrategy characterCard, int index, PawnColor color) {
-        //SpecialCardStrategy specialCardStrategy = cardsInGame.get(specialCardIndex);
+        actualPlayer.spendCoins(characterCard.getCost());
         characterCard.update(plist, actualPlayer, islands, color, index, studentsBag);
         characterCard.effect();
-        actualPlayer.spendCoins(characterCard.getCost());
+
     }
 
     private void calculateWinner() {

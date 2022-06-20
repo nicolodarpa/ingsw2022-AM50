@@ -259,6 +259,9 @@ public class EchoServerClientHandler extends Thread {
     }
 
     public void playCharacterCard(Command command) {
+        if(!checkTurn()){
+            return;
+        }
         SpecialCardStrategy specialCard;
         PawnColor studentColor = null;
         int islandIndex = 0;
@@ -315,7 +318,7 @@ public class EchoServerClientHandler extends Thread {
     public void playAssistantCard(Command command) {
         final String invalidCardError = "Input a number between 1 and 10";
 
-        if(game.getPhase() == 1){
+        if (game.getPhase() == 1) {
             player.sendToClient("error", "You can't play an assistant card in Action phase");
             return;
         }
@@ -337,13 +340,13 @@ public class EchoServerClientHandler extends Thread {
 
 
     public void moveStudentToIsland(Command command) {
-        if(game.getPhase() == 0){
+        if (game.getPhase() == 0) {
             player.sendToClient("error", " Before move students to island, you have to play an assistant card! ");
             return;
         }
         if (checkTurn()) {
             int numPlayer = Integer.parseInt(command.value1);
-            int indexIsland = Integer.parseInt(command.value2);
+            int indexIsland = Integer.parseInt(command.value2) - 1;
             if (indexIsland < game.getIslands().size()) {
                 if (player.moveStudentToIsland(numPlayer - 1, indexIsland - 1, game)) {
                     game.notifyAllClients("hall", game.sendHall(player));
@@ -357,7 +360,7 @@ public class EchoServerClientHandler extends Thread {
     }
 
     public void moveStudentToClassroom(Command command) {
-        if(game.getPhase() == 0){
+        if (game.getPhase() == 0) {
             player.sendToClient("error", " Before move students to island, you have to play an assistant card! ");
             return;
         }
@@ -380,7 +383,7 @@ public class EchoServerClientHandler extends Thread {
     }
 
     public void moveMotherNature(Command command) {
-        if(game.getPhase() == 0 || player.getMovesOfStudents() > 0){
+        if (game.getPhase() == 0 || player.getMovesOfStudents() > 0) {
             player.sendToClient("error", " You can't move mother nature now! ");
             return;
         }
@@ -401,7 +404,7 @@ public class EchoServerClientHandler extends Thread {
         boolean check;
         final String invalidCloudCardError = " Error, choose a valid cloud card ";
 
-        if(game.getPhase() == 0 || player.getMovesOfStudents() > 0){
+        if (game.getPhase() == 0 || player.getMovesOfStudents() > 0) {
             player.sendToClient("error", "You can't choose a cloud card now");
             return;
         }
