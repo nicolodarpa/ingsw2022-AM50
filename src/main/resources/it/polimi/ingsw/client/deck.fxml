@@ -16,14 +16,14 @@
 
    <ImageView fitHeight="200.0" fitWidth="131.0" layoutX="161.0" layoutY="82.0">
 
-      <Image url="@../../../../assets/CarteTOT_back_11@3x.png" />
+      <Image url="@../../../../assets/CarteTOT_back_2@3x.png" />
    </ImageView>
    <ImageView fitHeight="200.0" fitWidth="131.0" layoutX="312.0" layoutY="82.0">
-      <Image url="@../../../../assets/CarteTOT_back_21@3x.png" />
+      <Image url="@../../../../assets/CarteTOT_back_3@3x.png" />
    </ImageView>
 
    <ImageView fitHeight="200.0" fitWidth="131.0" layoutX="455.0" layoutY="82.0">
-      <Image url="@../../../../assets/CarteTOT_back_31@3x.png" />
+      <Image url="@../../../../assets/CarteTOT_back_4@3x.png" />
    </ImageView>
 
    <Label fx:id="choose" layoutX="220.0" layoutY="30.0" text="Choose your Deck" textAlignment="CENTER">
