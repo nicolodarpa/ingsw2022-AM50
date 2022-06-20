@@ -18,17 +18,17 @@ public class Main {
             } else if (args[0].equals("-cli")) {
                 startClient(ip,port);
             } else {
-                startGuiClient(ip, port);
+                startGuiClient();
             }
         } else {
-            startGuiClient(ip, port);
+            startGuiClient();
         }
 
 
     }
 
-    public static void  startGuiClient(String ip, int port){
-        ClientGUI.main(ip, port);
+    public static void  startGuiClient(){
+        ClientGUI.main();
     }
 
     public static void startClient(String ip, int port){

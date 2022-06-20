@@ -23,10 +23,26 @@ import java.util.ResourceBundle;
 public class AssistantCardController implements Initializable {
 
 
+    /**
+     * IDs of the views in the fxml file
+     */
     @FXML
     public ImageView card1, card2, card3, card4, card5, card6, card7, card8, card9, card10;
-    public ArrayList<ImageView> assistantCards= new ArrayList<>();
+
+    /**
+     * ArrayList of all the ImageViews
+     */
+
+    public ArrayList<ImageView> assistantCards = new ArrayList<>();
+
+    /**
+     * Decode incoming messages from string to json
+     */
     private final Gson gson = new Gson();
+
+    /**
+     * Contains the message sent from the server.
+     */
     private TextMessage message;
 
     @Override
@@ -37,56 +53,56 @@ public class AssistantCardController implements Initializable {
     }
 
 
-
     /**
-     * sets the Imageview of the assistant card in the array "assistantCard".
+     * Adds the Imageview of the assistant card in the array "assistantCards".
      */
-    public void setAssistantCardsImageView(){
+    public void setAssistantCardsImageView() {
         assistantCards.addAll(Arrays.asList(card1, card2, card3, card4, card5, card6, card7, card8, card9, card10));
     }
 
     /**
-     * sets the images of the assistant card in the array "assistantCard" or the image of the deck chosen in case the card has already been used.
+     * Sets the images of the assistant card in the relative ImageView.
+     * The front of the card is displayed if the card is available in the deck, the back of the card if it's already been used.
+     * Sends a message to the server asking for the player status that contains the list of assistant cards played.
      */
-    public void setAssistantCardsImages(){
+    public void setAssistantCardsImages() {
+        ClientInput.getInstance().sendString("player", "");
         message = ClientInput.getInstance().readLine();
-        PlayersStatus playersStatus = gson.fromJson(message.message,PlayersStatus[].class )[0];
-        ArrayList<Integer> cardsPlayed= playersStatus.cardsPlayed;
+        PlayersStatus playersStatus = gson.fromJson(message.message, PlayersStatus[].class)[0];
+        ArrayList<Integer> cardsPlayed = playersStatus.cardsPlayed;
 
         int j;
-        for (int i=0; i < assistantCards.size(); i++){
-            j=i+1;
-            if (cardsPlayed.size() != 0){
-                for (int k=0; k <cardsPlayed.size(); k++){
-                    if (cardsPlayed.get(k) == j){
+        for (int i = 0; i < assistantCards.size(); i++) {
+            j = i + 1;
+            if (cardsPlayed.size() != 0) {
+                for (Integer integer : cardsPlayed) {
+                    if (integer == j) {
                         setRetro(assistantCards.get(i), playersStatus.deckId);
-                    }else {
-                        assistantCards.get(i).setImage(new Image(String.valueOf(getClass().getClassLoader().getResource("assets/assistantCard/Assistente ("+j+").png"))));
+                    } else {
+                        assistantCards.get(i).setImage(new Image(String.valueOf(getClass().getClassLoader().getResource("assets/assistantCard/Assistente (" + j + ").png"))));
                     }
                 }
-            }
-            else {
-                assistantCards.get(i).setImage(new Image(String.valueOf(getClass().getClassLoader().getResource("assets/assistantCard/Assistente ("+j+").png"))));
+            } else {
+                assistantCards.get(i).setImage(new Image(String.valueOf(getClass().getClassLoader().getResource("assets/assistantCard/Assistente (" + j + ").png"))));
             }
 
         }
     }
 
     /**
-     * is the function that set the image of the deck.
-     * @param cardConsiderated
-     * @param idDeck
+     * Sets the ImageView the back of the card.
+     *
+     * @param cardView ImageView to set
+     * @param idDeck   id of the deck chosen by the player. Every deck has a different back for the cards
      */
-    public void setRetro(ImageView cardConsiderated, int idDeck){
-        Image retroImg = new Image(String.valueOf(getClass().getClassLoader().getResource("assets/CarteTOT_back_"+idDeck+"@3x.png")));
-        cardConsiderated.setImage(retroImg);
+    public void setRetro(ImageView cardView, int idDeck) {
+        Image retroImg = new Image(String.valueOf(getClass().getClassLoader().getResource("assets/CarteTOT_back_" + idDeck + "@3x.png")));
+        cardView.setImage(retroImg);
     }
 
 
-
-
     /**
-     * Close the window of assistant cards.
+     * Closes the window of assistant cards.
      */
     public void closePage(ActionEvent actionEvent) {
         Window window = ((Node) actionEvent.getSource()).getScene().getWindow();
@@ -94,59 +110,60 @@ public class AssistantCardController implements Initializable {
     }
 
     public void playAssistantCard1(ActionEvent actionEvent) {
-        ClientInput.getInstance().sendString("playAssistantCard", String.valueOf(1));
-        closePage(actionEvent);
+        playAssistantCard(1, actionEvent);
     }
 
 
     public void playAssistantCard2(ActionEvent actionEvent) {
-        ClientInput.getInstance().sendString("playAssistantCard", String.valueOf(2));
-        closePage(actionEvent);
+        playAssistantCard(2, actionEvent);
     }
 
 
     public void playAssistantCard3(ActionEvent actionEvent) {
-        ClientInput.getInstance().sendString("playAssistantCard", String.valueOf(3));
-        closePage(actionEvent);
+        playAssistantCard(3, actionEvent);
     }
 
 
     public void playAssistantCard4(ActionEvent actionEvent) {
-        ClientInput.getInstance().sendString("playAssistantCard", String.valueOf(4));
-        closePage(actionEvent);
+        playAssistantCard(4, actionEvent);
     }
 
 
     public void playAssistantCard5(ActionEvent actionEvent) {
-        ClientInput.getInstance().sendString("playAssistantCard", String.valueOf(5));
-        closePage(actionEvent);
+        playAssistantCard(5, actionEvent);
     }
 
 
     public void playAssistantCard6(ActionEvent actionEvent) {
-        ClientInput.getInstance().sendString("playAssistantCard", String.valueOf(6));
-        closePage(actionEvent);
+        playAssistantCard(6, actionEvent);
     }
 
 
     public void playAssistantCard7(ActionEvent actionEvent) {
-        ClientInput.getInstance().sendString("playAssistantCard", String.valueOf(7));
-        closePage(actionEvent);
+        playAssistantCard(7, actionEvent);
     }
 
     public void playAssistantCard8(ActionEvent actionEvent) {
-        ClientInput.getInstance().sendString("playAssistantCard", String.valueOf(8));
-        closePage(actionEvent);
+        playAssistantCard(8, actionEvent);
     }
 
     public void playAssistantCard9(ActionEvent actionEvent) {
-        ClientInput.getInstance().sendString("playAssistantCard", String.valueOf(9));
-        closePage(actionEvent);
+        playAssistantCard(9, actionEvent);
     }
 
 
     public void playAssistantCard10(ActionEvent actionEvent) {
-        ClientInput.getInstance().sendString("playAssistantCard", String.valueOf(10));
+        playAssistantCard(10, actionEvent);
+    }
+
+
+    /**
+     * Sends a message to the server with the command <code>playAssistantCard</code> and the index of the assistant card chosen.
+     * @param i index of the assistant card played.
+     * @param actionEvent ActionEvent necessary to close the window
+     */
+    private void playAssistantCard(int i, ActionEvent actionEvent) {
+        ClientInput.getInstance().sendString("playAssistantCard", String.valueOf(i));
         closePage(actionEvent);
     }
 

@@ -1,7 +1,6 @@
 package it.polimi.ingsw.client;
 
 import com.google.gson.Gson;
-import it.polimi.ingsw.client.view.ClientOut;
 import it.polimi.ingsw.comunication.*;
 import it.polimi.ingsw.model.*;
 import javafx.application.Platform;
@@ -186,7 +185,7 @@ public class DashboardController implements Initializable, DisplayLabel {
     private final Gson gson = new Gson();
     private static final String[] colors = {"green", "red", "yellow", "magenta", "cyan"};
     private TextMessage message;
-    private final HashMap<String, ClientOut.Commd> commandHashMap = new HashMap<>();
+    private final HashMap<String, Command> commandHashMap = new HashMap<>();
 
     @Override
     public void displayLabel(@NotNull String text, Label label, String textLabel) {

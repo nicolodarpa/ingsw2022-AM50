@@ -16,12 +16,23 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.Objects;
 
+/**
+ *Start the client GUI.
+ *
+ */
 
 public class ClientGUI extends Application {
 
 
     Stage mainStage = null;
 
+
+    /**
+     * Start the main stage for the GUI.
+     * Load the first scene, sets the icon and the title of the application window.
+     * @param stage main stag for the graphic interface
+     * @throws IOException In an exception with the graphic loading occurred
+     */
     @Override
     public void start(Stage stage) throws IOException {
         this.mainStage = stage;
@@ -33,7 +44,6 @@ public class ClientGUI extends Application {
         stage.getIcons().add(icon);
         stage.setTitle("Eryantis GUI");
         stage.setScene(scene);
-        //stage.setMaximized(true);
         stage.show();
 
         mainStage.setOnCloseRequest(evt -> {
@@ -53,15 +63,7 @@ public class ClientGUI extends Application {
 
     }
 
-
-
-
-    public static void main(String[] args) {
-        launch(args);
-    }
-
-
-    public static void main(String ip, int port) {
+    public static void main() {
         launch();
     }
 }

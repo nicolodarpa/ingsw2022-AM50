@@ -9,19 +9,37 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 
+/**
+ * Send messages from the client to the server and read incoming message from the server.
+ */
+
 
 public final class ClientInput {
 
+
+    /**
+     * PrintWriter used to send messages as strings to the server
+     */
     private PrintWriter socketOut;
 
+    /**
+     * BufferedReade used to receive messages from the server
+     */
     private BufferedReader socketIn;
-    private final Gson gson= new Gson();
+    private final Gson gson = new Gson();
 
+    /**
+     * Static instance of the class.
+     */
     private final static ClientInput INSTANCE = new ClientInput();
 
-    private ClientInput() {}
+    private ClientInput() {
+    }
 
-    public static ClientInput getInstance(){
+    /**
+     * @return the instance of ClientInput
+     */
+    public static ClientInput getInstance() {
         return INSTANCE;
 
     }
@@ -30,10 +48,16 @@ public final class ClientInput {
         this.socketOut = socketOut;
     }
 
-    public void setSocketIn(BufferedReader socketIn){
+    public void setSocketIn(BufferedReader socketIn) {
         this.socketIn = socketIn;
     }
 
+    /**
+     * Sends a message to the server as a string formatted from a json with the layout of {@link Command} whit only one optional value
+     *
+     * @param cmd   the command to be sent, must match one of the keys of the commandMap in {@link it.polimi.ingsw.EchoServerClientHandler}
+     * @param value option value necessary to execute the command, example a student index or an assistant card index
+     */
     public void sendString(String cmd, String value) {
         Command command = new Command(cmd, value);
         String json = gson.toJson(command, Command.class);
@@ -41,6 +65,13 @@ public final class ClientInput {
         socketOut.flush();
     }
 
+    /**
+     * Sends a message to the server as a string formatted from a json with the layout of {@link Command}
+     *
+     * @param cmd    the command to be sent, must match one of the keys of the commandMap in {@link it.polimi.ingsw.EchoServerClientHandler}
+     * @param value  option value necessary to execute the command, example a student index or an assistant card index
+     * @param value2 option value necessary to execute the command, example an island index or a pawn color
+     */
     public void sendString(String cmd, String value, String value2) {
         Command command = new Command(cmd, value, value2);
         String json = gson.toJson(command, Command.class);
@@ -49,12 +80,16 @@ public final class ClientInput {
     }
 
 
-    public BufferedReader getSocketIn(){
+    public BufferedReader getSocketIn() {
         return socketIn;
     }
 
 
-    public TextMessage readLine(){
+    /**
+     * Read incoming messages from the server and decode the received string to json
+     * @return json formatted as {@link TextMessage}
+     */
+    public TextMessage readLine() {
         BufferedReader socketIn = ClientInput.getInstance().getSocketIn();
         String msg;
         try {
@@ -65,9 +100,6 @@ public final class ClientInput {
         Gson gson = new Gson();
         return gson.fromJson(msg, TextMessage.class);
     }
-
-
-
 
 
 }

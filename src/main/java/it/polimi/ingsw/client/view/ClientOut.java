@@ -2,7 +2,7 @@ package it.polimi.ingsw.client.view;
 
 
 import com.google.gson.Gson;
-import it.polimi.ingsw.client.ClientInput;
+import it.polimi.ingsw.client.Command;
 import it.polimi.ingsw.client.LineClient;
 import it.polimi.ingsw.comunication.*;
 
@@ -20,30 +20,59 @@ import java.util.concurrent.CompletableFuture;
  */
 
 public class ClientOut extends Thread {
+    /**
+     * ANSI CODE to reset to default the color of print
+     */
     private static final String ANSI_RESET = "\u001B[0m";
+
+    /**
+     * ANSI CODE to print cyan
+     */
     private static final String CYAN = "\u001B[34m";
+
+    /**
+     * ANSI CODE to print magenta
+     */
     private static final String MAGENTA = "\u001B[35m";
+
+    /**
+     * ANSI CODE to print yellow
+     */
     private static final String YELLOW = "\u001B[33m";
+    /**
+     * ANSI CODE to print red
+     */
     private static final String RED = "\u001B[31m";
+    /**
+     * ANSI CODE to print green
+     */
     private static final String GREEN = "\u001B[32m";
+    /**
+     * Number of characters occupied by a single island in the islands' table when printed on console.
+     */
     private static final String SPACE = "10";
 
     private final Gson gson = new Gson();
+    /**
+     * Contains the message sent from the server.
+     */
     private TextMessage message;
 
+    /**
+     * Receives incoming messages from the server.
+     */
     private final BufferedReader socketIn;
 
+    /**
+     * Connection socket to the server.
+     */
     private final Socket socket;
 
-    private final HashMap<String, Commd> commandHashMap = new HashMap<>();
+    /**
+     * Hash Map of all available methods associated with the corresponding command sent by the server
+     */
+    private final HashMap<String, Command> commandHashMap = new HashMap<>();
 
-    private ClientInput clientInput;
-
-
-    public interface Commd {
-        void runCommand() throws IOException;
-
-    }
 
     /**
      * Constructor method for ClientOut, it maps every method with the string corresponding
@@ -139,7 +168,7 @@ public class ClientOut extends Thread {
     /**
      * Prints the incoming message and closes the connection socket
      *
-     * @throws IOException throws an exception
+     * @throws IOException If an exception occur with socket connection
      */
     private void quit() throws IOException {
         System.out.println(message.message);

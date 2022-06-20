@@ -23,15 +23,33 @@ import java.net.Socket;
  * Controller of input_ip_form.fxml
  */
 public class ConnectFormController {
+
+    /**
+     * Text filed to input an ip address
+     */
     @FXML
+
     private TextField ip_input;
+    /**
+     * Text filed to input a port number
+     */
     @FXML
     private TextField port_input;
     @FXML
     private Button connectButton;
 
+
     private Parent root;
 
+
+    /**
+     * Read the text present in the text fields and connects to the chosen ip and port.
+     * Creates a socket and sets the PrintWrite and BufferedRead in the {@link ClientInput} instance.
+     * Loads the next scene
+     *
+     * @param actionEvent default parameter
+     * @throws IOException If creating the socket an exception occurred
+     */
 
     @FXML
     protected void connectButton(ActionEvent actionEvent) throws IOException {
@@ -57,7 +75,6 @@ public class ConnectFormController {
         Scene scene = new Scene(fxmlLoader.load());
         stage.setScene(scene);
         stage.show();
-
 
 
     }

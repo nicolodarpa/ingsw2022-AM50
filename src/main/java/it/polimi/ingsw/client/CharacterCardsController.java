@@ -1,31 +1,25 @@
 package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.comunication.CharacterCard;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
-import javafx.stage.Window;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
-import java.util.TooManyListenersException;
 
 /**
  * Controller of characterCards.fxml
+ * The three character cards available in game are displayed.
  */
 public class CharacterCardsController implements Initializable {
 
@@ -48,17 +42,27 @@ public class CharacterCardsController implements Initializable {
     private RadioButton radio1, radio2, radio3;
     private CharacterCard[] characterCards = new CharacterCard[3];
 
-    private ToggleGroup toggleGroup = new ToggleGroup();
+    private final ToggleGroup toggleGroup = new ToggleGroup();
 
-    private String specialCardIndex = "";
+    /**
+     * Index of the character card chosen via the radio button.
+     * Gets sent to the server via a command message in the field value1.
+     */
+    private String characterCardIndex = "";
 
+    /**
+     * Contains the optional value for the effect of some character cards.
+     * It may store the index of an island or of a pawn color.
+     * Gets sent to the server via a command message in the field value2.
+     */
     private String index2 = "";
 
-    public CharacterCardsController() {
-
-    }
-
-
+    /**
+     * Initialize the controller.
+     * Sets the ToggleGroup of the three radioButtons, populates the choiceBoxes, set the images for the character cards with the relative cost and effect
+     * @param url default parameter of initialize
+     * @param resourceBundle default parameter of initialize
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         radio1.setToggleGroup(toggleGroup);
@@ -79,25 +83,36 @@ public class CharacterCardsController implements Initializable {
     }
 
 
-    private void playCard(ActionEvent event) {
+    /**
+     *Plays the selected character card sending a message to the server.
+     * Gets the selected card via the radio buttons and if necessary by the effect of the card
+     * it gets the island index or the students color via one of the two ChoiceBox
+     * @param actionEvent required by the button
+     */
+    private void playCard(ActionEvent actionEvent) {
 
         if (radio1.isSelected()) {
-            specialCardIndex = "1";
+            characterCardIndex = "1";
         } else if (radio2.isSelected()) {
-            specialCardIndex = "2";
+            characterCardIndex = "2";
         } else if (radio3.isSelected()) {
-            specialCardIndex = "3";
+            characterCardIndex = "3";
         }
-        String name = characterCards[Integer.parseInt(specialCardIndex) - 1].name;
+        String name = characterCards[Integer.parseInt(characterCardIndex) - 1].name;
         if (Objects.equals(name, "princess") || Objects.equals(name, "ambassador") || Objects.equals(name, "warrior")) {
             index2 = islandsBox.getValue();
         } else if (Objects.equals(name, "thief") || Objects.equals(name, "wizard")) {
             index2 = String.valueOf(colorsBox.getSelectionModel().getSelectedIndex());
         }
-        System.out.println("play special card: " + specialCardIndex + "value: " + index2);
-        ClientInput.getInstance().sendString("playCharacterCard", specialCardIndex, index2);
+        System.out.println("play special card: " + characterCardIndex + "value: " + index2);
+        ClientInput.getInstance().sendString("playCharacterCard", characterCardIndex, index2);
     }
 
+
+    /**
+     * Sets the List characterCards
+     * @param cards list of available character cards in game
+     */
     public void setCards(CharacterCard[] cards) {
         this.characterCards = cards;
     }
