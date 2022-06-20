@@ -4,33 +4,33 @@
 <?import javafx.scene.layout.*?>
 
 <GridPane fx:id="anchor" alignment="CENTER_RIGHT" minHeight="-Infinity" minWidth="-Infinity" prefHeight="388.0" prefWidth="765.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.SelectionFormController">
-    <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1">
+    <AnchorPane minWidth="-Infinity" prefHeight="388.0" prefWidth="272.0" stylesheets="@style.css" GridPane.columnIndex="1">
+        <children>
+            <RadioButton fx:id="twoPlayersRadio" layoutX="168.0" layoutY="101.0" mnemonicParsing="false" selected="true" text="2">
+                <toggleGroup>
+                    <ToggleGroup fx:id="numberOfPlayers" />
+                </toggleGroup>
+            </RadioButton>
+            <RadioButton fx:id="threePlayersRadio" layoutX="168.0" layoutY="129.0" mnemonicParsing="false" text="3" toggleGroup="$numberOfPlayers" />
+            <Button fx:id="startGame" layoutX="22.0" layoutY="194.0" mnemonicParsing="false" onAction="#startGame" text="Start new Game" />
+            <Label layoutX="22.0" layoutY="89.0" prefHeight="40.0" prefWidth="131.0" text="Select number of players" />
+        </children>
+    </AnchorPane>
+    <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="461.0">
         <children>
 
-            <ListView fx:id="gamesList" layoutX="28.0" layoutY="90.0" prefHeight="217.0" prefWidth="303.0" />
+                  <ListView fx:id="gamesList" layoutX="28.0" layoutY="90.0" prefHeight="217.0" prefWidth="303.0" />
             <Button fx:id="joinGameButton" layoutX="28.0" layoutY="330.0" mnemonicParsing="false" onAction="#joinGameButton" text="Join game" GridPane.columnIndex="1" />
             <Label layoutX="28.0" layoutY="38.0" prefHeight="40.0" prefWidth="196.0" text="Available Games" />
             <Button fx:id="refreshGames" layoutX="210.0" layoutY="330.0" mnemonicParsing="false" onAction="#refreshGames" text="Check games" />
         </children>
 
-
-    </AnchorPane>
-    <AnchorPane prefHeight="388.0" prefWidth="472.0" stylesheets="@style.css" GridPane.columnIndex="1">
-        <children>
-            <RadioButton fx:id="twoPlayersRadio" layoutX="347.0" layoutY="100.0" mnemonicParsing="false" selected="true" text="2">
-                <toggleGroup>
-                    <ToggleGroup fx:id="numberOfPlayers" />
-                </toggleGroup>
-            </RadioButton>
-            <RadioButton fx:id="threePlayersRadio" layoutX="347.0" layoutY="128.0" mnemonicParsing="false" text="3" toggleGroup="$numberOfPlayers" />
-            <Button fx:id="startGame" layoutX="260.0" layoutY="169.0" mnemonicParsing="false" onAction="#startGame" text="Start new Game" />
-            <Label layoutX="208.0" layoutY="88.0" prefHeight="40.0" prefWidth="131.0" text="Select number of players" />
-        </children>
-    </AnchorPane>
+      
+          </AnchorPane>
     <columnConstraints>
-        <ColumnConstraints halignment="CENTER" maxWidth="Infinity" minWidth="300.0" prefWidth="400">
+        <ColumnConstraints halignment="CENTER" maxWidth="Infinity" minWidth="300.0" percentWidth="60.0" prefWidth="400">
         </ColumnConstraints>
-        <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="Infinity" minWidth="500" prefWidth="300">
+        <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="-Infinity" minWidth="500" percentWidth="40.0" prefWidth="0.0">
         </ColumnConstraints>
     </columnConstraints>
     <rowConstraints>

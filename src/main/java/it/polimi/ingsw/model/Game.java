@@ -736,14 +736,15 @@ public class Game {
     }
 
 
-    public boolean chooseCloudCard(int numberOfCloudCard, Player player) {
+    public boolean chooseCloudCard(int indexCloudCard, Player player) {
         ArrayList<Student> students;
         try {
-            if (cloudCards.get(numberOfCloudCard).getStudents().size() != 0) {
-                students = cloudCards.get(numberOfCloudCard).getAllStudents();
+            if (cloudCards.get(indexCloudCard).getStudents().size() != 0) {
+                students = cloudCards.get(indexCloudCard).getAllStudents();
                 Dashboard actualDashboard = player.getDashboard();
                 for (Student s : students)
                     actualDashboard.addStudentToHall(s);
+                notifyAllClients("cloudCard", sendCloudCards());
                 player.setHasPlayed(true);
                 setCurrentPlayer();
                 return false;

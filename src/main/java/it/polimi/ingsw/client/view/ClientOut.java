@@ -7,7 +7,6 @@ import it.polimi.ingsw.client.LineClient;
 import it.polimi.ingsw.comunication.*;
 
 
-import javax.swing.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.net.Socket;
@@ -16,11 +15,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.CompletableFuture;
 
+/**
+ * ClientOut is a thread class that manages the visual aspect of the CLI.
+ */
+
 public class ClientOut extends Thread {
     private static final String ANSI_RESET = "\u001B[0m";
-
     private static final String CYAN = "\u001B[34m";
-
     private static final String MAGENTA = "\u001B[35m";
     private static final String YELLOW = "\u001B[33m";
     private static final String RED = "\u001B[31m";
@@ -38,11 +39,19 @@ public class ClientOut extends Thread {
 
     private ClientInput clientInput;
 
+
     public interface Commd {
         void runCommand() throws IOException;
 
     }
 
+    /**
+     * Constructor method for ClientOut, it maps every method with the string corresponding
+     * the message type received by the server
+     *
+     * @param socketIn buffered reader, it reads incoming messages from the server connection
+     * @param socket   connection socket with the server
+     */
     public ClientOut(BufferedReader socketIn, Socket socket) {
         this.socketIn = socketIn;
         this.socket = socket;
@@ -59,13 +68,17 @@ public class ClientOut extends Thread {
         commandHashMap.put("dashboard", this::printDashboard);
         commandHashMap.put("cloudCard", this::printCloudCard);
         commandHashMap.put("hall", this::printHall);
-        commandHashMap.put("studentsRoom", this::printStudentsRoom);
         commandHashMap.put("player", this::printPlayer);
         commandHashMap.put("quit", this::quit);
         commandHashMap.put("gameInfo", this::printGameInfo);
-        commandHashMap.put("singleIsland", this::printSingleIsland);
+        commandHashMap.put("cardsPlayed", this::printCardsPlayed);
     }
 
+
+    /**
+     * Runs until the connection socket is open,
+     * when the socket gets closed it stops and prints an error message.
+     */
 
     @Override
     public void run() {
@@ -93,6 +106,10 @@ public class ClientOut extends Thread {
 
     }
 
+    /**
+     * Prints the state of the game int the available games list,
+     * it shows game id, the current number of player the joined the game and the total number of player the game is set to host
+     */
     private void printGames() {
         GameStatus[] gameStatuses = gson.fromJson(message.message, GameStatus[].class);
         for (GameStatus gameStatus : gameStatuses) {
@@ -100,6 +117,9 @@ public class ClientOut extends Thread {
         }
     }
 
+    /**
+     * Print the list of assistants card decks with the relative player if the deck is already selected
+     */
     private void printAssistantDecks() {
         DeckStatus[] deckStatusArrayList = gson.fromJson(message.message, DeckStatus[].class);
         for (DeckStatus deckStatus : deckStatusArrayList) {
@@ -107,21 +127,38 @@ public class ClientOut extends Thread {
         }
     }
 
+
+    /**
+     * Clear the console on game start and prints the message
+     */
     private void startGame() {
         LineClient.clearConsole();
         printNotify();
     }
 
+    /**
+     * Prints the incoming message and closes the connection socket
+     *
+     * @throws IOException throws an exception
+     */
     private void quit() throws IOException {
         System.out.println(message.message);
         socket.close();
     }
 
 
+    /**
+     * Prints the regular messages incoming from the server of type:  <code>msg</code>
+     */
     private void printMsg() {
         System.out.println(message.message);
     }
 
+
+    /**
+     * Prints in red every message incoming from the server of type: <code>error</code>
+     * and calls the correct method if specified in the message
+     */
     private void manageError() {
         System.out.println(RED + message.message + ANSI_RESET);
         CompletableFuture.runAsync(() -> {
@@ -143,7 +180,11 @@ public class ClientOut extends Thread {
 
     }
 
-    private void manageConfirmation() throws IOException {
+    /**
+     * Prints in green every message of type: <code>confirmation</code>
+     * and calls the method of LineClient indicated by the message context
+     */
+    private void manageConfirmation() {
         System.out.println(GREEN + message.message + ANSI_RESET);
         CompletableFuture.runAsync(() -> {
             switch (message.context) {
@@ -169,15 +210,26 @@ public class ClientOut extends Thread {
 
     }
 
+    /**
+     * Prints in yellow messages of type: <code>warning</code>
+     */
     private void printWarning() {
         System.out.println(YELLOW + message.message + ANSI_RESET);
     }
 
+    /**
+     * Prints in green messages of type: <code>notify</code>
+     */
     private void printNotify() {
         System.out.println(GREEN + message.message + ANSI_RESET);
     }
 
 
+    /**
+     * Prints a symbol + representing a pawn in the relative color or _ if there isn't any pawn
+     *
+     * @param color The color code of pawn or null if the pawn isn't present in that position
+     */
     private void draw(String color) {
         if (color == null) {
             System.out.print("_");
@@ -186,6 +238,11 @@ public class ClientOut extends Thread {
 
     }
 
+    /**
+     * Decode to json the message field of the message received from the server as a list of LineClient and prints all the islands.
+     * Every StringBuilder parameter creates a string with the corresponding field of every island, every StringBuilder
+     * is added to the Table ArrayList to print  horizontally all the islands in game.     *
+     */
     private void printIslands() {
         IslandStatus[] statuses = gson.fromJson(message.message, IslandStatus[].class);
         System.out.println("Islands");
@@ -234,14 +291,10 @@ public class ClientOut extends Thread {
         System.out.println(line);
     }
 
-    private void printSingleIsland(){
-        IslandStatus[] statuses = gson.fromJson(message.message, IslandStatus[].class);
-        for (IslandStatus islandStatus : statuses) {
-            System.out.println("Id: " + islandStatus.id + " -Owner: " + islandStatus.owner + " -Dimension: " + islandStatus.dimension);
-        }
-    }
 
-
+    /**
+     * Print the dashboard of a player with the relative students, teachers and towers
+     */
     private void printDashboard() {
         DashboardStatus[] dashboardStatuses = gson.fromJson(message.message, DashboardStatus[].class);
         for (DashboardStatus dashboardStatus : dashboardStatuses) {
@@ -277,6 +330,10 @@ public class ClientOut extends Thread {
         }
     }
 
+
+    /**
+     * Prints a cloud card with the students in it
+     */
     private void printCloudCard() {
         CloudCardStatus[] cloudCardStatuses = gson.fromJson(message.message, CloudCardStatus[].class);
         for (CloudCardStatus cloudCardStatus : cloudCardStatuses) {
@@ -290,20 +347,30 @@ public class ClientOut extends Thread {
         }
     }
 
+    /**
+     * Prints the basic information of the player like the username, available moves of mother nature and the coins available.
+     */
     private void printPlayer() {
         PlayersStatus[] playersStatuses = gson.fromJson(message.message, PlayersStatus[].class);
         for (PlayersStatus playersStatus : playersStatuses) {
-            System.out.println(YELLOW + "-Username: " + playersStatus.name + "  -Moves MN: " + playersStatus.movesOfMN + ANSI_RESET+ " -Wallet: " +playersStatus.wallet);
+            System.out.println(YELLOW + "-Username: " + playersStatus.name + "  -Moves MN: " + playersStatus.movesOfMN + ANSI_RESET + " -Wallet: " + playersStatus.wallet);
         }
     }
 
-    private void printGameInfo(){
+
+    /**
+     * Prints basic information of the current games such as the round, the current player and the phase in progress
+     */
+    private void printGameInfo() {
         GameInfoStatus[] gameInfoStatuses = gson.fromJson(message.message, GameInfoStatus[].class);
-        for(GameInfoStatus gameInfoStatus : gameInfoStatuses){
-            System.out.println(YELLOW + "\n-Round: " + gameInfoStatus.round + "\n-Actual Player: " + gameInfoStatus.actualPlayer + "\n-Phase: " + gameInfoStatus.phase +  ANSI_RESET);
+        for (GameInfoStatus gameInfoStatus : gameInfoStatuses) {
+            System.out.println(YELLOW + "\n-Round: " + gameInfoStatus.round + "\n-Actual Player: " + gameInfoStatus.actualPlayer + "\n-Phase: " + gameInfoStatus.phase + ANSI_RESET);
         }
     }
 
+    /**
+     * Prints the list of character cards with the relative name, cost and effect
+     */
     private void printCharacterCards() {
         CharacterCard[] characterCards = gson.fromJson(message.message, CharacterCard[].class);
         for (CharacterCard characterCard : characterCards) {
@@ -314,6 +381,10 @@ public class ClientOut extends Thread {
         }
     }
 
+
+    /**
+     * Prints list of students present in a hall
+     */
     private void printHall() {
         HallStatus[] hallStatuses = gson.fromJson(message.message, HallStatus[].class);
         for (HallStatus hallStatus : hallStatuses) {
@@ -326,20 +397,21 @@ public class ClientOut extends Thread {
             System.out.println(" ");
 
 
-
         }
     }
 
-    private void printStudentsRoom() {
-        StudentRoom studentRoom = gson.fromJson(message.message, StudentRoom.class);
-        System.out.println("=====Students Room: ");
-        for (String student : studentRoom.students) {
-            System.out.print("|");
-            draw(student);
-            System.out.print("| ");
-        }
 
-        System.out.println(" ");
+    /**
+     * Prints a message with the information about the assistant card played
+     */
+    private void printCardsPlayed() {
+        PlayersStatus[] playersStatuses = gson.fromJson(message.message, PlayersStatus[].class);
+        for (PlayersStatus playersStatus : playersStatuses) {
+            System.out.println("Your deck id: " + playersStatus.deckId);
+            System.out.println("Cards Played: ");
+            for (int i = 0; i < playersStatus.cardsPlayed.size(); i++)
+                System.out.println("order: " + playersStatus.cardsPlayed.get(i));
+        }
     }
 
 

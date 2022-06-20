@@ -100,8 +100,8 @@ public class EchoServerClientHandler extends Thread {
 
 
         } catch (Exception e) {
-            System.out.println(e);
-            //game.removePlayer(player);
+            System.out.println("Connection error");
+            game.removePlayer(player);
 
         }
     }
@@ -253,16 +253,17 @@ public class EchoServerClientHandler extends Thread {
     public void sendSingleDashboard(Command command) {
         player.sendToClient("dashboard", game.sendPlayerDashboard(player));
     }
+
     public void sendCloudCards(Command command) {
         player.sendToClient("cloudCard", game.sendCloudCards());
     }
 
-    public void sendCardsPlayed(Command command){
+    public void sendCardsPlayed(Command command) {
         player.sendToClient("cardsPlayed", game.sendPlayer(player));
     }
 
     public void playCharacterCard(Command command) {
-        if(!checkTurn()){
+        if (!checkTurn()) {
             return;
         }
         SpecialCardStrategy specialCard;
@@ -351,7 +352,7 @@ public class EchoServerClientHandler extends Thread {
             int numPlayer = Integer.parseInt(command.value1);
             int indexIsland = Integer.parseInt(command.value2) - 1;
             if (indexIsland < game.getIslands().size()) {
-                if (player.moveStudentToIsland(numPlayer - 1, indexIsland - 1, game)) {
+                if (player.moveStudentToIsland(numPlayer - 1, indexIsland, game)) {
                     game.notifyAllClients("hall", game.sendHall(player));
                     game.notifyAllClients("islands", game.sendIslands());
                 } else {
@@ -413,7 +414,6 @@ public class EchoServerClientHandler extends Thread {
         }
 
         if (checkTurn() && game.getPhase() == 1) {
-            game.notifyAllClients("cloudCard", game.sendCloudCards());
             int cloudCardIndex = Integer.parseInt(command.value1);
             check = game.chooseCloudCard(cloudCardIndex - 1, player);
             if (cloudCardIndex > game.getCloudCards().size() || cloudCardIndex < 0)
