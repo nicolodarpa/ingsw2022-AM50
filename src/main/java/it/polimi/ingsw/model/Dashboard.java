@@ -283,7 +283,7 @@ public class Dashboard {
 
     /**
      * Adds to the dashboard the towers from the islands.
-     * @param color is the tower's color
+     * @param color is the tower's color and requires color != null.
      */
     public void addTowerFromIsland(TowerColor color){
         towers.add(new Tower(color));

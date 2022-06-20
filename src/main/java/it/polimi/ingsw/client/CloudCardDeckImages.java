@@ -9,6 +9,7 @@ import java.util.Random;
 public class CloudCardDeckImages {
 
 
+
     private final Map<Integer,Image> deckCloudCard = new HashMap<>();
     private final ArrayList<Image> cloudCardsInGame = new ArrayList<>();
     Image cc1 = new Image(String.valueOf(getClass().getClassLoader().getResource("images/cloudcard/cc1.png")), false);

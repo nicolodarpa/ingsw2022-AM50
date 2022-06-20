@@ -67,6 +67,10 @@ public class Player {
         return dashboard;
     }
 
+    public ArrayList<Integer> getAssistantCardsPlayed() {
+        return assistantCardsPlayed;
+    }
+
     public void setDashboard(Dashboard dashboard) {
         this.dashboard = dashboard;
     }

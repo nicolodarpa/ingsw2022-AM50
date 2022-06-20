@@ -25,7 +25,11 @@ import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
+/**
+ * Controller of deck.fxml
+ */
 public class DeckController implements Initializable, DisplayLabel {
+
 
     @FXML
     protected Label deck1Owner;

@@ -62,6 +62,7 @@ public class ClientOut extends Thread {
         commandHashMap.put("quit", this::quit);
         commandHashMap.put("gameInfo", this::printGameInfo);
         commandHashMap.put("singleIsland", this::printSingleIsland);
+        commandHashMap.put("cardsPlayed", this::printCardsPlayed);
     }
 
 
@@ -336,7 +337,16 @@ public class ClientOut extends Thread {
             System.out.print("| ");
         }
         System.out.println(" ");
+    }
 
+    private void printCardsPlayed(){
+        PlayersStatus[] playersStatuses = gson.fromJson(message.message, PlayersStatus[].class);
+        for(PlayersStatus playersStatus : playersStatuses){
+            System.out.println("Your deck id: " + playersStatus.deckId );
+            System.out.println("Cards Played: ");
+            for(int i = 0; i < playersStatus.cardsPlayed.size(); i++)
+                System.out.println("order: " + playersStatus.cardsPlayed.get(i));
+        }
     }
 
 

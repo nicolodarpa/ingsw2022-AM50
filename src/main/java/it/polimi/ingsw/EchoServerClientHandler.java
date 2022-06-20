@@ -67,6 +67,7 @@ public class EchoServerClientHandler extends Thread {
         commandMap.put("quit", this::quit);
         commandMap.put("gameInfo", this::sendGameInfo);
         commandMap.put("singleIsland", this::sendSingleIsland);
+        commandMap.put("cardsPlayed", this::sendCardsPlayed);
 
 
         try {
@@ -252,10 +253,12 @@ public class EchoServerClientHandler extends Thread {
     public void sendSingleDashboard(Command command) {
         player.sendToClient("dashboard", game.sendPlayerDashboard(player));
     }
-
-
     public void sendCloudCards(Command command) {
         player.sendToClient("cloudCard", game.sendCloudCards());
+    }
+
+    public void sendCardsPlayed(Command command){
+        player.sendToClient("cardsPlayed", game.sendPlayer(player));
     }
 
     public void playCharacterCard(Command command) {
