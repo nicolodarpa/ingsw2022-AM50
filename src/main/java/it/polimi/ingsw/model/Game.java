@@ -10,6 +10,15 @@ import java.util.*;
 
 /**
  * Game contains all the methods that implements the match
+ * <p>
+ * Implemented methods allows to do the following operation:
+ * <ul>
+ *     <li>addPlayer add a new player to the match</li>
+ *     <li>moveStudentsToHall move the students from the Entrance to the hall of the dashboard</li>
+ *     <li>setupGame start a new game</li>
+ *     <li>checkPlayer check that there is the correct number of players to start a new match or print that the game is waiting new players</li>
+ * </ul>
+ * </p>
  *
  * @author Nicolò D'Arpa, Zarlene Justrem De Mesa, Alessandro Costantini
  * @since 1.0
@@ -831,9 +840,10 @@ public class Game {
 
 
     public void playCharacterCard(SpecialCardStrategy characterCard, int index, PawnColor color) {
+        currentPlayer.spendCoins(characterCard.getCost());
         characterCard.update(plist, currentPlayer, islands, color, index, studentsBag);
         characterCard.effect();
-        currentPlayer.spendCoins(characterCard.getCost());
+
     }
 
     /**
