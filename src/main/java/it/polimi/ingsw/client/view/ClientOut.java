@@ -338,6 +338,7 @@ public class ClientOut extends Thread {
             draw(student);
             System.out.print("| ");
         }
+
         System.out.println(" ");
     }
 
