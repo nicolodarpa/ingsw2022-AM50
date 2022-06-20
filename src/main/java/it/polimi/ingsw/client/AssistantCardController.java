@@ -65,7 +65,7 @@ public class AssistantCardController implements Initializable {
      * The front of the card is displayed if the card is available in the deck, the back of the card if it's already been used.
      * Sends a message to the server asking for the player status that contains the list of assistant cards played.
      */
-    public void setAssistantCardsImages() {
+    public void setAssistantCardsImages(){
         ClientInput.getInstance().sendString("player", "");
         message = ClientInput.getInstance().readLine();
         PlayersStatus playersStatus = gson.fromJson(message.message, PlayersStatus[].class)[0];
