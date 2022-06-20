@@ -245,7 +245,7 @@ public class DashboardEnemyController implements Initializable, DisplayLabel{
             DashboardStatus[] dashboardStatuses = gson.fromJson(ClientInput.getInstance().readLine().message, DashboardStatus[].class);
             for(DashboardStatus dashboardStatus : dashboardStatuses){
                 if(!Objects.equals(dashboardStatus.nameOwner, name)){
-                    displayLabel("username", username, name);
+                    displayLabel("username", username, dashboardStatus.nameOwner);
                     String[] hall = dashboardStatus.studentsHallColors;
                     String[][] classroom = dashboardStatus.studentsClassroom;
                     String[] teachers = dashboardStatus.teacherTable;

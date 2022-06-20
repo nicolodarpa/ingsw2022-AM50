@@ -49,6 +49,7 @@ public class AssistantCardController implements Initializable {
      * sets the images of the assistant card in the array "assistantCard" or the image of the deck chosen in case the card has already been used.
      */
     public void setAssistantCardsImages(){
+        ClientInput.getInstance().sendString("player", "");
         message = ClientInput.getInstance().readLine();
         PlayersStatus playersStatus = gson.fromJson(message.message,PlayersStatus[].class )[0];
         ArrayList<Integer> cardsPlayed= playersStatus.cardsPlayed;
