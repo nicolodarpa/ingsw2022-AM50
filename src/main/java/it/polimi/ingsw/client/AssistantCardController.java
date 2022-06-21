@@ -31,7 +31,9 @@ public class AssistantCardController implements Initializable, DisplayLabel{
     @FXML
     public ImageView card1, card2, card3, card4, card5, card6, card7, card8, card9, card10;
     @FXML
-    public Label otherPlayer;
+    public Label otherPlayer, otherPlayer2;
+
+    public ArrayList<Label> label = new ArrayList<>();
 
 
     /**
@@ -55,6 +57,7 @@ public class AssistantCardController implements Initializable, DisplayLabel{
         ClientInput.getInstance().sendString("player", "");
         setAssistantCardsImageView();
         setAssistantCardsImages();
+        setUpLabelArray();
         printCardChosenByOther();
     }
 
@@ -103,18 +106,28 @@ public class AssistantCardController implements Initializable, DisplayLabel{
         cardView.setImage(retroImg);
     }
 
+    private void setUpLabelArray(){
+        label.add(otherPlayer);
+        label.add(otherPlayer2);
+
+    }
+
     public void printCardChosenByOther(){
         ClientInput.getInstance().sendString("player", "");
         PlayersStatus player = gson.fromJson(ClientInput.getInstance().readLine().message, PlayersStatus[].class)[0];
         String name1 = player.name;
         ClientInput.getInstance().sendString("allPlayers", "");
         PlayersStatus[] players = gson.fromJson(ClientInput.getInstance().readLine().message, PlayersStatus[].class);
+        int i=0;
+
         for (PlayersStatus playersStatus : players){
+            System.out.println(playersStatus.name);
             if(!Objects.equals(playersStatus.name, name1)){
                 String otherPlayerUsername = playersStatus.name;
                 String orderCard = String.valueOf(playersStatus.getOrder());
                 String movesOfMN= String.valueOf(playersStatus.movesOfMN);
-                displayLabel("username: " + otherPlayerUsername, otherPlayer , "\nhas played the card of order : "+ orderCard+ "\nhas moves of MN: "+movesOfMN);
+                displayLabel("username: " + otherPlayerUsername, label.get(i)  , "\nhas played the card of order : "+ orderCard+ "\nhas moves of MN: "+movesOfMN);
+                i++;
             }
         }
     }

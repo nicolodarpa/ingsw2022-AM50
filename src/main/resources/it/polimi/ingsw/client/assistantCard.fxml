@@ -8,7 +8,7 @@
 
 <Pane fx:id="anchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1080.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.AssistantCardController">
    <children>
-      <ImageView fx:id="card1" fitHeight="199.995" fitWidth="135.99" layoutX="146.0" layoutY="155.0" >
+      <ImageView fx:id="card1" fitHeight="199.995" fitWidth="135.99" layoutX="146.0" layoutY="155.0">
         </ImageView>
       <ImageView fx:id="card2" fitHeight="199.995" fitWidth="135.99" layoutX="309.0" layoutY="155.0">
         </ImageView>
@@ -44,5 +44,6 @@
          </font>
       </Label>
       <Label fx:id="otherPlayer" layoutX="682.0" layoutY="64.0" />
+      <Label fx:id="otherPlayer2" layoutX="874.0" layoutY="64.0" />
    </children>
 </Pane>
