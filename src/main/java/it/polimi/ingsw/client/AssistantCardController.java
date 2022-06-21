@@ -3,6 +3,7 @@ package it.polimi.ingsw.client;
 import com.google.gson.Gson;
 import it.polimi.ingsw.comunication.PlayersStatus;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.fxml.Initializable;
 import it.polimi.ingsw.comunication.TextMessage;
@@ -15,12 +16,13 @@ import javafx.stage.Window;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 /**
  * Controller of AssistantCardStatus.fxml
  */
-public class AssistantCardController implements Initializable {
+public class AssistantCardController implements Initializable, DisplayLabel{
 
 
     /**
@@ -28,6 +30,9 @@ public class AssistantCardController implements Initializable {
      */
     @FXML
     public ImageView card1, card2, card3, card4, card5, card6, card7, card8, card9, card10;
+    @FXML
+    public Label otherPlayer;
+
 
     /**
      * ArrayList of all the ImageViews
@@ -50,6 +55,7 @@ public class AssistantCardController implements Initializable {
         ClientInput.getInstance().sendString("player", "");
         setAssistantCardsImageView();
         setAssistantCardsImages();
+        printCardChosenByOther();
     }
 
 
@@ -65,29 +71,26 @@ public class AssistantCardController implements Initializable {
      * The front of the card is displayed if the card is available in the deck, the back of the card if it's already been used.
      * Sends a message to the server asking for the player status that contains the list of assistant cards played.
      */
-    public void setAssistantCardsImages(){
+    public void setAssistantCardsImages() {
         ClientInput.getInstance().sendString("player", "");
         message = ClientInput.getInstance().readLine();
         PlayersStatus playersStatus = gson.fromJson(message.message, PlayersStatus[].class)[0];
         ArrayList<Integer> cardsPlayed = playersStatus.cardsPlayed;
-
+        System.out.println("the cards Played: " + cardsPlayed);
         int j;
+
         for (int i = 0; i < assistantCards.size(); i++) {
             j = i + 1;
-            if (cardsPlayed.size() != 0) {
-                for (Integer integer : cardsPlayed) {
-                    if (integer == j) {
-                        setRetro(assistantCards.get(i), playersStatus.deckId);
-                    } else {
-                        assistantCards.get(i).setImage(new Image(String.valueOf(getClass().getClassLoader().getResource("assets/assistantCard/Assistente (" + j + ").png"))));
-                    }
-                }
-            } else {
-                assistantCards.get(i).setImage(new Image(String.valueOf(getClass().getClassLoader().getResource("assets/assistantCard/Assistente (" + j + ").png"))));
-            }
+            assistantCards.get(i).setImage(new Image(String.valueOf(getClass().getClassLoader().getResource("assets/assistantCard/Assistente (" + j + ").png"))));
+        }
 
+        if (cardsPlayed.size() != 0) {
+            for (Integer integer : cardsPlayed) {
+                setRetro(assistantCards.get(integer - 1), playersStatus.deckId);
+            }
         }
     }
+
 
     /**
      * Sets the ImageView the back of the card.
@@ -98,6 +101,22 @@ public class AssistantCardController implements Initializable {
     public void setRetro(ImageView cardView, int idDeck) {
         Image retroImg = new Image(String.valueOf(getClass().getClassLoader().getResource("assets/CarteTOT_back_" + idDeck + "@3x.png")));
         cardView.setImage(retroImg);
+    }
+
+    public void printCardChosenByOther(){
+        ClientInput.getInstance().sendString("player", "");
+        PlayersStatus player = gson.fromJson(ClientInput.getInstance().readLine().message, PlayersStatus[].class)[0];
+        String name1 = player.name;
+        ClientInput.getInstance().sendString("allPlayers", "");
+        PlayersStatus[] players = gson.fromJson(ClientInput.getInstance().readLine().message, PlayersStatus[].class);
+        for (PlayersStatus playersStatus : players){
+            if(!Objects.equals(playersStatus.name, name1)){
+                String otherPlayerUsername = playersStatus.name;
+                String orderCard = String.valueOf(playersStatus.getOrder());
+                String movesOfMN= String.valueOf(playersStatus.movesOfMN);
+                displayLabel("username: " + otherPlayerUsername, otherPlayer , "\nhas played the card of order : "+ orderCard+ "\nhas moves of MN: "+movesOfMN);
+            }
+        }
     }
 
 
