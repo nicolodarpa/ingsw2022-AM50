@@ -2,23 +2,58 @@ package it.polimi.ingsw.comunication;
 
 import it.polimi.ingsw.model.*;
 
+/**
+ * Template class to encode and decode json with the current state of a player's dashboard
+ */
 public class DashboardStatus {
 
+    /**
+     * Name of the player
+     */
     public String nameOwner;
+
+    /**
+     * Two-dimensional array which represents the student in the classrooms
+     */
     public String[][] studentsClassroom = new String[5][10];
+
+
+    /**
+     * Represents the student in the hall with the students color code
+     */
     public String[] studentsHall;
+
+    /**
+     * Represents the student in the hall with the students color name
+     */
     public String[] studentsHallColors;
 
+    /**
+     * Represents the teachers assigned to a player
+     */
     public String[] teacherTable = new String[5];
+
+    /**
+     * Number of tower available
+     */
     public int towers;
+
+    /**
+     * Color assigned to the player
+     */
     public TowerColor towerColor = null;
 
 
+    /**
+     * Gets
+     * @param nameOwner player name associated to the dashboard
+     * @param dashboard dashboard to get values from
+     */
     public DashboardStatus(String nameOwner, Dashboard dashboard) {
         this.nameOwner = nameOwner;
         Student[][] classroom = dashboard.getClassroom();
         Student[] hall = dashboard.getHall();
-        towerColor=dashboard.getTowers().get(0).getColor();
+        towerColor = dashboard.getTowers().get(0).getColor();
         studentsHall = new String[hall.length];
         studentsHallColors = new String[hall.length];
         Teacher[] teachers = dashboard.getTeacherTable();

@@ -1,10 +1,22 @@
 package it.polimi.ingsw.comunication;
 
+/**
+ * Template class to encode and decode json with a command and two optional values
+ */
 public class Command {
 
+    /**
+     * Command name
+     */
     public String cmd;
+    /**
+     * Optional value 1
+     */
     public String value1;
 
+    /**
+     * Optional value 2
+     */
     public String value2;
 
     public Command(String cmd, String value1){

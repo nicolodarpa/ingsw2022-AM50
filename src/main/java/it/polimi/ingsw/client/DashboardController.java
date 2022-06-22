@@ -32,6 +32,7 @@ import java.util.*;
 public class DashboardController implements Initializable, DisplayLabel {
 
     public Pane anchor;
+
     @FXML
     private Label movesAvailableCounter, movesOfMn, username, roundCounter, actualPlayerLabel, students, wallet;
 
@@ -40,10 +41,19 @@ public class DashboardController implements Initializable, DisplayLabel {
 
     int movesOfMN, movesOfStudent;
 
+    /**
+     * Positions of the student in the hall
+     */
     @FXML
     private Circle studentPosition1, studentPosition2, studentPosition3, studentPosition4, studentPosition5, studentPosition6, studentPosition7, studentPosition8, studentPosition9;
+    /**
+     * Positions of the towers on the dashboard
+     */
     @FXML
     private ImageView towerPosition1, towerPosition2, towerPosition3, towerPosition4, towerPosition5, towerPosition6, towerPosition7, towerPosition8;
+    /**
+     * Positions of the teachers on the dashboard
+     */
     @FXML
     private Circle professorPosition1, professorPosition2, professorPosition3, professorPosition4, professorPosition5;
     @FXML
@@ -122,7 +132,7 @@ public class DashboardController implements Initializable, DisplayLabel {
     private int indexCloudCard = -1;
 
     /**
-     * This arrayList contain all the circle position to show the student on the island
+     * This arrayList contain all the circle position where the students pawn are shown
      */
     private final ArrayList<Circle> greenStudentIsland = new ArrayList<>();
     private final ArrayList<Circle> redStudentIsland = new ArrayList<>();
@@ -174,13 +184,23 @@ public class DashboardController implements Initializable, DisplayLabel {
      */
     private final ArrayList<ImageView> Islands = new ArrayList<>(12);
 
+
+    /**
+     * Holds the positions of mother nature on every island
+     */
     private final ArrayList<ImageView> MNPositions = new ArrayList<>(12);
+
+    /**
+     * Holds the positions of students on every island
+     */
     private final ArrayList<ArrayList<Circle>> studentsInEachIsland = new ArrayList<>();
+
+
     private final ArrayList<Rectangle> MnIslandPosition = new ArrayList<>(12);
 
     private CharacterCard[] characterCardList = new CharacterCard[3];
     private final ArrayList<ImageView> towerIslands = new ArrayList<>();
-    private final ArrayList<ArrayList<Circle>> nameColor = new ArrayList<>();
+    private final ArrayList<ArrayList<Circle>> colorNames = new ArrayList<>();
     private final ClientInput clientInput = ClientInput.getInstance();
     private final Gson gson = new Gson();
     private static final String[] colors = {"green", "red", "yellow", "magenta", "cyan"};
@@ -192,6 +212,10 @@ public class DashboardController implements Initializable, DisplayLabel {
         DisplayLabel.super.displayLabel(text, label, textLabel);
     }
 
+
+    /**
+     * Sets up  the arrayList of cloud cards images and positions, sets the positions of students pawn on each cloud card
+     */
     private void setUpCCArrays() {
         cloudCards.addAll(Arrays.asList(cloudCard1, cloudCard2, cloudCard3));
         setTransparentCircle(cloudCards);
@@ -206,7 +230,7 @@ public class DashboardController implements Initializable, DisplayLabel {
     }
 
     /**
-     * disables the circle of the cloud cards
+     * Disables the onMouseClick action of the cloud cards circles
      */
     private void disableCloudCards() {
         for (Circle c : cloudCards)
@@ -214,12 +238,20 @@ public class DashboardController implements Initializable, DisplayLabel {
     }
 
 
+    /**
+     *
+     */
     private void setCloudCards() {
         CloudCardStatus[] cloudCardStatus = gson.fromJson(message.message, CloudCardStatus[].class);
         setUpCCImages(cloudCardStatus);
         setUpCloudCards(cloudCardStatus);
     }
 
+    /**
+     * Sets up the students pawns on cloud cards.
+     *
+     * @param cloudCardsStatus list of cloud cards statuses
+     */
     public void setUpCloudCards(CloudCardStatus[] cloudCardsStatus) {
         int id = 0;
         int i = 0;
@@ -234,11 +266,17 @@ public class DashboardController implements Initializable, DisplayLabel {
                     i++;
                 }
             }
-            i=0;
+            i = 0;
             id++;
         }
     }
 
+
+    /**
+     * Sets the images of the cloud cards
+     *
+     * @param cloudCardsStatus list of cloud cards statuses
+     */
 
     private void setUpCCImages(CloudCardStatus[] cloudCardsStatus) {
         int i = 0;
@@ -252,20 +290,6 @@ public class DashboardController implements Initializable, DisplayLabel {
         }
     }
 
-
-    public void setUpStudentsOnTheCC(int id, ArrayList<Integer> ordinalColor) {
-        int i = 0;
-        for (Integer studentColor : ordinalColor) {
-            if (studentColor != null) {
-                studentsInEachCloudCard.get(id).get(i).setFill(new ImagePattern(new Image(String.valueOf(getClass().getClassLoader().getResource("images/Pawn/" + PawnColor.values()[studentColor].getName() + "_student.png")))));
-            } else {
-                studentsInEachCloudCard.get(id).get(i).setFill(null);
-            }
-            i++;
-        }
-    }
-
-
     private void setUpStudentCC(ArrayList<Circle> cloudCards, Circle student1, Circle student2, Circle student3, Circle student4) {
         cloudCards.add(student1);
         cloudCards.add(student2);
@@ -275,18 +299,21 @@ public class DashboardController implements Initializable, DisplayLabel {
     }
 
     /**
-     * Added to arrayList Island all the island Images.
+     * Adds to arrayList Island all the island Images.
      */
     private void setUpIslandImageView() {
         Islands.addAll(Arrays.asList(Island1, Island2, Island3, Island4, Island5, Island6, Island7, Island8, Island9, Island10, Island11, Island12));
     }
 
+    /**
+     * Adds al the Info buttons of the islands to the arrayList islandInfoButton
+     */
     private void setUpIslandInfoButton() {
         islandInfoButtons.addAll(Arrays.asList(info0, info1, info2, info3, info4, info5, info6, info7, info8, info9, info10, info11));
     }
 
     /**
-     * Added to arrayList MNIslandPosition all the Mn Rectangle.
+     * Adds to the arrayList MNIslandPosition all the Mn Rectangle.
      */
     private void setUpMNIslandPosition() {
         MnIslandPosition.addAll(Arrays.asList(MNIsland1, MNIsland2, MNIsland3, MNIsland4, MNIsland5, MNIsland6, MNIsland7, MNIsland8, MNIsland9, MNIsland10, MNIsland11, MNIsland12));
@@ -294,14 +321,18 @@ public class DashboardController implements Initializable, DisplayLabel {
     }
 
     /**
-     * Added to arrayList MNIslandPosition all the Mn Images.
+     * Adds to arrayList MNIslandPosition all the Mn Images.
      */
     private void setUpMNPositions() {
         MNPositions.addAll(Arrays.asList(MNPosition1, MNPosition2, MNPosition3, MNPosition4, MNPosition5, MNPosition6, MNPosition7, MNPosition8, MNPosition9, MNPosition10, MNPosition11, MNPosition12));
     }
 
+
+    /**
+     * Adds all the students positions to the arrayList colorNames
+     */
     private void setUpNameColor() {
-        nameColor.addAll(Arrays.asList(greenPositions, redPositions, yellowPositions, magentaPositions, cyanPositions));
+        colorNames.addAll(Arrays.asList(greenPositions, redPositions, yellowPositions, magentaPositions, cyanPositions));
     }
 
     private void setUpClassroomFilled() {
@@ -312,16 +343,50 @@ public class DashboardController implements Initializable, DisplayLabel {
         }
     }
 
+    /**
+     * Adds the towers position on the islands to the arrayList towerIslands
+     */
     private void setUpTowerIslands() {
         towerIslands.addAll(Arrays.asList(towerIsland1, towerIsland2, towerIsland3, towerIsland4, towerIsland5, towerIsland6, towerIsland7, towerIsland8, towerIsland9, towerIsland10, towerIsland11, towerIsland12));
     }
 
+    /**
+     * Adds the towers position on the dashboard to the arrayList towerPosition
+     */
     private void setUpTowerDashboard() {
         towerPosition.addAll(Arrays.asList(towerPosition1, towerPosition2, towerPosition3, towerPosition4, towerPosition5, towerPosition6, towerPosition7, towerPosition8));
     }
 
+    public void setUpHallPosition() {
+        studentsPosition.addAll(Arrays.asList(studentPosition1, studentPosition2, studentPosition3, studentPosition4, studentPosition5, studentPosition6, studentPosition7, studentPosition8, studentPosition9));
+    }
+
+    public void setUpProfessorPositions() {
+        professorsPosition.addAll(Arrays.asList(professorPosition1, professorPosition2, professorPosition3, professorPosition4, professorPosition5));
+    }
+
+
+    public void setUpClassroom() {
+        setUpColorPosition(greenPositions, greenPosition1, greenPosition2, greenPosition3, greenPosition4, greenPosition5, greenPosition6, greenPosition7, greenPosition8, greenPosition9, greenPosition10);
+        setUpColorPosition(magentaPositions, magentaPosition1, magentaPosition2, magentaPosition3, magentaPosition4, magentaPosition5, magentaPosition6, magentaPosition7, magentaPosition8, magentaPosition9, magentaPosition10);
+        setUpColorPosition(yellowPositions, yellowPosition1, yellowPosition2, yellowPosition3, yellowPosition4, yellowPosition5, yellowPosition6, yellowPosition7, yellowPosition8, yellowPosition9, yellowPosition10);
+        setUpColorPosition(cyanPositions, cyanPosition1, cyanPosition2, cyanPosition3, cyanPosition4, cyanPosition5, cyanPosition6, cyanPosition7, cyanPosition8, cyanPosition9, cyanPosition10);
+        setUpColorPosition(redPositions, redPosition1, redPosition2, redPosition3, redPosition4, redPosition5, redPosition6, redPosition7, redPosition8, redPosition9, redPosition10);
+    }
+
+    public void setUpColorPositionOnTheIslands() {
+        setUpColorPositionIslands(greenStudentIsland, greenStudentIsland1, greenStudentIsland2, greenStudentIsland3, greenStudentIsland4, greenStudentIsland5, greenStudentIsland6, greenStudentIsland7, greenStudentIsland8, greenStudentIsland9, greenStudentIsland10, greenStudentIsland11, greenStudentIsland12);
+        setUpColorPositionIslands(redStudentIsland, redStudentIsland1, redStudentIsland2, redStudentIsland3, redStudentIsland4, redStudentIsland5, redStudentIsland6, redStudentIsland7, redStudentIsland8, redStudentIsland9, redStudentIsland10, redStudentIsland11, redStudentIsland12);
+        setUpColorPositionIslands(yellowStudentIsland, yellowStudentIsland1, yellowStudentIsland2, yellowStudentIsland3, yellowStudentIsland4, yellowStudentIsland5, yellowStudentIsland6, yellowStudentIsland7, yellowStudentIsland8, yellowStudentIsland9, yellowStudentIsland10, yellowStudentIsland11, yellowStudentIsland12);
+        setUpColorPositionIslands(magentaStudentIsland, magentaStudentIsland1, magentaStudentIsland2, magentaStudentIsland3, magentaStudentIsland4, magentaStudentIsland5, magentaStudentIsland6, magentaStudentIsland7, magentaStudentIsland8, magentaStudentIsland9, magentaStudentIsland10, magentaStudentIsland11, magentaStudentIsland12);
+        setUpColorPositionIslands(cyanStudentIsland, cyanStudentIsland1, cyanStudentIsland2, cyanStudentIsland3, cyanStudentIsland4, cyanStudentIsland5, cyanStudentIsland6, cyanStudentIsland7, cyanStudentIsland8, cyanStudentIsland9, cyanStudentIsland10, cyanStudentIsland11, cyanStudentIsland12);
+    }
+
 
     /**
+     * Maps the commands to the relative method, sets up the scene view.
+     * Starts the readThread to read incoming messages from the server and to execute the commands
+     *
      * @param location  The location used to resolve relative paths for the root object, or
      *                  {@code null} if the location is not known.
      * @param resources The resources used to localize the root object, or {@code null} if
@@ -380,22 +445,12 @@ public class DashboardController implements Initializable, DisplayLabel {
             }
         });
         readThread.start();
-
-        Thread guiUpdateThread = new Thread(() -> {
-            while (true) {
-                refreshGUI();
-                try {
-                    Thread.sleep(20000);
-
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        });
-        //guiUpdateThread.start();
         refreshGUI();
     }
 
+    /**
+     * Decode the content of the message received as the list of available character cards
+     */
     private void setCharacterCards() {
         characterCardList = gson.fromJson(message.message, CharacterCard[].class);
     }
@@ -456,6 +511,10 @@ public class DashboardController implements Initializable, DisplayLabel {
         AlertHelper.showAlert(Alert.AlertType.INFORMATION, classRoom.getScene().getWindow(), "Quit", message.message);
     }
 
+
+    /**
+     * Displays all the islands and sets up the relative info box with the status received by the server
+     */
     private void printIsland() {
         IslandStatus[] islandStatus = gson.fromJson(message.message, IslandStatus[].class);
         for (IslandStatus island : islandStatus) {
@@ -477,15 +536,15 @@ public class DashboardController implements Initializable, DisplayLabel {
     }
 
     /**
-     * It takes the param classroom, and it prints the students on the dashboard's classroom.
+     * Displays the students on the dashboard's classroom.
      *
-     * @param classroom is a matrix of string sent by the EchoServer.
+     * @param classroom is a matrix of student in the classroom, represented by a string
      */
     private void printClassroom(String[][] classroom) {
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 10; j++) {
                 if (classroom[i][j] != null) {
-                    nameColor.get(i).get(j).setFill(new ImagePattern(new Image(String.valueOf(getClass().getClassLoader().getResource("images/Pawn/" + colors[i] + "_student.png")))));
+                    colorNames.get(i).get(j).setFill(new ImagePattern(new Image(String.valueOf(getClass().getClassLoader().getResource("images/Pawn/" + colors[i] + "_student.png")))));
                 }
             }
         }
@@ -493,16 +552,16 @@ public class DashboardController implements Initializable, DisplayLabel {
 
 
     /**
-     * count the number of students of one color
+     * Counts the number of students of one color
      *
-     * @param colorName     is the name of the color that we would to count
+     * @param color     is the name of the color that we would to count
      * @param studentsColor is an arrayList that contains the strings of the color name of the students
      * @return the number of the students of one color
      */
-    private int countStudentByColor(ArrayList<String> studentsColor, String colorName) {
+    private int countStudentByColor(ArrayList<String> studentsColor, String color) {
         int numberOfStudents = 0;
         for (String s : studentsColor)
-            if (Objects.equals(s, colorName)) {
+            if (Objects.equals(s, color)) {
                 numberOfStudents++;
             }
         return numberOfStudents;
@@ -531,6 +590,11 @@ public class DashboardController implements Initializable, DisplayLabel {
         displayLabel("Actual Player", actualPlayerLabel, gameInfoStatus.actualPlayer);
     }
 
+    /**
+     * Sets up the towers images on the dashboard
+     * @param towersNumber number of towers available to the player
+     * @param towerColor color of the towers
+     */
     public void setUpTowerImages(int towersNumber, TowerColor towerColor) {
         String color = towerColor.getName();
         int j = 0;
@@ -547,30 +611,9 @@ public class DashboardController implements Initializable, DisplayLabel {
 
     }
 
-    public void setUpHallPosition() {
-        studentsPosition.addAll(Arrays.asList(studentPosition1, studentPosition2, studentPosition3, studentPosition4, studentPosition5, studentPosition6, studentPosition7, studentPosition8, studentPosition9));
-    }
-
-    public void setUpProfessorPositions() {
-        professorsPosition.addAll(Arrays.asList(professorPosition1, professorPosition2, professorPosition3, professorPosition4, professorPosition5));
-    }
 
 
-    public void setUpClassroom() {
-        setUpColorPosition(greenPositions, greenPosition1, greenPosition2, greenPosition3, greenPosition4, greenPosition5, greenPosition6, greenPosition7, greenPosition8, greenPosition9, greenPosition10);
-        setUpColorPosition(magentaPositions, magentaPosition1, magentaPosition2, magentaPosition3, magentaPosition4, magentaPosition5, magentaPosition6, magentaPosition7, magentaPosition8, magentaPosition9, magentaPosition10);
-        setUpColorPosition(yellowPositions, yellowPosition1, yellowPosition2, yellowPosition3, yellowPosition4, yellowPosition5, yellowPosition6, yellowPosition7, yellowPosition8, yellowPosition9, yellowPosition10);
-        setUpColorPosition(cyanPositions, cyanPosition1, cyanPosition2, cyanPosition3, cyanPosition4, cyanPosition5, cyanPosition6, cyanPosition7, cyanPosition8, cyanPosition9, cyanPosition10);
-        setUpColorPosition(redPositions, redPosition1, redPosition2, redPosition3, redPosition4, redPosition5, redPosition6, redPosition7, redPosition8, redPosition9, redPosition10);
-    }
 
-    public void setUpColorPositionOnTheIslands() {
-        setUpColorPositionIslands(greenStudentIsland, greenStudentIsland1, greenStudentIsland2, greenStudentIsland3, greenStudentIsland4, greenStudentIsland5, greenStudentIsland6, greenStudentIsland7, greenStudentIsland8, greenStudentIsland9, greenStudentIsland10, greenStudentIsland11, greenStudentIsland12);
-        setUpColorPositionIslands(redStudentIsland, redStudentIsland1, redStudentIsland2, redStudentIsland3, redStudentIsland4, redStudentIsland5, redStudentIsland6, redStudentIsland7, redStudentIsland8, redStudentIsland9, redStudentIsland10, redStudentIsland11, redStudentIsland12);
-        setUpColorPositionIslands(yellowStudentIsland, yellowStudentIsland1, yellowStudentIsland2, yellowStudentIsland3, yellowStudentIsland4, yellowStudentIsland5, yellowStudentIsland6, yellowStudentIsland7, yellowStudentIsland8, yellowStudentIsland9, yellowStudentIsland10, yellowStudentIsland11, yellowStudentIsland12);
-        setUpColorPositionIslands(magentaStudentIsland, magentaStudentIsland1, magentaStudentIsland2, magentaStudentIsland3, magentaStudentIsland4, magentaStudentIsland5, magentaStudentIsland6, magentaStudentIsland7, magentaStudentIsland8, magentaStudentIsland9, magentaStudentIsland10, magentaStudentIsland11, magentaStudentIsland12);
-        setUpColorPositionIslands(cyanStudentIsland, cyanStudentIsland1, cyanStudentIsland2, cyanStudentIsland3, cyanStudentIsland4, cyanStudentIsland5, cyanStudentIsland6, cyanStudentIsland7, cyanStudentIsland8, cyanStudentIsland9, cyanStudentIsland10, cyanStudentIsland11, cyanStudentIsland12);
-    }
 
     /**
      * set to transparent the background of the position of the students in the classroom
@@ -1003,7 +1046,7 @@ public class DashboardController implements Initializable, DisplayLabel {
     }
 
     @FXML
-    private void setDashboardPlayer() throws IOException{
+    private void setDashboardPlayer() throws IOException {
         Stage phaseStage = new Stage();
         Scene phaseScene = new Scene(new FXMLLoader(getClass().getResource("dashboardPlayer.fxml")).load());
         phaseStage.setScene(phaseScene);
@@ -1018,6 +1061,7 @@ public class DashboardController implements Initializable, DisplayLabel {
     private void enablePlayAssistantCardButton() {
         assistantCardButton.setDisable(false);
     }
+
 
 
     @FXML

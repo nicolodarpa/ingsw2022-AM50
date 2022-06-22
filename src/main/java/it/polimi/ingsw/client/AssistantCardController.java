@@ -22,7 +22,7 @@ import java.util.ResourceBundle;
 /**
  * Controller of AssistantCardStatus.fxml
  */
-public class AssistantCardController implements Initializable, DisplayLabel{
+public class AssistantCardController implements Initializable, DisplayLabel {
 
 
     /**
@@ -106,27 +106,31 @@ public class AssistantCardController implements Initializable, DisplayLabel{
         cardView.setImage(retroImg);
     }
 
-    private void setUpLabelArray(){
+    private void setUpLabelArray() {
         label.add(otherPlayer);
         label.add(otherPlayer2);
 
     }
 
-    public void printCardChosenByOther(){
+    /**
+     * Adds a label to the character cards displaying if the card has already been played by another player.
+     */
+
+    public void printCardChosenByOther() {
         ClientInput.getInstance().sendString("player", "");
         PlayersStatus player = gson.fromJson(ClientInput.getInstance().readLine().message, PlayersStatus[].class)[0];
         String name1 = player.name;
         ClientInput.getInstance().sendString("allPlayers", "");
         PlayersStatus[] players = gson.fromJson(ClientInput.getInstance().readLine().message, PlayersStatus[].class);
-        int i=0;
+        int i = 0;
 
-        for (PlayersStatus playersStatus : players){
+        for (PlayersStatus playersStatus : players) {
             System.out.println(playersStatus.name);
-            if(!Objects.equals(playersStatus.name, name1)){
+            if (!Objects.equals(playersStatus.name, name1)) {
                 String otherPlayerUsername = playersStatus.name;
                 String orderCard = String.valueOf(playersStatus.getOrder());
-                String movesOfMN= String.valueOf(playersStatus.movesOfMN);
-                displayLabel("username: " + otherPlayerUsername, label.get(i)  , "\nhas played the card of order : "+ orderCard+ "\nhas moves of MN: "+movesOfMN);
+                String movesOfMN = String.valueOf(playersStatus.movesOfMN);
+                displayLabel("username: " + otherPlayerUsername, label.get(i), "\nhas played the card of order : " + orderCard + "\nhas moves of MN: " + movesOfMN);
                 i++;
             }
         }
@@ -191,7 +195,8 @@ public class AssistantCardController implements Initializable, DisplayLabel{
 
     /**
      * Sends a message to the server with the command <code>playAssistantCard</code> and the index of the assistant card chosen.
-     * @param i index of the assistant card played.
+     *
+     * @param i           index of the assistant card played.
      * @param actionEvent ActionEvent necessary to close the window
      */
     private void playAssistantCard(int i, ActionEvent actionEvent) {

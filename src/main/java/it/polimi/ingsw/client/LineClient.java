@@ -1,7 +1,5 @@
 package it.polimi.ingsw.client;
 
-
-import com.google.gson.Gson;
 import it.polimi.ingsw.client.view.ClientOut;
 
 
@@ -11,6 +9,11 @@ import java.net.Socket;
 import java.util.Objects;
 import java.util.Scanner;
 
+
+/**
+ * Class for the Client CLI.
+ */
+
 public class LineClient {
     private final static String ANSI_PRIMARY = "\u001B[36m";
     private final static String ANSI_SECONDARY = "\u001B[32m";
@@ -18,14 +21,18 @@ public class LineClient {
 
     private static ClientInput clientInput;
 
-    private static BufferedReader socketIn;
-
-    private static final Gson gson = new Gson();
     private static Scanner stdin;
     private final String ip;
     private final int port;
     private static Socket socket;
 
+
+    /**
+     * Constructor method with ip and port
+     *
+     * @param ip   ip address to connect
+     * @param port port number to connect
+     */
 
     public LineClient(String ip, int port) {
         this.ip = ip;
@@ -33,12 +40,17 @@ public class LineClient {
     }
 
 
+    /**
+     * Creates a new a connection socket to the server,
+     * creates a new BufferedReader and a PrinterWriter and sets them to the ClientOut and ClientInput.
+     * Start the game setup
+     */
     public void startClient() {
         System.out.println(ANSI_PRIMARY + "====Eriantys CLI Client====" + ANSI_RESET);
         try {
             socket = new Socket(ip, port);
             System.out.println(ANSI_SECONDARY + "Connection established" + ANSI_RESET);
-            socketIn = new BufferedReader(new InputStreamReader((socket.getInputStream())));
+            BufferedReader socketIn = new BufferedReader(new InputStreamReader((socket.getInputStream())));
             PrintWriter socketOut = new PrintWriter(socket.getOutputStream());
             stdin = new Scanner(System.in);
             ClientOut clientOut = new ClientOut(socketIn, socket);
@@ -47,7 +59,6 @@ public class LineClient {
             clientOut.start();
             initSetup();
 
-
         } catch (Exception e) {
             System.out.println("Connection refused, no server online\n" +
                     "Start a server before launching the client");
@@ -55,6 +66,9 @@ public class LineClient {
 
     }
 
+    /**
+     * Clears the console and prints player information
+     */
     public static void clearConsole() {
         try {
             if (System.getProperty("os.name").contains("Windows")) {
@@ -69,7 +83,11 @@ public class LineClient {
         clientInput.sendString("player", "");
     }
 
-    public static void stdinScan() throws IOException {
+
+    /**
+     * Reads incoming messages from the server white the connection isn't closed and executes the specified commands
+     */
+    public static void stdinScan() {
         while (!socket.isClosed()) {
             String inputLine = stdin.nextLine();
             switch (inputLine) {
@@ -86,11 +104,10 @@ public class LineClient {
                 case "player" -> clientInput.sendString("player", "");
                 case "allPlayer" -> clientInput.sendString("allPlayer", "");
                 case "quit" -> quit();
-                case "help", "h" -> printCommands();
                 case "gameInfo" -> clientInput.sendString("gameInfo", "");
                 case "singleIsland" -> sendSingleIsland();
                 case "cardsPlayed" -> sendCardsPlayed();
-                default -> clientInput.sendString(inputLine, "");
+                default -> printCommands();
 
             }
 
@@ -98,6 +115,9 @@ public class LineClient {
     }
 
 
+    /**
+     * Prints all available commands on the console
+     */
     private static void printCommands() {
         System.out.println("""
                 Available commands:
@@ -118,6 +138,9 @@ public class LineClient {
     }
 
 
+    /**
+     * Asks to create a new game or join an existing one
+     */
     public static void initSetup() {
         System.out.println("0-New Game\n" +
                 "1-Join Game");
@@ -134,6 +157,10 @@ public class LineClient {
         }
     }
 
+    /**
+     * Asks the number of player of the game and sends a message to server to start a new game.
+     * If the input value isn't 2 or 3 the default value 2 is chosen
+     */
     public static void newGame() {
         System.out.println("Starting new Game\nHow many players?");
         String value = stdin.nextLine();
@@ -143,17 +170,29 @@ public class LineClient {
         clientInput.sendString("newGame", value);
     }
 
+    /**
+     * Send a command to the server to join the selected game
+     */
     public static void joinGame() {
         clientInput.sendString("avlGames", "");
         clientInput.sendString("joinGame", stdin.nextLine());
     }
 
+    /**
+     * Asks the player a username
+     * Send a command to the server to log in with the selected username
+     */
     public static void login() throws IOException {
         System.out.print("Login\nUsername: ");
         String username = stdin.nextLine();
         clientInput.sendString("login", username);
     }
 
+
+    /**
+     * Asks the player to select an assistant cards deck
+     * Send a command to the server to select the chosen deck
+     */
     public static void chooseDeck() {
         System.out.println("Select your deck:");
         clientInput.sendString("sendAssistantDecks", "");
@@ -164,16 +203,13 @@ public class LineClient {
         }
 
         clientInput.sendString("chooseDeck", index);
-        /**
-         response = socketIn.readLine();
-         message = gson.fromJson(response, TextMessage.class);
-         if (Objects.equals(message.type, "error")) {
-         System.out.println(message.message);
-         chooseDeck();
-         } else System.out.println(message.message);
-         **/
     }
 
+    /**
+     * Prints the list of available character cards.
+     * Asks the player to select one character card to play and asks the optional values necessary to activate some card effects.
+     * Sends a command to the server to play the selected card.
+     */
     private static void playCharacterCard() {
         System.out.println("Select character card to play");
         clientInput.sendString("sendCharacterCardDeck", "");
@@ -190,45 +226,39 @@ public class LineClient {
         System.out.println("Select the color\n0-CYAN\n1-MAGENTA\n2-YELLOW\n3-RED\n4-GREEN");
         String index2;
         index2 = stdin.nextLine();
-        if (index2 == "") {
+        if (Objects.equals(index2, "")) {
             index2 = "0";
         }
         clientInput.sendString("playCharacterCard", specialCardIndex, index2);
     }
 
+
+    /**
+     * Prints the list of available assistant cards.
+     * Asks the player to select one assistant card and sends a command to the server to play the selected card.
+     */
     private static void playAssistantCard() {
         System.out.println("Select assistant card to play");
         clientInput.sendString("sendAssistantCardDeck", "");
         clientInput.sendString("playAssistantCard", stdin.nextLine());
     }
 
-    private static void sendSingleIsland(){
+    private static void sendSingleIsland() {
         System.out.println("Select an Island: ");
         clientInput.sendString("singleIsland", stdin.nextLine());
     }
 
-    private static void sendCardsPlayed(){
+
+    private static void sendCardsPlayed() {
         clientInput.sendString("cardsPlayed", "");
     }
 
-    private static void moveStudentToIsland() {
-        String indexStudent = getStudentFromHall();
-        System.out.println("Select destination island");
-        String indexIsland = stdin.nextLine();
-        //checkIslandIndex
-        while (Integer.parseInt(indexIsland) > 12 || Integer.parseInt(indexIsland) < 1) {
-            System.out.println("Input a valid index");
-            indexIsland = stdin.nextLine();
-        }
-        clientInput.sendString("moveStudentToIsland", indexStudent, indexIsland);
-    }
-
-
-    private static void moveStudentToClassroom() {
-        String indexStudent = getStudentFromHall();
-        clientInput.sendString("moveStudentToClassroom", indexStudent);
-    }
-
+    /**
+     * Print the students in the dashboard hall, asks the user to insert  the position of the selected student
+     * Check if the selected number is acceptable
+     *
+     * @return number as a string that indicates the position in the hall of the selected student
+     */
     private static String getStudentFromHall() {
         System.out.println("Select student from hall");
         clientInput.sendString("hall", "");
@@ -241,6 +271,38 @@ public class LineClient {
         return indexStudent;
     }
 
+
+    /**
+     * Sends a command to the server to move a student from the hall to an island.
+     * Gets a student from the hall, asks the user to input a number the chose the destination island and
+     * sends a message to the server wit the command moveStudentToIsland
+     */
+    private static void moveStudentToIsland() {
+        String indexStudent = getStudentFromHall();
+        System.out.println("Select destination island");
+        String indexIsland = stdin.nextLine();
+        while (Integer.parseInt(indexIsland) > 12 || Integer.parseInt(indexIsland) < 1) {
+            System.out.println("Input a valid index");
+            indexIsland = stdin.nextLine();
+        }
+        clientInput.sendString("moveStudentToIsland", indexStudent, indexIsland);
+    }
+
+
+    /**
+     * Asks the user to input a number the chose the destination island and
+     * sends a command to the server to move mother nature to the selected island
+     */
+    private static void moveStudentToClassroom() {
+        String indexStudent = getStudentFromHall();
+        clientInput.sendString("moveStudentToClassroom", indexStudent);
+    }
+
+
+    /**
+     * Gets a student from the hall
+     * Sends a command to the server to move a student from the hall to the classroom.
+     */
     private static void moveMN() {
         System.out.println("Select destination island");
         String indexIsland = stdin.nextLine();
@@ -251,6 +313,11 @@ public class LineClient {
         clientInput.sendString("moveMN", indexIsland);
     }
 
+    /**
+     * Asks the server for the list of cloud cards,
+     * asks the user to input a number the chose one cloud card and
+     * sends a command to the server to select the cloud card
+     */
     private static void chooseCC() {
         clientInput.sendString("sendCloudCards", "");
         System.out.println("Select Cloud Card");
@@ -258,7 +325,10 @@ public class LineClient {
         clientInput.sendString("chooseCC", indexCC);
     }
 
-    private static void quit(){
+    /**
+     * Sends a command to the server to quit the current game and close the connection
+     */
+    private static void quit() {
         clientInput.sendString("quit", "");
     }
 }

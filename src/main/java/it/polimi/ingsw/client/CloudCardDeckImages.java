@@ -18,12 +18,16 @@ public class CloudCardDeckImages {
     Image cc4= new Image(String.valueOf(getClass().getClassLoader().getResource("images/cloudcard/cc4.png")), false);
 
 
+    /**
+     * Adds all the cloud cards images to a map
+     */
     public CloudCardDeckImages(){
         deckCloudCard.put(0,cc1);
         deckCloudCard.put(1,cc2);
         deckCloudCard.put(2,cc3);
         deckCloudCard.put(3,cc4);
     }
+
 
     public ArrayList<Image> getCloudCardsInGame() {
         return cloudCardsInGame;
@@ -33,6 +37,9 @@ public class CloudCardDeckImages {
         return deckCloudCard.get(index);
     }
 
+    /**
+     * Chooses three random images of cloud cards to show
+     */
     public void extractRandomCloudCard() {
         ArrayList<Integer> cloudCard = getRandomNonRepeatingCC(3, 0, 3);
         for (Integer integer : cloudCard) {

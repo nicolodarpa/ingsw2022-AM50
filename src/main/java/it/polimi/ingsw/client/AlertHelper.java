@@ -11,7 +11,7 @@ import javafx.stage.Window;
 public class AlertHelper {
 
     /**
-     * Instantiates a new Alert and shows it on screen
+     * Creates a new Alert and shows it on screen
      * @param alertType the type of alert: notify, confirmation, error, waring
      * @param owner javafx window where the alert is shown
      * @param title title of the alert

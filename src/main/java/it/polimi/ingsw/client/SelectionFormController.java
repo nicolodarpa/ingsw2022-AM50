@@ -42,14 +42,25 @@ public class SelectionFormController implements Initializable {
     private Parent root;
 
 
+    /**
+     * Gets the list of available games from the server, sets a listens to the gamesList ListView
+     *
+     * @param url            The location used to resolve relative paths for the root object, or
+     *                       {@code null} if the location is not known.
+     * @param resourceBundle The resources used to localize the root object, or {@code null} if
+     *                       the root object was not localized.
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         refreshGames();
-        //Window owner = gamesList.getScene().getWindow();
-        //new AlertThread().start();
         gamesList.getSelectionModel().selectedItemProperty().addListener((observableValue, s, t1) -> selectedGame = String.valueOf(gamesList.getSelectionModel().getSelectedIndex()));
     }
 
+
+    /**
+     * Start a game for the selected number of players
+     *
+     */
     @FXML
     private void startGame(ActionEvent actionEvent) throws IOException {
         int numberOfPlayers = 0;
@@ -65,6 +76,9 @@ public class SelectionFormController implements Initializable {
     }
 
 
+    /**
+     * Sends a message to the server to join the selected game
+     */
     @FXML
     protected void joinGameButton(ActionEvent actionEvent) throws IOException {
         Window window = ((Node) actionEvent.getSource()).getScene().getWindow();
@@ -75,6 +89,11 @@ public class SelectionFormController implements Initializable {
 
     }
 
+
+    /**
+     * Send a message to the server asking for the list of available games.
+     * If the response is positive populates the gameList ListView with the available games
+     */
     @FXML
     private void refreshGames() {
         ClientInput.getInstance().sendString("avlGames", "");
@@ -90,6 +109,11 @@ public class SelectionFormController implements Initializable {
 
     }
 
+    /**
+     * Sets the login page scene
+     *
+     * @throws IOException If loading the scene an exception occurred
+     */
     private void setLoginPage(ActionEvent actionEvent) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("login.fxml"));
         Scene scene = new Scene(fxmlLoader.load());

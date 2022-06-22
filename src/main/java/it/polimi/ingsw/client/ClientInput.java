@@ -23,7 +23,7 @@ public final class ClientInput {
     private PrintWriter socketOut;
 
     /**
-     * BufferedReade used to receive messages from the server
+     * BufferedReader used to receive messages from the server
      */
     private BufferedReader socketIn;
     private final Gson gson = new Gson();
@@ -80,6 +80,10 @@ public final class ClientInput {
     }
 
 
+    /**
+     *
+     * @return socketIn, used to read messages from the server
+     */
     public BufferedReader getSocketIn() {
         return socketIn;
     }

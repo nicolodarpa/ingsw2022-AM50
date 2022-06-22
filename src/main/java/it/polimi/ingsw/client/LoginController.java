@@ -16,22 +16,37 @@ import java.io.IOException;
 import java.util.Objects;
 
 
+/**
+ * Controller for login.fxml
+ */
 public class LoginController {
 
+
+    /**
+     * Text field to input the username
+     */
     @FXML
     private TextField name_input;
 
 
-
-    public void setChoosingDeckPage(ActionEvent ae) throws IOException {
+    /**
+     * LOad and shows the scene for deck selection
+     * @param actionEvent action event of the button
+     * @throws IOException If loading the scene an exception occurred
+     */
+    public void setChoosingDeckPage(ActionEvent actionEvent) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("deck.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
-        Stage stage = (Stage) ((Node) ae.getSource()).getScene().getWindow();
+        Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         stage.setScene(scene);
         stage.show();
     }
 
 
+    /**
+     * Send a message to the server to log in with the username typed by the user.
+     * Shows an error alert if the response from the server is negative
+     */
     @FXML
     protected void submitLogin(ActionEvent actionEvent) throws IOException {
         String name = name_input.getText();
@@ -46,6 +61,11 @@ public class LoginController {
         }
     }
 
+
+    /**
+     * Load the selection form scene
+     * @throws IOException If loading the scene an exception occurred
+     */
     @FXML
     public void setSelectionFormController(ActionEvent actionEvent) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("selection_form.fxml"));
