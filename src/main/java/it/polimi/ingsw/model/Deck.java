@@ -6,13 +6,29 @@ import java.util.ArrayList;
  * Represent the deck of the assistant cards in the game
  */
 public class Deck {
+    /**
+     * Is the id of the deck.
+     */
     private final int id;
 
+    /**
+     * The color of background cards in the deck.
+     */
     private final String color;
 
 
+    /**
+     * Is the deck's owner.
+     */
     private Player player = null;
+    /**
+     * Flag that indicates if the deck it has been chosen or not.
+     */
     private boolean hasChosen;
+
+    /**
+     * The cards in the deck
+     */
     private final ArrayList<AssistantCard> cardsList = new ArrayList<>();
 
 
@@ -64,6 +80,11 @@ public class Deck {
         return cardsList;
     }
 
+    /**
+     * Return the assistant card of respective order in the deck
+     * @param order is the order of the assistant card that we want.
+     * @return the correspondence assistant card if there is in the deck, or it returns null.
+     */
     public AssistantCard getCardOrder(int order){
         for(AssistantCard c : cardsList)
             if(c.getOrder() == order)

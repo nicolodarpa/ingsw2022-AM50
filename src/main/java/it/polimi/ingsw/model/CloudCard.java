@@ -7,7 +7,14 @@ import java.util.ArrayList;
  */
 public class CloudCard {
 
+    /**
+     * The students on the cloud card
+     */
     private ArrayList<Student> students;
+
+    /**
+     * The number of students in each cloud card
+      */
     private int capacity;
 
 
@@ -27,6 +34,10 @@ public class CloudCard {
 
     }
 
+    /**
+     * Adds one student to cloud card.
+     * @param student is the student to add.
+     */
 
     public void addStudent(Student student) {
         students.add(student);

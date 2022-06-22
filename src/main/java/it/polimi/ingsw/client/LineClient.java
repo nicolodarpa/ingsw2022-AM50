@@ -107,6 +107,7 @@ public class LineClient {
                 case "gameInfo" -> clientInput.sendString("gameInfo", "");
                 case "singleIsland" -> sendSingleIsland();
                 case "cardsPlayed" -> sendCardsPlayed();
+                case "enemyDashboard" -> clientInput.sendString("enemyDashboard", "");
                 default -> printCommands();
 
             }

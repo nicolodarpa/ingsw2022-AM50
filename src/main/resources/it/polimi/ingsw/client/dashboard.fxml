@@ -335,11 +335,16 @@
             <Font size="16.0" />
          </font>
       </Label>
-      <Button fx:id="dashboardButton" layoutX="875.0" layoutY="591.0" mnemonicParsing="false" onAction="#setDashboardPlayer" prefHeight="35.0" prefWidth="193.0" text="View enemy dashboard">
+      <Button fx:id="dashboardButton1" layoutX="875.0" layoutY="591.0" mnemonicParsing="false" onAction="#setPlayerDashboardOne" prefHeight="35.0" prefWidth="213.0" text="View enemyOne dashboard">
          <font>
             <Font size="16.0" />
          </font>
       </Button>
+      <Button fx:id ="dashboardButton2" layoutX="875.0" layoutY="641.0" mnemonicParsing="false" onAction="#setPlayerDashboardTwo" prefHeight="35.0" prefWidth="213.0" text="View enemyTwo dashboard">
+      <font>
+         <Font size="16.0" />
+      </font>
+   </Button>
 
    </children>
 </Pane>

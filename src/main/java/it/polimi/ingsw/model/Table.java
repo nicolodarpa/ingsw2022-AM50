@@ -9,6 +9,9 @@ import java.util.ArrayList;
 public record Table(ArrayList<Island> islands) {
 
 
+    /**
+     * Draw all the 12 island and show the students on it.
+     */
     public void drawTable() {
         System.out.println(" Islands: ");
         for (Island i : islands) {

@@ -217,10 +217,55 @@ public class GameTest {
 
     }
 
+    @Test
+    @DisplayName("Testing the end of the match when a player finishes his towers")
+    public void endOfGameTowers(){
+        gameTest = new Game(2);
+        Student s = new Student(PawnColor.RED);
+
+        LoginManager.login("jaz", gameTest);
+        LoginManager.login("nic", gameTest);
+
+        Player p = gameTest.getPlist().getPlayers().get(0);
+        Player q = gameTest.getPlist().getPlayers().get(1);
+
+        System.out.println("p: " + p.getDashboard().getTowers().size() + "\n" + "q: " + q.getDashboard().getTowers().size());
+
+        p.getDashboard().addTeacherToTable(new Teacher(PawnColor.RED));
+
+        gameTest.getIslands().get(0).addStudent(s);
+        gameTest.getIslands().get(1).addStudent(s);
+        gameTest.getIslands().get(2).addStudent(s);
+        gameTest.getIslands().get(3).addStudent(s);
+        gameTest.getIslands().get(4).addStudent(s);
+        gameTest.getIslands().get(5).addStudent(s);
+        gameTest.getIslands().get(6).addStudent(s);
+        gameTest.getIslands().get(7).addStudent(s);
+        gameTest.getIslands().get(8).addStudent(s);
+
+        gameTest.getIslands().get(0).calcInfluence(gameTest.getPlist());
+        gameTest.getIslands().get(1).calcInfluence(gameTest.getPlist());
+        gameTest.getIslands().get(2).calcInfluence(gameTest.getPlist());
+        gameTest.getIslands().get(3).calcInfluence(gameTest.getPlist());
+        gameTest.getIslands().get(4).calcInfluence(gameTest.getPlist());
+        gameTest.getIslands().get(5).calcInfluence(gameTest.getPlist());
+        gameTest.getIslands().get(6).calcInfluence(gameTest.getPlist());
+        assertEquals(1,p.getDashboard().getTowers().size());
+        p.setMovesOfMN(12);
+
+        if(gameTest.getIslands().get(7).getPresenceMN())
+            gameTest.moveMN(p,8);
+        else
+            gameTest.moveMN(p,7);
+
+        assertEquals(0, p.getDashboard().getTowers().size());
+       assertEquals(p,gameTest.getWinner());
+    }
+
 
     @Test
-    @DisplayName("set actual player")
-    public void setActualPlayerTest() {
+    @DisplayName("set current player")
+    public void setCurrentPlayerTest() {
         gameTest = new Game(2);
         LoginManager.login("jaz", gameTest);
         LoginManager.login("nic", gameTest);

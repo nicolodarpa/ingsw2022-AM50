@@ -7,6 +7,10 @@ import javafx.scene.image.ImageView;
  * represent the pawn of the game: the students and the teachers
  */
 public abstract class Pawn {
+
+    /**
+     * The color of the pawn
+     */
     protected PawnColor color;
 
     public static final String ANSI_RESET = "\u001B[0m";

@@ -12,13 +12,18 @@ public class GameInfoStatus {
     public String round;
     public String actualPlayer;
 
+    public int numberOfPlayer;
 
-    public GameInfoStatus(int phase, Player actualPlayer, int round) {
-        if (phase == 0)
+
+
+
+    public GameInfoStatus(int phase, Player actualPlayer, int round, int numberOfPlayers){
+        if(phase == 0)
             this.phase = "Planning phase";
         else
             this.phase = "Action phase";
         this.actualPlayer = actualPlayer.getName();
         this.round = String.valueOf(round);
+        this.numberOfPlayer = numberOfPlayers;
     }
 }

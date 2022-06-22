@@ -1,6 +1,9 @@
 package it.polimi.ingsw.model.CharacterCards;
 
 
+/**
+ * Implements the special card that calculate the influence on an island even Mother Nature isn't on it. {@link SpecialCardStrategy}
+ */
 public class MotherNatureInfluenceStrategy extends SpecialCardStrategy {
 
     public MotherNatureInfluenceStrategy() {
@@ -10,6 +13,10 @@ public class MotherNatureInfluenceStrategy extends SpecialCardStrategy {
     }
 
 
+    /**
+     * Calculates the influence on a selected island.
+     * It increases the cost by 1 when the card is played.
+     */
     public void effect() {
         islands.get(index).calcInfluence(playersList);
         addCost();

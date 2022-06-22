@@ -10,7 +10,14 @@ import java.util.*;
  * This class implemented 8 of the character cards in the game.
  */
 public class SpecialDeck {
+    /**
+     * HashMap that contains all the eight special card
+     */
     private final Map<Integer, SpecialCardStrategy> deckMap = new HashMap<>();
+
+    /**
+     * ArrayList that contains only the three cards extracted in game.
+     */
     private final ArrayList<SpecialCardStrategy> specialCardsInGameStrategy = new ArrayList<>();
 
 

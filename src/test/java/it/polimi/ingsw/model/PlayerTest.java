@@ -95,19 +95,6 @@ public class PlayerTest{
         //p1.playSpecialCard(gameTest, 2);
     }
 
-    @Test
-    public void changeStudentTest(){
-        Game gameTest = new Game(2);
-
-        LoginManager.login("ale",gameTest);
-        LoginManager.login("nic",gameTest);
-
-        Player p1 = gameTest.getPlist().getPlayerByName("ale");
-        p1.getDashboard().addStudentToClassroom(new Student(PawnColor.RED));
-        p1.getDashboard().drawDashboard();
-        p1.changeStudent(PawnColor.RED, 6);
-        p1.getDashboard().drawDashboard();
-    }
 
     @Test
     public void sendToClientTest(){

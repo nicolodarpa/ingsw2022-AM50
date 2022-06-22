@@ -22,6 +22,10 @@ public class Player {
      * Indicates the player's username
      */
     private final String name;
+
+    /**
+     * Is the socket of the client
+     */
     private Socket socket;
     private PrintWriter out;
 
@@ -38,25 +42,64 @@ public class Player {
      * Indicates the player's available moves of student in the action phase, it's set based of the number of players in the game
      */
     private int movesOfStudents = MOVES;
+
+    /**
+     * Is the player's wallet that contains all his coins. {@link Wallet}
+     */
     private final Wallet wallet = new Wallet();
+
+    /**
+     * The player's dashboard.{@link Dashboard}
+     */
     private Dashboard dashboard = new Dashboard();
+
+    /**
+     * The player's deck.{@link Deck}
+     */
     private Deck deck;
+
+    /**
+     * The player's influence point on a selected island, it set to 0 by default.
+     */
     private int influencePoint = 0;
 
+    /**
+     * Boolean flag that says if the player has played in planning phase or in action phase.
+     */
     private boolean hasPlayed = false;
 
+    /**
+     * It is the last assistant card that players played.
+     */
     private int lastPlayedAC = 0;
 
+    /**
+     * Boolean flag that it uses when the player play the special card that change the assignment of the teacher.
+     * It is set to false by default, and it is changed when the player play that special card.
+     */
     private boolean teacherAssignerModifier = false;
 
 
+    /**
+     * Contains all the assistant card order tha player played.
+     */
     private final ArrayList<Integer> assistantCardsPlayed = new ArrayList<>();
 
+    /**
+     * It sets the name and also the initial value of coins in wallet.
+     * @param name is the player's name
+     */
     public Player(String name) {
         this.name = name;
         wallet.setCoins(1);
     }
 
+
+    /**
+     * It sets the name, the client socket and also the initial value of coins in wallet.
+     * @param name is the player's name
+     * @param socket is the client's socket
+     */
     public Player(String name, Socket socket) {
         this.name = name;
         this.socket = socket;
@@ -83,14 +126,25 @@ public class Player {
         return wallet;
     }
 
+    /**
+     * Adds coins to player's wallet.
+     * @param coin is the number of coins to add.
+     */
     public void addCoin(int coin) {
         wallet.addCoins(coin);
     }
 
+    /**
+     * Removes coins when player spend it.
+     * @param coin is the number of coins to remove.
+     */
     public void spendCoins(int coin) {
         wallet.removeCoins(coin);
     }
 
+    /**
+     * Resets the moves of student when player has finished his turn in action phase.
+     */
     public void resetMovesOfStudents() {
         movesOfStudents = MOVES;
     }
@@ -116,6 +170,10 @@ public class Player {
     }
 
 
+    /**
+     * Moves 7 or 9 students from bag to player's hall.
+     * @param bag is the StudentBag where it takes the students.
+     */
     public void moveStudentsToHall(StudentsBag bag) {
         for (int i = 0; i < getDashboard().getHall().length; i++) {
             Student student = bag.casualExtraction();
@@ -127,6 +185,9 @@ public class Player {
         return name;
     }
 
+    /**
+     * @return the default socket.
+     */
     public Socket getSocket() {
         if (socket == null) {
             try {
@@ -180,6 +241,12 @@ public class Player {
         this.hasPlayed = h;
     }
 
+
+    /**
+     * Send to client a message parametrized by the type and the object.
+     * @param type is the message's type (<code>msg</code>, <code>error</code>, <code>notify</code> ...
+     * @param message is a string that contains the message.
+     */
     public void sendToClient(String type, Object message) {
         try {
             TextMessage text = new TextMessage(type, (String) message);
@@ -232,7 +299,7 @@ public class Player {
                 AssistantCard cardToPlay = deck.getCardOrder(cardOrder);
                 assistantCardsPlayed.add(cardOrder);
                 order = cardToPlay.order();
-                movesOfMN = cardToPlay.movesOfMN();
+                movesOfMN += cardToPlay.movesOfMN();
                 deck.getCardsList().remove(cardToPlay);
                 sendToClient("msg", "played card " + cardOrder + "\nvalue: " + order + "\nmoves of MN available: " + movesOfMN);
                 this.hasPlayed = true;
@@ -279,6 +346,16 @@ public class Player {
     }
 
 
+    /**
+     * The player choose based on the position of the student from the DashboardHall which one to move to the selected Island
+     *
+     * @param index   indicate the index of island where we want to move the student
+     * @param position indicate the position of the student in the DashboardHall
+     * @param game is the game the player is playing.
+     *
+     *catch a new Exception when the player select a null position or an invalid island's index
+     *
+     */
     public boolean moveStudentToIsland(int position, int index, Game game) {
         try {
             if (dashboard.getHall()[position] != null && movesOfStudents > 0) {
@@ -315,31 +392,9 @@ public class Player {
                 return false;
             }
         } catch (Exception e) {
-            System.out.println(e);
             return false;
         }
     }
-
-    /**
-     * switch the position of a student in the hall and a student in the classroom
-     *
-     * @param studentColor is the color of the student in the classroom
-     * @param pos_hall     is the position of the student in the hall
-     */
-    public void changeStudent(PawnColor studentColor, int pos_hall) {
-        Student studentFromClassroom = dashboard.getStudentFromClassroom(studentColor);
-        Student studentFromHall = dashboard.getStudentFromHall(pos_hall);
-        try {
-            if (studentFromClassroom != null) {
-                dashboard.addStudentToClassroom(studentFromHall);
-                dashboard.addStudentToHall(studentFromClassroom);
-            }
-        } catch (Exception ignored) {
-
-        }
-
-    }
-
 
 }
 

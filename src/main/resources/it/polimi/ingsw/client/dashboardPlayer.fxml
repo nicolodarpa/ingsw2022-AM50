@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -8,7 +9,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<Pane fx:id="anchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.DashboardEnemyController">
+<Pane fx:id="anchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
     <children>
         <ImageView fitHeight="215.0" fitWidth="500.0" layoutX="50.0" layoutY="92.0" pickOnBounds="true" preserveRatio="true" />
         <ImageView fitHeight="215.0" fitWidth="500.0" layoutX="50.0" layoutY="92.0">
@@ -16,14 +17,14 @@
                 <Image url="@../../../../assets/Plancia_DEF2.png" />
             </image>
         </ImageView>
-        <Circle fx:id="studentPosition1" fill="#1f93ff04" layoutX="105.0" layoutY="128.0"  radius="10.0" strokeType="INSIDE" />
-        <Circle fx:id="studentPosition2" fill="#1f93ff04" layoutX="76.0" layoutY="165.0"  radius="10.0" strokeType="INSIDE" />
-        <Circle fx:id="studentPosition3" fill="#1f93ff04" layoutX="105.0" layoutY="163.0"  radius="10.0" strokeType="INSIDE" />
-        <Circle fx:id="studentPosition4" fill="#1f93ff04" layoutX="76.0" layoutY="199.0"  radius="10.0" strokeType="INSIDE" />
-        <Circle fx:id="studentPosition5" fill="#1f93ff04" layoutX="105.0" layoutY="199.0"  radius="10.0" strokeType="INSIDE" />
-        <Circle fx:id="studentPosition6" fill="#1f93ff04" layoutX="76.0" layoutY="234.0"  radius="10.0" strokeType="INSIDE" />
-        <Circle fx:id="studentPosition7" fill="#1f93ff04" layoutX="105.0" layoutY="234.0"  radius="10.0" strokeType="INSIDE" />
-        <Circle fx:id="studentPosition8" disable="true" fill="#1f93ff04" layoutX="76.0" layoutY="269.0"  radius="10.0" stroke="#e5e5e500" strokeType="INSIDE" />
+        <Circle fx:id="studentPosition1" fill="#1f93ff04" layoutX="105.0" layoutY="128.0" radius="10.0" strokeType="INSIDE" />
+        <Circle fx:id="studentPosition2" fill="#1f93ff04" layoutX="76.0" layoutY="165.0" radius="10.0" strokeType="INSIDE" />
+        <Circle fx:id="studentPosition3" fill="#1f93ff04" layoutX="105.0" layoutY="163.0" radius="10.0" strokeType="INSIDE" />
+        <Circle fx:id="studentPosition4" fill="#1f93ff04" layoutX="76.0" layoutY="199.0" radius="10.0" strokeType="INSIDE" />
+        <Circle fx:id="studentPosition5" fill="#1f93ff04" layoutX="105.0" layoutY="199.0" radius="10.0" strokeType="INSIDE" />
+        <Circle fx:id="studentPosition6" fill="#1f93ff04" layoutX="76.0" layoutY="234.0" radius="10.0" strokeType="INSIDE" />
+        <Circle fx:id="studentPosition7" fill="#1f93ff04" layoutX="105.0" layoutY="234.0" radius="10.0" strokeType="INSIDE" />
+        <Circle fx:id="studentPosition8" disable="true" fill="#1f93ff04" layoutX="76.0" layoutY="269.0" radius="10.0" stroke="#e5e5e500" strokeType="INSIDE" />
         <Circle fx:id="studentPosition9" disable="true" fill="#1f93ff04" layoutX="106.0" layoutY="269.0" radius="10.0" stroke="#e5e5e500" strokeType="INSIDE" />
         <ImageView fx:id="towerPosition1" fitHeight="50.0" fitWidth="28.0" layoutX="455.0" layoutY="109.0">
         </ImageView>
@@ -104,12 +105,11 @@
         <Circle fx:id="cyanPosition8" fill="DODGERBLUE" layoutX="322.0" layoutY="271.0" radius="12.0" strokeType="INSIDE" />
         <Circle fx:id="cyanPosition9" fill="DODGERBLUE" layoutX="346.0" layoutY="271.0" radius="12.0" strokeType="INSIDE" />
         <Circle fx:id="cyanPosition10" fill="DODGERBLUE" layoutX="370.0" layoutY="271.0" radius="12.0" strokeType="INSIDE" />
-        <Rectangle fx:id="classRoom" arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="215.0" layoutX="136.0" layoutY="94.0"  stroke="TRANSPARENT" strokeType="INSIDE" width="253.0" />
+        <Rectangle fx:id="classRoom" arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="215.0" layoutX="136.0" layoutY="94.0" stroke="TRANSPARENT" strokeType="INSIDE" width="253.0" />
         <Label fx:id="username" layoutX="15.0" layoutY="10.0" text="Username: ">
             <font>
                 <Font size="16.0" />
             </font>
         </Label>
-
     </children>
 </Pane>

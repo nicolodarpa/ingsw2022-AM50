@@ -58,7 +58,7 @@ public class TeacherAssignmentStrategyTest {
         TeacherAssignmentStrategy card = new TeacherAssignmentStrategy();
         Player player_one = gameTest.getPlist().getPlayers().get(0);
         Player player_two = gameTest.getPlist().getPlayers().get(1);
-        card.setActualPlayer(player_one);
+        card.setCurrentPlayer(player_one);
         player_two.getDashboard().addStudentToClassroom(new Student(PawnColor.RED));
         player_one.getDashboard().addStudentToClassroom(new Student(PawnColor.RED));
         gameTest.assignTeacher();
@@ -83,7 +83,7 @@ public class TeacherAssignmentStrategyTest {
         Player player_one = gameTest.getPlist().getPlayers().get(0);
         Player player_two = gameTest.getPlist().getPlayers().get(1);
         Player player_three = gameTest.getPlist().getPlayers().get(2);
-        card.setActualPlayer(player_one);
+        card.setCurrentPlayer(player_one);
         player_two.getDashboard().addStudentToClassroom(new Student(PawnColor.RED));
         gameTest.assignTeacher();
         player_one.getDashboard().addStudentToClassroom(new Student(PawnColor.RED));

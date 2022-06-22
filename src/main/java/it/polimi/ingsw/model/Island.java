@@ -28,6 +28,8 @@ public class Island {
     private boolean block = false;
     private int towerMultiplier = 1;
 
+    private boolean towerFinished = false;
+
     public void setPresenceMN(boolean presenceMN) {
         this.presenceMN = presenceMN;
     }
@@ -165,24 +167,63 @@ public class Island {
     }
 
 
+    /**
+     * It takes one tower from the owner's dashboard, then it checks that he has towers available, and it adds the tower to the island.
+     * If the player hasn't towers available it calls towerFinished and set towerFinished true.
+     */
     public void addTower() {
         try {
             final Dashboard ownerDashboard = owner.getDashboard();
             final int size = ownerDashboard.getTowers().size();
-            Tower ownerTower = ownerDashboard.getTowers().get(size - 1); // takes the last tower of the towersList
-            ownerDashboard.removeTower(size-1);
-            addTowerToIsland(ownerTower);
+            if(size != 1){
+                Tower ownerTower = ownerDashboard.getTowers().get(size - 1); // takes the last tower of the towersList
+                ownerDashboard.removeTower(size-1);
+                addTowerToIsland(ownerTower);
+            }
+            else{
+                towerFinished();
+                Tower ownerTower = ownerDashboard.getTowers().get(0); // takes the last tower of the towersList
+                ownerDashboard.removeTower(0);
+                addTowerToIsland(ownerTower);
+            }
+
+
         } catch (Exception e) {
             System.out.println("Tower not available");
         }
     }
 
+    /**
+     * It set true if one player finished his tower.
+     */
+    public void towerFinished(){
+        this.towerFinished = true;
+    }
 
+
+    /**
+     * @return true if one player finished his tower.
+     */
+    public boolean getTowerFinished(){
+        return towerFinished;
+    }
+
+
+    /**
+     * Adds one tower to the island.
+     * @param tower is the tower to add.
+     */
     public void addTowerToIsland(Tower tower) {
         towerColor = tower.getColor();
         towerArrayList.add(tower);
     }
 
+    /**
+     * Calculates the influence of each player on the considered island
+     * The influence depends on the number of students of one color and also the towers on the island.
+     * towerMultiplier is 1 in normal condition and is 0 when a player play a special card that changes the influence of the towers on the island.
+     * @param players are the players in game.
+     */
 
     public void calcInfluence(PlayersList players) {
         int towerInfluencePoint = 0;
@@ -205,6 +246,10 @@ public class Island {
             p.setInfluencePoint(0);
     }
 
+    /**
+     * Sets the point of influence of the player considered.
+     * @param p is the player that we are considering.
+     */
     private void setInfluencePoints(Player p) {
         int[] colorStudent = new int[PawnColor.numberOfColors];
         Dashboard dashboardTemp = p.getDashboard();
@@ -216,6 +261,10 @@ public class Island {
         p.setInfluencePoint(IntStream.of(colorStudent).sum());
     }
 
+    /**
+     * Calculates the points of influence of each player, then it assigns the island to respective owner and in that case it adds a tower from owner's dashboard to island.
+     * @param playersList are the players in game.
+     */
     private void calcInfluencePoints(PlayersList playersList) {
         if (playersList.getPlayers().size() == 2) {
             Player p1 = playersList.getPlayers().get(0);
@@ -270,11 +319,16 @@ public class Island {
     }
 
 
-
+    /**
+     * Adds Mother Nature to island.
+     */
     public void addMotherNature() {
         presenceMN = true;
     }
 
+    /**
+     * @return if the island is the opposite one to the island with Mother Nature.
+     */
     public boolean getOppositeMN() {
         return oppositeMN;
     }

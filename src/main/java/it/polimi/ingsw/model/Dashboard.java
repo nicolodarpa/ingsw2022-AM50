@@ -13,11 +13,32 @@ import java.util.ArrayList;
  * HallCapacity indicates how many students can there be in hall.
  */
 public class Dashboard {
+    /**
+     * Represents the classroom of students in the dashboard with a matrix of 5 row and 10 columns.
+     */
     private Student[][] classroom = new Student[5][10];
+
+    /**
+     * Represents the hall in the dashboard with an array.
+     */
     private Student[] hall;
+
+    /**
+     * Represents the teacherTable in the dashboard with an array of 5 position.
+     */
     private Teacher[] teacherTable = new Teacher[5];
+
+    /**
+     * Represents the position of the towers in the dashboard with an array list.
+     */
     private ArrayList<Tower> towers = new ArrayList<>();
+
+
     private boolean[][] coinPos = new boolean[5][10];
+
+    /**
+     * Is the number of students in the hall.
+     */
     private int hallCapacity;
 
 
@@ -40,6 +61,9 @@ public class Dashboard {
     }
 
 
+    /**
+     * Dashboard's constructor that sets the special position of the coins in the classroom.
+     */
     public Dashboard() {
         setCoinPos();
     }
@@ -56,8 +80,9 @@ public class Dashboard {
     }
 
 
-
-
+    /**
+     * Draws the dashboard, it draws a student, teacher or tower if they aren't null. If one of this previous element is null, it draws "^^^" instead.
+     */
     public void drawDashboard() {
         System.out.print("Hall: ");
         for (Student student : hall) {
@@ -126,6 +151,10 @@ public class Dashboard {
         return null;
     }
 
+    /**
+     * Adds one student to tha dashboard's hall.
+     * @param student is one to add to the hall.
+     */
     public void addStudentToHall(Student student) {
         for (int i = 0; i < hallCapacity; i++) {
             if (hall[i] == null) {
@@ -234,6 +263,10 @@ public class Dashboard {
 
     }
 
+    /**
+     * Removes one teacher from the teacher Table.
+     * @param indexOfTeacher is the position of the teacher in teacherTable
+     */
     public void removeTeacherFromTable(Teacher indexOfTeacher) {
         teacherTable[indexOfTeacher.getColor().ordinal()] = null;
     }

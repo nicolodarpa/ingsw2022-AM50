@@ -9,16 +9,7 @@ import java.io.IOException;
 import java.util.*;
 
 /**
- * Game contains all the methods that implements the match
- * <p>
- * Implemented methods allows to do the following operation:
- * <ul>
- *     <li>addPlayer add a new player to the match</li>
- *     <li>moveStudentsToHall move the students from the Entrance to the hall of the dashboard</li>
- *     <li>setupGame start a new game</li>
- *     <li>checkPlayer check that there is the correct number of players to start a new match or print that the game is waiting new players</li>
- * </ul>
- * </p>
+ * Game contains all the methods that implements the match and all objects that models the game.
  *
  * @author Nicolò D'Arpa, Zarlene Justrem De Mesa, Alessandro Costantini
  * @since 1.0
@@ -267,6 +258,22 @@ public class Game {
         return gson.toJson(statusList);
     }
 
+
+    /**
+     * Sends to client a JSON formatted string with the status of the enemy's dashboard in game.
+     * @param player is the player's client who received the formatted string.
+     * @return a JSON formatted as a string.
+     */
+    public String sendEnemyDashboard(Player player){
+        ArrayList<EnemyDashboardStatus> statusList = new ArrayList<>();
+        for (Player p : plist.getPlayers()) {
+            if(!Objects.equals(p.getName(), player.getName()))
+                statusList.add(new EnemyDashboardStatus(p.getName(), p.getDashboard()));
+        }
+        Gson gson = new Gson();
+        return gson.toJson(statusList);
+    }
+
     /**
      * Sends to client a JSON formatted string with the status of the player's dashboard in game.
      * @param player is the player's client who received the formatted string.
@@ -336,7 +343,7 @@ public class Game {
      */
     public String sendGameInfo() {
         ArrayList<GameInfoStatus> gameInfoStatuses = new ArrayList<>();
-        gameInfoStatuses.add(new GameInfoStatus(phase, currentPlayer, round));
+        gameInfoStatuses.add(new GameInfoStatus(phase, currentPlayer, round, numberOfPlayers));
         Gson gson = new Gson();
         return gson.toJson(gameInfoStatuses);
     }
@@ -404,7 +411,7 @@ public class Game {
      * @param destinationIslandIndex is the index of the motherNature's destination island.
      * @return true or false, respectively if mother nature can be moved to the selected destination island or not.
      */
-    public boolean moveMN(Player player, int destinationIslandIndex) {
+    public boolean moveMN(Player player, int destinationIslandIndex){
         int playerMovesOfMN = player.getMovesOfMN();
         int islandWithMNIndex = getIslandWithMNIndex();
         int moves = destinationIslandIndex - islandWithMNIndex;
@@ -425,6 +432,13 @@ public class Game {
                 return true;
             } else {
                 islandWithMN.calcInfluence(plist);
+                if(islandWithMN.getTowerFinished()) {
+                    try {
+                        calculateWinner();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
                 player.setMovesOfMN(0);
             }
             connectIsland();
@@ -517,7 +531,12 @@ public class Game {
         /* if there are only 3 groups of islands the game has to finish */
         if (islands.size() < 4) {
             plist.notifyAllClients("notify", "the game has finished");
-            calculateWinner();
+            try {
+                calculateWinner();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
         }
 
 
@@ -612,6 +631,9 @@ public class Game {
     }
 
 
+    /**
+     * Assigns the towers to each player at the beginning of a match.
+     */
     public void assignTower() {
         int i = 0;
         if (numberOfPlayers == 2) {
@@ -643,7 +665,7 @@ public class Game {
         if (round == 1 && phase == 0) {
             for (Player p : plist.getPlayers()) {
                 if (!p.getHasPlayed()) {
-                    p.sendToClient("notify", "Your turn started");
+                    p.sendToClient("notify", "Your turn started, play an assistant card");
                     this.currentPlayer = p;
                     System.out.println(currentPlayer.getName() + " turn");
                     return;
@@ -696,7 +718,11 @@ public class Game {
             phase = 0;
             round++;
             if (studentsBag.endOfStudents()) {
-                calculateWinner();
+                try {
+                    calculateWinner();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
         setCurrentPlayer();
@@ -818,7 +844,11 @@ public class Game {
         setCurrentPlayer();
         if (player.deckSize()) { //return 1 if the player has finished his cards
             plist.notifyAllClients("notify", "the game has finished");
-            calculateWinner();
+            try {
+                calculateWinner();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
 
 
@@ -850,7 +880,7 @@ public class Game {
     /**
      * Calculate the winner of the match by counting which player has the most towers on the islands and sends a message to the winner.
      */
-    private void calculateWinner() {
+    private void calculateWinner() throws IOException {
         int towerNumber = 8;
         for (Player p : plist.getPlayers()) {
             if (p.getDashboard().getTowers().size() < towerNumber) {
@@ -867,8 +897,21 @@ public class Game {
             System.out.println("Draw");
             plist.notifyAllClients("msg", "It's a draw!");
         }
+       try {
+           endOfGame();
+       }catch (Exception e){
+           System.out.println("No connection");
+       }
 
+    }
 
+    /**
+     * It removes all the player at the end of the match and closes their sockets.
+     */
+    private void endOfGame(){
+        for(Player p : plist.getPlayers()){
+            removePlayer(p);
+        }
     }
 
     public void notifyAllClients(String type, String message){

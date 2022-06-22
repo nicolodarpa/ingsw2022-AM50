@@ -101,6 +101,7 @@ public class ClientOut extends Thread {
         commandHashMap.put("quit", this::quit);
         commandHashMap.put("gameInfo", this::printGameInfo);
         commandHashMap.put("cardsPlayed", this::printCardsPlayed);
+        commandHashMap.put("enemyDashboard", this::printDashboard);
     }
 
 
@@ -226,13 +227,8 @@ public class ClientOut extends Thread {
                 }
                 case "login" -> LineClient.chooseDeck();
                 case "chooseDeck" -> {
-                    try {
-                        LineClient.stdinScan();
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
+                    LineClient.stdinScan();
                 }
-
             }
         });
 

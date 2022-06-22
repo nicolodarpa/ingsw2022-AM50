@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model.CharacterCards;
 
 /**
- * implements the character card that adds 2 more available moves of MN to a player
+ * implements the character card that adds 2 more available moves of MN to a player {@link SpecialCardStrategy}
  */
 public class AddMoveMNStrategy extends SpecialCardStrategy {
 
@@ -16,9 +16,13 @@ public class AddMoveMNStrategy extends SpecialCardStrategy {
         setName("merchant");
     }
 
+    /**
+     * It sets 2 more available moves of MN to the player.
+     * It increases the cost by 1 when the card is played
+     */
     public void effect() {
-        int moveAvailable = actualPlayer.getMovesOfMN() + 2;
-        actualPlayer.setMovesOfMN(moveAvailable);
+        int moveAvailable = currentPlayer.getMovesOfMN() + 2;
+        currentPlayer.setMovesOfMN(moveAvailable);
         addCost();
     }
 

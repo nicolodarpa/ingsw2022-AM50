@@ -10,26 +10,65 @@ import java.util.ArrayList;
 
 public abstract class SpecialCardStrategy {
 
+    /**
+     * It is the number of usages of the card.
+     */
     int usages = 0;
 
+    /**
+     * The list of players in game.
+     */
     PlayersList playersList;
+
+    /**
+     * The list of islands in game.
+     */
     ArrayList<Island> islands;
 
+    /**
+     * It is the index of a selected island in some special cards.
+     */
     int index;
+
+    /**
+     * It is a selected color in some special cards.
+     */
     PawnColor pawnColor;
 
-    Player actualPlayer;
+    /**
+     * It is the current player in game.
+     */
+    Player currentPlayer;
 
+    /**
+     * The students bag of the game.
+     */
     StudentsBag bag;
+
+    /**
+     * The cost of the special card.
+     */
     int cost;
+
+    /**
+     * The effect of the card.
+     */
     String effectOfTheCard;
 
+    /**
+     * The name of the special card.
+     */
     String name;
 
 
+    /**
+     * The method that implements the effect of each special card.
+     */
     public abstract void effect();
 
-
+    /**
+     * It increases the cost by 1 when the card is played.
+     */
     public void addCost() {
         if (usages == 0) {
             cost++;
@@ -69,8 +108,8 @@ public abstract class SpecialCardStrategy {
         this.pawnColor = pawnColor;
     }
 
-    public void setActualPlayer(Player actualPlayer) {
-        this.actualPlayer = actualPlayer;
+    public void setCurrentPlayer(Player currentPlayer) {
+        this.currentPlayer = currentPlayer;
     }
 
     public void setIndex(int index) {
@@ -85,11 +124,20 @@ public abstract class SpecialCardStrategy {
         this.bag = bag;
     }
 
-    public void update(PlayersList playersList, Player actualPlayer , ArrayList<Island> islands, PawnColor pawnColor, int index, StudentsBag bag){
+    /**
+     * Sets the current state of the game.
+     * @param playersList are the players in game.
+     * @param currentPlayer are the current player in game.
+     * @param islands are the islands in game.
+     * @param pawnColor is the color considered.
+     * @param index is the index of island considered.
+     * @param bag is the studentsBag in game.
+     */
+    public void update(PlayersList playersList, Player currentPlayer , ArrayList<Island> islands, PawnColor pawnColor, int index, StudentsBag bag){
         setIslands(islands);
         setPlayersList(playersList);
         setPawnColor(pawnColor);
-        setActualPlayer(actualPlayer);
+        setCurrentPlayer(currentPlayer);
         setIndex(index);
         setBag(bag);
     }

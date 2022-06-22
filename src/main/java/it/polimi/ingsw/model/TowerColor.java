@@ -7,6 +7,9 @@ package it.polimi.ingsw.model;
 public enum TowerColor {
     white("white"),black("black"),grey("grey");
 
+    /**
+     * Is the name of tower color.
+     */
     private final String name;
 
     TowerColor(String name){

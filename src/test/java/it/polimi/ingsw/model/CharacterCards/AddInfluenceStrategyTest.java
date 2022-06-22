@@ -56,7 +56,7 @@ public class AddInfluenceStrategyTest {
         Player player = new Player("ale");
         assertEquals(0,player.getInfluencePoint());
         AddInfluenceStrategy card = new AddInfluenceStrategy();
-        card.setActualPlayer(player);
+        card.setCurrentPlayer(player);
         card.effect();
         assertEquals(2,player.getInfluencePoint());
     }

@@ -8,7 +8,11 @@ import java.util.Random;
  */
 public class StudentsBag {
 
+    /**
+     * It contains all the students in the vag
+     */
     private final ArrayList<Student> bag = new ArrayList<>();
+
     private final PawnColor[] colors = {PawnColor.CYAN,PawnColor.MAGENTA,PawnColor.YELLOW,PawnColor.RED,PawnColor.GREEN } ;
 
     public ArrayList<Student> getBag() {
@@ -26,6 +30,9 @@ public class StudentsBag {
         }
     }
 
+    /**
+     * Extracts randomly one student from the bag.
+     */
     public Student casualExtraction(){
         Random random = new Random();
         Student randomStudent = bag.get(random.nextInt(bag.size()));
@@ -33,15 +40,25 @@ public class StudentsBag {
         return randomStudent;
     }
 
+    /**
+     * Adds one student to bag.
+     */
     public void addStudent(Student student){
         bag.add(student);
     }
 
 
+    /**
+     * @return the number of students in the bag
+     */
     public int getNum(){
         return bag.size();
     }
 
+
+    /**
+     * @return true if there aren't any students in the bag
+     */
     public boolean endOfStudents(){
         return bag.size() == 0;
     }

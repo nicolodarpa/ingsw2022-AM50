@@ -5,8 +5,15 @@ package it.polimi.ingsw.model;
  * It contains the coins of each player
  */
 public class Wallet {
+
+    /**
+     * The number of coins contain by wallet.
+     */
     private  int coins;
 
+    /**
+     * Set the coins at 1 by default.
+     */
     public Wallet() {
         this.coins = 1;
     }

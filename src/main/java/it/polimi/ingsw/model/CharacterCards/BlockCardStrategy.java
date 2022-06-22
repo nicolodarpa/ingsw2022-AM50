@@ -2,8 +2,14 @@ package it.polimi.ingsw.model.CharacterCards;
 
 import it.polimi.ingsw.model.Island;
 
+/**
+ * Implements the special card that blocks an island from the passage of mother nature. {@link SpecialCardStrategy}
+ */
 public class BlockCardStrategy extends SpecialCardStrategy {
 
+    /**
+     * It's the number of block cards that there is in game.
+     */
     private int availableBlockCards;
 
     private Island previousIsland = null;
@@ -36,6 +42,6 @@ public class BlockCardStrategy extends SpecialCardStrategy {
             previousIsland = islands.get(index);
             availableBlockCards--;
             addCost();
-        } else actualPlayer.sendToClient("error","Every block card is already in use");
+        } else currentPlayer.sendToClient("error","Every block card is already in use");
     }
 }

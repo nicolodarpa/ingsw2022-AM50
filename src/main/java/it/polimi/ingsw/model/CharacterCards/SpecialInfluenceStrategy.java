@@ -1,13 +1,17 @@
 package it.polimi.ingsw.model.CharacterCards;
 
-import java.util.Scanner;
 
+/**
+ * Implements the special card that allows to don't consider a selected pawn color on a calculation of influence.
+ */
 public class SpecialInfluenceStrategy extends SpecialCardStrategy {
 
 
 
     /**
      * It's the character card's constructor. It sets the cost, the effect and the name of the card
+     * {@link SpecialCardStrategy}
+     * {@link it.polimi.ingsw.model.PawnColor}
      */
     public SpecialInfluenceStrategy() {
         setCost(3);
