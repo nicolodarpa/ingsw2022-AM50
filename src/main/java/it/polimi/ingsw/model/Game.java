@@ -187,8 +187,18 @@ public class Game {
         assignTower();
         moveStudentsToHall();
         extractSpecialCard();
+        setUpOrderOfPlayers();
         this.round = 1;
         System.out.println("Setup complete");
+    }
+
+    /**
+     * Set at the beginning of the game the order of the players to 0.
+     */
+    private void setUpOrderOfPlayers(){
+        for (Player player: plist.getPlayers()){
+            player.setOrder(0);
+        }
     }
 
     /**

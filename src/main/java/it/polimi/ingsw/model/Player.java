@@ -106,6 +106,10 @@ public class Player {
         wallet.setCoins(1);
     }
 
+    public void setOrder(int order) {
+        this.order = order;
+    }
+
     public Dashboard getDashboard() {
         return dashboard;
     }

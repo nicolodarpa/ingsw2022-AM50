@@ -176,7 +176,7 @@ public class DashboardController implements Initializable, DisplayLabel {
     private Button info11 = new Button();
 
 
-    private int index, indexIsland, indexMN;
+    private int index=-1, indexIsland, indexMN;
     private int indexCloudCard = -1;
 
     /**
@@ -829,7 +829,7 @@ public class DashboardController implements Initializable, DisplayLabel {
      * @param numberOfIslands give us the number of islands.
      */
     private void setUpStudentsOnTheIsland(ArrayList<Integer> studentsOrdinal, int idIsland, int numberOfIslands) {
-        int j = numberOfIslands;
+        int j;
         resetStudentsOnTheIsland(idIsland);
 
         for (Integer studentColor : studentsOrdinal) {
@@ -837,9 +837,10 @@ public class DashboardController implements Initializable, DisplayLabel {
             studentsInEachIsland.get(studentColor).get(idIsland).setFill(new ImagePattern(pawStudent));
         }
 
-        for (Integer studentColor : studentsOrdinal) {
-            while (j < studentsInEachIsland.get(studentColor).size()) {
-                studentsInEachIsland.get(studentColor).get(j).setFill(null);
+        for (PawnColor studentColor : PawnColor.values()) {
+            j = numberOfIslands;
+            while (j < studentsInEachIsland.get(studentColor.ordinal()).size()) {
+                studentsInEachIsland.get(studentColor.ordinal()).get(j).setFill(null);
                 j++;
             }
         }
@@ -882,6 +883,7 @@ public class DashboardController implements Initializable, DisplayLabel {
      */
 
     public void setUpTowerOnTheIsland(int idIsland, String towerColor, int towerNumber) {
+        resetTowerOnTheIsland(idIsland);
 
         int j = idIsland;
 
@@ -896,6 +898,15 @@ public class DashboardController implements Initializable, DisplayLabel {
             j++;
         }
 
+    }
+
+    /**
+     * reset the image of the tower on the island considerated.
+     * @param idIsland  gives us the index of the island that we are considering.
+     */
+
+    public void resetTowerOnTheIsland(int idIsland){
+        towerIslands.get(idIsland).setImage(null);
     }
 
     @FXML
@@ -1109,7 +1120,7 @@ public class DashboardController implements Initializable, DisplayLabel {
      */
     @FXML
     public void sendMoveToIslandCommand() {
-        ClientInput.getInstance().sendString("moveStudentToIsland", String.valueOf(index + 1), String.valueOf(indexIsland + 1));
+        clientInput.sendString("moveStudentToIsland", String.valueOf(index + 1), String.valueOf(indexIsland + 1));
         refreshGUI();
     }
 
@@ -1181,7 +1192,7 @@ public class DashboardController implements Initializable, DisplayLabel {
 
 
     @FXML
-    private void setCharacterCardsPage(ActionEvent actionEvent) throws IOException {
+    private void setCharacterCardsPage() throws IOException {
         clientInput.sendString("sendCharacterCardDeck", "");
         CharacterCardsController controller = new CharacterCardsController();
         controller.setCards(characterCardList);
