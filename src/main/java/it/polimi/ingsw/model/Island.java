@@ -225,7 +225,7 @@ public class Island {
      * @param players are the players in game.
      */
 
-    public void calcInfluence(PlayersList players) {
+    public void calculateInfluence(PlayersList players) {
         int towerInfluencePoint = 0;
 
         /* set influence point */
@@ -258,7 +258,7 @@ public class Island {
                 colorStudent[i] = countStudentOfAColor(dashboardTemp.getTeacherTable()[i].getColor())*PawnColor.values()[i].getInfluenceMultiplier();
             }
         }
-        p.setInfluencePoint(IntStream.of(colorStudent).sum());
+        p.setInfluencePoint(p.getInfluencePoint() + IntStream.of(colorStudent).sum());
     }
 
     /**

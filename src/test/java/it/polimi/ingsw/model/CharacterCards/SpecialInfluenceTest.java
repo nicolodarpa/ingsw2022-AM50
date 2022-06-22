@@ -14,25 +14,24 @@ class SpecialInfluenceTest {
         LoginManager.login("ale", gameTest);
         LoginManager.login("nic", gameTest);
         LoginManager.login("jaz", gameTest);
-
         Island island = new Island(3);
-        Player p1 = gameTest.getPlist().getPlayerByName("ale");
-        Player p2 = gameTest.getPlist().getPlayerByName("jaz");
-        p1.getDashboard().addTeacherToTable(new Teacher(PawnColor.RED));
-        p2.getDashboard().addTeacherToTable(new Teacher(PawnColor.GREEN));
+        Player ale = gameTest.getPlist().getPlayerByName("ale");
+        Player jaz = gameTest.getPlist().getPlayerByName("jaz");
+        ale.getDashboard().addTeacherToTable(new Teacher(PawnColor.RED));
+        jaz.getDashboard().addTeacherToTable(new Teacher(PawnColor.GREEN));
         island.addStudent(new Student(PawnColor.RED));
         island.addStudent(new Student(PawnColor.RED));
         island.addStudent(new Student(PawnColor.GREEN));
         SpecialInfluenceStrategy card = new SpecialInfluenceStrategy();
         card.setPawnColor(PawnColor.RED);
-        island.calcInfluence(gameTest.getPlist());
+        island.calculateInfluence(gameTest.getPlist());
         assertEquals("ale", island.getOwner() );
         card.effect();
-        island.calcInfluence(gameTest.getPlist());
+        island.calculateInfluence(gameTest.getPlist());
         System.out.println(island.getOwner());
         assertEquals("ale",island.getOwner());
         island.addStudent(new Student(PawnColor.GREEN));
-        island.calcInfluence(gameTest.getPlist());
+        island.calculateInfluence(gameTest.getPlist());
         assertEquals("jaz", island.getOwner());
 
 

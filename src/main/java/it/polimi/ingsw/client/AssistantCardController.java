@@ -47,11 +47,6 @@ public class AssistantCardController implements Initializable, DisplayLabel {
      */
     private final Gson gson = new Gson();
 
-    /**
-     * Contains the message sent from the server.
-     */
-    private TextMessage message;
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         ClientInput.getInstance().sendString("player", "");
@@ -76,7 +71,7 @@ public class AssistantCardController implements Initializable, DisplayLabel {
      */
     public void setAssistantCardsImages() {
         ClientInput.getInstance().sendString("player", "");
-        message = ClientInput.getInstance().readLine();
+        TextMessage message = ClientInput.getInstance().readLine();
         PlayersStatus playersStatus = gson.fromJson(message.message, PlayersStatus[].class)[0];
         ArrayList<Integer> cardsPlayed = playersStatus.cardsPlayed;
         System.out.println("the cards Played: " + cardsPlayed);
@@ -128,7 +123,7 @@ public class AssistantCardController implements Initializable, DisplayLabel {
             System.out.println(playersStatus.name);
             if (!Objects.equals(playersStatus.name, name1)) {
                 String otherPlayerUsername = playersStatus.name;
-                String orderCard = String.valueOf(playersStatus.getOrder());
+                String orderCard = String.valueOf(playersStatus.order);
                 String movesOfMN = String.valueOf(playersStatus.movesOfMN);
                 displayLabel("username: " + otherPlayerUsername, label.get(i), "\nhas played the card of order : " + orderCard + "\nhas moves of MN: " + movesOfMN);
                 i++;

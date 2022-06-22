@@ -49,7 +49,7 @@ public class IslandTest {
         dashboard_2.drawDashboard();
         gameTest.getIslands().get(8).addStudent(new Student(color));
         gameTest.getIslands().get(8).addStudent(new Student(color));
-        gameTest.getIslands().get(8).calcInfluence(gameTest.getPlist());
+        gameTest.getIslands().get(8).calculateInfluence(gameTest.getPlist());
         assertEquals(plyr_1.getName(), gameTest.getIslands().get(8).getOwner());
         tableTest.drawTable();
         assertEquals(plyr_1.getInfluencePoint(), 0);
@@ -93,7 +93,7 @@ public class IslandTest {
         Dashboard dashboard_2 = gameTest.getPlist().getPlayers().get(1).getDashboard();
         islandTest.get(0).addStudent(new Student(PawnColor.RED));
         dashboard_1.addTeacherToTable(new Teacher(PawnColor.RED));
-        islandTest.get(0).calcInfluence(gameTest.getPlist());
+        islandTest.get(0).calculateInfluence(gameTest.getPlist());
         assertEquals(gameTest.getPlist().getPlayers().get(0).getName(), islandTest.get(0).getOwner());
         assertEquals(1,islandTest.get(0).getTowerNumber());
         assertEquals(TowerColor.white, islandTest.get(0).getTowerColor());
@@ -103,7 +103,7 @@ public class IslandTest {
         dashboard_2.addTeacherToTable(new Teacher(PawnColor.GREEN));
         card.update(gameTest.getPlist(), gameTest.getCurrentPlayer(),islandTest, PawnColor.CYAN, 0, gameTest.getStudentsBag());
         card.effect();
-        islandTest.get(0).calcInfluence(gameTest.getPlist());
+        islandTest.get(0).calculateInfluence(gameTest.getPlist());
         assertEquals(gameTest.getPlist().getPlayers().get(1).getName(), islandTest.get(0).getOwner());
 
     }
@@ -125,7 +125,7 @@ public class IslandTest {
 
         D1.addTeacherToTable(new Teacher(PawnColor.RED));
         islandTest.addStudent(new Student(PawnColor.RED));
-        islandTest.calcInfluence(gameTest.getPlist());
+        islandTest.calculateInfluence(gameTest.getPlist());
         assertEquals(P1.getName(), islandTest.getOwner());
         assertEquals(7, D1.getTowers().size());
 
@@ -134,7 +134,7 @@ public class IslandTest {
         islandTest.addStudent(new Student(PawnColor.GREEN));
         islandTest.addStudent(new Student(PawnColor.GREEN));
         islandTest.addStudent(new Student(PawnColor.GREEN));
-        islandTest.calcInfluence(gameTest.getPlist());
+        islandTest.calculateInfluence(gameTest.getPlist());
         assertEquals(P2.getName(), islandTest.getOwner());
         assertEquals(7, D2.getTowers().size());
         assertEquals(8,D1.getTowers().size());

@@ -1,8 +1,7 @@
 package it.polimi.ingsw.model.CharacterCards;
 
 import it.polimi.ingsw.LoginManager;
-import it.polimi.ingsw.model.Game;
-import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -59,6 +58,36 @@ public class AddInfluenceStrategyTest {
         card.setCurrentPlayer(player);
         card.effect();
         assertEquals(2,player.getInfluencePoint());
+    }
+
+    @Test
+    void effect() {
+        Game gameTest = new Game(3);
+        LoginManager.login("ale", gameTest);
+        LoginManager.login("nic", gameTest);
+        LoginManager.login("jaz", gameTest);
+        Island island = new Island(3);
+        Player ale = gameTest.getPlist().getPlayerByName("ale");
+        Player jaz = gameTest.getPlist().getPlayerByName("jaz");
+        ale.getDashboard().addTeacherToTable(new Teacher(PawnColor.RED));
+        jaz.getDashboard().addTeacherToTable(new Teacher(PawnColor.GREEN));
+        island.addStudent(new Student(PawnColor.RED));
+        island.addStudent(new Student(PawnColor.RED));
+        island.addStudent(new Student(PawnColor.GREEN));
+        island.calculateInfluence(gameTest.getPlist());
+        assertEquals("ale", island.getOwner() );
+        island.calculateInfluence(gameTest.getPlist());
+        System.out.println(island.getOwner());
+        assertEquals("ale",island.getOwner());
+        AddInfluenceStrategy card = new AddInfluenceStrategy();
+        card.setCurrentPlayer(jaz);
+        card.effect();
+        island.addStudent(new Student(PawnColor.GREEN));
+        island.calculateInfluence(gameTest.getPlist());
+        assertEquals("jaz", island.getOwner());
+
+
+
     }
 
     @Test

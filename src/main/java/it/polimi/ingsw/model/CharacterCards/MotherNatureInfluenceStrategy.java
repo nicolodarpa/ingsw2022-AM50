@@ -18,7 +18,7 @@ public class MotherNatureInfluenceStrategy extends SpecialCardStrategy {
      * It increases the cost by 1 when the card is played.
      */
     public void effect() {
-        islands.get(index).calcInfluence(playersList);
+        islands.get(index).calculateInfluence(playersList);
         addCost();
     }
 

@@ -176,7 +176,7 @@ public class DashboardController implements Initializable, DisplayLabel {
     private Button info11 = new Button();
 
 
-    private int index=-1, indexIsland, indexMN;
+    private int index = -1, indexIsland, indexMN;
     private int indexCloudCard = -1;
 
     /**
@@ -514,15 +514,16 @@ public class DashboardController implements Initializable, DisplayLabel {
 
     /**
      * It takes the status of enemy's dashboard sent by server, then it sets the name of the dashboard on the button.
+     *
      * @throws RuntimeException if the nameOwner is null.
      */
-    private void setEnemyDashboard(){
+    private void setEnemyDashboard() {
         enemyDashboard = gson.fromJson(message.message, EnemyDashboardStatus[].class);
-        try{
+        try {
             setDashboardButtonText(dashboardButton1, enemyDashboard[0].nameOwner);
-            if(enemyDashboard.length > 1)
+            if (enemyDashboard.length > 1)
                 setDashboardButtonText(dashboardButton2, enemyDashboard[1].nameOwner);
-        }catch (NullPointerException exception){
+        } catch (NullPointerException exception) {
             throw new RuntimeException();
         }
 
@@ -542,6 +543,11 @@ public class DashboardController implements Initializable, DisplayLabel {
      */
     private void printNotify() {
         AlertHelper.showAlert(Alert.AlertType.CONFIRMATION, classRoom.getScene().getWindow(), "Notify", message.message);
+        if (Objects.equals(message.message, "Action phase")) {
+            disablePlayAssistantCardButton();
+        } else if (Objects.equals(message.message, "Planning phase")) {
+            enablePlayAssistantCardButton();
+        }
         refreshGUI();
     }
 
@@ -623,7 +629,7 @@ public class DashboardController implements Initializable, DisplayLabel {
     /**
      * Counts the number of students of one color
      *
-     * @param color     is the name of the color that we would to count
+     * @param color         is the name of the color that we would to count
      * @param studentsColor is an arrayList that contains the strings of the color name of the students
      * @return the number of the students of one color
      */
@@ -641,10 +647,10 @@ public class DashboardController implements Initializable, DisplayLabel {
      */
     private void setUpPlayerInfo() {
         PlayersStatus player = gson.fromJson(message.message, PlayersStatus[].class)[0];
-        displayLabel("Username", username, player.getName());
+        displayLabel("Username", username, player.name);
         displayLabel("Wallet", wallet, String.valueOf(player.wallet));
-        movesOfStudent = player.getMovesOfStudents();
-        movesOfMN = player.getMovesOfMN();
+        movesOfStudent = player.movesOfStudents;
+        movesOfMN = player.movesOfMN;
         displayLabel("Moves of MN", movesOfMn, String.valueOf(movesOfMN));
         displayLabel("Moves of students", movesAvailableCounter, String.valueOf(movesOfStudent));
     }
@@ -657,7 +663,7 @@ public class DashboardController implements Initializable, DisplayLabel {
         GameInfoStatus gameInfoStatus = gson.fromJson(message.message, GameInfoStatus[].class)[0];
         displayLabel("Round #", roundCounter, gameInfoStatus.round);
         displayLabel("Actual Player", actualPlayerLabel, gameInfoStatus.actualPlayer);
-        if(gameInfoStatus.numberOfPlayer < 3){
+        if (gameInfoStatus.numberOfPlayer < 3) {
             dashboardButton2.setDisable(true);
             dashboardButton2.setVisible(false);
         }
@@ -666,8 +672,9 @@ public class DashboardController implements Initializable, DisplayLabel {
 
     /**
      * Sets up the towers images on the dashboard
+     *
      * @param towersNumber number of towers available to the player
-     * @param towerColor color of the towers
+     * @param towerColor   color of the towers
      */
     public void setUpTowerImages(int towersNumber, TowerColor towerColor) {
         String color = towerColor.getName();
@@ -685,9 +692,6 @@ public class DashboardController implements Initializable, DisplayLabel {
 
 
     }
-
-
-
 
 
     /**
@@ -900,53 +904,73 @@ public class DashboardController implements Initializable, DisplayLabel {
 
     }
 
-    /**
-     * reset the image of the tower on the island considerated.
-     * @param idIsland  gives us the index of the island that we are considering.
-     */
 
-    public void resetTowerOnTheIsland(int idIsland){
+    /**
+     * Removes the tower image from an island
+     * @param idIsland index of the island where the tower needs to be removed
+     */
+    public void resetTowerOnTheIsland(int idIsland) {
         towerIslands.get(idIsland).setImage(null);
     }
 
+
+    /**
+     * Moves Mother Nature.
+     * Gets the index of the clicked island and sends a command to the server to move Mother Nature to the destination island
+     * @param event used to identify the clicked object
+     */
     @FXML
     public void moveMNToIslands(MouseEvent event) {
         indexIsland = MnIslandPosition.indexOf((Rectangle) event.getSource());
         System.out.println(indexIsland + " MnIslandPosition");
-        moveMn();
+        clientInput.sendString("moveMN", String.valueOf(indexIsland + 1));
         enableCloudCards();
-        disableMNIslandPosition();
-        disableMN();
+
     }
 
+    /**
+     * Enables click on Islands wher is possible to move mother nature
+     */
     private void enableMNIslandPosition() {
         for (Rectangle islands : MnIslandPosition) {
             islands.setDisable(false);
         }
     }
 
+    /**
+     * Enables click on Mother Nature image
+     */
     private void enableMN() {
         for (ImageView mn : MNPositions)
             mn.setDisable(false);
     }
 
-
+    /**
+     * Disables click on Islands where is possible to move mother nature
+     */
     private void disableMNIslandPosition() {
         for (Rectangle islands : MnIslandPosition) {
             islands.setDisable(true);
         }
     }
 
+    /**
+     * Disables click on Mother Nature image
+     */
     private void disableMN() {
         for (ImageView mn : MNPositions)
             mn.setDisable(true);
     }
 
+    /**
+     * Enables click on cloud card images
+     */
     private void enableCloudCards() {
         for (Circle cloudCard : cloudCards) {
             cloudCard.setDisable(false);
         }
     }
+
 
     @FXML
     private void showStudentsIsland0() {
@@ -1022,46 +1046,46 @@ public class DashboardController implements Initializable, DisplayLabel {
     }
 
 
-    @FXML
-    public void moveMn() {
-        clientInput.sendString("moveMN", String.valueOf(indexIsland + 1));
-        refreshGUI();
-    }
-
+    /**
+     * Gets the index of the clicked cloud card and sends a command to the server to select the cloud card to get the students from
+     *
+     * @param event used to identify the clicked object
+     */
     @FXML
     public void chooseCC(MouseEvent event) {
         indexCloudCard = cloudCards.indexOf(event.getSource());
         System.out.println(indexCloudCard + " is the CC chosen");
         if (indexCloudCard != -1) {
-            chooseCloudCard();
-            clientInput.sendString("islands", "");
+            clientInput.sendString("chooseCC", String.valueOf(indexCloudCard + 1));
+            //clientInput.sendString("islands", "");
+            indexCloudCard = -1;
         } else {
             AlertHelper.showAlert(Alert.AlertType.WARNING, cloudCards.get(indexCloudCard).getScene().getWindow(), "Error", "Cloud Card not available");
         }
-
         enableIslandAndHall();
-        enablePlayAssistantCardButton();
+
 
     }
 
-    @FXML
-    public void chooseCloudCard() {
-        clientInput.sendString("chooseCC", String.valueOf(indexCloudCard + 1));
-        refreshGUI();
-        indexCloudCard = -1;
-    }
 
-
+    /**
+     * Gets the index of the clicked student on the hall
+     *
+     * @param event used to identify the clicked object
+     */
     @FXML
     public void getIndex(MouseEvent event) {
         index = studentsPosition.indexOf((Circle) event.getSource());
         System.out.println("student Position : " + index);
     }
 
+    /**
+     * Moves a student to the classroom.
+     * If the player has available students moves it sends a command to the server
+     * else disables all the islands and hall actions
+     */
     @FXML
     public void moveStudentToClassroom() {
-        disablePlayAssistantCardButton();
-        disableCloudCards();
         if (movesOfStudent > 0) {
             sendMoveToClassroomCommand();
         } else if (movesOfStudent == 0) {
@@ -1090,9 +1114,17 @@ public class DashboardController implements Initializable, DisplayLabel {
             student.setDisable(false);
     }
 
+
+    /**
+     * Moves a student to an island.
+     * Get the destination island from the clicked island index int the Islands array
+     * If the player has available students moves it sends a command to the server
+     * else disables all the islands and hall actions
+     *
+     * @param mouseEvent used to identify the clicked object
+     */
     @FXML
     public void moveStudentToIsland(MouseEvent mouseEvent) {
-        disablePlayAssistantCardButton();
         indexIsland = Islands.indexOf((ImageView) mouseEvent.getSource());
         disableCloudCards();
         System.out.println(indexIsland);
@@ -1126,24 +1158,25 @@ public class DashboardController implements Initializable, DisplayLabel {
 
 
     /**
-     * It opens a new stage where it shows the assistant card window, then it refreshes the GUI and enables Island and Hall
+     * Opens a new stage where it shows the assistant card window, then it refreshes the GUI and enables Island and Hall
      */
     @FXML
-    private void setPhasePage() throws IOException {
-        Stage phaseStage = new Stage();
-        Scene phaseScene = new Scene(new FXMLLoader(getClass().getResource("assistantCard.fxml")).load());
-        phaseStage.setScene(phaseScene);
-        phaseStage.showAndWait();
+    private void setAssistantCardsPage() throws IOException {
+        Stage stage = new Stage();
+        Scene scene = new Scene(new FXMLLoader(getClass().getResource("assistantCard.fxml")).load());
+        stage.setScene(scene);
+        stage.showAndWait();
         refreshGUI();
         enableIslandAndHall();
     }
 
     /**
      * Opens a new scene and show the dashboard of the first enemy.
+     *
      * @throws IOException if it can't open a new scene, because the resource is null.
      */
     @FXML
-    private void setPlayerDashboardOne(ActionEvent actionEvent) throws IOException{
+    private void setPlayerDashboardOne(ActionEvent actionEvent) throws IOException {
         clientInput.sendString("enemyDashboard", "");
         DashboardEnemyController controller = new DashboardEnemyController();
         controller.setDashboardStatus(enemyDashboard[0]);
@@ -1158,10 +1191,11 @@ public class DashboardController implements Initializable, DisplayLabel {
 
     /**
      * Opens a new scene and show the dashboard of the second enemy.
+     *
      * @throws IOException if it can't open a new scene, because the resource is null.
      */
     @FXML
-    private void setPlayerDashboardTwo(ActionEvent actionEvent) throws IOException{
+    private void setPlayerDashboardTwo(ActionEvent actionEvent) throws IOException {
         clientInput.sendString("enemyDashboard", "");
         DashboardEnemyController controller = new DashboardEnemyController();
         controller.setDashboardStatus(enemyDashboard[1]);
@@ -1190,7 +1224,13 @@ public class DashboardController implements Initializable, DisplayLabel {
     }
 
 
-
+    /**
+     * Shows the page where to play character cards.
+     * Asks the server the list of character cards, instantiate a new CharacterCardsController,
+     * load the fxml file and shows the scene
+     *
+     * @throws IOException If an exception occurred loading the scene
+     */
     @FXML
     private void setCharacterCardsPage() throws IOException {
         clientInput.sendString("sendCharacterCardDeck", "");
@@ -1208,11 +1248,12 @@ public class DashboardController implements Initializable, DisplayLabel {
 
     /**
      * Sets the text of dashboard button
+     *
      * @param button is the button that where we want sets the text
-     * @param name is tge dashboard's owner,
+     * @param name   is tge dashboard's owner,
      */
     @FXML
-    public void setDashboardButtonText(Button button, String name){
+    public void setDashboardButtonText(Button button, String name) {
         button.setText("view " + name + " dashboard");
     }
 }

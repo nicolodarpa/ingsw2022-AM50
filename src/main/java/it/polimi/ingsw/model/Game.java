@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model;
 
 import com.google.gson.Gson;
-import it.polimi.ingsw.client.ClientInput;
 import it.polimi.ingsw.comunication.*;
 import it.polimi.ingsw.model.CharacterCards.SpecialCardStrategy;
 
@@ -34,9 +33,9 @@ public class Game {
     private Player currentPlayer;
     private SpecialDeck specialDeck = new SpecialDeck();
     private static ArrayList<SpecialCardStrategy> cardsInGame = new ArrayList<>();
-
-    private ClientInput clientInput = ClientInput.getInstance();
     private Player winner = null;
+
+    private boolean lastRound = false;
 
 
     public Game() {
@@ -123,6 +122,7 @@ public class Game {
 
     /**
      * Adds new player to plist.
+     *
      * @param name is player's name.
      */
     public void addPlayer(String name) {
@@ -135,6 +135,7 @@ public class Game {
 
     /**
      * Removes player from plist.
+     *
      * @param player is the player to remove
      */
     public void removePlayer(Player player) {
@@ -221,6 +222,7 @@ public class Game {
 
     /**
      * Sends to client a JSON formatted string with the status of the island in game.
+     *
      * @return a JSON formatted as a string.
      */
     public String sendIslands() {
@@ -234,6 +236,7 @@ public class Game {
 
     /**
      * Sends to client a JSON formatted string with the status of one island in game.
+     *
      * @return a JSON formatted as a string.
      */
     public String sendSingleIsland(Island island) {
@@ -245,6 +248,7 @@ public class Game {
 
     /**
      * Sends to client a JSON formatted string with the status of the player's dashboard's hall in game.
+     *
      * @return a JSON formatted as a string.
      */
     public String sendHall(Player player) {
@@ -257,6 +261,7 @@ public class Game {
 
     /**
      * Sends to client a JSON formatted string with the status of the players' dashboards in game.
+     *
      * @return a JSON formatted as a string.
      */
     public String sendDashboard() {
@@ -271,13 +276,14 @@ public class Game {
 
     /**
      * Sends to client a JSON formatted string with the status of the enemy's dashboard in game.
+     *
      * @param player is the player's client who received the formatted string.
      * @return a JSON formatted as a string.
      */
-    public String sendEnemyDashboard(Player player){
+    public String sendEnemyDashboard(Player player) {
         ArrayList<EnemyDashboardStatus> statusList = new ArrayList<>();
         for (Player p : plist.getPlayers()) {
-            if(!Objects.equals(p.getName(), player.getName()))
+            if (!Objects.equals(p.getName(), player.getName()))
                 statusList.add(new EnemyDashboardStatus(p.getName(), p.getDashboard()));
         }
         Gson gson = new Gson();
@@ -286,6 +292,7 @@ public class Game {
 
     /**
      * Sends to client a JSON formatted string with the status of the player's dashboard in game.
+     *
      * @param player is the player's client who received the formatted string.
      * @return a JSON formatted as a string.
      */
@@ -299,6 +306,7 @@ public class Game {
 
     /**
      * Sends to client a JSON formatted string with the status of the cloud cards in game.
+     *
      * @return a JSON formatted as a string.
      */
     public String sendCloudCards() {
@@ -312,6 +320,7 @@ public class Game {
 
     /**
      * Sends to client a JSON formatted string with the status of the character cards in game.
+     *
      * @return a JSON formatted as a string.
      */
     public String sendCharacterCardsDeck() {
@@ -325,6 +334,7 @@ public class Game {
 
     /**
      * Sends to client a JSON formatted string with the status of the player in game.
+     *
      * @return a JSON formatted as a string.
      */
     public String sendPlayer(Player player) {
@@ -336,6 +346,7 @@ public class Game {
 
     /**
      * Sends to client a JSON formatted string with the status of the all players in game.
+     *
      * @return a JSON formatted as a string.
      */
     public String sendAllPlayers() {
@@ -349,6 +360,7 @@ public class Game {
 
     /**
      * Sends to client a JSON formatted string with the status of the game.
+     *
      * @return a JSON formatted as a string.
      */
     public String sendGameInfo() {
@@ -360,6 +372,7 @@ public class Game {
 
     /**
      * Sends to client a JSON formatted string with the status of the assistant cards' deck.
+     *
      * @return a JSON formatted as a string.
      */
     public String sendDeck() {
@@ -421,7 +434,7 @@ public class Game {
      * @param destinationIslandIndex is the index of the motherNature's destination island.
      * @return true or false, respectively if mother nature can be moved to the selected destination island or not.
      */
-    public boolean moveMN(Player player, int destinationIslandIndex){
+    public boolean moveMN(Player player, int destinationIslandIndex) {
         int playerMovesOfMN = player.getMovesOfMN();
         int islandWithMNIndex = getIslandWithMNIndex();
         int moves = destinationIslandIndex - islandWithMNIndex;
@@ -441,8 +454,8 @@ public class Game {
                 System.out.println("island blocked");
                 return true;
             } else {
-                islandWithMN.calcInfluence(plist);
-                if(islandWithMN.getTowerFinished()) {
+                islandWithMN.calculateInfluence(plist);
+                if (islandWithMN.getTowerFinished()) {
                     try {
                         calculateWinner();
                     } catch (IOException e) {
@@ -705,8 +718,9 @@ public class Game {
 
     /**
      * Set up a new phase, check if all players have played and move from planning to action phase.
-     *
+     * <p>
      * Whenever a phase changes, set the current player and check if there are no more students in the student's bag.
+     * Checks if it is the lastRound and calculates the winner if it is.
      */
     public void nextPhase() {
         if (phase == 0) {
@@ -721,6 +735,14 @@ public class Game {
                 p.setLastPlayedAC(0);
                 p.resetMovesOfStudents();
                 p.setTeacherAssignerModifier(false);
+            }
+            if (lastRound){
+                try {
+                    calculateWinner();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                return;
             }
             plist.notifyAllClients("notify", "Planning phase");
             for (CloudCard c : cloudCards)
@@ -831,6 +853,15 @@ public class Game {
         }
     }
 
+
+    /**
+     *
+     * Plays the selected assistant card.
+     * Check if the selected card is valid, send an error message to the client if an error occur.
+     * If the last card in the deck has been played flags true the lastRound variable.
+     * @param player the player who is playing the assistant card
+     * @param cardNumber the index of the assistant card in the deck
+     */
     public void playAssistantCard(Player player, int cardNumber) {
         if (player.checkCardAvailability(cardNumber)) {
             player.sendToClient("error", "You already played this card");
@@ -839,7 +870,6 @@ public class Game {
 
         boolean check = false;
         if (checkLastPlayedAssistant(cardNumber)) {
-            player.sendToClient("error", "Assistant card already played by another player");
             for (AssistantCard assistantCard : player.getDeck().getCardsList()) {
                 if (!checkLastPlayedAssistant(assistantCard.order()))
                     check = true;
@@ -847,18 +877,17 @@ public class Game {
             if (!check) {
                 player.playAssistantCard(cardNumber);
                 setCurrentPlayer();
+            } else {
+                player.sendToClient("error", "Assistant card already played by another player");
             }
             return;
         }
         player.playAssistantCard(cardNumber);
         setCurrentPlayer();
         if (player.deckSize()) { //return 1 if the player has finished his cards
-            plist.notifyAllClients("notify", "the game has finished");
-            try {
-                calculateWinner();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            plist.notifyAllClients("notify", "This is the last turn");
+            lastRound =true;
+
         }
 
 
@@ -866,6 +895,7 @@ public class Game {
 
     /**
      * Check which is the last cards played.
+     *
      * @param order is the order of the card.
      * @return true if the card is the last card played.
      */
@@ -903,29 +933,29 @@ public class Game {
         if (winner != null) {
             System.out.println(winner.getName() + " won");
             winner.sendToClient("msg", "You are the winner!");
-        } else{
+        } else {
             System.out.println("Draw");
             plist.notifyAllClients("msg", "It's a draw!");
         }
-       try {
-           endOfGame();
-       }catch (Exception e){
-           System.out.println("No connection");
-       }
+        try {
+            endOfGame();
+        } catch (Exception e) {
+            System.out.println("No connection");
+        }
 
     }
 
     /**
      * It removes all the player at the end of the match and closes their sockets.
      */
-    private void endOfGame(){
-        for(Player p : plist.getPlayers()){
+    private void endOfGame() {
+        for (Player p : plist.getPlayers()) {
             removePlayer(p);
         }
     }
 
-    public void notifyAllClients(String type, String message){
-        plist.notifyAllClients(type,message);
+    public void notifyAllClients(String type, String message) {
+        plist.notifyAllClients(type, message);
     }
 
 

@@ -12,7 +12,7 @@ public class AddInfluenceStrategy extends SpecialCardStrategy {
 
 
     public void effect() {
-        currentPlayer.setInfluencePoint(2);
+        currentPlayer.setInfluencePoint(currentPlayer.getInfluencePoint() + 2);
         addCost();
     }
 

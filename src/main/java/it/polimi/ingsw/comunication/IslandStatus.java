@@ -1,12 +1,14 @@
 package it.polimi.ingsw.comunication;
 
 import it.polimi.ingsw.model.Island;
-import it.polimi.ingsw.model.Pawn;
-import it.polimi.ingsw.model.PawnColor;
 import it.polimi.ingsw.model.Student;
 
 import java.util.ArrayList;
 
+
+/**
+ * Template class to encode and decode json with the state of an island
+ */
 public class IslandStatus {
 
     public int id;
@@ -46,13 +48,5 @@ public class IslandStatus {
                 colors.add(null);
             }
         }
-        /*
-        for (Student student : studentArrayList) {
-            if (student!=null){
-                pawns.add(student);
-            } else{
-                pawns.add(null);
-            }
-        }*/
     }
 }

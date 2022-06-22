@@ -318,7 +318,7 @@
       <Button fx:id="info9" layoutX="507.0" layoutY="460.0" mnemonicParsing="false" onAction="#showStudentsIsland9" text="Info" />
       <Button fx:id="info10" layoutX="329.0" layoutY="461.0" mnemonicParsing="false" onAction="#showStudentsIsland10" text="Info" />
       <Button fx:id="info11" layoutX="155.0" layoutY="461.0" mnemonicParsing="false" onAction="#showStudentsIsland11" text="Info" />
-      <Button fx:id="assistantCardButton" layoutX="22.0" layoutY="520.0" mnemonicParsing="false" onAction="#setPhasePage" prefHeight="35.0" prefWidth="160.0" text="Play Assistant Card">
+      <Button fx:id="assistantCardButton" layoutX="22.0" layoutY="520.0" mnemonicParsing="false" onAction="#setAssistantCardsPage" prefHeight="35.0" prefWidth="160.0" text="Play Assistant Card">
 
          <font>
             <Font size="16.0" />

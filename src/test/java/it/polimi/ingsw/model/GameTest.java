@@ -243,13 +243,13 @@ public class GameTest {
         gameTest.getIslands().get(7).addStudent(s);
         gameTest.getIslands().get(8).addStudent(s);
 
-        gameTest.getIslands().get(0).calcInfluence(gameTest.getPlist());
-        gameTest.getIslands().get(1).calcInfluence(gameTest.getPlist());
-        gameTest.getIslands().get(2).calcInfluence(gameTest.getPlist());
-        gameTest.getIslands().get(3).calcInfluence(gameTest.getPlist());
-        gameTest.getIslands().get(4).calcInfluence(gameTest.getPlist());
-        gameTest.getIslands().get(5).calcInfluence(gameTest.getPlist());
-        gameTest.getIslands().get(6).calcInfluence(gameTest.getPlist());
+        gameTest.getIslands().get(0).calculateInfluence(gameTest.getPlist());
+        gameTest.getIslands().get(1).calculateInfluence(gameTest.getPlist());
+        gameTest.getIslands().get(2).calculateInfluence(gameTest.getPlist());
+        gameTest.getIslands().get(3).calculateInfluence(gameTest.getPlist());
+        gameTest.getIslands().get(4).calculateInfluence(gameTest.getPlist());
+        gameTest.getIslands().get(5).calculateInfluence(gameTest.getPlist());
+        gameTest.getIslands().get(6).calculateInfluence(gameTest.getPlist());
         assertEquals(1,p.getDashboard().getTowers().size());
         p.setMovesOfMN(12);
 

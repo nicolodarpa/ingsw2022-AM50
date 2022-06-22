@@ -4,40 +4,50 @@ import it.polimi.ingsw.model.*;
 
 import java.util.ArrayList;
 
+/**
+ * Template class to encode and decode json with the information of a player
+
+ */
 public class PlayersStatus {
 
+    /**
+     * PLayer name
+     */
     public String name;
 
+    /**
+     * Player last assistant card played
+     */
     public int order;
+
+    /**
+     * Available Mother Nature moves
+     */
     public int movesOfMN;
+
+    /**
+     * Availabe student moves
+     */
     public int movesOfStudents;
 
+    /**
+     * Coins in the wallet
+     */
     public int wallet;
 
+    /**
+     * List of assistant cards played
+     */
     public ArrayList<Integer> cardsPlayed;
 
+    /**
+     * Assistant cards deck id
+     */
     public int deckId;
 
-    public String getName() {
-        return name;
-    }
-
-    public int getOrder() {
-        return order;
-    }
-
-    public int getMovesOfMN() {
-        return movesOfMN;
-    }
-
-    public int getMovesOfStudents() {
-        return movesOfStudents;
-    }
-
-    public boolean isHasPlayed() {
-        return hasPlayed;
-    }
-
+    /**
+     * Indicates if the player has played during the current round
+     */
     public boolean hasPlayed;
 
     public PlayersStatus(Player player) {
