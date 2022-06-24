@@ -585,6 +585,7 @@ public class DashboardController implements Initializable, DisplayLabel {
      */
     private void quit() {
         AlertHelper.showAlert(Alert.AlertType.INFORMATION, classRoom.getScene().getWindow(), "Quit", message.message);
+        //System.exit(0); exit program after closing the alert
     }
 
 

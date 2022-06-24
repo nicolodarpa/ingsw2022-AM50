@@ -78,7 +78,7 @@ public class Game {
     private Island islandWithMN;
 
     /**
-     *It is the player who is playing at the moment
+     * It is the player who is playing at the moment
      */
     private Player currentPlayer;
 
@@ -208,9 +208,19 @@ public class Game {
     public void removePlayer(Player player) {
         plist.removePlayer(player);
         if (plist.getActivePlayers() == 1) {
-            calculateWinner();
+            try {
+                plist.notifyAllClients("notify", "waiting for reconnection");
+                Thread.sleep(10000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            if (plist.getActivePlayers() == 1) {
+                calculateWinner();
+            }
+        } else if (plist.getActivePlayers() == 0) {
+            System.out.println("Game end, all players disconnected");
+            endOfGame();
         } else if (player == currentPlayer) setCurrentPlayer();
-
     }
 
     /**
@@ -965,13 +975,13 @@ public class Game {
      * Calculates the winner of the match.
      * If only one player is active, he is the winner without considering any other parameter.
      * Counts which player has the most towers on the islands and sends a message to the winner.
-     *
      */
     private void calculateWinner() {
         int towerNumber = 8;
         if (plist.getActivePlayers() == 1) {
-            for (Player player: plist.getPlayers()){
-                if (player.isActive()) winner=player;
+
+            for (Player player : plist.getPlayers()) {
+                if (player.isActive()) winner = player;
             }
         } else {
             for (Player player : plist.getPlayers()) {
@@ -994,13 +1004,14 @@ public class Game {
             System.out.println("Draw");
             plist.notifyAllClients("endGame", "It's a draw!");
         }
+        gameStatus = "ENDED";
         /**
-        try {
-            endOfGame();
-        } catch (Exception e) {
-            System.out.println("No connection");
-        }
-        **/
+         try {
+         endOfGame();
+         } catch (Exception e) {
+         System.out.println("No connection");
+         }
+         **/
 
     }
 
@@ -1008,9 +1019,7 @@ public class Game {
      * It removes all the player at the end of the match and closes their sockets.
      */
     private void endOfGame() {
-        for (Player p : plist.getPlayers()) {
-            removePlayer(p);
-        }
+        gameStatus = "ENDED";
     }
 
     public void notifyAllClients(String type, String message) {

@@ -328,8 +328,14 @@ public class LineClient {
 
     /**
      * Sends a command to the server to quit the current game and close the connection
+     *
      */
     private static void quit() {
         clientInput.sendString("quit", "");
+        try {
+            socket.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

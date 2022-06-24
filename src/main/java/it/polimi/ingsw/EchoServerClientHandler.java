@@ -101,7 +101,7 @@ public class EchoServerClientHandler extends Thread {
 
         } catch (Exception e) {
             System.out.println("Client disconnected");
-            if (game!=null) game.removePlayer(player);
+            if (game != null) game.removePlayer(player);
 
 
         }
@@ -112,6 +112,11 @@ public class EchoServerClientHandler extends Thread {
         String json = gson.toJson(message, TextMessage.class);
         out.println(json);
         game.removePlayer(player);
+        try {
+            socket.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
     }
 
@@ -138,11 +143,11 @@ public class EchoServerClientHandler extends Thread {
     }
 
     public void avlGames(Command command) {
-
+        gameArrayList.removeIf(game -> Objects.equals(game.getGameStatus(), "ENDED"));
         ArrayList<GameStatus> list = new ArrayList<>();
         int gameId = 0;
         for (Game game1 : gameArrayList) {
-            list.add(new GameStatus(gameId, game1.getCurrentNumberOfPlayers(), game1.getNumberOfPlayers(), game1.getPlist()));
+            list.add(new GameStatus(gameId, game1.getCurrentNumberOfPlayers(), game1.getNumberOfPlayers(), game1.getPlist(), game1.getGameStatus()));
             gameId++;
         }
         if (list.size() != 0) {
@@ -150,7 +155,7 @@ public class EchoServerClientHandler extends Thread {
             String json = gson.toJson(text, TextMessage.class);
             out.println(json);
         } else {
-            TextMessage text = new TextMessage("error", "No games available");
+            TextMessage text = new TextMessage("error","joinGame02", "No games available");
             String json = gson.toJson(text, TextMessage.class);
             out.println(json);
         }
@@ -158,16 +163,20 @@ public class EchoServerClientHandler extends Thread {
 
     public void joinGame(Command command) {
         System.out.println("join game");
+        TextMessage textMessage;
         try {
             game = gameArrayList.get(Integer.parseInt(command.value1));
-            TextMessage textMessage = new TextMessage("confirmation", "joinGame", "You joined the game");
-            String json = gson.toJson(textMessage, TextMessage.class);
-            out.println(json);
+            if (Objects.equals(game.getGameStatus(), "ENDED")) {
+                textMessage = new TextMessage("error", "joinGame02", "Error, the gama has ended");
+
+            } else textMessage = new TextMessage("confirmation", "joinGame", "You joined the game");
+
         } catch (Exception e) {
-            TextMessage textMessage = new TextMessage("error", "joinGame02", "Invalid index, please input a valid game index");
-            String json = gson.toJson(textMessage, TextMessage.class);
-            out.println(json);
+            textMessage = new TextMessage("error", "joinGame01", "Invalid index, please input a valid game index");
         }
+        String json = gson.toJson(textMessage, TextMessage.class);
+        out.println(json);
+
     }
 
     public void login(Command command) throws IOException {

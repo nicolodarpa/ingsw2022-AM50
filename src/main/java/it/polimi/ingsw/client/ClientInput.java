@@ -98,11 +98,12 @@ public final class ClientInput {
         String msg;
         try {
             msg = socketIn.readLine();
+            Gson gson = new Gson();
+            return gson.fromJson(msg, TextMessage.class);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            System.out.println("No connection to the server");
         }
-        Gson gson = new Gson();
-        return gson.fromJson(msg, TextMessage.class);
+        return new TextMessage("quit","No connection to the server");
     }
 
 

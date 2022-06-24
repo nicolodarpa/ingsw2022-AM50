@@ -93,7 +93,7 @@ public class ClientOut extends Thread {
         commandHashMap.put("confirmation", this::manageConfirmation);
         commandHashMap.put("warning", this::printWarning);
         commandHashMap.put("notify", this::printNotify);
-        commandHashMap.put("endGame",this::endGame);
+        commandHashMap.put("endGame", this::endGame);
         commandHashMap.put("characterCards", this::printCharacterCards);
         commandHashMap.put("islands", this::printIslands);
         commandHashMap.put("dashboard", this::printDashboard);
@@ -129,12 +129,15 @@ public class ClientOut extends Thread {
 
                 }
             } catch (IOException e) {
-                System.out.println("No connection to the server");
+
                 break;
             }
 
 
         }
+        System.out.println("No connection to the server");
+        System.out.println("Exit....");
+        System.exit(0);
 
     }
 
@@ -441,8 +444,9 @@ public class ClientOut extends Thread {
         }
     }
 
-    private void endGame(){
+    private void endGame() throws IOException {
         printNotify();
+        socket.close();
     }
 
 

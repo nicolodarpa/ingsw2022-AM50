@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class MultiEchoServer {
     private final int port;
@@ -18,8 +19,7 @@ public class MultiEchoServer {
     }
 
 
-
-    public void startServer()  {
+    public void startServer() {
         System.out.println("====Eriantys CLI Server====");
         ArrayList<EchoServerClientHandler> threadList = new ArrayList<>();
         ArrayList<Game> gameArrayList = new ArrayList<>();
@@ -31,10 +31,11 @@ public class MultiEchoServer {
             return;
         }
         System.out.println("Server ready on port: " + port);
+
         while (true) {
             try {
                 Socket clientSocket = serverSocket.accept();
-                System.out.println(clientSocket.getInetAddress()+" connected");
+                System.out.println(clientSocket.getInetAddress() + " connected");
                 EchoServerClientHandler serverThread = new EchoServerClientHandler(clientSocket, gameArrayList);
                 threadList.add(serverThread);
                 serverThread.start();
