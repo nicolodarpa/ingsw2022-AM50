@@ -16,12 +16,12 @@
 | Basic rules      | 🟢 |
 | Complete rules   | 🟢 |
 | Socket           | 🟢 |
-| GUI              | 🟡 |
+| GUI              | 🟢 |
 | CLI              | 🟢 |
 | Multiple games   | 🟢 |
 | Persistence      | 🔴 |
 | All character cards implemented | 🔴 |
-| Resilience to disconnections  | 🔴 |
+| Resilience to disconnections  | 🟢 |
 | 4-player game    | 🔴 |
 
 ### Legend <br>
