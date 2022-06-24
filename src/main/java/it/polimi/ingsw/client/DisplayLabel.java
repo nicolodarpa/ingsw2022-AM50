@@ -4,7 +4,7 @@ import javafx.scene.control.Label;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * Class to display information as labels
+ * Interface to display information as labels
  */
 public interface DisplayLabel {
 

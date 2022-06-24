@@ -14,20 +14,73 @@ import java.util.stream.IntStream;
  * presenceMn and oppositeMn are flags that indicate if motherNature is on the island or not and if the island is in the MN's opposite position.
  */
 public class Island {
+
+    /**
+     * The island's identifier.
+     */
     private int id;
+
+    /**
+     * It says if the island is conquered or not.
+     */
     private boolean islandConquered = false;
+
+    /**
+     * The identifier of two or more islands connected together.
+     */
     private int idGroup;
+
+    /**
+     * The number of island connected together.
+     */
     private int dimension;
+
+    /**
+     * The color of the tower on the island.
+     */
     private TowerColor towerColor = null;
+
+    /**
+     * The list of students on the island.
+     */
     private ArrayList<Student> studentList = new ArrayList<>();
+
+    /**
+     * The list of tower on the island.
+     */
     private ArrayList<Tower> towerArrayList = new ArrayList<>();
+
+    /**
+     * The player that conquer and then owns the island.
+     */
     private Player owner;
+
+    /**
+     * A flag to tells us if mother nature is on island or not.
+     */
     private boolean presenceMN = false; //true if there is Mother Nature on the Island
+
+    /**
+     * A flag to tells us if the island is the one opposite to island with mother nature.
+     */
     private boolean oppositeMN = false; //true if the Island is opposite to The island where there is Mother Nature
 
+    /**
+     * it tells us if the island has been blocked by the block card
+     * {@link it.polimi.ingsw.model.CharacterCards.BlockCardStrategy}
+     */
     private boolean block = false;
+
+    /**
+     * Is the multiplier of the tower influence in influence calculation.
+     * It set at 1 by default, and it changes when a player use the special that cancels the effect of towers in the influence calculation.
+     * {@link it.polimi.ingsw.model.CharacterCards.NoTowerInfluenceStrategy}
+     */
     private int towerMultiplier = 1;
 
+    /**
+     * It tells us if the tower of the owner is finished
+     */
     private boolean towerFinished = false;
 
     public void setPresenceMN(boolean presenceMN) {
@@ -48,6 +101,9 @@ public class Island {
         this.dimension = 1;
     }
 
+    /**
+     * It increases the size of the island when it is connected to another one.
+     */
     public void increaseDimension(int i) {
         dimension = dimension + i;
     }
@@ -194,7 +250,7 @@ public class Island {
     }
 
     /**
-     * It set true if one player finished his tower.
+     * It sets true if one player finished his tower.
      */
     public void towerFinished(){
         this.towerFinished = true;

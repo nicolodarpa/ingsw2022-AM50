@@ -20,21 +20,88 @@ public class Game {
      */
     public static int MOVES;
     private String gameStatus = "Waiting for players";
+
+    /**
+     * It is the round of the match.
+     */
     private int round = 0;
+
+    /**
+     * It is the gaming phase, there are two distinct phase:
+     * Planning phase where the player play an assistant card (represented by 0)
+     * Action phase where the player can move student from the hall to the classroom or to the islands (represented by 1).
+     */
     private int phase = 0;
     private int numberOfPlayers = 3;
+
+    /**
+     * The players in a match
+     * {@link PlayersList}
+     */
     private PlayersList plist = new PlayersList();
+
+
+    /**
+     * The bag where there are the student's pawn
+     * {@link StudentsBag}
+     */
     private StudentsBag studentsBag = new StudentsBag();
+
+    /**
+     * The cloud card in a match
+     * {@link CloudCard}
+     */
     private ArrayList<CloudCard> cloudCards = new ArrayList<>();
+
+    /**
+     * A hash map that contains all the four decks.
+     * {@link Deck}
+     */
     private Map<Integer, Deck> deckMap = new HashMap<>();
+
+    /**
+     * All the 12 islands in game.
+     * {@link Island}
+     */
     private ArrayList<Island> islands = new ArrayList<>(12);
+
+    /**
+     * An array of 5 elements that contains all the teacher of every Pawn Color
+     * {@link Teacher}
+     * {@link PawnColor}
+     */
     private final Teacher[] teachers = {new Teacher(PawnColor.GREEN), new Teacher(PawnColor.RED), new Teacher(PawnColor.YELLOW), new Teacher(PawnColor.MAGENTA), new Teacher(PawnColor.CYAN)};
+
+    /**
+     * Is the current island with mature nature on it.
+     */
     private Island islandWithMN;
+
+    /**
+     *It is the player who is playing at the moment
+     */
     private Player currentPlayer;
+
+    /**
+     * It is the deck that contains 3 special cards.
+     * {@link SpecialDeck}
+     */
     private SpecialDeck specialDeck = new SpecialDeck();
+
+    /**
+     * An array that contains the 3 extracted special cards.
+     * {@link SpecialCardStrategy}
+     */
     private static ArrayList<SpecialCardStrategy> cardsInGame = new ArrayList<>();
+
+    /**
+     * It is the winner player.
+     */
     private Player winner = null;
 
+    /**
+     * A flag that says if the current round is the last.
+     */
     private boolean lastRound = false;
 
 
