@@ -23,6 +23,12 @@ public class Player {
      */
     private final String name;
 
+
+    /**
+     * Indicates if the player is active
+     */
+    private boolean active;
+
     /**
      * Is the socket of the client
      */
@@ -92,6 +98,7 @@ public class Player {
     public Player(String name) {
         this.name = name;
         wallet.setCoins(1);
+        setActive(true);
     }
 
 
@@ -104,10 +111,19 @@ public class Player {
         this.name = name;
         this.socket = socket;
         wallet.setCoins(1);
+        setActive(true);
     }
 
     public void setOrder(int order) {
         this.order = order;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public boolean isActive() {
+        return active;
     }
 
     public Dashboard getDashboard() {

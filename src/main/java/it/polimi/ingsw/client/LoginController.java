@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 
 import java.io.IOException;
+import java.security.PublicKey;
 import java.util.Objects;
 
 
@@ -30,11 +31,11 @@ public class LoginController {
 
 
     /**
-     * LOad and shows the scene for deck selection
+     * Load and shows the scene for deck selection
      * @param actionEvent action event of the button
      * @throws IOException If loading the scene an exception occurred
      */
-    public void setChoosingDeckPage(ActionEvent actionEvent) throws IOException {
+    private void setChoosingDeckPage(ActionEvent actionEvent) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("deck.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
@@ -44,11 +45,27 @@ public class LoginController {
 
 
     /**
+     * Load and shows the dashboard scene
+     * @param actionEvent action event of the button
+     * @throws IOException If loading the scene an exception occurred
+     */
+    private void setDashboardPage(ActionEvent actionEvent) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("dashboard.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
+    }
+
+
+
+
+    /**
      * Send a message to the server to log in with the username typed by the user.
      * Shows an error alert if the response from the server is negative
      */
     @FXML
-    protected void submitLogin(ActionEvent actionEvent) throws IOException {
+    private void submitLogin(ActionEvent actionEvent) throws IOException {
         String name = name_input.getText();
         ClientInput.getInstance().sendString("login", name);
         Window window = ((Node) actionEvent.getSource()).getScene().getWindow();
@@ -57,7 +74,10 @@ public class LoginController {
             AlertHelper.showAlert(Alert.AlertType.WARNING, window, "Login", message.message);
         } else{
             AlertHelper.showAlert(Alert.AlertType.CONFIRMATION, window, "Login", message.message);
-            setChoosingDeckPage(actionEvent);
+            if (Objects.equals(message.context, "login")){
+                setChoosingDeckPage(actionEvent);
+            } else setDashboardPage(actionEvent);
+
         }
     }
 

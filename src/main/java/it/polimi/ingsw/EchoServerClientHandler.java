@@ -25,7 +25,6 @@ public class EchoServerClientHandler extends Thread {
 
     private final ArrayList<Game> gameArrayList;
     private Player player;
-    private BufferedReader in;
 
     private PrintWriter out;
     private final HashMap<String, Commd> commandMap = new HashMap<>();
@@ -72,7 +71,7 @@ public class EchoServerClientHandler extends Thread {
 
 
         try {
-            in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
             out = new PrintWriter(socket.getOutputStream(), true);
 
@@ -101,8 +100,9 @@ public class EchoServerClientHandler extends Thread {
 
 
         } catch (Exception e) {
-            System.out.println("Connection error");
-            game.removePlayer(player);
+            System.out.println("Client disconnected");
+            if (game!=null) game.removePlayer(player);
+
 
         }
     }
@@ -111,8 +111,8 @@ public class EchoServerClientHandler extends Thread {
         TextMessage message = new TextMessage("quit", "Goodbye " + player.getName());
         String json = gson.toJson(message, TextMessage.class);
         out.println(json);
-        game.getPlist().notifyAllClients("msg", player.getName() + " disconnected");
         game.removePlayer(player);
+
     }
 
 
@@ -142,9 +142,7 @@ public class EchoServerClientHandler extends Thread {
         ArrayList<GameStatus> list = new ArrayList<>();
         int gameId = 0;
         for (Game game1 : gameArrayList) {
-            if (Objects.equals(game1.getGameStatus(), "Waiting for players")) {
-                list.add(new GameStatus(gameId, game1.getCurrentNumberOfPlayers(), game1.getNumberOfPlayers(), game1.getPlist()));
-            }
+            list.add(new GameStatus(gameId, game1.getCurrentNumberOfPlayers(), game1.getNumberOfPlayers(), game1.getPlist()));
             gameId++;
         }
         if (list.size() != 0) {
@@ -180,7 +178,10 @@ public class EchoServerClientHandler extends Thread {
                 player = game.getPlist().getPlayerByName(name);
                 player.setOut(out);
                 player.setSocket(socket);
-                player.sendToClient("confirmation", "login", "Welcome " + player.getName());
+                if (player.getDeck() != null) {
+                    player.sendToClient("confirmation", "logBack", "Welcome back" + player.getName());
+                } else player.sendToClient("confirmation", "login", "Welcome " + player.getName());
+
                 return;
             case 2:
                 out = new PrintWriter(socket.getOutputStream(), true);
@@ -193,6 +194,7 @@ public class EchoServerClientHandler extends Thread {
                 text = new TextMessage("error", "login01", "Max number of players reached for this game");
                 json = gson.toJson(text, TextMessage.class);
                 out.println(json);
+
         }
 
 
@@ -255,7 +257,7 @@ public class EchoServerClientHandler extends Thread {
         player.sendToClient("dashboard", game.sendPlayerDashboard(player));
     }
 
-    public void sendEnemyDashboard(Command command){
+    public void sendEnemyDashboard(Command command) {
         player.sendToClient("enemyDashboard", game.sendEnemyDashboard(player));
     }
 
@@ -274,7 +276,7 @@ public class EchoServerClientHandler extends Thread {
         SpecialCardStrategy specialCard;
         PawnColor studentColor = null;
         int islandIndex = 0;
-        int value2 = 0;
+        int value2;
         specialCard = game.getCardsInGame().get(Integer.parseInt(command.value1) - 1);
         if (specialCard.getCost() > player.getCoins()) {
             player.sendToClient("error", "You don't have enough coins to play this card");
@@ -375,7 +377,6 @@ public class EchoServerClientHandler extends Thread {
         }
 
         if (checkTurn()) {
-            //player.sendToClient("msg", "select student from hall to move to a classroom:");
             int numPlayer = Integer.parseInt(command.value1);
             if (player.moveStudentToClassroom(numPlayer - 1, game)) {
                 sendSingleDashboard(command);
@@ -388,7 +389,6 @@ public class EchoServerClientHandler extends Thread {
 
     public void errorSelectionNotify() {
         player.sendToClient("error", "select a valid student");
-        //player.sendToClient("hall", game.sendHall(player));
     }
 
     public void moveMotherNature(Command command) {

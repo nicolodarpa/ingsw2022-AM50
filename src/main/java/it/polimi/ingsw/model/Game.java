@@ -140,16 +140,9 @@ public class Game {
      */
     public void removePlayer(Player player) {
         plist.removePlayer(player);
-        if (numberOfPlayers == 2 && plist.getCurrentNumberOfPlayers() == 1) {
-            for (Player player1 : plist.getPlayers()) {
-                player1.sendToClient("quit", "Victory");
-                try {
-                    player1.getSocket().close();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        }
+        if (plist.getActivePlayers() == 1) {
+            calculateWinner();
+        } else if (player == currentPlayer) setCurrentPlayer();
 
     }
 
@@ -162,19 +155,18 @@ public class Game {
 
     /**
      * sets all the initial setup of the game:
-     * <p>
-     *     <ul>
-     *         <li> Creates 12 islands </li>
-     *         <li> adds randomly mother nature on the island </li>
-     *         <li> adds two students of each color on the islands except the island with mother nature and its opposite</li>
-     *         <li> fills the students bag with 120 students </li>
-     *         <li> creates and fills with 3 or 4 students the cloud cards </li>
-     *         <li> assigns the tower to the players </li>
-     *         <li> moves the students from the student's bag to the hall </li>
-     *         <li> extracts randomly 3 special cards </li>
-     *         <li> assigns the tower to the players</li>
-     *     </ul>
-     * </p>
+     *
+     * <ul>
+     *     <li> Creates 12 islands </li>
+     *     <li> adds randomly mother nature on the island </li>
+     *     <li> adds two students of each color on the islands except the island with mother nature and its opposite</li>
+     *     <li> fills the students bag with 120 students </li>
+     *     <li> creates and fills with 3 or 4 students the cloud cards </li>
+     *     <li> assigns the tower to the players </li>
+     *     <li> moves the students from the student's bag to the hall </li>
+     *     <li> extracts randomly 3 special cards </li>
+     *     <li> assigns the tower to the players</li>
+     * </ul>
      */
     public void setupGame() {
         gameStatus = "active";
@@ -196,8 +188,8 @@ public class Game {
     /**
      * Set at the beginning of the game the order of the players to 0.
      */
-    private void setUpOrderOfPlayers(){
-        for (Player player: plist.getPlayers()){
+    private void setUpOrderOfPlayers() {
+        for (Player player : plist.getPlayers()) {
             player.setOrder(0);
         }
     }
@@ -456,11 +448,7 @@ public class Game {
             } else {
                 islandWithMN.calculateInfluence(plist);
                 if (islandWithMN.getTowerFinished()) {
-                    try {
-                        calculateWinner();
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
+                    calculateWinner();
                 }
                 player.setMovesOfMN(0);
             }
@@ -554,12 +542,7 @@ public class Game {
         /* if there are only 3 groups of islands the game has to finish */
         if (islands.size() < 4) {
             plist.notifyAllClients("notify", "the game has finished");
-            try {
-                calculateWinner();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-
+            calculateWinner();
         }
 
 
@@ -687,7 +670,7 @@ public class Game {
         Player temp = null;
         if (round == 1 && phase == 0) {
             for (Player p : plist.getPlayers()) {
-                if (!p.getHasPlayed()) {
+                if (!p.getHasPlayed() && p.isActive()) {
                     p.sendToClient("notify", "Your turn started, play an assistant card");
                     this.currentPlayer = p;
                     System.out.println(currentPlayer.getName() + " turn");
@@ -697,10 +680,10 @@ public class Game {
             nextPhase();
         } else {
             for (Player p : plist.getPlayers()) {
-                if (phase == 1 && p.getHasPlayed()) {
+                if (phase == 1 && p.getHasPlayed() && p.isActive()) {
                     p.setTeacherAssignerModifier(false);
                 }
-                if (p.getOrder() < max_order && !p.getHasPlayed()) {
+                if (p.getOrder() < max_order && !p.getHasPlayed() && p.isActive()) {
                     temp = p;
                     max_order = p.getOrder();
                 }
@@ -736,12 +719,8 @@ public class Game {
                 p.resetMovesOfStudents();
                 p.setTeacherAssignerModifier(false);
             }
-            if (lastRound){
-                try {
-                    calculateWinner();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
+            if (lastRound) {
+                calculateWinner();
                 return;
             }
             plist.notifyAllClients("notify", "Planning phase");
@@ -750,11 +729,9 @@ public class Game {
             phase = 0;
             round++;
             if (studentsBag.endOfStudents()) {
-                try {
-                    calculateWinner();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
+
+                calculateWinner();
+
             }
         }
         setCurrentPlayer();
@@ -833,7 +810,7 @@ public class Game {
 
     public void chooseDeck(int numberOfDeck, Player player) {
         Deck deck = deckMap.get(numberOfDeck);
-        for (Player p : plist.getPlayers()) {
+        for (Player ignored : plist.getPlayers()) {
             if (deck.getChosen()) {
                 player.sendToClient("error", "chooseDeck", "Deck already chosen by another player");
                 return;
@@ -855,11 +832,11 @@ public class Game {
 
 
     /**
-     *
      * Plays the selected assistant card.
      * Check if the selected card is valid, send an error message to the client if an error occur.
      * If the last card in the deck has been played flags true the lastRound variable.
-     * @param player the player who is playing the assistant card
+     *
+     * @param player     the player who is playing the assistant card
      * @param cardNumber the index of the assistant card in the deck
      */
     public void playAssistantCard(Player player, int cardNumber) {
@@ -886,7 +863,7 @@ public class Game {
         setCurrentPlayer();
         if (player.deckSize()) { //return 1 if the player has finished his cards
             plist.notifyAllClients("notify", "This is the last turn");
-            lastRound =true;
+            lastRound = true;
 
         }
 
@@ -918,30 +895,45 @@ public class Game {
     }
 
     /**
-     * Calculate the winner of the match by counting which player has the most towers on the islands and sends a message to the winner.
+     * Calculates the winner of the match.
+     * If only one player is active, he is the winner without considering any other parameter.
+     * Counts which player has the most towers on the islands and sends a message to the winner.
+     *
      */
-    private void calculateWinner() throws IOException {
+    private void calculateWinner() {
         int towerNumber = 8;
-        for (Player p : plist.getPlayers()) {
-            if (p.getDashboard().getTowers().size() < towerNumber) {
-                towerNumber = p.getDashboard().getTowers().size();
-                winner = p;
-            } else if (p.getDashboard().getTowers().size() == towerNumber) {
-                winner = null;
+        if (plist.getActivePlayers() == 1) {
+            for (Player player: plist.getPlayers()){
+                if (player.isActive()) winner=player;
+            }
+        } else {
+            for (Player player : plist.getPlayers()) {
+                if (player.getDashboard().getTowers().size() < towerNumber) {
+                    towerNumber = player.getDashboard().getTowers().size();
+                    winner = player;
+                } else if (player.getDashboard().getTowers().size() == towerNumber) {
+                    winner = null;
+                }
             }
         }
+
         if (winner != null) {
-            System.out.println(winner.getName() + " won");
-            winner.sendToClient("msg", "You are the winner!");
+            System.out.println("Winner: " + winner.getName());
+            winner.sendToClient("endGame", "You are the winner!");
+            for (Player player : plist.getPlayers()) {
+                if (player != winner) player.sendToClient("endGame", winner.getName() + " is the winner");
+            }
         } else {
             System.out.println("Draw");
-            plist.notifyAllClients("msg", "It's a draw!");
+            plist.notifyAllClients("endGame", "It's a draw!");
         }
+        /**
         try {
             endOfGame();
         } catch (Exception e) {
             System.out.println("No connection");
         }
+        **/
 
     }
 

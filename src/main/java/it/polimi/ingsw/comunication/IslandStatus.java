@@ -27,6 +27,11 @@ public class IslandStatus {
     public int towerNumber;
     public String towerColor;
 
+    /**
+     * Populates every field
+     *
+     * @param island island to extract values from
+     */
     public IslandStatus(Island island) {
         this.id = island.getId();
         this.idGroup = island.getIdGroup();

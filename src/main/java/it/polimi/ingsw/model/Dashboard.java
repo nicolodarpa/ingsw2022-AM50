@@ -137,8 +137,8 @@ public class Dashboard {
     }
 
     /**
-     *
-     * @param i \requires 0 <= i < hallCapacity
+     * Extracts a student from the hall, replacing it whit null
+     * @param i index of the chosen student to get
      * @return the student in i hall's position or an NullPointerException if the requirements aren't respected.
      */
     public Student getStudentFromHall(int i) {

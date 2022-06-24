@@ -3,6 +3,10 @@ package it.polimi.ingsw.comunication;
 import it.polimi.ingsw.model.PlayersList;
 import it.polimi.ingsw.model.Player;
 
+
+/**
+ * Template class to encode and decode json with the state of a game
+ */
 public class GameStatus {
 
     public int gameId;

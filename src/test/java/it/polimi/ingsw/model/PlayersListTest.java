@@ -15,7 +15,7 @@ public class PlayersListTest {
         assertTrue(playersList.containsByName(playerTest.getName()));
         playersList.removePlayer(playerTest);
         System.out.println(playersList.getPlayers().size());
-        assertFalse(playersList.containsByName(playerTest.getName()));
+        assertFalse(playerTest.isActive());
 
     }
 }

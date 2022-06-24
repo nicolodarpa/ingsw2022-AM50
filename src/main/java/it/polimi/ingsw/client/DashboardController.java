@@ -454,6 +454,7 @@ public class DashboardController implements Initializable, DisplayLabel {
         commandHashMap.put("confirmation", this::manageConfirmation);
         commandHashMap.put("warning", this::printWarning);
         commandHashMap.put("notify", this::printNotify);
+        commandHashMap.put("endGame", this::endGame);
         commandHashMap.put("msg", this::printMessage);
         commandHashMap.put("dashboard", this::setDashboard);
         commandHashMap.put("hall", this::setUpHallPosition);
@@ -907,6 +908,7 @@ public class DashboardController implements Initializable, DisplayLabel {
 
     /**
      * Removes the tower image from an island
+     *
      * @param idIsland index of the island where the tower needs to be removed
      */
     public void resetTowerOnTheIsland(int idIsland) {
@@ -917,6 +919,7 @@ public class DashboardController implements Initializable, DisplayLabel {
     /**
      * Moves Mother Nature.
      * Gets the index of the clicked island and sends a command to the server to move Mother Nature to the destination island
+     *
      * @param event used to identify the clicked object
      */
     @FXML
@@ -1195,7 +1198,7 @@ public class DashboardController implements Initializable, DisplayLabel {
      * @throws IOException if it can't open a new scene, because the resource is null.
      */
     @FXML
-    private void setPlayerDashboardTwo(ActionEvent actionEvent) throws IOException {
+    private void setPlayerDashboardTwo() throws IOException {
         clientInput.sendString("enemyDashboard", "");
         DashboardEnemyController controller = new DashboardEnemyController();
         controller.setDashboardStatus(enemyDashboard[1]);
@@ -1237,9 +1240,9 @@ public class DashboardController implements Initializable, DisplayLabel {
         CharacterCardsController controller = new CharacterCardsController();
         controller.setCards(characterCardList);
         Stage characterCardsStage = new Stage();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("characterCards.fxml"));
-        loader.setController(controller);
-        Scene characterCardsScene = new Scene(loader.load());
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("characterCards.fxml"));
+        fxmlLoader.setController(controller);
+        Scene characterCardsScene = new Scene(fxmlLoader.load());
         characterCardsStage.setScene(characterCardsScene);
         characterCardsStage.showAndWait();
         refreshGUI();
@@ -1255,6 +1258,22 @@ public class DashboardController implements Initializable, DisplayLabel {
     @FXML
     public void setDashboardButtonText(Button button, String name) {
         button.setText("view " + name + " dashboard");
+    }
+
+    /**
+     * Shows the end game page
+     *
+     * @throws IOException If an exception occurred loading the scene
+     */
+    private void endGame() throws IOException {
+        EndGameController controller = new EndGameController();
+        controller.setText(message.message);
+        Stage stage = (Stage) anchor.getScene().getWindow();
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("endGame.fxml"));
+        fxmlLoader.setController(controller);
+        Scene scene = new Scene(fxmlLoader.load());
+        stage.setScene(scene);
+        stage.show();
     }
 }
 

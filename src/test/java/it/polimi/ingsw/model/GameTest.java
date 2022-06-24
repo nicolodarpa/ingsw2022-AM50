@@ -184,26 +184,25 @@ public class GameTest {
         Player p = gameTest.getPlist().getPlayers().get(0);
         Player q = gameTest.getPlist().getPlayers().get(1);
         System.out.println("p: " + p.getDashboard().getTowers().size() + "\n" + "q: " + q.getDashboard().getTowers().size());
-        gameTest.getIslands().get(0).setOwner(q);
+        gameTest.getIslands().get(0).setOwner(p);
+        gameTest.getIslands().get(1).setOwner(p);
+        gameTest.getIslands().get(2).setOwner(p);
+        gameTest.connectIsland();
         gameTest.getIslands().get(1).setOwner(p);
         gameTest.getIslands().get(2).setOwner(p);
         gameTest.getIslands().get(3).setOwner(p);
-        gameTest.getIslands().get(4).setOwner(p);
+        gameTest.connectIsland();
         gameTest.getIslands().get(5).setOwner(q);
         gameTest.getIslands().get(6).setOwner(q);
-        gameTest.connectIsland();
-        gameTest.getIslands().get(3).setOwner(p);
-        gameTest.getIslands().get(4).setOwner(p);
-        gameTest.getIslands().get(5).setOwner(q);
-        gameTest.getIslands().get(6).setOwner(q);
-        gameTest.connectIsland();
-        gameTest.getIslands().get(5).setOwner(q);
-        gameTest.connectIsland();
+        gameTest.getIslands().get(2).setOwner(q);
+        gameTest.getIslands().get(3).setOwner(q);
+        gameTest.getIslands().get(4).setOwner(q);
+
+
         System.out.println("--------");
         for (Island i : gameTest.getIslands()) {
             System.out.println("Numero isola: " + i.getId() + " - dimension: " + i.getDimension() + ", owner: " + i.getOwner());
         }
-        gameTest.getIslands().get(1).setOwner(p);
         for (int i = 7; i >= 0; i--) {
             p.getDashboard().removeTower(i);
         }
@@ -212,7 +211,7 @@ public class GameTest {
         }
         System.out.println("p: " + p.getDashboard().getTowers().size() + "\n" + "q: " + q.getDashboard().getTowers().size());
         gameTest.connectIsland();
-        assertEquals(gameTest.getWinner(), p);
+        assertEquals(p,gameTest.getWinner());
 
 
     }

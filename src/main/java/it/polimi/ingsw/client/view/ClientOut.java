@@ -7,6 +7,7 @@ import it.polimi.ingsw.client.LineClient;
 import it.polimi.ingsw.comunication.*;
 
 
+import javax.sound.sampled.Line;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.net.Socket;
@@ -92,6 +93,7 @@ public class ClientOut extends Thread {
         commandHashMap.put("confirmation", this::manageConfirmation);
         commandHashMap.put("warning", this::printWarning);
         commandHashMap.put("notify", this::printNotify);
+        commandHashMap.put("endGame",this::endGame);
         commandHashMap.put("characterCards", this::printCharacterCards);
         commandHashMap.put("islands", this::printIslands);
         commandHashMap.put("dashboard", this::printDashboard);
@@ -226,7 +228,7 @@ public class ClientOut extends Thread {
                     }
                 }
                 case "login" -> LineClient.chooseDeck();
-                case "chooseDeck" -> {
+                case "chooseDeck", "logBack" -> {
                     LineClient.stdinScan();
                 }
             }
@@ -437,6 +439,10 @@ public class ClientOut extends Thread {
             for (int i = 0; i < playersStatus.cardsPlayed.size(); i++)
                 System.out.println("order: " + playersStatus.cardsPlayed.get(i));
         }
+    }
+
+    private void endGame(){
+        printNotify();
     }
 
 

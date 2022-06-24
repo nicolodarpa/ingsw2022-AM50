@@ -6,9 +6,18 @@ import it.polimi.ingsw.model.Student;
 
 import java.util.ArrayList;
 
+/**
+ * Template class to encode and decode json with the state of the dashboard hall
+ */
 public class HallStatus {
    public String[] students;
 
+
+    /**
+     * Populates every field
+     *
+     * @param dashboard dashboard to extract values from
+     */
     public HallStatus(Dashboard dashboard){
         Student[] hall = dashboard.getHall();
         students = new String[hall.length];
