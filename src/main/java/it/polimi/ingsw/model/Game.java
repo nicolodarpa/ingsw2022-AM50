@@ -864,8 +864,8 @@ public class Game {
     public void chooseCloudCard(int indexCloudCard, Player player) {
         ArrayList<Student> students;
         try {
-            if (cloudCards.get(indexCloudCard).getStudents().size() != 0) {
-                students = cloudCards.get(indexCloudCard).getAllStudents();
+            if (cloudCards.get(indexCloudCard-1).getStudents().size() != 0) {
+                students = cloudCards.get(indexCloudCard-1).getAllStudents();
                 Dashboard actualDashboard = player.getDashboard();
                 for (Student s : students)
                     actualDashboard.addStudentToHall(s);
