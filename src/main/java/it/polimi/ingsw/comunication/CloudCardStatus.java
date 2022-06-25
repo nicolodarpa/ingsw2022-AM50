@@ -9,6 +9,7 @@ import java.util.ArrayList;
  * Template class to encode and decode json with the status of cloud cards
  */
 public class CloudCardStatus {
+    public int id;
 
     /**
      * Array List of the color codes of the students in the cloud card
@@ -27,6 +28,7 @@ public class CloudCardStatus {
      */
     public CloudCardStatus(CloudCard cloudCard) {
         ArrayList<Student> cloudCardStudents = cloudCard.getStudents();
+        id = cloudCard.getId();
         for (Student student : cloudCardStudents) {
             if (student != null) {
                 studentsColors.add(student.getColor().name().toLowerCase());

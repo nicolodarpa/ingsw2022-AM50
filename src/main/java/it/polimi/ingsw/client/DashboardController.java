@@ -56,50 +56,123 @@ public class DashboardController implements Initializable, DisplayLabel {
      */
     @FXML
     private Circle professorPosition1 = new Circle(), professorPosition2 = new Circle(), professorPosition3 = new Circle(), professorPosition4 = new Circle(), professorPosition5 = new Circle();
-    @FXML
-    private Circle redPosition1 = new Circle(), redPosition2 = new Circle(), redPosition3 = new Circle(), redPosition4 = new Circle(), redPosition5 = new Circle(), redPosition6 = new Circle(), redPosition7 = new Circle(), redPosition8 = new Circle(), redPosition9 = new Circle(), redPosition10 = new Circle();
+    /**
+     * Positions of the green student on the dashboard's classroom.
+     */
     @FXML
     private Circle greenPosition1 = new Circle(), greenPosition2 = new Circle(), greenPosition3 = new Circle(), greenPosition4 = new Circle(), greenPosition5 = new Circle(), greenPosition6 = new Circle(), greenPosition7 = new Circle(), greenPosition8 = new Circle(), greenPosition9 = new Circle(), greenPosition10 = new Circle();
+
+    /**
+     * Positions of the red student on the dashboard's classroom.
+     */
+    @FXML
+    private Circle redPosition1 = new Circle(), redPosition2 = new Circle(), redPosition3 = new Circle(), redPosition4 = new Circle(), redPosition5 = new Circle(), redPosition6 = new Circle(), redPosition7 = new Circle(), redPosition8 = new Circle(), redPosition9 = new Circle(), redPosition10 = new Circle();
+
+    /**
+     * Positions of the yellow students on the dashboard's classroom.
+     */
     @FXML
     private Circle yellowPosition1 = new Circle(), yellowPosition2 = new Circle(), yellowPosition3 = new Circle(), yellowPosition4 = new Circle(), yellowPosition5 = new Circle(), yellowPosition6 = new Circle(), yellowPosition7 = new Circle(), yellowPosition8 = new Circle(), yellowPosition9 = new Circle(), yellowPosition10 = new Circle();
+
+    /**
+     * Positions of the magenta student son the dashboard's classroom.
+     */
     @FXML
     private Circle magentaPosition1 = new Circle(), magentaPosition2 = new Circle(), magentaPosition3 = new Circle(), magentaPosition4 = new Circle(), magentaPosition5 = new Circle(), magentaPosition6 = new Circle(), magentaPosition7 = new Circle(), magentaPosition8 = new Circle(), magentaPosition9 = new Circle(), magentaPosition10 = new Circle();
+
+    /**
+     * Positions of the cyan students on the dashboard's classroom.
+     */
     @FXML
     private Circle cyanPosition1 = new Circle(), cyanPosition2 = new Circle(), cyanPosition3 = new Circle(), cyanPosition4 = new Circle(), cyanPosition5 = new Circle(), cyanPosition6 = new Circle(), cyanPosition7 = new Circle(), cyanPosition8 = new Circle(), cyanPosition9 = new Circle(), cyanPosition10 = new Circle();
 
+    /**
+     * It's the area of the classroom
+     */
     @FXML
     private Rectangle classRoom = new Rectangle();
+
+    /**
+     * Positions of the islands when MotherNature is moved.
+     */
     @FXML
     private Rectangle MNIsland1 = new Rectangle(), MNIsland2 = new Rectangle(), MNIsland3 = new Rectangle(), MNIsland4 = new Rectangle(), MNIsland5 = new Rectangle(), MNIsland6 = new Rectangle(), MNIsland7 = new Rectangle(), MNIsland8 = new Rectangle(), MNIsland9 = new Rectangle(), MNIsland10 = new Rectangle(), MNIsland11 = new Rectangle(), MNIsland12 = new Rectangle();
+
+    /**
+     * ImageView of the images of the islands.
+     */
     @FXML
     private ImageView Island1 = new ImageView(), Island2 = new ImageView(), Island3 = new ImageView(), Island4 = new ImageView(), Island5 = new ImageView(), Island6 = new ImageView(), Island7 = new ImageView(), Island8 = new ImageView(), Island9 = new ImageView(), Island10 = new ImageView(), Island11 = new ImageView(), Island12 = new ImageView();
-    @FXML
-    private Circle greenStudentIsland1 = new Circle(), greenStudentIsland2 = new Circle(), greenStudentIsland3 = new Circle(), greenStudentIsland4 = new Circle(), greenStudentIsland5 = new Circle(), greenStudentIsland6 = new Circle(), greenStudentIsland7 = new Circle(), greenStudentIsland8 = new Circle(), greenStudentIsland9 = new Circle(), greenStudentIsland10 = new Circle(), greenStudentIsland11 = new Circle(), greenStudentIsland12 = new Circle();
+
+    /**
+     * Positions of the red students on each island.
+     */
     @FXML
     private Circle redStudentIsland1 = new Circle(), redStudentIsland2 = new Circle(), redStudentIsland3 = new Circle(), redStudentIsland4 = new Circle(), redStudentIsland5 = new Circle(), redStudentIsland6 = new Circle(), redStudentIsland7 = new Circle(), redStudentIsland8 = new Circle(), redStudentIsland9 = new Circle(), redStudentIsland10 = new Circle(), redStudentIsland11 = new Circle(), redStudentIsland12 = new Circle();
+
+    /**
+     * Positions of the green students on each island.
+     */
+    @FXML
+    private Circle greenStudentIsland1 = new Circle(), greenStudentIsland2 = new Circle(), greenStudentIsland3 = new Circle(), greenStudentIsland4 = new Circle(), greenStudentIsland5 = new Circle(), greenStudentIsland6 = new Circle(), greenStudentIsland7 = new Circle(), greenStudentIsland8 = new Circle(), greenStudentIsland9 = new Circle(), greenStudentIsland10 = new Circle(), greenStudentIsland11 = new Circle(), greenStudentIsland12 = new Circle();
+
+    /**
+     * Positions of the yellow students on each island.
+     */
     @FXML
     private Circle yellowStudentIsland1 = new Circle(), yellowStudentIsland2 = new Circle(), yellowStudentIsland3 = new Circle(), yellowStudentIsland4 = new Circle(), yellowStudentIsland5 = new Circle(), yellowStudentIsland6 = new Circle(), yellowStudentIsland7 = new Circle(), yellowStudentIsland8 = new Circle(), yellowStudentIsland9 = new Circle(), yellowStudentIsland10 = new Circle(), yellowStudentIsland11 = new Circle(), yellowStudentIsland12 = new Circle();
+
+    /**
+     * Positions of the magenta students on each island.
+     */
     @FXML
     private Circle magentaStudentIsland1 = new Circle(), magentaStudentIsland2 = new Circle(), magentaStudentIsland3 = new Circle(), magentaStudentIsland4 = new Circle(), magentaStudentIsland5 = new Circle(), magentaStudentIsland6 = new Circle(), magentaStudentIsland7 = new Circle(), magentaStudentIsland8 = new Circle(), magentaStudentIsland9 = new Circle(), magentaStudentIsland10 = new Circle(), magentaStudentIsland11 = new Circle(), magentaStudentIsland12 = new Circle();
+
+    /**
+     * Positions of the cyan students on each island.
+     */
     @FXML
     private Circle cyanStudentIsland1 = new Circle(), cyanStudentIsland2 = new Circle(), cyanStudentIsland3 = new Circle(), cyanStudentIsland4 = new Circle(), cyanStudentIsland5 = new Circle(), cyanStudentIsland6 = new Circle(), cyanStudentIsland7 = new Circle(), cyanStudentIsland8 = new Circle(), cyanStudentIsland9 = new Circle(), cyanStudentIsland10 = new Circle(), cyanStudentIsland11 = new Circle(), cyanStudentIsland12 = new Circle();
+
+    /**
+     * Positions of Mother Nature on each island.
+     */
     @FXML
     private ImageView MNPosition1 = new ImageView(), MNPosition2 = new ImageView(), MNPosition3 = new ImageView(), MNPosition4 = new ImageView(), MNPosition5 = new ImageView(), MNPosition6 = new ImageView(), MNPosition7 = new ImageView(), MNPosition8 = new ImageView(), MNPosition9 = new ImageView(), MNPosition10 = new ImageView(), MNPosition11 = new ImageView(), MNPosition12 = new ImageView();
 
+    /**
+     * Positions of the towers on each island.
+     */
     @FXML
     private ImageView towerIsland1 = new ImageView(), towerIsland2 = new ImageView(), towerIsland3 = new ImageView(), towerIsland4 = new ImageView(), towerIsland5 = new ImageView(), towerIsland6 = new ImageView(), towerIsland7 = new ImageView(), towerIsland8 = new ImageView(), towerIsland9 = new ImageView(), towerIsland10 = new ImageView(), towerIsland11 = new ImageView(), towerIsland12 = new ImageView();
 
+    /**
+     * Positions of the CloudCard.
+     */
     @FXML
     private Circle cloudCard1 = new Circle(), cloudCard2 = new Circle(), cloudCard3 = new Circle();
 
+    /**
+     * Positions of the students on the CloudCard 1.
+     */
     @FXML
     private Circle student1CC1 = new Circle(), student2CC1 = new Circle(), student3CC1 = new Circle(), student4CC1 = new Circle();
+
+    /**
+     * Positions of the students on the CloudCard 2.
+     */
     @FXML
     private Circle student1CC2 = new Circle(), student2CC2 = new Circle(), student3CC2 = new Circle(), student4CC2 = new Circle();
+
+    /**
+     * Positions of the students on the CloudCard 3.
+     */
     @FXML
     private Circle student1CC3 = new Circle(), student2CC3 = new Circle(), student3CC3 = new Circle(), student4CC3 = new Circle();
 
-
+    /**
+     * It's an array of all the button of the islands.
+     */
     @FXML
     private final ArrayList<Button> islandInfoButtons = new ArrayList<>();
 
@@ -110,67 +183,67 @@ public class DashboardController implements Initializable, DisplayLabel {
     private Button info0 = new Button();
 
     /**
-     * Button to show the info of island 2.
+     * Button shows the info of island 2.
      */
     @FXML
     private Button info1 = new Button();
 
     /**
-     * Button to show the info of island 3.
+     * Button shows the info of island 3.
      */
     @FXML
     private Button info2 = new Button();
 
     /**
-     * Button to show the info of island 4.
+     * Button shows the info of island 4.
      */
     @FXML
     private Button info3 = new Button();
 
     /**
-     * Button to show the info of island 5.
+     * Button shows the info of island 5.
      */
     @FXML
     private Button info4 = new Button();
 
     /**
-     * Button to show the info of island 6.
+     * Button shows the info of island 6.
      */
     @FXML
     private Button info5 = new Button();
 
     /**
-     * Button to show the info of island 7.
+     * Button shows the info of island 7.
      */
     @FXML
     private Button info6 = new Button();
 
     /**
-     * Button to show the info of island 8.
+     * Button shows the info of island 8.
      */
     @FXML
     private Button info7 = new Button();
 
     /**
-     * Button to show the info of island 9.
+     * Button shows the info of island 9.
      */
     @FXML
     private Button info8 = new Button();
 
     /**
-     * Button to show the info of island 10.
+     * Button shows the info of island 10.
      */
     @FXML
     private Button info9 = new Button();
 
     /**
-     * Button to show the info of island 11.
+     * Button shows the info of island 11.
      */
     @FXML
     private Button info10 = new Button();
 
     /**
-     * Button to show the info of island 12.
+     * Button shows the info of island 12.
      */
     @FXML
     private Button info11 = new Button();
@@ -179,39 +252,73 @@ public class DashboardController implements Initializable, DisplayLabel {
     private int index = -1, indexIsland, indexMN;
 
     /**
-     * This arrayList contain all the circle position where the students pawn are shown
+     * This arrayList contain all the circle position where the red students are shown on each island.
+     */
+    private final ArrayList<Circle> redStudentIsland = new ArrayList<>();
+
+    /**
+     * This arrayList contain all the circle position where the green students are shown on each island.
      */
     private final ArrayList<Circle> greenStudentIsland = new ArrayList<>();
-    private final ArrayList<Circle> redStudentIsland = new ArrayList<>();
+
+    /**
+     * This arrayList contain all the circle position where the yellow students are shown on each island.
+     */
     private final ArrayList<Circle> yellowStudentIsland = new ArrayList<>();
+
+    /**
+     * This arrayList contain all the circle position where the magenta students are shown on each island.
+     */
     private final ArrayList<Circle> magentaStudentIsland = new ArrayList<>();
+
+    /**
+     * This arrayList contain all the circle position where the cyan students are shown on each island.
+     */
     private final ArrayList<Circle> cyanStudentIsland = new ArrayList<>();
 
+    /**
+     * This arrayList contain all the circle of the CloudCards.
+     */
     private final ArrayList<Circle> cloudCards = new ArrayList<>(3);
-    private final CloudCardDeckImages cloudCardDeckImages = new CloudCardDeckImages();
+
+    /**
+     * This arrayList contain all the circle position of the students shown on the CloudCard 1.
+     */
     private final ArrayList<Circle> studentsCC1 = new ArrayList<>();
+
+    /**
+     * This arrayList contain all the circle position of the students shown on the CloudCard 2.
+     */
     private final ArrayList<Circle> studentsCC2 = new ArrayList<>();
+
+    /**
+     * This arrayList contain all the circle position of the students shown on the CloudCard 3.
+     */
     private final ArrayList<Circle> studentsCC3 = new ArrayList<>();
+
+    /**
+     * This arrayList contain all the circle position of the students shown on the  CloudCards.
+     */
     private final ArrayList<ArrayList<Circle>> studentsInEachCloudCard = new ArrayList<>();
 
 
     /**
-     * This arrayList contain all the circle position to show the student in the hall of the dashboard
+     * This arrayList contain all the circle position that show the student in the hall of the dashboard.
      */
     private final ArrayList<Circle> studentsPosition = new ArrayList<>(9);
 
     /**
-     * This arrayList contain all the ImageView position to show the towers in the dashboard
+     * This arrayList contain all the ImageView position that show the towers in the dashboard.
      */
     private final ArrayList<ImageView> towerPosition = new ArrayList<>(8);
 
     /**
-     * This arrayList contain all the circle position to show the teachers in the teacherTable of the dashboard
+     * This arrayList contain all the circle position that show the teachers in the teacherTable of the dashboard.
      */
     private final ArrayList<Circle> professorsPosition = new ArrayList<>(5);
 
     /**
-     * This arrayList contain all the circle position to show the students based on their color in the row of the classroom
+     * This arrayList contain all the circle position that show the students based on their color in the row of the classroom
      */
     private final ArrayList<Circle> greenPositions = new ArrayList<>();
     private final ArrayList<Circle> redPositions = new ArrayList<>();
@@ -220,17 +327,9 @@ public class DashboardController implements Initializable, DisplayLabel {
     private final ArrayList<Circle> cyanPositions = new ArrayList<>();
 
     /**
-     * It is the number of column in the classroom
-     */
-    private final int numberOfPositionClassroom = 10;
-
-    private final Boolean[][] classroomFilled = new Boolean[PawnColor.numberOfColors][numberOfPositionClassroom];
-
-    /**
      * ArrayList that contain all the ImageView to show the islands
      */
     private final ArrayList<ImageView> Islands = new ArrayList<>(12);
-
 
     /**
      * Holds the positions of mother nature on every island
@@ -335,11 +434,14 @@ public class DashboardController implements Initializable, DisplayLabel {
 
     private void setUpCCImages(CloudCardStatus[] cloudCardsStatus) {
         int i = 0;
-        cloudCardDeckImages.extractRandomCloudCard();
+        int id;
 
         for (Circle c : cloudCards) {
-            c.setFill(new ImagePattern(cloudCardDeckImages.getCloudCardsInGame().get(i)));
-            if (cloudCardsStatus.length == 2 && i >= 2)
+            if (i <cloudCardsStatus.length) {
+                id = cloudCardsStatus[i].id;
+                c.setFill(new ImagePattern(new Image(String.valueOf(getClass().getClassLoader().getResource("images/cloudcard/cc" + (id+1)+ ".png")))));
+            }
+            else if (cloudCardsStatus.length == 2 && i >= 2)
                 c.setFill(null);
             i++;
         }
@@ -390,14 +492,6 @@ public class DashboardController implements Initializable, DisplayLabel {
         colorNames.addAll(Arrays.asList(greenPositions, redPositions, yellowPositions, magentaPositions, cyanPositions));
     }
 
-    private void setUpClassroomFilled() {
-        for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 10; j++) {
-                classroomFilled[i][j] = false;
-            }
-        }
-    }
-
     /**
      * Adds the towers position on the islands to the arrayList towerIslands
      */
@@ -412,6 +506,10 @@ public class DashboardController implements Initializable, DisplayLabel {
         towerPosition.addAll(Arrays.asList(towerPosition1, towerPosition2, towerPosition3, towerPosition4, towerPosition5, towerPosition6, towerPosition7, towerPosition8));
     }
 
+    /**
+     * studentPosition is the array of the students' position on the hall of tha dashbaord.
+     * Adds the student position to the arrayList studentPosition.
+     */
     public void setUpHallPosition() {
         studentsPosition.addAll(Arrays.asList(studentPosition1, studentPosition2, studentPosition3, studentPosition4, studentPosition5, studentPosition6, studentPosition7, studentPosition8, studentPosition9));
     }
@@ -466,7 +564,7 @@ public class DashboardController implements Initializable, DisplayLabel {
         commandHashMap.put("characterCards", this::setCharacterCards);
         commandHashMap.put("enemyDashboard", this::setEnemyDashboard);
 
-        setUpClassroomFilled();
+
         setUpNameColor();
         setUpClassroom();
         setUpProfessorPositions();
@@ -922,7 +1020,6 @@ public class DashboardController implements Initializable, DisplayLabel {
         towerIslands.get(idIsland).setImage(null);
     }
 
-
     /**
      * Moves Mother Nature.
      * Gets the index of the clicked island and sends a command to the server to move Mother Nature to the destination island
@@ -934,8 +1031,15 @@ public class DashboardController implements Initializable, DisplayLabel {
         indexIsland = MnIslandPosition.indexOf((Rectangle) event.getSource());
         System.out.println(indexIsland + " MnIslandPosition");
         clientInput.sendString("moveMN", String.valueOf(indexIsland + 1));
-        enableCloudCards();
-
+        if (movesOfStudent != 0) {
+            disableMNIslandPosition();
+            enableMN();
+        }
+        else {
+            index = -1;
+            refreshGUI();
+            enableCloudCards();
+        }
     }
 
     /**
@@ -981,81 +1085,116 @@ public class DashboardController implements Initializable, DisplayLabel {
         }
     }
 
-
+    /**
+     * gives us the information of the island 1.
+     */
     @FXML
     private void showStudentsIsland0() {
         clientInput.sendString("singleIsland", String.valueOf(1));
     }
 
-
+    /**
+     * gives us the information of the island 2.
+     */
     @FXML
     private void showStudentsIsland1() {
         clientInput.sendString("singleIsland", String.valueOf(2));
     }
 
+    /**
+     * gives us the information of the island 3.
+     */
     @FXML
     private void showStudentsIsland2() {
         clientInput.sendString("singleIsland", String.valueOf(3));
     }
 
+    /**
+     * gives us the information of the island 4.
+     */
     @FXML
     private void showStudentsIsland3() {
         clientInput.sendString("singleIsland", String.valueOf(4));
     }
 
+    /**
+     * gives us the information of the island 5.
+     */
     @FXML
     private void showStudentsIsland4() {
         clientInput.sendString("singleIsland", String.valueOf(5));
     }
 
+    /**
+     * gives us the information of the island 6.
+     */
     @FXML
     private void showStudentsIsland5() {
         clientInput.sendString("singleIsland", String.valueOf(6));
     }
 
+    /**
+     * gives us the information of the island 7.
+     */
     @FXML
     private void showStudentsIsland6() {
         clientInput.sendString("singleIsland", String.valueOf(7));
     }
 
+    /**
+     * gives us the information of the island 8.
+     */
     @FXML
     private void showStudentsIsland7() {
         clientInput.sendString("singleIsland", String.valueOf(8));
     }
 
+    /**
+     * gives us the information of the island 9.
+     */
     @FXML
     private void showStudentsIsland8() {
         clientInput.sendString("singleIsland", String.valueOf(9));
     }
 
+    /**
+     * gives us the information of the island 10.
+     */
     @FXML
     private void showStudentsIsland9() {
         clientInput.sendString("singleIsland", String.valueOf(10));
     }
 
+    /**
+     * gives us the information of the island 11.
+     */
     @FXML
     private void showStudentsIsland10() {
         clientInput.sendString("singleIsland", String.valueOf(11));
     }
 
+    /**
+     * gives us the information of the island 12.
+     */
     @FXML
     private void showStudentsIsland11() {
         clientInput.sendString("singleIsland", String.valueOf(12));
     }
 
     /**
-     * takes the position of mother nature, then enable all the islands, except for the island where there is mother nature
+     * takes the position of mother nature, then enable all the islands.
      *
      * @param event used to identify the clicked object
      */
-    @FXML
+
     public void getIndexMN(MouseEvent event) {
-        indexMN = MNPositions.indexOf((ImageView) event.getSource());
-        System.out.println(indexMN + " it's the position of MN");
-        enableMNIslandPosition();
+        int indexMNClicked = MNPositions.indexOf((ImageView) event.getSource());
+        if (indexMNClicked == indexMN){
+            System.out.println(indexMN + " it's the position of MN");
+            enableMNIslandPosition();
+            disableMN();
+        }
     }
-
-
     /**
      * Gets the index of the clicked cloud card and sends a command to the server to select the cloud card to get the students from
      *
@@ -1067,14 +1206,14 @@ public class DashboardController implements Initializable, DisplayLabel {
         System.out.println(indexCloudCard + " is the CC chosen");
         if (indexCloudCard != -1) {
             clientInput.sendString("chooseCC", String.valueOf(indexCloudCard + 1));
-            //clientInput.sendString("islands", "");
             indexCloudCard = -1;
         } else {
             AlertHelper.showAlert(Alert.AlertType.WARNING, cloudCards.get(indexCloudCard).getScene().getWindow(), "Error", "Cloud Card not available");
         }
+        enableMN();
         enableIslandAndHall();
-
-
+        disableMNIslandPosition();
+        refreshGUI();
     }
 
 

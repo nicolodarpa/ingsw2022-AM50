@@ -132,8 +132,8 @@ public class LineClient {
                 -dashboard (shows dashboards of both players)
                 -cloud cards (shows cloud cards)
                 -player (shows your info like your order and Move of MN available)
-                -allPlayer (shows all player's info)
                 -gameInfo(shows the actual player, the number of round and the actual phase)
+                -cardsPlayed (the list of assistant cards that you have played)
                 -quit (quit the game)
                 -clear""");
     }
