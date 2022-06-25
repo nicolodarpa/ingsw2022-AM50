@@ -116,7 +116,8 @@ public class ClientOut extends Thread {
                         System.out.println("Received " + message.type + "\n" + message.message);
                     }
 
-                }
+                } else
+                    break;
             } catch (IOException e) {
                 break;
             }
