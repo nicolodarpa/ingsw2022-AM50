@@ -53,6 +53,17 @@ public class Game {
     private final ArrayList<CloudCard> cloudCards = new ArrayList<>();
 
     /**
+     * They are 3 id for the CloudCards.
+     * {@link IdCloudCards}
+     */
+    private IdCloudCards idCloudCards= new IdCloudCards();
+
+    /**
+     * An array of the id of the CloudCards in the game.
+     */
+    private ArrayList<Integer> idCloudCardsInGame= new ArrayList<>();
+
+    /**
      * A hash map that contains all the four decks.
      * {@link Deck}
      */
@@ -549,13 +560,16 @@ public class Game {
      * Creates 3 or 4 CloudCard in cloudCards and fills them with the correct amount of students
      */
     private void cloudCardCreation() {
+        idCloudCards.extractRandomCard(numberOfPlayers);
+        idCloudCardsInGame = idCloudCards.getIdOfCloudCardsInGame();
+
         if (numberOfPlayers == 2) {
             for (int i = 0; i < 2; i++) {
-                cloudCards.add(new CloudCard(numberOfPlayers));
+                cloudCards.add(new CloudCard(numberOfPlayers, idCloudCardsInGame.get(i)));
             }
         } else {
             for (int i = 0; i < 3; i++) {
-                cloudCards.add(new CloudCard(numberOfPlayers));
+                cloudCards.add(new CloudCard(numberOfPlayers, idCloudCardsInGame.get(i)));
             }
         }
 

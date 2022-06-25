@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 
 class CloudCardTest {
-    CloudCard testCloud = new CloudCard(2);
+    CloudCard testCloud = new CloudCard(2,1);
 
 
 

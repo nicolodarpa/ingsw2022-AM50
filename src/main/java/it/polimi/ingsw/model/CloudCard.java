@@ -6,6 +6,10 @@ import java.util.ArrayList;
  * This class models the Cloud Cards
  */
 public class CloudCard {
+    /**
+     * It's the Id of the CloudCard.
+     */
+    private int id;
 
     /**
      * The students on the cloud card
@@ -22,7 +26,7 @@ public class CloudCard {
      * By the param numberOfPlayers, the constructor set the number of students(capacity) on the cloud cards (3 or 4)
      * @param numberOfPlayers is the number of players in the game, (\requires numberOfPlayer == 2 || numberOfPlayer == 3)
      */
-    public CloudCard(int numberOfPlayers) {
+    public CloudCard(int numberOfPlayers, int id) {
 
         if (numberOfPlayers == 2) {
             capacity = 3;
@@ -31,7 +35,11 @@ public class CloudCard {
             capacity = 4;
             students = new ArrayList<>(capacity);
         }
+        this.id=id;
+    }
 
+    public int getId() {
+        return id;
     }
 
     /**
