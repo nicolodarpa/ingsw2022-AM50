@@ -3,22 +3,28 @@ package it.polimi.ingsw.model.CharacterCards;
 import it.polimi.ingsw.LoginManager;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class BlockCardTestStrategy {
+
+/**
+ * Test for {@link  BlockCardStrategy}
+ */
+class BlockCardStrategyTest {
     Game gameTest;
 
 
-
+    /**
+     * Test
+     */
     @Test
+    @DisplayName("Effect")
     void effect() {
         gameTest = new Game(2);
-
         LoginManager.login("ale",gameTest);
         LoginManager.login("nic",gameTest);
-
         Player p1 = gameTest.getPlist().getPlayers().get(0);
         Player p2 = gameTest.getPlist().getPlayers().get(1);
         BlockCardStrategy card = new BlockCardStrategy();

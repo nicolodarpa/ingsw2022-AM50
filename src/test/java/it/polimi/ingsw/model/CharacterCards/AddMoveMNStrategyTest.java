@@ -7,20 +7,27 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import it.polimi.ingsw.model.Deck;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+/**
+ * Test for {@link AddMoveMNStrategy}
+ */
 
 public class AddMoveMNStrategyTest {
 
     private Game gameTest;
 
+
+    /**
+     * Tests if the available moves of mother nature are increase by the effect of the card
+     */
     @Test
+    @DisplayName("Effect test")
     public void effectTest(){
         gameTest = new Game(2);
-
         LoginManager.login("ale",gameTest);
         LoginManager.login("nic",gameTest);
-
         Player p1 = gameTest.getPlist().getPlayers().get(0);
         Player p2 = gameTest.getPlist().getPlayers().get(1);
         Deck d1 = new Deck(1,"BLUE");
@@ -36,6 +43,7 @@ public class AddMoveMNStrategyTest {
         cardTest.effect();
         assertEquals(4,gameTest.getCurrentPlayer().getMovesOfMN());
     }
+
 
     @Test
     public void testGetCost(){
@@ -60,17 +68,7 @@ public class AddMoveMNStrategyTest {
         card.addCost();
         System.out.println(card.getCost());
     }
-
-    @Test
-    public void testGetEffectOfTheCard(){
-        gameTest = new Game(2);
-
-        LoginManager.login("jaz",gameTest);
-        LoginManager.login("nic",gameTest);
-
-        NoTowerInfluenceStrategy card = new NoTowerInfluenceStrategy();
-        System.out.println(card.getEffectOfTheCard());
-    }
+    
 
 
 }

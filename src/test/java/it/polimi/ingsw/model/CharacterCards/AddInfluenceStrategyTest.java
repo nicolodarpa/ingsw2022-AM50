@@ -8,10 +8,16 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+/**
+ * Tests for {@link AddInfluenceStrategy}
+ */
 public class AddInfluenceStrategyTest {
 
     private Game gameTest;
 
+    /**
+     * Test if the initial cost of the card is correct
+     */
     @Test
     public void testGetCost() {
         gameTest = new Game(2);
@@ -24,6 +30,9 @@ public class AddInfluenceStrategyTest {
         assertEquals(2, card.getCost());
     }
 
+    /**
+     * Tests if the cost is correctly increased after playing the card
+     */
     @Test
     public void testAddCost() {
         gameTest = new Game(2);
@@ -32,23 +41,14 @@ public class AddInfluenceStrategyTest {
         LoginManager.login("nic", gameTest);
 
         AddInfluenceStrategy card = new AddInfluenceStrategy();
-        card.update(gameTest.getPlist(), gameTest.getCurrentPlayer(), gameTest.getIslands(), null, 1, gameTest.getStudentsBag());
-        card.addCost();
+        card.update(gameTest.getPlist(), gameTest.getPlist().getPlayerByName("nic"), gameTest.getIslands(), null, 1, gameTest.getStudentsBag());
+        card.effect();
         assertEquals(3, card.getCost());
     }
 
-    @Test
-    public void testGetEffectOfTheCard() {
-        gameTest = new Game(2);
-
-        LoginManager.login("jaz", gameTest);
-        LoginManager.login("nic", gameTest);
-
-        AddInfluenceStrategy card = new AddInfluenceStrategy();
-        card.update(gameTest.getPlist(), gameTest.getCurrentPlayer(), gameTest.getIslands(), null, 1, gameTest.getStudentsBag());
-        System.out.println(card.getEffectOfTheCard());
-    }
-
+    /**
+     * Test if the influence points of the player are correctly increased after playing the card
+     */
     @Test
     @DisplayName("Test effect of the card")
     public void testEffect(){
@@ -60,7 +60,11 @@ public class AddInfluenceStrategyTest {
         assertEquals(2,player.getInfluencePoint());
     }
 
+    /**
+     * Test if the islands is assigned to the player with fewer players on the island with influence boosted by the special card
+     */
     @Test
+    @DisplayName("Test influence calculation fro an island")
     void effect() {
         Game gameTest = new Game(3);
         LoginManager.login("ale", gameTest);
@@ -85,9 +89,6 @@ public class AddInfluenceStrategyTest {
         island.addStudent(new Student(PawnColor.GREEN));
         island.calculateInfluence(gameTest.getPlist());
         assertEquals("jaz", island.getOwner());
-
-
-
     }
 
     @Test

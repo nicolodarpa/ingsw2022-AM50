@@ -6,6 +6,9 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * Test for {@link MotherNatureInfluenceStrategy}
+ */
 public class MotherNatureInfluenceStrategyTest {
 
     private Game gameTest;
@@ -43,14 +46,18 @@ public class MotherNatureInfluenceStrategyTest {
         System.out.println(card.getEffectOfTheCard());
     }
 
+    /**
+     * Test if the influence is correctly calculated on an island without the presence of mother nature.
+     * A student is added to an island and the relative teacher is assigned to a player. We check if the island owner
+     * is the player
+     */
     @Test
     void effect() {
         gameTest = new Game(2);
-
         LoginManager.login("ale", gameTest);
         LoginManager.login("jaz", gameTest);
-
         Player ale = gameTest.getPlist().getPlayerByName("ale");
+
         ale.getDashboard().addTeacherToTable(new Teacher(PawnColor.RED));
         Island island = gameTest.getIslands().get(3);
         island.addStudent(new Student(PawnColor.RED));

@@ -5,12 +5,15 @@ import it.polimi.ingsw.model.Teacher;
 
 
 /**
- * Implements the special card that change the assignment of teacher in game.
+ * Changes the method of assignment of teacher in game.
  * {@link SpecialCardStrategy} {@link it.polimi.ingsw.model.Player}
  */
 public class TeacherAssignmentStrategy extends SpecialCardStrategy {
 
 
+    /**
+     * It's the character card's constructor. It sets the cost, the effect and the name of the card
+     */
     public TeacherAssignmentStrategy() {
         setCost(2);
         setEffectOfTheCard(" With this card you take the control of the teacher even if the other player has the same number of student of that color. ");

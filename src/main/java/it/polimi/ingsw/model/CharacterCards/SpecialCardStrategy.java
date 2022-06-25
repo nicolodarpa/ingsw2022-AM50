@@ -62,7 +62,7 @@ public abstract class SpecialCardStrategy {
 
 
     /**
-     * The method that implements the effect of each special card.
+     * Activates the effect of the card
      */
     public abstract void effect();
 

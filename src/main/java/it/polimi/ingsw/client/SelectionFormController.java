@@ -23,6 +23,9 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 
 
+/**
+ * Controller for selectionForm.fxml
+ */
 public class SelectionFormController implements Initializable {
 
     @FXML

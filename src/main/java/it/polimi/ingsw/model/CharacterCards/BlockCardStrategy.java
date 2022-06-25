@@ -3,7 +3,7 @@ package it.polimi.ingsw.model.CharacterCards;
 import it.polimi.ingsw.model.Island;
 
 /**
- * Implements the special card that blocks an island from the passage of mother nature. {@link SpecialCardStrategy}
+ * Freezes the calculation of the influence when mother nature stops on the island
  */
 public class BlockCardStrategy extends SpecialCardStrategy {
 
@@ -15,7 +15,9 @@ public class BlockCardStrategy extends SpecialCardStrategy {
     private Island previousIsland = null;
 
 
-
+    /**
+     * It's the character card's constructor. It sets the cost, the effect, the name of the card and the initial number of block cards available
+     */
     public BlockCardStrategy(){
         setCost(2);
         setEffectOfTheCard("Select an island to block");
@@ -31,6 +33,10 @@ public class BlockCardStrategy extends SpecialCardStrategy {
         return availableBlockCards;
     }
 
+    /**
+     * Checks if the islands previously blocked is still blocked, if not the available block card counter is increased.
+     * Checks if at least one block card is available and blocks the selected island
+     */
     public void effect() {
         if (previousIsland!=null){
             if (!previousIsland.getBlock()){

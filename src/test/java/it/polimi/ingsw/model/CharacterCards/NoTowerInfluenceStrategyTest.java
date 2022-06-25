@@ -8,6 +8,9 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+/**
+ * Test for {@link NoTowerInfluenceStrategy}
+ */
 public class NoTowerInfluenceStrategyTest {
 
     private Game gameTest;

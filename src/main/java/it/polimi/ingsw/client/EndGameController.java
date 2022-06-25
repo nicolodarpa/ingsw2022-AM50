@@ -7,6 +7,9 @@ import javafx.scene.text.Text;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * Controller for endGame.fxml
+ */
 public class EndGameController implements Initializable {
 
     private String text;
