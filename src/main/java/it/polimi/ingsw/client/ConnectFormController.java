@@ -56,25 +56,29 @@ public class ConnectFormController {
 
         Window owner = connectButton.getScene().getWindow();
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        Socket socket;
+        Socket socket = null;
         String ip = ip_input.getText();
         int port = Integer.parseInt(port_input.getText());
         try {
             socket = new Socket(ip, port);
-            PrintWriter socketOut = new PrintWriter(socket.getOutputStream());
-            BufferedReader socketIn = new BufferedReader(new InputStreamReader((socket.getInputStream())));
-            ClientInput.getInstance().setSocketOut(socketOut);
-            ClientInput.getInstance().setSocketIn(socketIn);
+            if (!socket.isClosed()) {
+                PrintWriter socketOut = new PrintWriter(socket.getOutputStream());
+                BufferedReader socketIn = new BufferedReader(new InputStreamReader((socket.getInputStream())));
+                ClientInput.getInstance().setSocketOut(socketOut);
+                ClientInput.getInstance().setSocketIn(socketIn);
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("selection_form.fxml"));
+                Scene scene = new Scene(fxmlLoader.load());
+                stage.setScene(scene);
+                stage.show();
+            }
             //new AlertThread().start();
         } catch (Exception e) {
 
             AlertHelper.showAlert(Alert.AlertType.WARNING, owner, "Connection", "Connection failed");
 
         }
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("selection_form.fxml"));
-        Scene scene = new Scene(fxmlLoader.load());
-        stage.setScene(scene);
-        stage.show();
+
+
 
 
     }

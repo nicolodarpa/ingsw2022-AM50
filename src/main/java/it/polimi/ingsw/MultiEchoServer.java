@@ -1,27 +1,36 @@
 package it.polimi.ingsw;
 
 import it.polimi.ingsw.model.Game;
-import it.polimi.ingsw.model.Pawn;
-import it.polimi.ingsw.model.Student;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Objects;
 
+
+/**
+ * Class of the server
+ */
 public class MultiEchoServer {
     private final int port;
 
 
+    /**
+     * Constructor method
+     * @param port port number
+     */
     public MultiEchoServer(int port) {
         this.port = port;
     }
 
 
+    /**
+     * Starts a new server listening for connections.
+     * Creates the gameArrayList that contains every active game managed by the server
+     * For every accepted connection create a new {@link  EchoServerClientHandler} that manages the connection with a single client
+     */
     public void startServer() {
         System.out.println("====Eriantys CLI Server====");
-        ArrayList<EchoServerClientHandler> threadList = new ArrayList<>();
         ArrayList<Game> gameArrayList = new ArrayList<>();
         ServerSocket serverSocket;
         try {
@@ -37,7 +46,6 @@ public class MultiEchoServer {
                 Socket clientSocket = serverSocket.accept();
                 System.out.println(clientSocket.getInetAddress() + " connected");
                 EchoServerClientHandler serverThread = new EchoServerClientHandler(clientSocket, gameArrayList);
-                threadList.add(serverThread);
                 serverThread.start();
             } catch (IOException e) {
                 break;

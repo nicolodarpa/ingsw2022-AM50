@@ -194,7 +194,7 @@ public class Player {
      * Moves 7 or 9 students from bag to player's hall.
      * @param bag is the StudentBag where it takes the students.
      */
-    public void moveStudentsToHall(StudentsBag bag) {
+    public void fillStudentsHall(StudentsBag bag) {
         for (int i = 0; i < getDashboard().getHall().length; i++) {
             Student student = bag.casualExtraction();
             dashboard.addStudentToHall(student);

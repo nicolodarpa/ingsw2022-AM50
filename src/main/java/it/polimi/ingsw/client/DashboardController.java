@@ -177,7 +177,6 @@ public class DashboardController implements Initializable, DisplayLabel {
 
 
     private int index = -1, indexIsland, indexMN;
-    private int indexCloudCard = -1;
 
     /**
      * This arrayList contain all the circle position where the students pawn are shown
@@ -584,7 +583,14 @@ public class DashboardController implements Initializable, DisplayLabel {
      * Displays an alert that prints "quit" type messages sent by the server to the client.
      */
     private void quit() {
+
         AlertHelper.showAlert(Alert.AlertType.INFORMATION, classRoom.getScene().getWindow(), "Quit", message.message);
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        System.exit(0);
         //System.exit(0); exit program after closing the alert
     }
 
@@ -1057,7 +1063,7 @@ public class DashboardController implements Initializable, DisplayLabel {
      */
     @FXML
     public void chooseCC(MouseEvent event) {
-        indexCloudCard = cloudCards.indexOf(event.getSource());
+        int indexCloudCard = cloudCards.indexOf(event.getSource());
         System.out.println(indexCloudCard + " is the CC chosen");
         if (indexCloudCard != -1) {
             clientInput.sendString("chooseCC", String.valueOf(indexCloudCard + 1));

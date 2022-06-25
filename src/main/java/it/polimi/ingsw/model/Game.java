@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import it.polimi.ingsw.comunication.*;
 import it.polimi.ingsw.model.CharacterCards.SpecialCardStrategy;
 
-import java.io.IOException;
 import java.util.*;
 
 /**
@@ -38,32 +37,32 @@ public class Game {
      * The players in a match
      * {@link PlayersList}
      */
-    private PlayersList plist = new PlayersList();
+    private final PlayersList plist = new PlayersList();
 
 
     /**
      * The bag where there are the student's pawn
      * {@link StudentsBag}
      */
-    private StudentsBag studentsBag = new StudentsBag();
+    private final StudentsBag studentsBag = new StudentsBag();
 
     /**
      * The cloud card in a match
      * {@link CloudCard}
      */
-    private ArrayList<CloudCard> cloudCards = new ArrayList<>();
+    private final ArrayList<CloudCard> cloudCards = new ArrayList<>();
 
     /**
      * A hash map that contains all the four decks.
      * {@link Deck}
      */
-    private Map<Integer, Deck> deckMap = new HashMap<>();
+    private final Map<Integer, Deck> deckMap = new HashMap<>();
 
     /**
      * All the 12 islands in game.
      * {@link Island}
      */
-    private ArrayList<Island> islands = new ArrayList<>(12);
+    private final ArrayList<Island> islands = new ArrayList<>(12);
 
     /**
      * An array of 5 elements that contains all the teacher of every Pawn Color
@@ -86,7 +85,7 @@ public class Game {
      * It is the deck that contains 3 special cards.
      * {@link SpecialDeck}
      */
-    private SpecialDeck specialDeck = new SpecialDeck();
+    private final SpecialDeck specialDeck = new SpecialDeck();
 
     /**
      * An array that contains the 3 extracted special cards.
@@ -848,7 +847,7 @@ public class Game {
     }
 
 
-    public boolean chooseCloudCard(int indexCloudCard, Player player) {
+    public void chooseCloudCard(int indexCloudCard, Player player) {
         ArrayList<Student> students;
         try {
             if (cloudCards.get(indexCloudCard).getStudents().size() != 0) {
@@ -858,13 +857,11 @@ public class Game {
                     actualDashboard.addStudentToHall(s);
                 notifyAllClients("cloudCard", sendCloudCards());
                 player.setHasPlayed(true);
+                player.sendToClient("dashboard", sendPlayerDashboard(player));
                 setCurrentPlayer();
-                return false;
             } else
                 player.sendToClient("error", "Cloud card already chosen by another player");
-            return true;
         } catch (Exception ignored) {
-            return true;
         }
 
 
@@ -1004,14 +1001,7 @@ public class Game {
             System.out.println("Draw");
             plist.notifyAllClients("endGame", "It's a draw!");
         }
-        gameStatus = "ENDED";
-        /**
-         try {
-         endOfGame();
-         } catch (Exception e) {
-         System.out.println("No connection");
-         }
-         **/
+        endOfGame();
 
     }
 

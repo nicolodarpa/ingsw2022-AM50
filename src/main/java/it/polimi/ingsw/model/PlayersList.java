@@ -1,10 +1,6 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.StudentsBag;
-
 import java.util.ArrayList;
-import java.util.Objects;
 
 /**
  * This class contains the list of the players that are playing a match
@@ -73,7 +69,7 @@ public class PlayersList {
      */
     public void moveStudentsToHall(StudentsBag studentsBag) {
         for (Player player : players) {
-            player.moveStudentsToHall(studentsBag);
+            player.fillStudentsHall(studentsBag);
         }
     }
 

@@ -13,6 +13,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
@@ -38,8 +39,8 @@ public class SelectionFormController implements Initializable {
     @FXML
     private Button startGame;
 
-
-    private Parent root;
+    @FXML
+    private GridPane anchor;
 
 
     /**
@@ -59,7 +60,6 @@ public class SelectionFormController implements Initializable {
 
     /**
      * Start a game for the selected number of players
-     *
      */
     @FXML
     private void startGame(ActionEvent actionEvent) throws IOException {
@@ -71,7 +71,7 @@ public class SelectionFormController implements Initializable {
         }
         System.out.println("start new game, #p :" + numberOfPlayers);
         ClientInput.getInstance().sendString("newGame", String.valueOf(numberOfPlayers));
-        TextMessage response = ClientInput.getInstance().readLine();
+        TextMessage response = getServerMessage();
         setLoginPage(actionEvent);
     }
 
@@ -83,7 +83,7 @@ public class SelectionFormController implements Initializable {
     protected void joinGameButton(ActionEvent actionEvent) throws IOException {
         Window window = ((Node) actionEvent.getSource()).getScene().getWindow();
         ClientInput.getInstance().sendString("joinGame", selectedGame);
-        TextMessage message = ClientInput.getInstance().readLine();
+        TextMessage message = getServerMessage();
         AlertHelper.showAlert(Alert.AlertType.CONFIRMATION, window, "Game", message.message);
         setLoginPage(actionEvent);
 
@@ -97,16 +97,38 @@ public class SelectionFormController implements Initializable {
     @FXML
     private void refreshGames() {
         ClientInput.getInstance().sendString("avlGames", "");
-        TextMessage message = ClientInput.getInstance().readLine();
+        TextMessage response = getServerMessage();
         Gson gson = new Gson();
-        if (!Objects.equals(message.type, "error")) {
+        if (Objects.equals(response.type, "avlGames")) {
             gamesList.getItems().clear();
-            GameStatus[] gameStatuses = gson.fromJson(message.message, GameStatus[].class);
+            GameStatus[] gameStatuses = gson.fromJson(response.message, GameStatus[].class);
             for (GameStatus gameStatus : gameStatuses) {
                 gamesList.getItems().add("-" + gameStatus.gameId + ": " + gameStatus.currentNumber + "/" + gameStatus.totalPlayers + " players:" + gameStatus.playersName);
             }
         }
 
+    }
+
+    /**
+     * Gets a message from the server via {@link ClientInput}.
+     * If the message received indicates a connection error calls closeWindow
+     * @return the message from the server as a {@link TextMessage}
+     */
+    private TextMessage getServerMessage() {
+        TextMessage response = ClientInput.getInstance().readLine();
+        if (Objects.equals(response.type, "quit")) {
+            closeWindow();
+        }
+        return response;
+    }
+
+    /**
+     * Shows an alert and close the window
+     */
+    private void closeWindow() {
+        Window window = anchor.getScene().getWindow();
+        AlertHelper.showAlert(Alert.AlertType.ERROR, window, "Connection error", "No connection to the server. Closing...");
+        System.exit(0);
     }
 
     /**

@@ -7,7 +7,6 @@ import it.polimi.ingsw.client.LineClient;
 import it.polimi.ingsw.comunication.*;
 
 
-import javax.sound.sampled.Line;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.net.Socket;
@@ -25,16 +24,6 @@ public class ClientOut extends Thread {
      * ANSI CODE to reset to default the color of print
      */
     private static final String ANSI_RESET = "\u001B[0m";
-
-    /**
-     * ANSI CODE to print cyan
-     */
-    private static final String CYAN = "\u001B[34m";
-
-    /**
-     * ANSI CODE to print magenta
-     */
-    private static final String MAGENTA = "\u001B[35m";
 
     /**
      * ANSI CODE to print yellow
@@ -129,7 +118,6 @@ public class ClientOut extends Thread {
 
                 }
             } catch (IOException e) {
-
                 break;
             }
 
@@ -231,9 +219,7 @@ public class ClientOut extends Thread {
                     }
                 }
                 case "login" -> LineClient.chooseDeck();
-                case "chooseDeck", "logBack" -> {
-                    LineClient.stdinScan();
-                }
+                case "chooseDeck", "logBack" -> LineClient.stdinScan();
             }
         });
 
