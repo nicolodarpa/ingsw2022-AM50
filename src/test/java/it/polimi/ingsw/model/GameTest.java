@@ -434,7 +434,8 @@ public class GameTest {
         playerTest.moveStudentToClassroom(4, gameTest);
         gameTest.chooseCloudCard(1, playerTest);
         assertEquals(7, playerTest.getDashboard().getHall().length);
-        assertEquals(0, gameTest.getCloudCards().get(1).getAllStudents().size());
+        assertEquals(0, gameTest.getCloudCards().get(0).getAllStudents().size());
+        assertEquals(3, gameTest.getCloudCards().get(1).getAllStudents().size());
     }
 
     @Test
