@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.LoginManager;
+import it.polimi.ingsw.server.controller.LoginManager;
+import it.polimi.ingsw.server.model.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

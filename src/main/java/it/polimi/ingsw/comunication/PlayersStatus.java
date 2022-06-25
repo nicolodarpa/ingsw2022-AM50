@@ -1,6 +1,6 @@
 package it.polimi.ingsw.comunication;
 
-import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.server.model.Player;
 
 import java.util.ArrayList;
 

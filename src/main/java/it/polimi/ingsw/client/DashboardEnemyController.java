@@ -1,7 +1,7 @@
 package it.polimi.ingsw.client;
 import it.polimi.ingsw.comunication.*;
-import it.polimi.ingsw.model.PawnColor;
-import it.polimi.ingsw.model.TowerColor;
+import it.polimi.ingsw.server.model.PawnColor;
+import it.polimi.ingsw.server.model.TowerColor;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;

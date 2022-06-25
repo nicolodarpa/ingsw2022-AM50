@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.LoginManager;
+import it.polimi.ingsw.server.controller.LoginManager;
+import it.polimi.ingsw.server.model.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -95,7 +96,6 @@ public class DashboardTest {
 
     @Test
     @DisplayName("Add Coin to the wallet of the player")
-
     public void addCoinTest() {
         gameTest = new Game(2);
         LoginManager.login("ale", gameTest);
@@ -134,6 +134,9 @@ public class DashboardTest {
         p1.getDashboard().drawDashboard();
     }
 
+    /**
+     * Tests to insert an invalid input to method "getStudentFromHall)
+     */
     @Test
     public void getInvalidStudentFromHallTest(){
         Dashboard dashboardTest = new Dashboard();
@@ -147,6 +150,9 @@ public class DashboardTest {
         assertNotNull(dashboardTest.getClassroom());
     }
 
+    /**
+     * tests the removing of a tower from the dashboard, then assert equals that there are 7 towers.
+     */
     @Test
     public void removeTower(){
         Dashboard dashboardTest = new Dashboard();
@@ -158,6 +164,10 @@ public class DashboardTest {
         dashboardTest.drawDashboard();
     }
 
+    /**
+     * Test to remove an invalid student (null student) from the dashboard.
+     * It has to print "Invalid input"
+     */
     @Test
     public void removeInvalidStudentFromClassroomTest(){
         Dashboard dashboardTest = new Dashboard();

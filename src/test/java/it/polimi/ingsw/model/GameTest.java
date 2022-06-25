@@ -1,19 +1,24 @@
 package it.polimi.ingsw.model;
 
 import com.google.gson.Gson;
-import it.polimi.ingsw.LoginManager;
+import it.polimi.ingsw.server.controller.LoginManager;
 import it.polimi.ingsw.comunication.*;
-import it.polimi.ingsw.model.CharacterCards.SpecialCardStrategy;
+import it.polimi.ingsw.server.model.*;
+import it.polimi.ingsw.server.model.CharacterCards.SpecialCardStrategy;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * tests for {@link Game}
+ */
 public class GameTest {
 
     private Game gameTest;
 
     @Test
+    @DisplayName("checks that after setup there are 100 students left in the student bag because 14 are in the dashboard classroom and 6 on the cloud card")
     public void testMoveStudentsToHall() {
         gameTest = new Game(2);
 
@@ -26,7 +31,6 @@ public class GameTest {
     @Test
     @DisplayName("testing the setup of a new match")
     public void testSetupGame() {
-        boolean presenceOfMN = false;
         gameTest = new Game(2);
 
         LoginManager.login("ale", gameTest);
@@ -334,8 +338,11 @@ public class GameTest {
     }
 
 
+    /**
+     * Test the assignment of the Teacher for 3 players
+     */
     @Test
-    @DisplayName(" Test the assignment of the Teacher for 3 players")
+    @DisplayName("test teacher assignment 3 players ")
     public void assignTeacherForThreePlayersTest() {
         gameTest = new Game(3);
         LoginManager.login("ale", gameTest);
@@ -381,8 +388,11 @@ public class GameTest {
         player_three.getDashboard().drawDashboard();
     }
 
+    /**
+     * Test assignment of teacher with same number of students
+     */
     @Test
-    @DisplayName("Test assignment of teacher with same number of students")
+    @DisplayName("test Teacher assignment")
     public void assignTeacherSameNumber() {
         gameTest = new Game(3);
         LoginManager.login("ale", gameTest);
@@ -420,6 +430,9 @@ public class GameTest {
     }
 
 
+    /**
+     * we test that a player chooses a cloud card and the remaining students on the cloud card are 0
+     */
     @Test
     @DisplayName("The player choose a cloud card")
     public void chooseCloudCardTest() {
@@ -436,7 +449,7 @@ public class GameTest {
         gameTest.chooseCloudCard(1, playerTest);
         assertEquals(7, playerTest.getDashboard().getHall().length);
         assertEquals(0, gameTest.getCloudCards().get(0).getAllStudents().size());
-        assertEquals(3, gameTest.getCloudCards().get(1).getAllStudents().size());
+        assertEquals(3, gameTest.getCloudCards().get(1).getAllStudents().size() );
     }
 
     @Test

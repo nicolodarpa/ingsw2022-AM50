@@ -1,7 +1,7 @@
 package it.polimi.ingsw.comunication;
 
-import it.polimi.ingsw.model.Island;
-import it.polimi.ingsw.model.Student;
+import it.polimi.ingsw.server.model.Island;
+import it.polimi.ingsw.server.model.Student;
 
 import java.util.ArrayList;
 

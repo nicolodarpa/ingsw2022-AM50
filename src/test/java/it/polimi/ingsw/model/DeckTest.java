@@ -1,5 +1,8 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.server.model.AssistantCard;
+import it.polimi.ingsw.server.model.Deck;
+import it.polimi.ingsw.server.model.Player;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -15,6 +18,7 @@ public class DeckTest {
     }
 
     @Test
+    @DisplayName("tests that if a deck is chosen the has chosen attribute is set to true")
     void getChosen() {
         Deck deckTest = new Deck(1,"BLUE");
         assertFalse(deckTest.getChosen());

@@ -1,6 +1,9 @@
 package it.polimi.ingsw.comunication;
 
-import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.server.model.Dashboard;
+import it.polimi.ingsw.server.model.Student;
+import it.polimi.ingsw.server.model.Teacher;
+import it.polimi.ingsw.server.model.TowerColor;
 
 /**
  * Template class to encode and decode json with the current state of a player's dashboard

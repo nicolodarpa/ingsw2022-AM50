@@ -1,6 +1,6 @@
 package it.polimi.ingsw.comunication;
 
-import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.server.model.Player;
 
 /**
  * Template class to encode and decode json with the info of a deck

@@ -1,8 +1,9 @@
 package it.polimi.ingsw.model.CharacterCards;
 
-import it.polimi.ingsw.LoginManager;
-import it.polimi.ingsw.model.Game;
-import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.server.controller.LoginManager;
+import it.polimi.ingsw.server.model.CharacterCards.BlockCardStrategy;
+import it.polimi.ingsw.server.model.Game;
+import it.polimi.ingsw.server.model.Player;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -33,7 +34,7 @@ class BlockCardStrategyTest {
         assertEquals(4,card.getAvailableBlockCards());
         card.effect();
         assertTrue(gameTest.getIslands().get(1).getBlock());
-        if(gameTest.getIslandWithMN().getId() != card.index){
+        if(gameTest.getIslandWithMN().getId() != card.getIndex()){
             gameTest.moveMN(p1,1);
             assertFalse(gameTest.getIslands().get(1).getBlock());  ///check error
             assertEquals(3,card.getAvailableBlockCards());

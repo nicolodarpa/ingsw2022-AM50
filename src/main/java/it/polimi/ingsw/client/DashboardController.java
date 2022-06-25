@@ -2,7 +2,8 @@ package it.polimi.ingsw.client;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.comunication.*;
-import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.server.model.PawnColor;
+import it.polimi.ingsw.server.model.TowerColor;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -378,7 +379,7 @@ public class DashboardController implements Initializable, DisplayLabel {
     private final ArrayList<ArrayList<Circle>> colorNames = new ArrayList<>();
     private final ClientInput clientInput = ClientInput.getInstance();
     private final Gson gson = new Gson();
-    private static final String[] colors = {"red", "green", "yellow", "magenta", "cyan"};
+    private static final String[] colors = {"green", "red", "yellow", "magenta", "cyan"};
     private TextMessage message;
     private final HashMap<String, Command> commandHashMap = new HashMap<>();
 

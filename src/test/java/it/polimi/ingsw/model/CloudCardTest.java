@@ -1,5 +1,8 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.server.model.CloudCard;
+import it.polimi.ingsw.server.model.Student;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -10,15 +13,15 @@ class CloudCardTest {
     CloudCard testCloud = new CloudCard(2,1);
 
 
-
-
+    /**
+     * Tests adding three students to the cloud card and assert equals 3 the size of studentsList in cloud card
+     */
     @Test
     void addStudent() {
         for (int i = 0; i<3;i++){
             Student student = new Student();
             testCloud.addStudent(student);
         }
-        assertNull(testCloud.getStudents().get(0).getColor());
         assertEquals(testCloud.getStudents().size(), 3);
     }
 

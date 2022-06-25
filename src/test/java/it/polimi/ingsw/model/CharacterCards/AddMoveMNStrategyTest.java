@@ -1,12 +1,15 @@
 package it.polimi.ingsw.model.CharacterCards;
 
-import it.polimi.ingsw.LoginManager;
+import it.polimi.ingsw.server.controller.LoginManager;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import it.polimi.ingsw.model.Deck;
-import it.polimi.ingsw.model.Game;
-import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.server.model.CharacterCards.AddMoveMNStrategy;
+import it.polimi.ingsw.server.model.CharacterCards.NoTowerInfluenceStrategy;
+import it.polimi.ingsw.server.model.CharacterCards.SpecialCardStrategy;
+import it.polimi.ingsw.server.model.Deck;
+import it.polimi.ingsw.server.model.Game;
+import it.polimi.ingsw.server.model.Player;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

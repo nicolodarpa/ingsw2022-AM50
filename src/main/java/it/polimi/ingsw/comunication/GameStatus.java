@@ -1,7 +1,7 @@
 package it.polimi.ingsw.comunication;
 
-import it.polimi.ingsw.model.PlayersList;
-import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.server.model.PlayersList;
+import it.polimi.ingsw.server.model.Player;
 
 import java.util.Objects;
 

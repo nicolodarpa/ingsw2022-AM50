@@ -1,6 +1,10 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.LoginManager;
+import it.polimi.ingsw.server.controller.LoginManager;
+import it.polimi.ingsw.server.model.Game;
+import it.polimi.ingsw.server.model.Island;
+import it.polimi.ingsw.server.model.Player;
+import it.polimi.ingsw.server.model.Table;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

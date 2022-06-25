@@ -2,6 +2,7 @@ package it.polimi.ingsw;
 
 import it.polimi.ingsw.client.ClientGUI;
 import it.polimi.ingsw.client.LineClient;
+import it.polimi.ingsw.server.controller.MultiEchoServer;
 
 import java.util.Objects;
 

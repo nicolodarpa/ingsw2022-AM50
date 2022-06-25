@@ -1,10 +1,8 @@
 package it.polimi.ingsw.comunication;
 
-import it.polimi.ingsw.model.Dashboard;
+import it.polimi.ingsw.server.model.Dashboard;
 
-import it.polimi.ingsw.model.Student;
-
-import java.util.ArrayList;
+import it.polimi.ingsw.server.model.Student;
 
 /**
  * Template class to encode and decode json with the state of the dashboard hall

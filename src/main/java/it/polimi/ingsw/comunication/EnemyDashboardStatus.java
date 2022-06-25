@@ -1,9 +1,9 @@
 package it.polimi.ingsw.comunication;
 
-import it.polimi.ingsw.model.Dashboard;
-import it.polimi.ingsw.model.Student;
-import it.polimi.ingsw.model.Teacher;
-import it.polimi.ingsw.model.TowerColor;
+import it.polimi.ingsw.server.model.Dashboard;
+import it.polimi.ingsw.server.model.Student;
+import it.polimi.ingsw.server.model.Teacher;
+import it.polimi.ingsw.server.model.TowerColor;
 
 public class EnemyDashboardStatus {
 

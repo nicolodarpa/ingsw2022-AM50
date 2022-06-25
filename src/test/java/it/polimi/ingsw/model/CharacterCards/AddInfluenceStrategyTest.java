@@ -1,7 +1,9 @@
 package it.polimi.ingsw.model.CharacterCards;
 
-import it.polimi.ingsw.LoginManager;
-import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.server.controller.LoginManager;
+import it.polimi.ingsw.server.model.*;
+import it.polimi.ingsw.server.model.CharacterCards.AddInfluenceStrategy;
+import it.polimi.ingsw.server.model.CharacterCards.SpecialCardStrategy;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

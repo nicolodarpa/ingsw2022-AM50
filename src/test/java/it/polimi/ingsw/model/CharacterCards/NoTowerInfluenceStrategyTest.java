@@ -1,7 +1,8 @@
 package it.polimi.ingsw.model.CharacterCards;
 
-import it.polimi.ingsw.LoginManager;
-import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.server.controller.LoginManager;
+import it.polimi.ingsw.server.model.CharacterCards.NoTowerInfluenceStrategy;
+import it.polimi.ingsw.server.model.Game;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

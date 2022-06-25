@@ -1,7 +1,6 @@
 package it.polimi.ingsw.comunication;
 
-import it.polimi.ingsw.model.Deck;
-import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.server.model.Deck;
 
 
 /**

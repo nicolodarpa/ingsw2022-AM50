@@ -1,10 +1,11 @@
 package it.polimi.ingsw.model.CharacterCards;
 
-import it.polimi.ingsw.LoginManager;
-import it.polimi.ingsw.model.Game;
-import it.polimi.ingsw.model.PawnColor;
-import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.Student;
+import it.polimi.ingsw.server.controller.LoginManager;
+import it.polimi.ingsw.server.model.CharacterCards.TeacherAssignmentStrategy;
+import it.polimi.ingsw.server.model.Game;
+import it.polimi.ingsw.server.model.PawnColor;
+import it.polimi.ingsw.server.model.Player;
+import it.polimi.ingsw.server.model.Student;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

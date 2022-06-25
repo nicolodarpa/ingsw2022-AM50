@@ -3,6 +3,7 @@ package it.polimi.ingsw.client;
 import com.google.gson.Gson;
 import it.polimi.ingsw.comunication.Command;
 import it.polimi.ingsw.comunication.TextMessage;
+import it.polimi.ingsw.server.controller.EchoServerClientHandler;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -55,7 +56,7 @@ public final class ClientInput {
     /**
      * Sends a message to the server as a string formatted from a json with the layout of {@link Command} whit only one optional value
      *
-     * @param cmd   the command to be sent, must match one of the keys of the commandMap in {@link it.polimi.ingsw.EchoServerClientHandler}
+     * @param cmd   the command to be sent, must match one of the keys of the commandMap in {@link EchoServerClientHandler}
      * @param value option value necessary to execute the command, example a student index or an assistant card index
      */
     public void sendString(String cmd, String value) {
@@ -68,7 +69,7 @@ public final class ClientInput {
     /**
      * Sends a message to the server as a string formatted from a json with the layout of {@link Command}
      *
-     * @param cmd    the command to be sent, must match one of the keys of the commandMap in {@link it.polimi.ingsw.EchoServerClientHandler}
+     * @param cmd    the command to be sent, must match one of the keys of the commandMap in {@link EchoServerClientHandler}
      * @param value  option value necessary to execute the command, example a student index or an assistant card index
      * @param value2 option value necessary to execute the command, example an island index or a pawn color
      */

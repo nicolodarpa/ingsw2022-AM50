@@ -1,7 +1,8 @@
 package it.polimi.ingsw.model.CharacterCards;
 
-import it.polimi.ingsw.LoginManager;
-import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.server.controller.LoginManager;
+import it.polimi.ingsw.server.model.*;
+import it.polimi.ingsw.server.model.CharacterCards.RemoveStudentStrategy;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

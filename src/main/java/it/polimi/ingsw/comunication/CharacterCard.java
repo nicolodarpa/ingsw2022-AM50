@@ -1,6 +1,6 @@
 package it.polimi.ingsw.comunication;
 
-import it.polimi.ingsw.model.CharacterCards.SpecialCardStrategy;
+import it.polimi.ingsw.server.model.CharacterCards.SpecialCardStrategy;
 
 /**
  * Template class to encode and decode json with the values of character cards
