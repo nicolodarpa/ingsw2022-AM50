@@ -6,18 +6,23 @@ import it.polimi.ingsw.server.model.Game;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.function.ToDoubleBiFunction;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 /**
- * Test for {@link NoTowerInfluenceStrategy}
+ * Tests for {@link NoTowerInfluenceStrategy}
  */
 public class NoTowerInfluenceStrategyTest {
 
     private Game gameTest;
 
+    /**
+     *
+     */
     @Test
-    @DisplayName("Testing the function")
+    @DisplayName("Test effect")
     public void testEffect(){
         gameTest = new Game(2);
 
@@ -28,9 +33,13 @@ public class NoTowerInfluenceStrategyTest {
         card.update(gameTest.getPlist(), gameTest.getCurrentPlayer(), gameTest.getIslands(), null, 1, gameTest.getStudentsBag());
         card.effect();
         assertEquals(gameTest.getIslandWithMN().getOwner(), "free");
+        /*
+        TODO complete test
+         */
     }
 
     @Test
+    @DisplayName("TestGetCost")
     public void testGetCost(){
         gameTest = new Game(2);
 
@@ -42,6 +51,7 @@ public class NoTowerInfluenceStrategyTest {
     }
 
     @Test
+    @DisplayName("TestAddCost")
     public void testAddCost(){
         gameTest = new Game(2);
 
@@ -55,6 +65,7 @@ public class NoTowerInfluenceStrategyTest {
     }
 
     @Test
+    @DisplayName("TestGetEffect")
     public void testGetEffectOfTheCard(){
         gameTest = new Game(2);
 

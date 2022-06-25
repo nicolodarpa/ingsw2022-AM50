@@ -3,31 +3,21 @@ package it.polimi.ingsw.model.CharacterCards;
 import it.polimi.ingsw.server.controller.LoginManager;
 import it.polimi.ingsw.server.model.*;
 import it.polimi.ingsw.server.model.CharacterCards.RemoveStudentStrategy;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Tests for {@link RemoveStudentStrategy}
+ */
 class RemoveStudentStrategyTest {
 
-
+    /**
+     * Test if three GREEN players are removed from the dashboard
+     */
     @Test
-    void removeStudent() {
-        Dashboard dashboardTest = new Dashboard();
-        StudentsBag studentsBag = new StudentsBag();
-        studentsBag.fillBag(0);
-        for (int i = 0; i<3;i++){
-            dashboardTest.addStudentToClassroom(new Student(PawnColor.GREEN));
-        }
-        assertEquals(3,dashboardTest.countStudentByColor(PawnColor.GREEN));
-        RemoveStudentStrategy removeStudentStrategy = new RemoveStudentStrategy();
-        removeStudentStrategy.setPawnColor(PawnColor.GREEN);
-        removeStudentStrategy.setBag(studentsBag);
-        removeStudentStrategy.removeStudent(dashboardTest);
-        assertEquals(0,dashboardTest.countStudentByColor(PawnColor.GREEN));
-        assertEquals(3,studentsBag.getNum());
-    }
-
-    @Test
+    @DisplayName("Test")
     void effect(){
         Game gameTest;
         gameTest = new Game();

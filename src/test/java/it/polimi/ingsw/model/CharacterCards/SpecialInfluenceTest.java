@@ -3,13 +3,22 @@ package it.polimi.ingsw.model.CharacterCards;
 import it.polimi.ingsw.server.controller.LoginManager;
 import it.polimi.ingsw.server.model.*;
 import it.polimi.ingsw.server.model.CharacterCards.SpecialInfluenceStrategy;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Tests for {@link SpecialInfluenceStrategy}
+ */
 class SpecialInfluenceTest {
 
+    /**
+     * We test the assignment of an island between two player with the same influence due to the presence of students of different colors.
+     *
+     */
     @Test
+    @DisplayName("Test influence calculation")
     void effect() {
         Game gameTest = new Game(3);
         LoginManager.login("ale", gameTest);

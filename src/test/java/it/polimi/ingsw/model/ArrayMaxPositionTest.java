@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ArrayMaxPositionTest {
 
-    private int[] a = {0,2,27,34,-2};
+    private final int[] a = {0,2,27,34,-2};
 
     @Test
     @DisplayName("Find max position")

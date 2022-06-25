@@ -11,6 +11,9 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Tests for {@link TeacherAssignmentStrategy}
+ */
 public class TeacherAssignmentStrategyTest {
     private Game gameTest = new Game();
 
@@ -49,6 +52,10 @@ public class TeacherAssignmentStrategyTest {
         System.out.println(card.getEffectOfTheCard());
     }
 
+    /**
+     * We test the effect of the card with two player with the same number of students of the same color.
+     * we check that teachers are assigned to the player who played the character card
+     */
     @Test
     @DisplayName("Test effect with 2 players")
     public void testEffectOfTheCard() {
@@ -69,10 +76,15 @@ public class TeacherAssignmentStrategyTest {
         player_one.getDashboard().addStudentToClassroom(new Student(PawnColor.GREEN));
         gameTest.assignTeacher();
         assertNotNull(player_one.getDashboard().getTeacherTable()[PawnColor.GREEN.ordinal()]);
+        assertNull(player_two.getDashboard().getTeacherTable()[PawnColor.GREEN.ordinal()]);
         player_one.getDashboard().drawDashboard();
         player_two.getDashboard().drawDashboard();
     }
 
+    /**
+     * We test the effect of the card in a game with three player with the same number of students of the same color.
+     * we check that teachers are assigned to the player who played the character card
+     */
     @Test
     @DisplayName("Test effect with 3 players")
     public void testEffectOfTheCardThreePlayers() {
@@ -88,6 +100,7 @@ public class TeacherAssignmentStrategyTest {
         player_two.getDashboard().addStudentToClassroom(new Student(PawnColor.RED));
         gameTest.assignTeacher();
         player_one.getDashboard().addStudentToClassroom(new Student(PawnColor.RED));
+        player_three.getDashboard().addStudentToClassroom(new Student(PawnColor.RED));
         assertNotNull(player_two.getDashboard().getTeacherTable()[PawnColor.RED.ordinal()]);
         assertNull(player_one.getDashboard().getTeacherTable()[PawnColor.RED.ordinal()]);
         card.effect();
@@ -95,5 +108,8 @@ public class TeacherAssignmentStrategyTest {
         player_one.getDashboard().addStudentToClassroom(new Student(PawnColor.GREEN));
         gameTest.assignTeacher();
         assertNotNull(player_one.getDashboard().getTeacherTable()[PawnColor.GREEN.ordinal()]);
+        assertNotNull(player_one.getDashboard().getTeacherTable()[PawnColor.RED.ordinal()]);
+        assertNull(player_two.getDashboard().getTeacherTable()[PawnColor.GREEN.ordinal()]);
+        assertNull(player_two.getDashboard().getTeacherTable()[PawnColor.RED.ordinal()]);
     }
 }
