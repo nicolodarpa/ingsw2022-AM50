@@ -17,8 +17,11 @@ public class GameTest {
 
     private Game gameTest;
 
+    /**
+     * Checks that after setup there are 100 students left in the student bag because 14 are in the dashboard classroom and 6 on the cloud card
+     */
     @Test
-    @DisplayName("checks that after setup there are 100 students left in the student bag because 14 are in the dashboard classroom and 6 on the cloud card")
+    @DisplayName("Test student bag size")
     public void testMoveStudentsToHall() {
         gameTest = new Game(2);
 
@@ -28,6 +31,9 @@ public class GameTest {
         assertEquals(100, gameTest.getStudentsInBag());
     }
 
+    /**
+     *
+     */
     @Test
     @DisplayName("testing the setup of a new match")
     public void testSetupGame() {

@@ -8,12 +8,18 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 
+/**
+ * Tests for {@link Dashboard}
+ */
 public class DashboardTest {
     private Game gameTest;
 
-    Dashboard testD = new Dashboard();
+    private final Dashboard testD = new Dashboard();
 
 
+    /**
+     * Test to add students, extracted casually from the student bag, to the hall
+     */
     @Test
     @DisplayName(" Add Student to Hall")
     public void testAddStudentToHall() {
@@ -30,6 +36,9 @@ public class DashboardTest {
         testD.drawDashboard();
     }
 
+    /**
+     * Test to move students from te hall to the classroom
+     */
     @Test
     @DisplayName(" Add 3 Student to Classroom ")
     public void testAddStudentToClassroom() {
@@ -46,6 +55,9 @@ public class DashboardTest {
 
     }
 
+    /**
+     * Test the movement of players in every position in the dashboard
+     */
     @Test
     @DisplayName(" Fill the Classroom ")
     public void testFillClassroom() {
@@ -63,6 +75,9 @@ public class DashboardTest {
         assertEquals(10, testD.countStudentByColor(PawnColor.GREEN));
     }
 
+    /**
+     * Test teacher addition to the table
+     */
     @Test
     @DisplayName(" Add 1 teacher To TeacherTable")
     public void testAddTeacherToTable() {
@@ -82,6 +97,10 @@ public class DashboardTest {
         testD.drawDashboard();
     }
 
+    /**
+     *We count the students in the classroom of a specified color.
+     *
+     */
     @Test
     @DisplayName(" Count the students by their color ")
     public void countStudentByColorTest() {
@@ -94,6 +113,9 @@ public class DashboardTest {
         assertEquals(10, testD.countStudentByColor(PawnColor.RED));
     }
 
+    /**
+     * Test the distribution of coins when adding a student to the classroom on special positions
+     */
     @Test
     @DisplayName("Add Coin to the wallet of the player")
     public void addCoinTest() {

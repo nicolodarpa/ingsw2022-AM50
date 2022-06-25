@@ -11,9 +11,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 /**
- * Test for {@link  BlockCardStrategy}
+ * Tests for {@link  BlockCardStrategy}
  */
-class BlockCardStrategyTest {
+public class BlockCardStrategyTest {
     Game gameTest;
 
 
