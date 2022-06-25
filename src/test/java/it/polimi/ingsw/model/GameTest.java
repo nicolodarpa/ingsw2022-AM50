@@ -425,6 +425,7 @@ public class GameTest {
     public void chooseCloudCardTest() {
         gameTest = new Game(2);
 
+
         LoginManager.login("ale", gameTest);
         LoginManager.login("nic", gameTest);
 
