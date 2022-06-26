@@ -429,7 +429,7 @@ public class EchoServerClientHandler extends Thread {
 
         }
         game.playCharacterCard(specialCard, islandIndex - 1, studentColor);
-        game.notifyAllClients("msg", player.getName() + " has played the special card that " + specialCard.getEffectOfTheCard());
+        game.notifyAllClients("msg", player.getName() + " has played the card " + specialCard.getName());
 
     }
 
