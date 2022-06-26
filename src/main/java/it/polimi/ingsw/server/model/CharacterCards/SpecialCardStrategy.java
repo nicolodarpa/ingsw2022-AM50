@@ -13,52 +13,52 @@ public abstract class SpecialCardStrategy {
     /**
      * It is the number of usages of the card.
      */
-    int usages = 0;
+    protected int usages = 0;
 
     /**
      * The list of players in game.
      */
-    PlayersList playersList;
+    protected PlayersList playersList;
 
     /**
      * The list of islands in game.
      */
-    ArrayList<Island> islands;
+    protected ArrayList<Island> islands;
 
     /**
      * It is the index of a selected island in some special cards.
      */
-    int index;
+    protected int index;
 
     /**
      * It is a selected color in some special cards.
      */
-    PawnColor pawnColor;
+    protected PawnColor pawnColor;
 
     /**
      * It is the current player in game.
      */
-    Player currentPlayer;
+    protected Player currentPlayer;
 
     /**
      * The students bag of the game.
      */
-    StudentsBag bag;
+    protected StudentsBag bag;
 
     /**
      * The cost of the special card.
      */
-    int cost;
+    protected int cost;
 
     /**
      * The effect of the card.
      */
-    String effectOfTheCard;
+    protected String effectOfTheCard;
 
     /**
      * The name of the special card.
      */
-    String name;
+    protected String name;
 
 
     /**
