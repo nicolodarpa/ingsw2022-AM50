@@ -15,22 +15,28 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class PlayerTest{
 
-    private Game gameTest;
-
+    /**
+     * We fill players' hall with students from the students bag and check that the correct number of students are extracted from the bag
+     */
     @Test
-    @DisplayName("Fill the hall")
+    @DisplayName("Test fill the hall")
     public void testMoveStudentToHall() {
         Player p = new Player("nic");
         StudentsBag s = new StudentsBag();
         s.fillBag(120);
+        assertEquals(120,s.getNum());
         p.getDashboard().setupHall(2);
         p.fillStudentsHall(s);
-        p.getDashboard().setupHall(2);
         assertEquals(7,p.getDashboard().getHall().length);
+        assertEquals(113,s.getNum());
         p.getDashboard().drawDashboard();
     }
+
+    /**
+     * We play card with order 5 and 3 mother nature moves, and we check that player's attributes are correctly updated
+     */
     @Test
-    @DisplayName("Play card with order 5 and 3 moves available")
+    @DisplayName("Test playAssistantCard")
     public void testPlayAssistantCard() {
         Deck testDeck = new Deck(1,"BLUE");
         Player p = new Player("nic");
@@ -41,20 +47,32 @@ public class PlayerTest{
         assertEquals(cardToPlay.getMoveOfMN(), p.getMovesOfMN());
     }
 
+    /**
+     * Test to move a student from the hall to the classroom
+     *  Check the result of the actions selecting a valid student, an empty position and then a position out of bound
+     */
     @Test
+    @DisplayName("Test moveStudentToClassroom")
     public void testMoveStudentToClassroom(){
-        gameTest = new Game(2);
+        Game gameTest = new Game(2);
 
-        LoginManager.login("ale",gameTest);
-        LoginManager.login("nic",gameTest);
+        LoginManager.login("ale", gameTest);
+        LoginManager.login("nic", gameTest);
 
         Player player = gameTest.getPlist().getPlayerByName("ale");
-        player.moveStudentToClassroom(3, gameTest);
+        assertTrue(player.moveStudentToClassroom(3, gameTest));
+        assertFalse(player.moveStudentToClassroom(3, gameTest));
         player.getDashboard().drawDashboard();
         assertFalse(player.moveStudentToClassroom(8, gameTest));
     }
 
+    /**
+     * Test to move a student from the hall to an island
+     *  Check the result of the actions selecting a valid student, an empty position and then a position out of bound
+     *  Check if the number of students on the island changed
+     */
     @Test
+    @DisplayName("Test moveStudentToIsland")
     public void testMoveStudentToIsland(){
         Game gameTest = new Game(2);
 
@@ -62,18 +80,21 @@ public class PlayerTest{
         LoginManager.login("nic",gameTest);
 
         Player player = gameTest.getPlist().getPlayers().get(0);
-        player.moveStudentToIsland(gameTest.getIslands().get(2), 3);
-        assertNull(player.getDashboard().getHall()[3]);
-        player.moveStudentToIsland(gameTest.getIslands().get(2), 3); //select a null student
+        assertTrue(player.moveStudentToIsland(2, 3, gameTest));
+        assertFalse(player.moveStudentToIsland(2, 3, gameTest));
+        assertNull(player.getDashboard().getHall()[2]);
         if(gameTest.getIslands().get(2).getOppositeMN() || gameTest.getIslands().get(2).getPresenceMN())
-            assertEquals(1,gameTest.getIslands().get(2).getStudentList().size());
+            assertEquals(1,gameTest.getIslands().get(3).getStudentList().size());
         else
-            assertEquals(2,gameTest.getIslands().get(2).getStudentList().size());
-        player.getDashboard().drawDashboard();
+            assertEquals(2,gameTest.getIslands().get(3).getStudentList().size());
+
     }
 
+    /**
+     * Testing invalid input of island's index and student's position
+     */
     @Test
-    @DisplayName("Testing invalid input of island's index and student's position")
+    @DisplayName("Test select invalid student position")
     public void testMoveInvalidStudentToIsland(){
         Game gameTest = new Game(2);
 
@@ -86,17 +107,6 @@ public class PlayerTest{
             assertEquals(0,gameTest.getIslands().get(9).getStudentList().size()); //doesn't add any students to the selected island
         else
             assertEquals(1,gameTest.getIslands().get(9).getStudentList().size()); //doesn't add any students to the selected island
-    }
-
-    @Test
-    public void testPlaySpecialCard(){
-        Game gameTest = new Game(2);
-
-        LoginManager.login("ale",gameTest);
-        LoginManager.login("nic",gameTest);
-
-        Player p1 = gameTest.getPlist().getPlayerByName("ale");
-        //p1.playSpecialCard(gameTest, 2);
     }
 
 
@@ -118,7 +128,7 @@ public class PlayerTest{
     public void spendCoinsTest(){
         Player p = new Player("nic");
         int coin = p.getCoins();
-        int spentCoins = 0;
+        int spentCoins;
         p.addCoin(2);
         p.spendCoins(1);
         spentCoins = coin + 2 - 1;

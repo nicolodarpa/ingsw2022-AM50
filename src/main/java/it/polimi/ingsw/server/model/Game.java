@@ -138,6 +138,10 @@ public class Game {
         return winner;
     }
 
+    public boolean isLastRound() {
+        return lastRound;
+    }
+
     public int getNumberOfPlayers() {
         return numberOfPlayers;
     }
@@ -517,7 +521,7 @@ public class Game {
         int playerMovesOfMN = player.getMovesOfMN();
         int islandWithMNIndex = getIslandWithMNIndex();
         int moves = destinationIslandIndex - islandWithMNIndex;
-        /* if moves is a negative value it is rescaled to a positive value by added of the islands size */
+        /* if moves is a negative value it is rescaled to a positive value by adding the islands size */
         if (moves < 0) {
             moves = islands.size() + moves;
         }

@@ -20,50 +20,55 @@ public class IslandTest {
     private final Island islandTest = new Island(1);
 
 
+    /**
+     * Adds one player of each color to an island and check if the returned value of countStudentsByColor is correct
+     */
     @Test
-    @DisplayName(" Count 1 student cyan, 2 students yellow and 1 red")
-    public void testCountStudentByColor(){
-        for(int i = 0; i < PawnColor.totalNumberOfPawnColors(); i++){
+    @DisplayName("Test countStudentsByColor")
+    public void testCountStudentByColor() {
+        for (int i = 0; i < PawnColor.totalNumberOfPawnColors(); i++) {
             islandTest.addStudent(new Student(PawnColor.values()[i]));
         }
-        assertEquals(1,islandTest.countStudentByColor()[PawnColor.CYAN.ordinal()], " must be 1 cyan");
-        assertEquals(1,islandTest.countStudentByColor()[PawnColor.YELLOW.ordinal()], "must be 1 yellow");
-        assertEquals(1,islandTest.countStudentByColor()[PawnColor.RED.ordinal()], "must be 1 red");
-        assertEquals(1,islandTest.countStudentByColor()[PawnColor.MAGENTA.ordinal()], "must be 1 magenta");
-        assertEquals(1,islandTest.countStudentByColor()[PawnColor.GREEN.ordinal()], "must be 1 green");
+        assertEquals(1, islandTest.countStudentByColor()[PawnColor.CYAN.ordinal()], " must be 1 cyan");
+        assertEquals(1, islandTest.countStudentByColor()[PawnColor.YELLOW.ordinal()], "must be 1 yellow");
+        assertEquals(1, islandTest.countStudentByColor()[PawnColor.RED.ordinal()], "must be 1 red");
+        assertEquals(1, islandTest.countStudentByColor()[PawnColor.MAGENTA.ordinal()], "must be 1 magenta");
+        assertEquals(1, islandTest.countStudentByColor()[PawnColor.GREEN.ordinal()], "must be 1 green");
     }
 
 
+    /**
+     * We check that an island is conquered by the player with the most influence on it
+     * with no special effects activated influence is calculated from students and tower in an island
+     */
     @Test
-    @DisplayName(" Calculate the influence ")
-    public void calcInfluenceTest(){
+    @DisplayName("Test calculateInfluence")
+    public void calcInfluenceTest() {
         Game gameTest = new Game(2);
 
         LoginManager.login("ale", gameTest);
         LoginManager.login("jaz", gameTest);
 
-        Table tableTest = new Table(gameTest.getIslands());
         Player plyr_1 = gameTest.getPlist().getPlayers().get(0);
         Player plyr_2 = gameTest.getPlist().getPlayers().get(1);
         Dashboard dashboard_1 = plyr_1.getDashboard();
-        Dashboard dashboard_2 = plyr_2.getDashboard();
-        PawnColor color = dashboard_1.getHall()[2].getColor();
-        plyr_1.moveStudentToClassroom(2, gameTest);
-        gameTest.assignTeacher();
-        dashboard_1.drawDashboard();
-        dashboard_2.drawDashboard();
-        gameTest.getIslands().get(8).addStudent(new Student(color));
-        gameTest.getIslands().get(8).addStudent(new Student(color));
-        gameTest.getIslands().get(8).calculateInfluence(gameTest.getPlist());
-        assertEquals(plyr_1.getName(), gameTest.getIslands().get(8).getOwner());
-        tableTest.drawTable();
-        assertEquals(plyr_1.getInfluencePoint(), 0);
-        assertEquals(plyr_2.getInfluencePoint(), 0);
+
+        dashboard_1.addTeacherToTable(new Teacher(PawnColor.RED));
+
+        islandTest.addStudent(new Student(PawnColor.RED));
+        islandTest.addStudent(new Student(PawnColor.RED));
+        islandTest.calculateInfluence(gameTest.getPlist());
+        assertEquals(plyr_1.getName(), islandTest.getOwner());
+
     }
 
+    /**
+     * We check that when an island is conquered a tower of the correct color is placed on it
+     * and that tha towers available to a player are decreased
+     */
     @Test
-    @DisplayName(" add 1 tower to the island")
-    public void testAddTower(){
+    @DisplayName("Test add 1 tower to an island")
+    public void testAddTower() {
         Game gameTest = new Game(2);
 
         LoginManager.login("ale", gameTest);
@@ -72,77 +77,98 @@ public class IslandTest {
         Player p = gameTest.getPlist().getPlayerByName("jaz");
         islandTest.setOwner(p);
         islandTest.addTower();
-        assertTrue(islandTest.getTowerArrayList().size()>0);
-        assertEquals(7,p.getDashboard().getTowers().size());
+        assertTrue(islandTest.getTowerArrayList().size() > 0);
+        assertEquals(7, p.getDashboard().getTowers().size());
         assertEquals(TowerColor.black, p.getDashboard().getTowers().get(0).getColor());
     }
 
     @Test
     @DisplayName(" add null tower to the island")
-    public void testAddNullTower(){
+    public void testAddNullTower() {
         islandTest.addTower();
     }
 
+    /**
+     * We check that towers on an island counts as students for influence calculation
+     */
     @Test
-    @DisplayName(" Calculate the influence with tower")
-    public void calcInfluenceWithTowerTest(){
+    @DisplayName("Test i")
+    public void calcInfluenceWithTowerTest() {
         Game gameTest = new Game(2);
 
         LoginManager.login("ale", gameTest);
         LoginManager.login("jaz", gameTest);
         gameTest.assignTower();
-        ArrayList<Island> islandTest = new ArrayList<>(1);
-        islandTest.add(new Island(1));
-        NoTowerInfluenceStrategy card = new NoTowerInfluenceStrategy();
-        Dashboard dashboard_1 = gameTest.getPlist().getPlayers().get(0).getDashboard();
-        Dashboard dashboard_2 = gameTest.getPlist().getPlayers().get(1).getDashboard();
-        islandTest.get(0).addStudent(new Student(PawnColor.RED));
+        Player player_1 = gameTest.getPlist().getPlayers().get(0);
+        Dashboard dashboard_1 = player_1.getDashboard();
+        islandTest.addStudent(new Student(PawnColor.RED));
         dashboard_1.addTeacherToTable(new Teacher(PawnColor.RED));
-        islandTest.get(0).calculateInfluence(gameTest.getPlist());
-        assertEquals(gameTest.getPlist().getPlayers().get(0).getName(), islandTest.get(0).getOwner());
-        assertEquals(1,islandTest.get(0).getTowerNumber());
-        assertEquals(TowerColor.white, islandTest.get(0).getTowerColor());
+        islandTest.calculateInfluence(gameTest.getPlist());
+        assertEquals(player_1.getName(), islandTest.getOwner());
+        assertEquals(1, islandTest.getTowerNumber());
+        assertEquals(TowerColor.white, islandTest.getTowerColor());//tower is conquered by player_1 who has one RED students with influence on the island
 
-        islandTest.get(0).addStudent(new Student(PawnColor.GREEN));
-        islandTest.get(0).addStudent(new Student(PawnColor.GREEN));
+        Player player_2 = gameTest.getPlist().getPlayers().get(1);
+        Dashboard dashboard_2 = player_2.getDashboard();
+        islandTest.addStudent(new Student(PawnColor.GREEN));
+        islandTest.addStudent(new Student(PawnColor.GREEN));
         dashboard_2.addTeacherToTable(new Teacher(PawnColor.GREEN));
-        card.update(gameTest.getPlist(), gameTest.getCurrentPlayer(),islandTest, PawnColor.CYAN, 0, gameTest.getStudentsBag());
-        card.effect();
-        islandTest.get(0).calculateInfluence(gameTest.getPlist());
-        assertEquals(gameTest.getPlist().getPlayers().get(1).getName(), islandTest.get(0).getOwner());
+        islandTest.calculateInfluence(gameTest.getPlist());
+        assertEquals(player_1.getName(), islandTest.getOwner());//tower isn't reassigned, influence on the tower is the same for player_1 and player_2
+
+        islandTest.addStudent(new Student(PawnColor.GREEN));
+        islandTest.calculateInfluence(gameTest.getPlist());
+        assertEquals(player_2.getName(), islandTest.getOwner()); //tower is conquered by player_2 who has three GREEN students with influence on the island
+
 
     }
 
+    /**
+     * We check that the owner of an island is changed when a player has more influence than the previous owner
+     */
     @Test
-    public void removePreviousOwnerTower(){
-        Game gameTest = new Game(2);
+    @DisplayName("Test change owner of an island")
+    public void removePreviousOwnerTower() {
+        Game gameTest = new Game(3);
 
         LoginManager.login("ale", gameTest);
         LoginManager.login("jaz", gameTest);
-
-        final Island islandTest = gameTest.getIslands().get(0);
+        LoginManager.login("nic", gameTest);
 
         final Player P1 = gameTest.getPlist().getPlayers().get(0);
         final Player P2 = gameTest.getPlist().getPlayers().get(1);
+        final Player P3 = gameTest.getPlist().getPlayers().get(2);
 
         final Dashboard D1 = P1.getDashboard();
         final Dashboard D2 = P2.getDashboard();
+        final Dashboard D3 = P3.getDashboard();
 
         D1.addTeacherToTable(new Teacher(PawnColor.RED));
         islandTest.addStudent(new Student(PawnColor.RED));
         islandTest.calculateInfluence(gameTest.getPlist());
         assertEquals(P1.getName(), islandTest.getOwner());
-        assertEquals(7, D1.getTowers().size());
+        assertEquals(5, D1.getTowers().size());
 
-        D2.addTeacherToTable(new Teacher(PawnColor.GREEN));
-        islandTest.addStudent(new Student(PawnColor.GREEN));
+        D3.addTeacherToTable(new Teacher(PawnColor.GREEN));
         islandTest.addStudent(new Student(PawnColor.GREEN));
         islandTest.addStudent(new Student(PawnColor.GREEN));
         islandTest.addStudent(new Student(PawnColor.GREEN));
         islandTest.calculateInfluence(gameTest.getPlist());
+        assertEquals(P3.getName(), islandTest.getOwner());
+        assertEquals(5, D3.getTowers().size());
+        assertEquals(6, D1.getTowers().size());
+
+
+        D2.addTeacherToTable(new Teacher(PawnColor.CYAN));
+        islandTest.addStudent(new Student(PawnColor.CYAN));
+        islandTest.addStudent(new Student(PawnColor.CYAN));
+        islandTest.addStudent(new Student(PawnColor.CYAN));
+        islandTest.addStudent(new Student(PawnColor.CYAN));
+        islandTest.addStudent(new Student(PawnColor.CYAN));
+        islandTest.calculateInfluence(gameTest.getPlist());
         assertEquals(P2.getName(), islandTest.getOwner());
-        assertEquals(7, D2.getTowers().size());
-        assertEquals(8,D1.getTowers().size());
+        assertEquals(5, D2.getTowers().size());
+        assertEquals(6, D3.getTowers().size());
 
     }
 }

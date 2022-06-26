@@ -38,7 +38,7 @@ public class TableTest {
 
         Island islandTest = gameTest.getIslands().get(0);
         Player player_one = gameTest.getPlist().getPlayers().get(0);
-        player_one.moveStudentToIsland(islandTest,2);
+        player_one.moveStudentToIsland(gameTest.getIslandWithMNIndex(), 2, gameTest);
         player_one.getDashboard().drawDashboard();
         tableTest.drawTable();
 

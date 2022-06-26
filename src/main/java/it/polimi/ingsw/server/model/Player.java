@@ -350,35 +350,19 @@ public class Player {
     /**
      * The player choose based on the position of the student from the DashboardHall which one to move to the selected Island
      *
-     * @param island   indicate the island where we want to move the student
-     * @param position indicate the position of the student in the DashboardHall
-     */
-    public void moveStudentToIsland(Island island, int position) {
-        Student student = dashboard.getStudentFromHall(position);
-        if (student != null) {
-            island.addStudent(student);
-            movesOfStudents--;
-        } else {
-            System.out.println(" selected null student ");
-        }
-    }
-
-
-    /**
-     * The player choose based on the position of the student from the DashboardHall which one to move to the selected Island
-     *
-     * @param index   indicate the index of island where we want to move the student
-     * @param position indicate the position of the student in the DashboardHall
+     * @param islandIndex   indicate the index of island where we want to move the student
+     * @param studentIndex indicate the position of the student in the DashboardHall
      * @param game is the game the player is playing.
+     * @return result of the action, true if succeeded, fast if failed
      *
      *catch a new Exception when the player select a null position or an invalid island's index
      *
      */
-    public boolean moveStudentToIsland(int position, int index, Game game) {
+    public boolean moveStudentToIsland(int studentIndex, int islandIndex, Game game) {
         try {
-            if (dashboard.getHall()[position] != null && movesOfStudents > 0) {
-                Student student = dashboard.getStudentFromHall(position);
-                game.getIslands().get(index).addStudent(student);
+            if (dashboard.getHall()[studentIndex] != null && movesOfStudents > 0) {
+                Student student = dashboard.getStudentFromHall(studentIndex);
+                game.getIslands().get(islandIndex).addStudent(student);
                 movesOfStudents--;
                 return true;
             } else {
@@ -395,6 +379,7 @@ public class Player {
      * The player choose based on the position of the student from the DashboardHall which one to move to the classroom
      *
      * @param position indicate the position of the student in the DashboardHall
+     * @return result of the action, true if succeeded, fast if failed
      */
     public boolean moveStudentToClassroom(int position, Game game) {
         try{

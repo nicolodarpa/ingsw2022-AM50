@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 public class StudentsBagTest {
 
-    private StudentsBag studentsBagTest = new StudentsBag();
+    private final StudentsBag studentsBagTest = new StudentsBag();
 
     private int[] countStudentByColor(){
         int cyan = PawnColor.CYAN.ordinal();
@@ -59,7 +59,7 @@ public class StudentsBagTest {
      */
     @Test
     @DisplayName("Equal color number of students")
-    public void equalsColorNumberTest(){;
+    public void equalsColorNumberTest(){
         studentsBagTest.fillBag(120);
         assertEquals(24,countStudentByColor()[PawnColor.CYAN.ordinal()]);
         assertEquals(24,countStudentByColor()[PawnColor.RED.ordinal()]);
