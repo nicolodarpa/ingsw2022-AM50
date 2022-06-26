@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
- * Teachers test
+ * Tests for {@link Teacher}
  */
 public class TeacherTest {
 
@@ -17,6 +17,9 @@ public class TeacherTest {
     private final Teacher red = new Teacher(PawnColor.RED);
     private final Teacher green = new Teacher(PawnColor.GREEN);
 
+    /**
+     * Tests if a teacher is correctly draw
+     */
     @Test
     @DisplayName(" Draw the teachers")
     public void testDraw(){

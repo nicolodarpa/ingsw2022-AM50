@@ -7,6 +7,9 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * Test for {@link Student}
+ */
 public class StudentTest {
 
     private Student red = new Student(PawnColor.RED);
@@ -15,6 +18,9 @@ public class StudentTest {
     private Student green = new Student(PawnColor.GREEN);
     private Student magenta = new Student(PawnColor.MAGENTA);
 
+    /**
+     * Tests if the students are correctly draw.
+     */
     @Test
     @DisplayName(" Draw the student")
     public void testDraw(){

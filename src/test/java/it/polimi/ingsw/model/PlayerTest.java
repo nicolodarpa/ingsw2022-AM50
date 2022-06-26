@@ -10,6 +10,9 @@ import java.net.Socket;
 import static org.junit.jupiter.api.Assertions.*;
 
 
+/**
+ * Tests for {@link Player}
+ */
 public class PlayerTest{
 
     private Game gameTest;

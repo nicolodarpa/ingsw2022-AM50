@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 /**
- * Tower test
+ * Tests for {@link Tower}
  */
 public class TowerTest {
 

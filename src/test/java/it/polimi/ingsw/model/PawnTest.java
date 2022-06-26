@@ -7,6 +7,9 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * tests for {@link Pawn}
+ */
 class PawnTest {
     Pawn pawnTest = new Student();
     @Test

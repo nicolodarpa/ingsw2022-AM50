@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
- * Wallet tests
+ * Tests for {@link Wallet}
  */
 public class WalletTest {
     /**

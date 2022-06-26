@@ -6,6 +6,9 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Tests for {@link PlayersList}
+ */
 public class PlayersListTest {
 
     private final PlayersList playersList = new PlayersList();
@@ -16,8 +19,6 @@ public class PlayersListTest {
         playersList.addPlayer(playerTest);
         assertTrue(playersList.containsByName(playerTest.getName()));
         playersList.removePlayer(playerTest);
-        System.out.println(playersList.getPlayers().size());
         assertFalse(playerTest.isActive());
-
     }
 }

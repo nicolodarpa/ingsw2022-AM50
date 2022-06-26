@@ -322,6 +322,9 @@ public class GameTest {
     }
 
 
+    /**
+     * Test to move mn
+     */
     @Test
     @DisplayName("move MN")
     public void moveMN() {

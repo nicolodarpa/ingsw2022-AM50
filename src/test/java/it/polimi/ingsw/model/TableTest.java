@@ -8,19 +8,24 @@ import it.polimi.ingsw.server.model.Table;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+/**
+ * Tests for {@link Table}
+ */
 public class TableTest {
 
     private final Game gameTest = new Game();
     private final Table tableTest = new Table(gameTest.getIslands());
 
 
+    /**
+     * Tests if the islands are correctly draw.
+     */
     @Test
     @DisplayName("Draw the table at the beginning of the match")
     public void drawTableTest(){
         gameTest.setNumberOfPlayers(2);
         LoginManager.login("jaz", gameTest);
         LoginManager.login("nic", gameTest);
-
         tableTest.drawTable();
     }
 

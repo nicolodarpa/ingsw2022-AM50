@@ -8,8 +8,14 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Tests for {@link Deck}
+ */
 public class DeckTest {
 
+    /**
+     * test that there are 10 cards in the deck.
+     */
     @Test
     @DisplayName(" Test dimension of the deck")
     public void deckTest() {

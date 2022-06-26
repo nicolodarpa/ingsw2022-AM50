@@ -8,12 +8,14 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * Tests for {@link StudentsBag}
+ */
 public class StudentsBagTest {
 
     private StudentsBag studentsBagTest = new StudentsBag();
-    private PawnColor studentColor = null;
 
-    public int[] countStudentByColor(){
+    private int[] countStudentByColor(){
         int cyan = PawnColor.CYAN.ordinal();
         int magenta = PawnColor.MAGENTA.ordinal();
         int yellow = PawnColor.YELLOW.ordinal();
@@ -41,6 +43,9 @@ public class StudentsBagTest {
         return color;
     }
 
+    /**
+     * test that after filling the bag with 120 students there are 120 students inside the student bag.
+     */
     @Test
     @DisplayName(" Fill the bag whit 120 students ")
     public void fillTheBagTest(){
@@ -48,10 +53,13 @@ public class StudentsBagTest {
         assertEquals(120,studentsBagTest.getNum());
     }
 
+
+    /**
+     * Check that there are the same number of students of each color.
+     */
     @Test
-    @DisplayName(" Check that there are the same number of students of each color ")
-    public void equalsColorNumberTest(){
-        int i = 0;
+    @DisplayName("Equal color number of students")
+    public void equalsColorNumberTest(){;
         studentsBagTest.fillBag(120);
         assertEquals(24,countStudentByColor()[PawnColor.CYAN.ordinal()]);
         assertEquals(24,countStudentByColor()[PawnColor.RED.ordinal()]);

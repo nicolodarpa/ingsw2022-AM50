@@ -11,6 +11,10 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+
+/**
+ * tests for {@link Island}
+ */
 public class IslandTest {
 
     private final Island islandTest = new Island(1);
