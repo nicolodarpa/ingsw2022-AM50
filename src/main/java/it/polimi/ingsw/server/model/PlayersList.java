@@ -78,6 +78,7 @@ public class PlayersList {
         return players.size();
     }
 
+
     public int getActivePlayers(){
         int i = 0;
         for (Player player: players){
