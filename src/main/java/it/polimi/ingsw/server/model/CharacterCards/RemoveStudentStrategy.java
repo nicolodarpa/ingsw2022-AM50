@@ -37,12 +37,15 @@ public class RemoveStudentStrategy extends SpecialCardStrategy {
      * @param dashboard dashboard to remove the students from
      */
     public void removeStudent(Dashboard dashboard){
-        for (int i = 0; i<3; i++){
-            Student student = dashboard.getStudentFromClassroom(pawnColor);
-            if (student != null) {
+        int j= 0, i = 0;
+        Student student;
+        while(j < dashboard.getHall().length && i < 3 ){
+            if (dashboard.getHall()[j].getColor() == pawnColor) {
+                student = dashboard.getStudentFromHall(j);
                 bag.addStudent(student);
+                i++;
             }
+            j++;
         }
-
     }
 }

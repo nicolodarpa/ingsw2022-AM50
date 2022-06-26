@@ -57,13 +57,13 @@ public class DashboardController implements Initializable, DisplayLabel {
     @FXML
     private Circle professorPosition1 = new Circle(), professorPosition2 = new Circle(), professorPosition3 = new Circle(), professorPosition4 = new Circle(), professorPosition5 = new Circle();
     /**
-     * Positions of the green student on the dashboard's classroom.
+     * Positions of the green students on the dashboard's classroom.
      */
     @FXML
     private Circle greenPosition1 = new Circle(), greenPosition2 = new Circle(), greenPosition3 = new Circle(), greenPosition4 = new Circle(), greenPosition5 = new Circle(), greenPosition6 = new Circle(), greenPosition7 = new Circle(), greenPosition8 = new Circle(), greenPosition9 = new Circle(), greenPosition10 = new Circle();
 
     /**
-     * Positions of the red student on the dashboard's classroom.
+     * Positions of the red students on the dashboard's classroom.
      */
     @FXML
     private Circle redPosition1 = new Circle(), redPosition2 = new Circle(), redPosition3 = new Circle(), redPosition4 = new Circle(), redPosition5 = new Circle(), redPosition6 = new Circle(), redPosition7 = new Circle(), redPosition8 = new Circle(), redPosition9 = new Circle(), redPosition10 = new Circle();
@@ -75,7 +75,7 @@ public class DashboardController implements Initializable, DisplayLabel {
     private Circle yellowPosition1 = new Circle(), yellowPosition2 = new Circle(), yellowPosition3 = new Circle(), yellowPosition4 = new Circle(), yellowPosition5 = new Circle(), yellowPosition6 = new Circle(), yellowPosition7 = new Circle(), yellowPosition8 = new Circle(), yellowPosition9 = new Circle(), yellowPosition10 = new Circle();
 
     /**
-     * Positions of the magenta student son the dashboard's classroom.
+     * Positions of the magenta students son the dashboard's classroom.
      */
     @FXML
     private Circle magentaPosition1 = new Circle(), magentaPosition2 = new Circle(), magentaPosition3 = new Circle(), magentaPosition4 = new Circle(), magentaPosition5 = new Circle(), magentaPosition6 = new Circle(), magentaPosition7 = new Circle(), magentaPosition8 = new Circle(), magentaPosition9 = new Circle(), magentaPosition10 = new Circle();
@@ -102,19 +102,20 @@ public class DashboardController implements Initializable, DisplayLabel {
      * ImageView of the images of the islands.
      */
     @FXML
-    private ImageView Island1 = new ImageView(), Island2 = new ImageView(), Island3 = new ImageView(), Island4 = new ImageView(), Island5 = new ImageView(), Island6 = new ImageView(), Island7 = new ImageView(), Island8 = new ImageView(), Island9 = new ImageView(), Island10 = new ImageView(), Island11 = new ImageView(), Island12 = new ImageView();
 
-    /**
-     * Positions of the red students on each island.
-     */
-    @FXML
-    private Circle redStudentIsland1 = new Circle(), redStudentIsland2 = new Circle(), redStudentIsland3 = new Circle(), redStudentIsland4 = new Circle(), redStudentIsland5 = new Circle(), redStudentIsland6 = new Circle(), redStudentIsland7 = new Circle(), redStudentIsland8 = new Circle(), redStudentIsland9 = new Circle(), redStudentIsland10 = new Circle(), redStudentIsland11 = new Circle(), redStudentIsland12 = new Circle();
+    private ImageView Island1 = new ImageView(), Island2 = new ImageView(), Island3 = new ImageView(), Island4 = new ImageView(), Island5 = new ImageView(), Island6 = new ImageView(), Island7 = new ImageView(), Island8 = new ImageView(), Island9 = new ImageView(), Island10 = new ImageView(), Island11 = new ImageView(), Island12 = new ImageView();
 
     /**
      * Positions of the green students on each island.
      */
     @FXML
     private Circle greenStudentIsland1 = new Circle(), greenStudentIsland2 = new Circle(), greenStudentIsland3 = new Circle(), greenStudentIsland4 = new Circle(), greenStudentIsland5 = new Circle(), greenStudentIsland6 = new Circle(), greenStudentIsland7 = new Circle(), greenStudentIsland8 = new Circle(), greenStudentIsland9 = new Circle(), greenStudentIsland10 = new Circle(), greenStudentIsland11 = new Circle(), greenStudentIsland12 = new Circle();
+
+    /**
+     * Positions of the red students on each island.
+     */
+    @FXML
+    private Circle redStudentIsland1 = new Circle(), redStudentIsland2 = new Circle(), redStudentIsland3 = new Circle(), redStudentIsland4 = new Circle(), redStudentIsland5 = new Circle(), redStudentIsland6 = new Circle(), redStudentIsland7 = new Circle(), redStudentIsland8 = new Circle(), redStudentIsland9 = new Circle(), redStudentIsland10 = new Circle(), redStudentIsland11 = new Circle(), redStudentIsland12 = new Circle();
 
     /**
      * Positions of the yellow students on each island.
@@ -852,7 +853,7 @@ public class DashboardController implements Initializable, DisplayLabel {
     }
 
     /**
-     * It's the function that add to each arraylist of the classroom every circle of each color.
+     * It's the function that add to each arraylist, of each students' color, of the classroom every circle of each color.
      * It also set all the circle transparent.
      *
      * @param colorPositions is the arraylist considerated.
@@ -873,8 +874,9 @@ public class DashboardController implements Initializable, DisplayLabel {
     }
 
     /**
-     * It's the function that add to each arraylist of each students' color on each island, every circle.
+     * It's the function that add to each arraylist of each students' color on each island, every circle of each color.
      * It also set all the circle transparent.
+     *
      * @param colorPositions is the arraylist considerated.
      * @param colorPosition1 is the 1st circle of each color that is on the island 1.
      * @param colorPosition2 is the 2nd circle of each color that is on the island 2.
