@@ -900,6 +900,11 @@ public class Game {
         }
     }
 
+    /**
+     * set the deck to the player according to his choice
+     * @param numberOfDeck is the identifier of the deck
+     * @param player is who are choosing the deck
+     */
     public void chooseDeck(int numberOfDeck, Player player) {
         Deck deck = deckMap.get(numberOfDeck);
         for (Player ignored : plist.getPlayers()) {
@@ -1023,9 +1028,7 @@ public class Game {
 
     }
 
-    /**
-     * It removes all the player at the end of the match and closes their sockets.
-     */
+
     private void endOfGame() {
         gameStatus = "ENDED";
     }
@@ -1033,6 +1036,7 @@ public class Game {
     public void notifyAllClients(String type, String message) {
         plist.notifyAllClients(type, message);
     }
+
 
 
 }
