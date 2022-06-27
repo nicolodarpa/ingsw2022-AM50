@@ -494,6 +494,8 @@ public class EchoServerClientHandler extends Thread {
                 if (player.moveStudentToIsland(numPlayer - 1, indexIsland, game)) {
                     game.notifyAllClients("hall", game.sendHall(player));
                     game.notifyAllClients("islands", game.sendIslands());
+                    if(player.getMovesOfStudents() == 0)
+                        player.sendToClient("notify", "You have finished your moves, now move Mother Nature on an island!");
                 } else {
                     errorSelectionNotify();
                 }
@@ -517,6 +519,8 @@ public class EchoServerClientHandler extends Thread {
             int numPlayer = Integer.parseInt(command.value1);
             if (player.moveStudentToClassroom(numPlayer - 1, game)) {
                 sendSingleDashboard(command);
+                if(player.getMovesOfStudents() == 0)
+                    player.sendToClient("notify", "You have finished your moves, now move Mother Nature on an island!");
             } else {
                 errorSelectionNotify();
             }
@@ -548,6 +552,7 @@ public class EchoServerClientHandler extends Thread {
             int island = Integer.parseInt(command.value1);
             if (game.moveMN(player, island - 1)) {
                 game.notifyAllClients("islands", game.sendIslands());
+                player.sendToClient("notify", "Perfect, now choose a cloud card!");
 
             } else {
                 player.sendToClient("error", "error, you can move mother nature of " + player.getMovesOfMN() + " moves");
