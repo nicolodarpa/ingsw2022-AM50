@@ -431,6 +431,10 @@ public class ClientOut extends Thread {
         }
     }
 
+    /**
+     *
+     * @throws IOException If an exception append closing the socket
+     */
     private void endGame() throws IOException {
         printNotify();
         socket.close();

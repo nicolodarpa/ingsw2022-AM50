@@ -83,7 +83,7 @@ public class PlayerTest{
         assertTrue(player.moveStudentToIsland(2, 3, gameTest));
         assertFalse(player.moveStudentToIsland(2, 3, gameTest));
         assertNull(player.getDashboard().getHall()[2]);
-        if(gameTest.getIslands().get(2).getOppositeMN() || gameTest.getIslands().get(2).getPresenceMN())
+        if(gameTest.getIslands().get(3).getOppositeMN() || gameTest.getIslands().get(3).getPresenceMN())
             assertEquals(1,gameTest.getIslands().get(3).getStudentList().size());
         else
             assertEquals(2,gameTest.getIslands().get(3).getStudentList().size());

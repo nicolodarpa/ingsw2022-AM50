@@ -116,11 +116,11 @@ public class EchoServerClientHandler extends Thread {
 
                 Command command = gson.fromJson(line, Command.class);
 
-                if (command.cmd != null) {
+                if (command.command != null) {
                     try {
-                        commandMap.get(command.cmd).runCommand(command);
+                        commandMap.get(command.command).runCommand(command);
                     } catch (Exception e) {
-                        TextMessage text = new TextMessage("msg", "Received " + command.cmd);
+                        TextMessage text = new TextMessage("msg", "Received " + command.command);
                         String json = gson.toJson(text, TextMessage.class);
                         out.println(json);
                     }
@@ -385,7 +385,8 @@ public class EchoServerClientHandler extends Thread {
 
     /**
      * Play a character card
-     * @param command
+     * @param command message payload received from the client, contains the card's index as value1
+     *                and an optional argument as value2 for special cards' effects
      */
     public void playCharacterCard(Command command) {
         if (!checkTurn()) {
