@@ -509,7 +509,7 @@ public class EchoServerClientHandler extends Thread {
      */
     public void moveStudentToClassroom(Command command) {
         if (game.getPhase() == 0) {
-            player.sendToClient("error", " Before move students to island, you have to play an assistant card! ");
+            player.sendToClient("error", " Before move students to classroom, you have to play an assistant card! ");
             return;
         }
 

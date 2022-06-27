@@ -402,18 +402,9 @@ public class DashboardController implements Initializable, DisplayLabel {
         studentsInEachCloudCard.add(studentsCC1);
         studentsInEachCloudCard.add(studentsCC2);
         studentsInEachCloudCard.add(studentsCC3);
-        disableCloudCards();
+
 
     }
-
-    /**
-     * Disables the onMouseClick action of the cloud cards circles
-     */
-    private void disableCloudCards() {
-        for (Circle c : cloudCards)
-            c.setDisable(true);
-    }
-
 
     /**
      *By a Json formatted string sent from the server, it sets the CloudCards .
@@ -1135,7 +1126,6 @@ public class DashboardController implements Initializable, DisplayLabel {
         else {
             index = -1;
             refreshGUI();
-            enableCloudCards();
         }
     }
 
@@ -1171,15 +1161,6 @@ public class DashboardController implements Initializable, DisplayLabel {
     private void disableMN() {
         for (ImageView mn : MNPositions)
             mn.setDisable(true);
-    }
-
-    /**
-     * Enables click on cloud card images
-     */
-    private void enableCloudCards() {
-        for (Circle cloudCard : cloudCards) {
-            cloudCard.setDisable(false);
-        }
     }
 
     /**
@@ -1371,7 +1352,6 @@ public class DashboardController implements Initializable, DisplayLabel {
     @FXML
     public void moveStudentToIsland(MouseEvent mouseEvent) {
         indexIsland = Islands.indexOf((ImageView) mouseEvent.getSource());
-        disableCloudCards();
         System.out.println(indexIsland);
         if (movesOfStudent > 0) {
             sendMoveToIslandCommand();
