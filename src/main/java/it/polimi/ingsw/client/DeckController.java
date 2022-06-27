@@ -96,6 +96,7 @@ public class DeckController implements Initializable, DisplayLabel {
                     AlertHelper.showAlert(Alert.AlertType.WARNING, window, "Invalid Deck", message.message);
                     break;
                 }
+
         } while (true);
     }
 
