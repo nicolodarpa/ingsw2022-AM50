@@ -452,7 +452,7 @@ public class EchoServerClientHandler extends Thread {
         try {
             player.sendToClient("singleIsland", game.sendSingleIsland(game.getIslands().get(indexIsland - 1)));
         } catch (Exception e) {
-            player.sendToClient("warning", "Invalid index");
+            player.sendToClient("error", "Invalid index");
         }
 
     }

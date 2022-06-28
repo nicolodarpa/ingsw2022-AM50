@@ -10,7 +10,7 @@ public class PlayersList {
     /**
      * They are the players in game
      */
-    private ArrayList<Player> players = new ArrayList<>();
+    private final ArrayList<Player> players = new ArrayList<>();
 
 
     public ArrayList<Player> getPlayers() {
@@ -48,6 +48,7 @@ public class PlayersList {
      * This method add new player to the playersList
      */
     public void addPlayer(Player player) {
+        notifyAllClients("notify", player.getName()+ " logged in");
         players.add(player);
 
     }
@@ -58,7 +59,7 @@ public class PlayersList {
     public void removePlayer(Player player) {
         //players.remove(player);
         player.setActive(false);
-        notifyAllClients("msg", player.getName() + " logged out");
+        notifyAllClients("notify", player.getName() + " logged out");
         System.out.println(player.getName() + " logged out");
     }
 

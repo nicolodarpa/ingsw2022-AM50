@@ -17,6 +17,7 @@ public class LoginManager {
         if (game.getCurrentNumberOfPlayers() >= game.getNumberOfPlayers()) {
             if (game.containsPlayerByName(name) && !game.getPlist().getPlayerByName(name).isActive()) {
                 System.out.println(name + " logged back");
+                game.notifyAllClients("notify",name + " logged back");
                 game.getPlist().getPlayerByName(name).setActive(true);
                 return 0; //log back in
             }
