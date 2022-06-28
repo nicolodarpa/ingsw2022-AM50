@@ -56,7 +56,9 @@ public class DashboardTest {
     }
 
     /**
-     * Test the movement of players in every position in the dashboard
+     * Fills the classroom with students,
+     * checks that if you try to move a student when a classroom is full the addStudentToClassroom method returns false
+     * and the student isn't removed from the hall
      */
     @Test
     @DisplayName(" Fill the Classroom ")
@@ -64,15 +66,29 @@ public class DashboardTest {
         testD.setupHall(2);
         StudentsBag studentsBag = new StudentsBag();
         studentsBag.fillBag(120);
+        for (Student student : testD.getHall()) {
+            testD.addStudentToHall(studentsBag.casualExtraction());
+        }
+        studentsBag = new StudentsBag();
+        studentsBag.fillBag(120);
         for (int i = 0; i < 120; i++) {
             testD.addStudentToClassroom(studentsBag.casualExtraction());
         }
-        testD.drawDashboard();
+
         assertEquals(10, testD.countStudentByColor(PawnColor.CYAN));
         assertEquals(10, testD.countStudentByColor(PawnColor.MAGENTA));
         assertEquals(10, testD.countStudentByColor(PawnColor.YELLOW));
         assertEquals(10, testD.countStudentByColor(PawnColor.RED));
         assertEquals(10, testD.countStudentByColor(PawnColor.GREEN));
+
+        assertNotNull(testD.getHall()[1]);
+        Student student = testD.getHall()[1];
+
+        assertFalse(testD.addStudentToClassroom(student));
+        testD.moveStudentToClassroom(1);
+        assertNotNull(testD.getHall()[1]);
+        testD.drawDashboard();
+
     }
 
     /**
@@ -98,8 +114,7 @@ public class DashboardTest {
     }
 
     /**
-     *We count the students in the classroom of a specified color.
-     *
+     * We count the students in the classroom of a specified color.
      */
     @Test
     @DisplayName(" Count the students by their color ")
@@ -126,33 +141,39 @@ public class DashboardTest {
         Player p2 = gameTest.getPlist().getPlayers().get(1);
         Dashboard p1dashboard = p1.getDashboard();
 
-      for (int j = 0; j < 4; j++) {
+        for (int j = 0; j < 4; j++) {
             p1.getDashboard().addStudentToClassroom(new Student(PawnColor.GREEN));
-      }
-      p1dashboard.addCoin(p1.getWallet());
-      p1.getDashboard().drawDashboard();
-      p2.getDashboard().addCoin(p2.getWallet());
-      p2.getDashboard().drawDashboard();
-      System.out.println(p1.getName()+" ha #" + p1.getCoins() + " monete");
-      System.out.println(p2.getName()+" ha #" + p2.getCoins() + " monete");
+        }
+        p1dashboard.addCoin(p1.getWallet());
+        p1.getDashboard().drawDashboard();
+        p2.getDashboard().addCoin(p2.getWallet());
+        p2.getDashboard().drawDashboard();
+        System.out.println(p1.getName() + " ha #" + p1.getCoins() + " monete");
+        System.out.println(p2.getName() + " ha #" + p2.getCoins() + " monete");
 
         assertFalse(p1.getDashboard().getCoinPos()[0][2]);
         assertTrue(p2.getDashboard().getCoinPos()[0][2]);
     }
 
+    /**
+     * Test removal of students from classroom
+     */
     @Test
     public void getStudentFromClassroomTest() {
-        gameTest = new Game();
-        gameTest.setNumberOfPlayers(2);
+        gameTest = new Game(2);
         LoginManager.login("ale", gameTest);
         LoginManager.login("nic", gameTest);
         Player p1 = gameTest.getPlist().getPlayers().get(0);
-        p1.moveStudentToClassroom(1, gameTest);
-        p1.moveStudentToClassroom(2, gameTest);
-        p1.moveStudentToClassroom(3, gameTest);
-        p1.moveStudentToClassroom(4, gameTest);
+        Dashboard d1 = p1.getDashboard();
+        d1.addStudentToClassroom(new Student(PawnColor.RED));
+        d1.addStudentToClassroom(new Student(PawnColor.RED));
+        d1.addStudentToClassroom(new Student(PawnColor.RED));
         p1.getDashboard().drawDashboard();
+        assertNotNull(d1.getClassroom()[1][2]);
+        assertNotNull(d1.getStudentFromClassroom(PawnColor.RED));
+        assertNull(d1.getClassroom()[1][2]);
         p1.getDashboard().getStudentFromClassroom(PawnColor.RED);
+        assertNull(d1.getStudentFromClassroom(PawnColor.CYAN));
         p1.getDashboard().drawDashboard();
     }
 
@@ -160,14 +181,14 @@ public class DashboardTest {
      * Tests to insert an invalid input to method "getStudentFromHall)
      */
     @Test
-    public void getInvalidStudentFromHallTest(){
+    public void getInvalidStudentFromHallTest() {
         Dashboard dashboardTest = new Dashboard();
         dashboardTest.getStudentFromHall(2);
         dashboardTest.getStudentFromHall(10);
     }
 
     @Test
-    public void getClassroom(){
+    public void getClassroom() {
         Dashboard dashboardTest = new Dashboard();
         assertNotNull(dashboardTest.getClassroom());
     }
@@ -176,7 +197,7 @@ public class DashboardTest {
      * tests the removing of a tower from the dashboard, then assert equals that there are 7 towers.
      */
     @Test
-    public void removeTower(){
+    public void removeTower() {
         Dashboard dashboardTest = new Dashboard();
         dashboardTest.setupHall(2);
         dashboardTest.drawDashboard();
@@ -191,12 +212,11 @@ public class DashboardTest {
      * It has to print "Invalid input"
      */
     @Test
-    public void removeInvalidStudentFromClassroomTest(){
+    public void removeInvalidStudentFromClassroomTest() {
         Dashboard dashboardTest = new Dashboard();
         dashboardTest.getStudentFromClassroom(PawnColor.RED); // is a null student
         //It has to print "Invalid input"
     }
-
 
 
 }

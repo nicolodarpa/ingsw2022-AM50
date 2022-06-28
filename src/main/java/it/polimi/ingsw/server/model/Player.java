@@ -366,7 +366,7 @@ public class Player {
                 movesOfStudents--;
                 return true;
             } else {
-                System.out.println("selected null student ");
+                System.out.println("Error moving student to island ");
                 return false;
             }
         } catch (Exception e) {
@@ -384,14 +384,13 @@ public class Player {
     public boolean moveStudentToClassroom(int position, Game game) {
         try{
             if (dashboard.getHall()[position] != null && movesOfStudents>0 ) {
-                Student student = dashboard.getStudentFromHall(position);
-                dashboard.addStudentToClassroom(student);
+                dashboard.moveStudentToClassroom(position);
                 dashboard.addCoin(wallet);
                 movesOfStudents--;
                 game.assignTeacher();
                 return true;
             } else {
-                System.out.println("selected null student ");
+                System.out.println("Error moving student to classroom");
                 return false;
             }
         } catch (Exception e) {

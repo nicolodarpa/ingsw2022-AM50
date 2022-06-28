@@ -521,7 +521,7 @@ public class Game {
         int playerMovesOfMN = player.getMovesOfMN();
         int islandWithMNIndex = getIslandWithMNIndex();
         int moves = destinationIslandIndex - islandWithMNIndex;
-        /* if moves is a negative value it is rescaled to a positive value by adding the islands size */
+        /* if moves is a negative value it is rescaled to a positive value by adding the islands array size */
         if (moves < 0) {
             moves = islands.size() + moves;
         }
@@ -535,6 +535,7 @@ public class Game {
             if (destination.getBlock()) {
                 destination.setBlock(false);
                 System.out.println("island blocked");
+                player.sendToClient("warning","Island is blocked, influence isn't calculated");
                 return true;
             } else {
                 islandWithMN.calculateInfluence(plist);
@@ -1035,6 +1036,10 @@ public class Game {
 
     public void notifyAllClients(String type, String message) {
         plist.notifyAllClients(type, message);
+    }
+
+    private void saveGame(){
+
     }
 
 

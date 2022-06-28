@@ -177,6 +177,8 @@ public class Dashboard {
         return findLastStudent(studentColor);
     }
 
+
+
     /**
      * find the last student of the selected color in the classroom
      * @param studentColor the color of the student that we are looking for
@@ -216,15 +218,24 @@ public class Dashboard {
      *     </ul>
      * </p>
      */
-    public void addStudentToClassroom(Student student) {
+    public boolean addStudentToClassroom(Student student) {
         PawnColor color = student.getColor();
         for (int i = 0; i < 10; i++) {
             if (classroom[color.ordinal()][i] == null) {
                 classroom[color.ordinal()][i] = student;
-                return;
+                return true;
 
             }
         }
+        return false;
+    }
+
+    public void moveStudentToClassroom(int index){
+        Student student = hall[index];
+        if (addStudentToClassroom(student)){
+            getStudentFromHall(index);
+        }
+
     }
 
 
