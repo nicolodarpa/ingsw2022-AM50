@@ -179,10 +179,17 @@ public class EchoServerClientHandler extends Thread {
     public void newGame(Command command) {
         System.out.println("New game for " + command.value1);
         int num = Integer.parseInt(command.value1);
-        game = new Game(num);
-        gameArrayList.add(game);
-        TextMessage text = new TextMessage("confirmation", "newGame", "Created game for " + num + " players");
-        String json = gson.toJson(text, TextMessage.class);
+        TextMessage textMessage;
+        try {
+            game = new Game(num);
+            gameArrayList.add(game);
+             textMessage = new TextMessage("confirmation", "newGame", "Created game for " + num + " players");
+        } catch (Exception e){
+            textMessage  = new TextMessage("erro",  "Error creating new game");
+
+        }
+
+        String json = gson.toJson(textMessage, TextMessage.class);
         out.println(json);
     }
 
@@ -223,7 +230,7 @@ public class EchoServerClientHandler extends Thread {
         try {
             game = gameArrayList.get(Integer.parseInt(command.value1));
             if (Objects.equals(game.getGameStatus(), "ENDED")) {
-                textMessage = new TextMessage("error", "joinGame02", "Error, the gama has ended");
+                textMessage = new TextMessage("error", "joinGame02", "Error, the game has ended");
 
             } else textMessage = new TextMessage("confirmation", "joinGame", "You joined the game");
 
@@ -238,6 +245,7 @@ public class EchoServerClientHandler extends Thread {
 
     /**
      * Manages login to a game.
+     * Send a message to the client containing the
      *
      * @param command message payload received from the client, contains the player's username as value1
      * @throws IOException If an exception occurred setting up the PrinterWriter
