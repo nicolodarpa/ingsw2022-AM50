@@ -455,7 +455,7 @@ public class DashboardController implements Initializable, DisplayLabel {
                 id = cloudCardsStatus[i].id;
                 c.setFill(new ImagePattern(new Image(String.valueOf(getClass().getClassLoader().getResource("images/cloudcard/cc" + (id+1)+ ".png")))));
             }
-            else if (cloudCardsStatus.length == 2 && i >= 2)
+            else if (cloudCardsStatus.length == 2)
                 c.setFill(null);
             i++;
         }
