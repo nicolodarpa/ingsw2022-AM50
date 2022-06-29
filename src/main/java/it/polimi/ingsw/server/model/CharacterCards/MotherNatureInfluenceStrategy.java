@@ -2,9 +2,9 @@ package it.polimi.ingsw.server.model.CharacterCards;
 
 
 /**
- * Calculate the influence on an island like mother nature stopped on it. {@link SpecialCardStrategy}
+ * Calculate the influence on an island like mother nature stopped on it. {@link CharacterCardStrategy}
  */
-public class MotherNatureInfluenceStrategy extends SpecialCardStrategy {
+public class MotherNatureInfluenceStrategy extends CharacterCardStrategy {
 
 
     /**

@@ -18,7 +18,7 @@ public class IslandStatus {
     public String owner;
     public boolean presenceMN;
     public int idGroup;
-    public ArrayList<String> students = new ArrayList<>();
+    //public ArrayList<String> students = new ArrayList<>();
 
     public ArrayList<Integer> studentColorOrdinal = new ArrayList<>();
 
@@ -44,11 +44,9 @@ public class IslandStatus {
         ArrayList<Student> studentArrayList = island.getStudents();
         for (Student student : studentArrayList) {
             if (student!=null){
-                students.add(String.valueOf(student.getColor().getCode()));
                 studentColorOrdinal.add(student.getColor().ordinal());
                 colors.add(student.getColor().getName());
             } else{
-                students.add(null);
                 studentColorOrdinal.add(null);
                 colors.add(null);
             }

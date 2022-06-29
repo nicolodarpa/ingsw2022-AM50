@@ -3,10 +3,10 @@ package it.polimi.ingsw.server.model.CharacterCards;
 import it.polimi.ingsw.server.model.Island;
 
 /**
- * Towers aren't considered for the calculation of the influence on an island. {@link SpecialCardStrategy}
+ * Towers aren't considered for the calculation of the influence on an island. {@link CharacterCardStrategy}
  * {@link Island}
  */
-public class NoTowerInfluenceStrategy extends SpecialCardStrategy {
+public class NoTowerInfluenceStrategy extends CharacterCardStrategy {
 
 
     /**

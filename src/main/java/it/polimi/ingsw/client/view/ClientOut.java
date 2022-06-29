@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import it.polimi.ingsw.client.Command;
 import it.polimi.ingsw.client.LineClient;
 import it.polimi.ingsw.comunication.*;
+import it.polimi.ingsw.server.model.PawnColor;
 
 
 import java.io.BufferedReader;
@@ -40,7 +41,7 @@ public class ClientOut extends Thread {
     /**
      * Number of characters occupied by a single island in the islands' table when printed on console.
      */
-    private static final String SPACE = "10";
+    private static final String SPACE = "12";
 
     private final Gson gson = new Gson();
     /**
@@ -139,6 +140,7 @@ public class ClientOut extends Thread {
         for (GameStatus gameStatus : gameStatuses) {
             System.out.println("-" + gameStatus.gameId + ": " + gameStatus.currentNumber + "/" + gameStatus.totalPlayers + " players: " + gameStatus.playersName);
         }
+        LineClient.joinGame();
     }
 
     /**
@@ -272,7 +274,7 @@ public class ClientOut extends Thread {
         StringBuilder students = new StringBuilder();
         for (IslandStatus islandStatus : statuses) {
             int space = Integer.parseInt(SPACE) + 2;
-            line.append("--------------");
+            line.append("----------------");
             if (islandStatus.presenceMN) {
                 id.append(String.format("%s" + YELLOW + " %-" + SPACE + "s" + ANSI_RESET + " %s", "|", "Id #: " + islandStatus.id, "|"));
             } else id.append(String.format("%s %-" + SPACE + "s %s", "|", "Id #: " + islandStatus.id, "|"));
@@ -282,8 +284,8 @@ public class ClientOut extends Thread {
             mn.append(String.format("%s %-" + SPACE + "s %s", "|", "MN: " + islandStatus.presenceMN, "|"));
             int length = students.length();
             students.append("| St:");
-            for (String student : islandStatus.students) {
-                students.append(student).append("+").append(ANSI_RESET);
+            for (Integer student : islandStatus.studentColorOrdinal) {
+                students.append(PawnColor.values()[student].getCode()).append("+").append(ANSI_RESET);
                 space = space + 9;
             }
             int i = students.length();
@@ -370,7 +372,7 @@ public class ClientOut extends Thread {
     private void printPlayer() {
         PlayersStatus[] playersStatuses = gson.fromJson(message.message, PlayersStatus[].class);
         for (PlayersStatus playersStatus : playersStatuses) {
-            System.out.println(YELLOW + "-Username: " + playersStatus.name + "  -Moves MN: " + playersStatus.movesOfMN + ANSI_RESET + " -Wallet: " + playersStatus.wallet);
+            System.out.println(YELLOW + "-Username: " + playersStatus.name + "  -Moves MN: " + playersStatus.movesOfMN + " -Wallet: " + playersStatus.wallet + ANSI_RESET);
         }
     }
 
@@ -405,7 +407,7 @@ public class ClientOut extends Thread {
     private void printHall() {
         HallStatus[] hallStatuses = gson.fromJson(message.message, HallStatus[].class);
         for (HallStatus hallStatus : hallStatuses) {
-            System.out.println("=====Hall: ");
+            System.out.println("=====Hall=====");
             for (String student : hallStatus.students) {
                 System.out.print("|");
                 draw(student);
@@ -432,7 +434,6 @@ public class ClientOut extends Thread {
     }
 
     /**
-     *
      * @throws IOException If an exception append closing the socket
      */
     private void endGame() throws IOException {

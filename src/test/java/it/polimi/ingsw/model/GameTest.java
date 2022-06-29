@@ -4,7 +4,8 @@ import com.google.gson.Gson;
 import it.polimi.ingsw.server.controller.LoginManager;
 import it.polimi.ingsw.comunication.*;
 import it.polimi.ingsw.server.model.*;
-import it.polimi.ingsw.server.model.CharacterCards.SpecialCardStrategy;
+import it.polimi.ingsw.server.model.CharacterCards.AddMoveMNStrategy;
+import it.polimi.ingsw.server.model.CharacterCards.CharacterCardStrategy;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -301,7 +302,7 @@ public class GameTest {
         playerTwo.setDeck(deck2);
         playerOne.playAssistantCard(3);
         playerTwo.playAssistantCard(6);
-        gameTest.setCurrentPlayer();
+        gameTest.calculateCurrentPlayer();
         assertEquals(playerOne, gameTest.getCurrentPlayer());
     }
 
@@ -312,7 +313,7 @@ public class GameTest {
         LoginManager.login("jaz", gameTest);
         LoginManager.login("nic", gameTest);
         assertEquals(3, gameTest.getCardsInGame().size());
-        for (SpecialCardStrategy card : gameTest.getCardsInGame()) {
+        for (CharacterCardStrategy card : gameTest.getCardsInGame()) {
             System.out.println("==" + card.getEffectOfTheCard());
         }
 
@@ -690,7 +691,7 @@ public class GameTest {
         LoginManager.login("ale", gameTest);
         LoginManager.login("nic", gameTest);
 
-        gameTest.setCurrentPlayer();
+        gameTest.calculateCurrentPlayer();
 
         GameInfoStatus[] statuses = gson.fromJson(gameTest.sendGameInfo(), GameInfoStatus[].class);
         for (GameInfoStatus status : statuses) {
@@ -717,6 +718,7 @@ public class GameTest {
     }
 
     @Test
+    @DisplayName("Test choose deck")
     public void chooseDeckTest() {
         gameTest = new Game(2);
 
@@ -743,7 +745,7 @@ public class GameTest {
      * Tests that the game enter the last round when a player plays his last assistant card
      */
     @Test
-    @DisplayName("Test playAssistantCard")
+    @DisplayName("Test endGame after lastAssistant")
     public void playAssistantCardTest() {
         gameTest = new Game(2);
 
@@ -793,6 +795,86 @@ public class GameTest {
 
         gameTest.removePlayer(p2);
         assertEquals("ENDED", gameTest.getGameStatus());
+    }
+
+
+    /**
+     * We test that the selected character card is correctly played by the current player if he has enough coins,
+     * and the effect is activated
+     * If the player hasn't enough coin the card isn't played
+     */
+    @Test
+    @DisplayName("Test play character card")
+    public void testCharacterCard() {
+
+        gameTest = new Game(2);
+
+        LoginManager.login("ale", gameTest);
+        LoginManager.login("nic", gameTest);
+        Player p1 = gameTest.getPlist().getPlayerByName("ale");
+        Player p2 = gameTest.getPlist().getPlayerByName("nic");
+
+        gameTest.setCurrentPlayer(p1);
+        CharacterCardStrategy characterCardStrategy = new AddMoveMNStrategy();
+
+        assertEquals(1, p1.getCoins());
+        assertEquals(0, p1.getMovesOfMN());
+        assertTrue(gameTest.playCharacterCard(characterCardStrategy, 0, null));
+        assertEquals(2, p1.getMovesOfMN());
+        assertEquals(0, p1.getCoins());//check cost is deducted from p1 wallet
+
+        p1.addCoin(1); //add 1 coin to p1 wallet
+        assertFalse(gameTest.playCharacterCard(characterCardStrategy, 0, null));// card cost 2 coins the second time it's played, cannot be played by p1
+
+
+    }
+
+
+    /**
+     *
+     */
+    @Test
+    @DisplayName("Test play assistant card")
+    public void testPlayAssistant(){
+
+        gameTest = new Game(3);
+
+        LoginManager.login("ale", gameTest);
+        LoginManager.login("nic", gameTest);
+        LoginManager.login("jaz", gameTest);
+        Player p1 = gameTest.getPlist().getPlayerByName("ale");
+        Player p2 = gameTest.getPlist().getPlayerByName("nic");
+        Player p3 = gameTest.getPlist().getPlayerByName("jaz");
+        gameTest.chooseDeck(1,p1);
+        gameTest.chooseDeck(2,p2);
+        gameTest.chooseDeck(3,p3);
+
+        assertEquals(0,gameTest.getPhase());
+        assertTrue(gameTest.playAssistantCard(p1,1));
+        assertEquals(1,p1.getMovesOfMN());
+        assertFalse(gameTest.playAssistantCard(p2,1));
+        assertTrue(gameTest.playAssistantCard(p2,2));
+        assertFalse(gameTest.playAssistantCard(p3,2));
+        assertEquals(0,p3.getMovesOfMN());
+        assertTrue(gameTest.playAssistantCard(p2,4));
+
+
+
+
+    }
+
+    @Test
+    @DisplayName("Test phase change")
+    public void testNextPhase(){
+        gameTest = new Game(2);
+
+        LoginManager.login("ale", gameTest);
+        LoginManager.login("nic", gameTest);
+
+        gameTest.nextPhase();
+        assertEquals(1,gameTest.getPhase());
+        gameTest.nextPhase();
+        assertEquals(0,gameTest.getPhase());
     }
 
 

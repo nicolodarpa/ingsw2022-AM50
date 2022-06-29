@@ -6,9 +6,9 @@ import it.polimi.ingsw.server.model.Student;
 
 /**
  * Removes 3 students of one color from each player's dashboard
- * @see SpecialCardStrategy
+ * @see CharacterCardStrategy
  */
-public class RemoveStudentStrategy extends SpecialCardStrategy {
+public class RemoveStudentStrategy extends CharacterCardStrategy {
 
     /**
      * It's the character card's constructor. It sets the cost, the effect and the name of the card

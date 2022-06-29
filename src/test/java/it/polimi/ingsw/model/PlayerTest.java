@@ -125,6 +125,7 @@ public class PlayerTest{
     }
 
     @Test
+    @DisplayName("Test spendCoins")
     public void spendCoinsTest(){
         Player p = new Player("nic");
         int coin = p.getCoins();

@@ -5,9 +5,9 @@ import it.polimi.ingsw.server.model.Player;
 
 /**
  * Changes the method of assignment of teacher in game.
- * {@link SpecialCardStrategy} {@link Player}
+ * {@link CharacterCardStrategy} {@link Player}
  */
-public class TeacherAssignmentStrategy extends SpecialCardStrategy {
+public class TeacherAssignmentStrategy extends CharacterCardStrategy {
 
 
     /**

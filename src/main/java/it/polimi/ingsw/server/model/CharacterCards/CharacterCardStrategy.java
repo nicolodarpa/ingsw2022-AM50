@@ -8,7 +8,7 @@ import it.polimi.ingsw.server.model.StudentsBag;
 
 import java.util.ArrayList;
 
-public abstract class SpecialCardStrategy {
+public abstract class CharacterCardStrategy {
 
     /**
      * It is the number of usages of the card.

@@ -77,7 +77,7 @@ public class LineClient {
                 System.out.print("\033\143");
             }
         } catch (IOException | InterruptedException ex) {
-            System.out.println(ex);
+            System.out.println("Error cleaning the console...");
         }
         System.out.println(ANSI_PRIMARY + "====Eriantys CLI Client====" + ANSI_RESET);
         clientInput.sendString("player", "");
@@ -151,7 +151,7 @@ public class LineClient {
                 newGame();
                 break;
             } else if ("1".equals(string)) {
-                joinGame();
+                clientInput.sendString("avlGames", "");
                 break;
             }
             System.out.println("Select\n0-New Game\n1-Join Game");
@@ -175,8 +175,7 @@ public class LineClient {
      * Send a command to the server to join the selected game
      */
     public static void joinGame() {
-        clientInput.sendString("avlGames", "");
-        clientInput.sendString("joinGame", stdin.nextLine());
+        clientInput.sendString("joinGame", inputInt());
     }
 
     /**
@@ -197,10 +196,10 @@ public class LineClient {
     public static void chooseDeck() {
         System.out.println("Select your deck:");
         clientInput.sendString("sendAssistantDecks", "");
-        String index = stdin.nextLine();
+        String index = inputInt();
         while (!Objects.equals(index, "4") && !Objects.equals(index, "1") && !Objects.equals(index, "2") && !Objects.equals(index, "3")) {
             System.out.println("Please input a valid index");
-            index = stdin.nextLine();
+            index = inputInt();
         }
 
         clientInput.sendString("chooseDeck", index);
@@ -216,18 +215,18 @@ public class LineClient {
         clientInput.sendString("sendCharacterCardDeck", "");
         String specialCardIndex;
         while (true) {
-            specialCardIndex = stdin.nextLine();
+            specialCardIndex = inputInt();
             if (Objects.equals(specialCardIndex, "1") || Objects.equals(specialCardIndex, "2") || Objects.equals(specialCardIndex, "3")) {
                 break;
             } else {
                 System.out.println("Please input a valid index: 1-3");
             }
         }
-        System.out.println("Select island or color if necessary");
-        System.out.println("Select the color\n0-CYAN\n1-MAGENTA\n2-YELLOW\n3-RED\n4-GREEN");
+        System.out.println("Input island or color if necessary");
+        System.out.println("Colors:\n0-CYAN\n1-MAGENTA\n2-YELLOW\n3-RED\n4-GREEN");
         String index2;
-        index2 = stdin.nextLine();
-        if (Objects.equals(index2, "")) {
+        index2 = inputInt();
+        if (index2 == null || index2.trim().isEmpty()) {
             index2 = "0";
         }
         clientInput.sendString("playCharacterCard", specialCardIndex, index2);
@@ -241,7 +240,8 @@ public class LineClient {
     private static void playAssistantCard() {
         System.out.println("Select assistant card to play");
         clientInput.sendString("sendAssistantCardDeck", "");
-        clientInput.sendString("playAssistantCard", stdin.nextLine());
+        String index = inputInt();
+        clientInput.sendString("playAssistantCard", index);
     }
 
     private static void sendSingleIsland() {
@@ -254,24 +254,6 @@ public class LineClient {
         clientInput.sendString("cardsPlayed", "");
     }
 
-    /**
-     * Print the students in the dashboard hall, asks the user to insert  the position of the selected student
-     * Check if the selected number is acceptable
-     *
-     * @return number as a string that indicates the position in the hall of the selected student
-     */
-    private static String getStudentFromHall() {
-        System.out.println("Select student from hall");
-        clientInput.sendString("hall", "");
-        String indexStudent = stdin.nextLine();
-        while (Integer.parseInt(indexStudent) > 7 || Integer.parseInt(indexStudent) < 1) {
-            System.out.println("Input a valid index");
-            indexStudent = stdin.nextLine();
-
-        }
-        return indexStudent;
-    }
-
 
     /**
      * Sends a command to the server to move a student from the hall to an island.
@@ -279,13 +261,17 @@ public class LineClient {
      * sends a message to the server wit the command moveStudentToIsland
      */
     private static void moveStudentToIsland() {
+        System.out.println("Select student from hall");
         String indexStudent = getStudentFromHall();
         System.out.println("Select destination island");
-        String indexIsland = stdin.nextLine();
+        String indexIsland = inputInt();
+
         while (Integer.parseInt(indexIsland) > 12 || Integer.parseInt(indexIsland) < 1) {
             System.out.println("Input a valid index");
-            indexIsland = stdin.nextLine();
+            indexIsland = inputInt();
         }
+
+
         clientInput.sendString("moveStudentToIsland", indexStudent, indexIsland);
     }
 
@@ -295,6 +281,7 @@ public class LineClient {
      * sends a command to the server to move mother nature to the selected island
      */
     private static void moveStudentToClassroom() {
+        System.out.println("Select student from hall");
         String indexStudent = getStudentFromHall();
         clientInput.sendString("moveStudentToClassroom", indexStudent);
     }
@@ -306,10 +293,10 @@ public class LineClient {
      */
     private static void moveMN() {
         System.out.println("Select destination island");
-        String indexIsland = stdin.nextLine();
+        String indexIsland = inputInt();
         while (Integer.parseInt(indexIsland) > 12 || Integer.parseInt(indexIsland) < 1) {
             System.out.println("Input a valid index");
-            indexIsland = stdin.nextLine();
+            indexIsland = inputInt();
         }
         clientInput.sendString("moveMN", indexIsland);
     }
@@ -322,13 +309,12 @@ public class LineClient {
     private static void chooseCC() {
         clientInput.sendString("sendCloudCards", "");
         System.out.println("Select Cloud Card");
-        String indexCC = stdin.nextLine();
+        String indexCC = inputInt();
         clientInput.sendString("chooseCC", indexCC);
     }
 
     /**
      * Sends a command to the server to quit the current game and close the connection
-     *
      */
     private static void quit() {
         clientInput.sendString("quit", "");
@@ -337,5 +323,34 @@ public class LineClient {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private static String inputInt() {
+        String i;
+        i = stdin.nextLine();
+        try {
+            Integer.parseInt(i);
+        } catch (Exception e) {
+            System.out.println("Input a number");
+            i = inputInt();
+        }
+        return i;
+    }
+
+    /**
+     * Print the students in the dashboard hall, asks the user to insert  the position of the selected student
+     * Check if the selected number is acceptable
+     *
+     * @return number as a string that indicates the position in the hall of the selected student
+     */
+    private static String getStudentFromHall() {
+        clientInput.sendString("hall", "");
+        String indexStudent = inputInt();
+
+        while (Integer.parseInt(indexStudent) > 7 || Integer.parseInt(indexStudent) < 1) {
+            System.out.println("Input a valid index");
+            indexStudent = inputInt();
+        }
+        return indexStudent;
     }
 }

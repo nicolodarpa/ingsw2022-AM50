@@ -4,7 +4,7 @@ package it.polimi.ingsw.server.model.CharacterCards;
 /**
  * Adds 2 more influence point to a player for this round
  */
-public class AddInfluenceStrategy extends SpecialCardStrategy {
+public class AddInfluenceStrategy extends CharacterCardStrategy {
 
 
     /**

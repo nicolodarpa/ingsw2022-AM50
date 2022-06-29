@@ -1,9 +1,9 @@
 package it.polimi.ingsw.server.model.CharacterCards;
 
 /**
- * Adds 2 more available moves of MN to a player {@link SpecialCardStrategy}
+ * Adds 2 more available moves of MN to a player {@link CharacterCardStrategy}
  */
-public class AddMoveMNStrategy extends SpecialCardStrategy {
+public class AddMoveMNStrategy extends CharacterCardStrategy {
 
 
 

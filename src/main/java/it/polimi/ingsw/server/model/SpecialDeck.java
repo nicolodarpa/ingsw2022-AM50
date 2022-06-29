@@ -15,16 +15,16 @@ public class SpecialDeck {
     /**
      * HashMap that contains all the eight special card
      */
-    private final Map<Integer, SpecialCardStrategy> deckMap = new HashMap<>();
+    private final Map<Integer, CharacterCardStrategy> deckMap = new HashMap<>();
 
     /**
      * ArrayList that contains only the three cards extracted in game.
      */
-    private final ArrayList<SpecialCardStrategy> specialCardsInGameStrategy = new ArrayList<>();
+    private final ArrayList<CharacterCardStrategy> specialCardsInGameStrategy = new ArrayList<>();
 
 
 
-    public ArrayList<SpecialCardStrategy> getSpecialCardsInGame() {
+    public ArrayList<CharacterCardStrategy> getSpecialCardsInGame() {
             return specialCardsInGameStrategy;
         }
 
@@ -38,12 +38,12 @@ public class SpecialDeck {
         deckMap.put(3, new MotherNatureInfluenceStrategy());
         deckMap.put(4, new NoTowerInfluenceStrategy());
         deckMap.put(5, new RemoveStudentStrategy());
-        deckMap.put(6, new SpecialInfluenceStrategy());
+        deckMap.put(6, new CharacterInfluenceStrategy());
         deckMap.put(7, new TeacherAssignmentStrategy());
     }
 
 
-    public SpecialCardStrategy getSpecialCard(int index){
+    public CharacterCardStrategy getSpecialCard(int index){
         return deckMap.get(index);
     }
 
@@ -53,7 +53,7 @@ public class SpecialDeck {
      * in this way there are 3 random key and 3 random cards were added in the special deck.
      */
     public void extractRandomCard() {
-        ArrayList<Integer> specialCardToPlay = getRandomNonRepeatingIntegers(3, 0, 7);
+        ArrayList<Integer> specialCardToPlay = getRandomNonRepeatingIntegers();
         for (Integer integer : specialCardToPlay) {
             specialCardsInGameStrategy.add(getSpecialCard(integer));
         }
@@ -62,11 +62,11 @@ public class SpecialDeck {
     /**
      * extract randomly 3 different numbers
      */
-     private static ArrayList<Integer> getRandomNonRepeatingIntegers(int size, int min, int max) {
+     private static ArrayList<Integer> getRandomNonRepeatingIntegers() {
         ArrayList<Integer> numbers = new ArrayList<>();
         Random random = new Random();
-        while (numbers.size() < size) {
-            int randomNumber = random.nextInt((max - min) + 1) + min;
+        while (numbers.size() < 3) {
+            int randomNumber = random.nextInt((7) + 1);
             if (!numbers.contains(randomNumber)) {
                 numbers.add(randomNumber);
             }

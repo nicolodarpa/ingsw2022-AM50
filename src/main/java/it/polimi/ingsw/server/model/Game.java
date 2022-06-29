@@ -2,7 +2,7 @@ package it.polimi.ingsw.server.model;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.comunication.*;
-import it.polimi.ingsw.server.model.CharacterCards.SpecialCardStrategy;
+import it.polimi.ingsw.server.model.CharacterCards.CharacterCardStrategy;
 
 import java.util.*;
 
@@ -56,12 +56,12 @@ public class Game {
      * They are 3 id for the CloudCards.
      * {@link IdCloudCards}
      */
-    private IdCloudCards idCloudCards= new IdCloudCards();
+    private IdCloudCards idCloudCards = new IdCloudCards();
 
     /**
      * An array of the id of the CloudCards in the game.
      */
-    private ArrayList<Integer> idCloudCardsInGame= new ArrayList<>();
+    private ArrayList<Integer> idCloudCardsInGame = new ArrayList<>();
 
     /**
      * A hash map that contains all the four decks.
@@ -100,9 +100,9 @@ public class Game {
 
     /**
      * An array that contains the 3 extracted special cards.
-     * {@link SpecialCardStrategy}
+     * {@link CharacterCardStrategy}
      */
-    private static ArrayList<SpecialCardStrategy> cardsInGame = new ArrayList<>();
+    private static ArrayList<CharacterCardStrategy> cardsInGame = new ArrayList<>();
 
     /**
      * It is the winner player.
@@ -171,7 +171,7 @@ public class Game {
         return plist.getCurrentNumberOfPlayers();
     }
 
-    public ArrayList<SpecialCardStrategy> getCardsInGame() {
+    public ArrayList<CharacterCardStrategy> getCardsInGame() {
         return cardsInGame;
     }
 
@@ -198,7 +198,7 @@ public class Game {
     public void startGame() {
         System.out.println("Game starting");
         plist.notifyAllClients("startGame", "Game started");
-        setCurrentPlayer();
+        calculateCurrentPlayer();
     }
 
     /**
@@ -234,7 +234,7 @@ public class Game {
         } else if (plist.getActivePlayers() == 0) {
             System.out.println("Game end, all players disconnected");
             endOfGame();
-        } else if (player == currentPlayer) setCurrentPlayer();
+        } else if (player == currentPlayer) calculateCurrentPlayer();
     }
 
     /**
@@ -408,8 +408,8 @@ public class Game {
      */
     public String sendCharacterCardsDeck() {
         ArrayList<CharacterCard> cardList = new ArrayList<>();
-        for (SpecialCardStrategy specialCardStrategy : cardsInGame) {
-            cardList.add(new CharacterCard(specialCardStrategy));
+        for (CharacterCardStrategy characterCardStrategy : cardsInGame) {
+            cardList.add(new CharacterCard(characterCardStrategy));
         }
         Gson gson = new Gson();
         return gson.toJson(cardList);
@@ -532,18 +532,14 @@ public class Game {
             islandWithMN.setPresenceMN(false);
             destination.setPresenceMN(true);
             islandWithMN = destination;
-            if (destination.getBlock()) {
-                destination.setBlock(false);
-                System.out.println("island blocked");
-                player.sendToClient("warning","Island is blocked, influence isn't calculated");
-                return true;
-            } else {
-                islandWithMN.calculateInfluence(plist);
-                if (islandWithMN.getTowerFinished()) {
-                    calculateWinner();
-                }
-                player.setMovesOfMN(0);
+            if (!islandWithMN.calculateInfluence(plist)) {
+                player.sendToClient("Warning", "Island blocked, influence not calculated");
             }
+            if (islandWithMN.getTowerFinished()) {
+                calculateWinner();
+            }
+            player.setMovesOfMN(0);
+
             connectIsland();
             return true;
         }
@@ -750,10 +746,14 @@ public class Game {
         }
     }
 
+    public void setCurrentPlayer(Player currentPlayer) {
+        this.currentPlayer = currentPlayer;
+    }
+
     /**
      * calculate the player who have to play, based on his order of game. Then it notifies to the actual player that his turn is started
      */
-    public void setCurrentPlayer() {
+    public void calculateCurrentPlayer() {
         for (Island island : islands) {
             island.setTowerMultiplier(1);
         }
@@ -767,7 +767,7 @@ public class Game {
             for (Player p : plist.getPlayers()) {
                 if (!p.getHasPlayed() && p.isActive()) {
                     p.sendToClient("notify", "Your turn started, play an assistant card");
-                    this.currentPlayer = p;
+                    setCurrentPlayer(p);
                     System.out.println(currentPlayer.getName() + " turn");
                     return;
                 }
@@ -784,7 +784,7 @@ public class Game {
                 }
             }
             if (temp != null) {
-                this.currentPlayer = temp;
+                setCurrentPlayer(temp);
                 temp.sendToClient("notify", "Your turn started");
                 System.out.println(currentPlayer.getName() + " turn");
             } else nextPhase();
@@ -829,7 +829,7 @@ public class Game {
 
             }
         }
-        setCurrentPlayer();
+        calculateCurrentPlayer();
 
     }
 
@@ -869,15 +869,15 @@ public class Game {
     public void chooseCloudCard(int indexCloudCard, Player player) {
         ArrayList<Student> students;
         try {
-            if (cloudCards.get(indexCloudCard-1).getStudents().size() != 0) {
-                students = cloudCards.get(indexCloudCard-1).getAllStudents();
+            if (cloudCards.get(indexCloudCard - 1).getStudents().size() != 0) {
+                students = cloudCards.get(indexCloudCard - 1).getAllStudents();
                 Dashboard actualDashboard = player.getDashboard();
                 for (Student s : students)
                     actualDashboard.addStudentToHall(s);
                 notifyAllClients("cloudCard", sendCloudCards());
                 player.setHasPlayed(true);
                 player.sendToClient("dashboard", sendPlayerDashboard(player));
-                setCurrentPlayer();
+                calculateCurrentPlayer();
             } else
                 player.sendToClient("error", "Cloud card already chosen by another player");
         } catch (Exception ignored) {
@@ -903,11 +903,12 @@ public class Game {
 
     /**
      * set the deck to the player according to his choice
-     * @param numberOfDeck is the identifier of the deck
-     * @param player is who are choosing the deck
+     *
+     * @param deckNumber is the identifier of the deck
+     * @param player     is who are choosing the deck
      */
-    public void chooseDeck(int numberOfDeck, Player player) {
-        Deck deck = deckMap.get(numberOfDeck);
+    public void chooseDeck(int deckNumber, Player player) {
+        Deck deck = deckMap.get(deckNumber);
         for (Player ignored : plist.getPlayers()) {
             if (deck.getChosen()) {
                 player.sendToClient("error", "chooseDeck", "Deck already chosen by another player");
@@ -916,7 +917,7 @@ public class Game {
 
         }
         player.setDeck(deck);
-        player.sendToClient("confirmation", "chooseDeck", "Deck " + numberOfDeck + " chosen");
+        player.sendToClient("confirmation", "chooseDeck", "Deck " + deckNumber + " chosen");
         deck.setPlayer(player);
         if (getCurrentNumberOfPlayers() == getNumberOfPlayers()) {
             for (Player player1 : plist.getPlayers()) {
@@ -937,10 +938,10 @@ public class Game {
      * @param player     the player who is playing the assistant card
      * @param cardNumber the index of the assistant card in the deck
      */
-    public void playAssistantCard(Player player, int cardNumber) {
+    public boolean playAssistantCard(Player player, int cardNumber) {
         if (player.checkCardAvailability(cardNumber)) {
             player.sendToClient("error", "You already played this card");
-            return;
+            return false;
         }
 
         boolean check = false;
@@ -949,27 +950,24 @@ public class Game {
                 if (!checkLastPlayedAssistant(assistantCard.order()))
                     check = true;
             }
-            if (!check) {
-                player.playAssistantCard(cardNumber);
-                setCurrentPlayer();
-            } else {
+            if (check) {
                 player.sendToClient("error", "Assistant card already played by another player");
+                return false;
             }
-            return;
         }
         player.playAssistantCard(cardNumber);
-        setCurrentPlayer();
+        calculateCurrentPlayer();
+
         if (player.deckSize()) { //return 1 if the player has finished his cards
             plist.notifyAllClients("notify", "This is the last turn");
             lastRound = true;
-
         }
-
+        return true;
 
     }
 
     /**
-     * Check which is the last cards played.
+     * Check which is the last cards played by the other player during the current round
      *
      * @param order is the order of the card.
      * @return true if the card is the last card played.
@@ -984,11 +982,26 @@ public class Game {
 
     }
 
+    /**
+     * Checks that the current player has enough coins to play the selected character card,
+     *
+     * @param characterCard character card to play
+     * @param index         island index to activate the effect on
+     * @param color         color selected for the card's effect
+     */
 
-    public void playCharacterCard(SpecialCardStrategy characterCard, int index, PawnColor color) {
-        currentPlayer.spendCoins(characterCard.getCost());
-        characterCard.update(plist, currentPlayer, islands, color, index, studentsBag);
-        characterCard.effect();
+    public boolean playCharacterCard(CharacterCardStrategy characterCard, int index, PawnColor color) {
+        if (characterCard.getCost() > currentPlayer.getCoins()) {
+            currentPlayer.sendToClient("error", "You don't have enough coins to play this card");
+            return false;
+        } else {
+            currentPlayer.spendCoins(characterCard.getCost());
+            characterCard.update(plist, currentPlayer, islands, color, index, studentsBag);
+            characterCard.effect();
+            notifyAllClients("msg", currentPlayer.getName() + " has played the card " + characterCard.getName());
+            return true;
+        }
+
 
     }
 
@@ -1037,11 +1050,6 @@ public class Game {
     public void notifyAllClients(String type, String message) {
         plist.notifyAllClients(type, message);
     }
-
-    private void saveGame(){
-
-    }
-
 
 
 }

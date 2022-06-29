@@ -2,14 +2,14 @@ package it.polimi.ingsw.model.CharacterCards;
 
 import it.polimi.ingsw.server.controller.LoginManager;
 import it.polimi.ingsw.server.model.*;
-import it.polimi.ingsw.server.model.CharacterCards.SpecialInfluenceStrategy;
+import it.polimi.ingsw.server.model.CharacterCards.CharacterInfluenceStrategy;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Tests for {@link SpecialInfluenceStrategy}
+ * Tests for {@link CharacterInfluenceStrategy}
  */
 class SpecialInfluenceTest {
 
@@ -32,7 +32,7 @@ class SpecialInfluenceTest {
         island.addStudent(new Student(PawnColor.RED));
         island.addStudent(new Student(PawnColor.RED));
         island.addStudent(new Student(PawnColor.GREEN));
-        SpecialInfluenceStrategy card = new SpecialInfluenceStrategy();
+        CharacterInfluenceStrategy card = new CharacterInfluenceStrategy();
         card.setPawnColor(PawnColor.RED);
         island.calculateInfluence(gameTest.getPlist());
         assertEquals("ale", island.getOwner() );

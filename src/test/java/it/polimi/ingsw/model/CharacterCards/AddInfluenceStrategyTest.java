@@ -3,7 +3,7 @@ package it.polimi.ingsw.model.CharacterCards;
 import it.polimi.ingsw.server.controller.LoginManager;
 import it.polimi.ingsw.server.model.*;
 import it.polimi.ingsw.server.model.CharacterCards.AddInfluenceStrategy;
-import it.polimi.ingsw.server.model.CharacterCards.SpecialCardStrategy;
+import it.polimi.ingsw.server.model.CharacterCards.CharacterCardStrategy;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -96,7 +96,7 @@ public class AddInfluenceStrategyTest {
     @Test
     @DisplayName("Test getName of the card")
     public void testGetName(){
-        SpecialCardStrategy card = new AddInfluenceStrategy();
+        CharacterCardStrategy card = new AddInfluenceStrategy();
         assertNotNull(card.getName());
     }
 }

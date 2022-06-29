@@ -2,23 +2,25 @@ package it.polimi.ingsw.server.model.CharacterCards;
 
 import it.polimi.ingsw.server.model.Island;
 
+import java.util.ArrayList;
+
 /**
  * Freezes the calculation of the influence when mother nature stops on the island
  */
-public class BlockCardStrategy extends SpecialCardStrategy {
+public class BlockCardStrategy extends CharacterCardStrategy {
 
     /**
      * It's the number of block cards that there is in game.
      */
     private int availableBlockCards;
 
-    private Island previousIsland = null;
+    private final ArrayList<Island> previousIsland = new ArrayList<>(4);
 
 
     /**
      * It's the character card's constructor. It sets the cost, the effect, the name of the card and the initial number of block cards available
      */
-    public BlockCardStrategy(){
+    public BlockCardStrategy() {
         setCost(2);
         setEffectOfTheCard("Select an island to block");
         setName("princess");
@@ -38,16 +40,23 @@ public class BlockCardStrategy extends SpecialCardStrategy {
      * Checks if at least one block card is available and blocks the selected island
      */
     public void effect() {
-        if (previousIsland!=null){
-            if (!previousIsland.getBlock()){
+        for (Island island : previousIsland) {
+            if (!island.isBlocked()) {
                 availableBlockCards++;
             }
         }
-        if (availableBlockCards>0){
-            islands.get(index).setBlock(true);
-            previousIsland = islands.get(index);
-            availableBlockCards--;
-            addCost();
-        } else currentPlayer.sendToClient("error","Every block card is already in use");
+        previousIsland.removeIf(island -> !island.isBlocked());
+        if (availableBlockCards > 0) {
+            Island island = islands.get(index);
+            if (island.isBlocked()) {
+                currentPlayer.sendToClient("error", "Island already blocked");
+            } else {
+                island.setBlock(true);
+                previousIsland.add(island);
+                availableBlockCards--;
+                addCost();
+            }
+
+        } else currentPlayer.sendToClient("error", "Every block card is already in use");
     }
 }

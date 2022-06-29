@@ -179,7 +179,7 @@ public class Island {
         this.block = block;
     }
 
-    public boolean getBlock(){
+    public boolean isBlocked(){
         return block;
     }
 
@@ -284,9 +284,13 @@ public class Island {
      * @param players are the players in game.
      */
 
-    public void calculateInfluence(PlayersList players) {
+    public boolean calculateInfluence(PlayersList players) {
         int towerInfluencePoint = 0;
+        if (block){
+            setBlock(false);
+            return false;
 
+        }
         /* set influence point */
         for (Player p : players.getPlayers()) {
             setInfluencePoints(p);
@@ -303,6 +307,7 @@ public class Island {
         /*reset the influence point */
         for (Player p : players.getPlayers())
             p.setInfluencePoint(0);
+        return true;
     }
 
     /**

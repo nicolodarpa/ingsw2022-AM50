@@ -5,7 +5,7 @@ import it.polimi.ingsw.comunication.Command;
 import it.polimi.ingsw.comunication.GameStatus;
 import it.polimi.ingsw.comunication.TextMessage;
 import it.polimi.ingsw.server.model.AssistantCard;
-import it.polimi.ingsw.server.model.CharacterCards.SpecialCardStrategy;
+import it.polimi.ingsw.server.model.CharacterCards.CharacterCardStrategy;
 import it.polimi.ingsw.server.model.Game;
 import it.polimi.ingsw.server.model.PawnColor;
 import it.polimi.ingsw.server.model.Player;
@@ -120,7 +120,7 @@ public class EchoServerClientHandler extends Thread {
                     try {
                         commandMap.get(command.command).runCommand(command);
                     } catch (Exception e) {
-                        TextMessage text = new TextMessage("msg", "Received " + command.command);
+                        TextMessage text = new TextMessage("warning", "Error, retry to input the command");
                         String json = gson.toJson(text, TextMessage.class);
                         out.println(json);
                     }
@@ -183,9 +183,9 @@ public class EchoServerClientHandler extends Thread {
         try {
             game = new Game(num);
             gameArrayList.add(game);
-             textMessage = new TextMessage("confirmation", "newGame", "Created game for " + num + " players");
-        } catch (Exception e){
-            textMessage  = new TextMessage("erro",  "Error creating new game");
+            textMessage = new TextMessage("confirmation", "newGame", "Created game for " + num + " players");
+        } catch (Exception e) {
+            textMessage = new TextMessage("error", "Error creating new game");
 
         }
 
@@ -252,7 +252,13 @@ public class EchoServerClientHandler extends Thread {
      */
     public void login(Command command) throws IOException {
         String json;
-        String name = command.value1;
+        String name = command.value1.trim();
+        if (name.isEmpty()) {
+            TextMessage text = new TextMessage("error", "login02", "Username cannot be empty");
+            json = gson.toJson(text, TextMessage.class);
+            out.println(json);
+            return;
+        }
         switch (LoginManager.login(name, game)) {
             case 0:
                 player = game.getPlist().getPlayerByName(name);
@@ -393,6 +399,7 @@ public class EchoServerClientHandler extends Thread {
 
     /**
      * Play a character card
+     *
      * @param command message payload received from the client, contains the card's index as value1
      *                and an optional argument as value2 for special cards' effects
      */
@@ -400,15 +407,11 @@ public class EchoServerClientHandler extends Thread {
         if (!checkTurn()) {
             return;
         }
-        SpecialCardStrategy specialCard;
+        CharacterCardStrategy specialCard;
         PawnColor studentColor = null;
         int islandIndex = 0;
         int value2;
         specialCard = game.getCardsInGame().get(Integer.parseInt(command.value1) - 1);
-        if (specialCard.getCost() > player.getCoins()) {
-            player.sendToClient("error", "You don't have enough coins to play this card");
-            return;
-        }
         player.sendToClient("notify", specialCard.getEffectOfTheCard());
         if (Objects.equals(specialCard.getName(), "princess") || Objects.equals(specialCard.getName(), "ambassador") || Objects.equals(specialCard.getName(), "warrior")) {
             try {
@@ -438,12 +441,12 @@ public class EchoServerClientHandler extends Thread {
 
         }
         game.playCharacterCard(specialCard, islandIndex - 1, studentColor);
-        game.notifyAllClients("msg", player.getName() + " has played the card " + specialCard.getName());
 
     }
 
     /**
      * Sends to the client information about one island selected by the user
+     *
      * @param command message payload received from the client, contains the index of the island
      */
 
@@ -457,13 +460,15 @@ public class EchoServerClientHandler extends Thread {
 
     }
 
-    /** Calls the Game method to move a student to play an assistant card
+    /**
+     * Calls the Game method to move a student to play an assistant card
      * Checks if the game is currently in the action phase and if it's the player turn
      * Sends and error message to the client in case failure
+     *
      * @param command message payload received from the client, contains the index of the chosen student to move from the hall
      */
     public void playAssistantCard(Command command) {
-        final String invalidCardError = "Input a number between 1 and 10";
+        final String invalidCardError = "Error, invalid card number. Please retry";
 
         if (game.getPhase() == 1) {
             player.sendToClient("error", "You can't play an assistant card in Action phase");
@@ -486,9 +491,11 @@ public class EchoServerClientHandler extends Thread {
     }
 
 
-    /** Calls the Game method to move a student to an island
+    /**
+     * Calls the Game method to move a student to an island
      * Checks if the game is currently in the action phase and if it's the player turn
      * Sends and error message to the client in case failure
+     *
      * @param command message payload received from the client, contains the index of the chosen student to move from the hall
      */
     public void moveStudentToIsland(Command command) {
@@ -503,7 +510,7 @@ public class EchoServerClientHandler extends Thread {
                 if (player.moveStudentToIsland(numPlayer - 1, indexIsland, game)) {
                     game.notifyAllClients("hall", game.sendHall(player));
                     game.notifyAllClients("islands", game.sendIslands());
-                    if(player.getMovesOfStudents() == 0)
+                    if (player.getMovesOfStudents() == 0)
                         player.sendToClient("notify", "You have finished your moves, now move Mother Nature on an island!");
                 } else {
                     errorSelectionNotify();
@@ -513,9 +520,11 @@ public class EchoServerClientHandler extends Thread {
 
     }
 
-    /** Calls the Game method to move a student to the classrooms
+    /**
+     * Calls the Game method to move a student to the classrooms
      * Checks if the game is currently in the action phase and if it's the player turn
      * Sends and error message to the client in case failure
+     *
      * @param command message payload received from the client, contains the index of the chosen student to move from the hall
      */
     public void moveStudentToClassroom(Command command) {
@@ -528,7 +537,7 @@ public class EchoServerClientHandler extends Thread {
             int numPlayer = Integer.parseInt(command.value1);
             if (player.moveStudentToClassroom(numPlayer - 1, game)) {
                 sendSingleDashboard(command);
-                if(player.getMovesOfStudents() == 0)
+                if (player.getMovesOfStudents() == 0)
                     player.sendToClient("notify", "You have finished your moves, now move Mother Nature on an island!");
             } else {
                 errorSelectionNotify();
@@ -545,11 +554,12 @@ public class EchoServerClientHandler extends Thread {
     }
 
 
-
-    /** Call the Game method to move mother nature
+    /**
+     * Call the Game method to move mother nature
      * Check if the player can move mother nature at that moment and if the input from the user is acceptable
      * before calling the game method
      * Sends and error message to the client in case failure
+     *
      * @param command message payload received from the client, contains the index of the chosen cloud card
      */
     public void moveMotherNature(Command command) {
@@ -571,9 +581,11 @@ public class EchoServerClientHandler extends Thread {
     }
 
 
-    /** Call the Game method to choose a cloud card
+    /**
+     * Call the Game method to choose a cloud card
      * Check if the player can choose a cloud card at that moment and if the input from the user is acceptable
      * before calling the game method
+     *
      * @param command message payload received from the client, contains the index of the chosen cloud card
      */
     private void chooseCC(Command command) {

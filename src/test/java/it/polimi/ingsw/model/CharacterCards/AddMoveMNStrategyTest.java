@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import it.polimi.ingsw.server.model.CharacterCards.AddMoveMNStrategy;
 import it.polimi.ingsw.server.model.CharacterCards.NoTowerInfluenceStrategy;
-import it.polimi.ingsw.server.model.CharacterCards.SpecialCardStrategy;
+import it.polimi.ingsw.server.model.CharacterCards.CharacterCardStrategy;
 import it.polimi.ingsw.server.model.Deck;
 import it.polimi.ingsw.server.model.Game;
 import it.polimi.ingsw.server.model.Player;
@@ -39,8 +39,8 @@ public class AddMoveMNStrategyTest {
         p2.setDeck(d2);
         p1.playAssistantCard(3);
         p2.playAssistantCard(5);
-        gameTest.setCurrentPlayer();
-        SpecialCardStrategy cardTest = new AddMoveMNStrategy();
+        gameTest.calculateCurrentPlayer();
+        CharacterCardStrategy cardTest = new AddMoveMNStrategy();
         cardTest.update(gameTest.getPlist(),gameTest.getCurrentPlayer(), gameTest.getIslands(),null, 1, gameTest.getStudentsBag());
         assertEquals(2,gameTest.getCurrentPlayer().getMovesOfMN());
         cardTest.effect();

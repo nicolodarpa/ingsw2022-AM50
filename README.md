@@ -33,15 +33,15 @@
 
 ## Test cases
 
-All the model has a classes' coverage at 100%.
+All the model has classes' coverage at 100%.
 #### Coverage criteria: code lines
 
 
-| Package      |  Tested Class  | Coverage       |
-|:-------------|:--------------:|----------------|
-| Model        | Global Package | 994/1085 (91%) |
-| Server       | Login Manager  | 9/15 (60%)     |
-| Comunication | Global Package | 98/162 (60%)   |
+| Package      |  Tested Class  |    Coverage     |
+|:-------------|:--------------:|:---------------:|
+| Model        | Global Package | 1038/1099 (94%) |
+| Server       | Login Manager  |   16/18 (88%)   |
+| Communication | Global Package |  98/162 (60%)   |
 
 
 
