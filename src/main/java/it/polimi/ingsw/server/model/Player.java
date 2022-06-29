@@ -366,10 +366,12 @@ public class Player {
                 movesOfStudents--;
                 return true;
             } else {
+                sendToClient("error","Error moving student to island");
                 System.out.println("Error moving student to island ");
                 return false;
             }
         } catch (Exception e) {
+            sendToClient("error","Error moving student to island");
             System.out.println("Invalid input");
             return false;
         }
@@ -390,10 +392,12 @@ public class Player {
                 game.assignTeacher();
                 return true;
             } else {
+                sendToClient("error","Error moving student to classroom");
                 System.out.println("Error moving student to classroom");
                 return false;
             }
         } catch (Exception e) {
+            sendToClient("error","Error moving student to classroom");
             return false;
         }
     }

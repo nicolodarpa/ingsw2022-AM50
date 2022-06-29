@@ -121,9 +121,9 @@ public class EchoServerClientHandler extends Thread {
                     try {
                         commandMap.get(command.command).runCommand(command);
                     } catch (Exception e) {
-                        TextMessage text = new TextMessage("warning", "Error, retry to input the command");
-                        String json = gson.toJson(text, TextMessage.class);
-                        out.println(json);
+                        //TextMessage text = new TextMessage("warning", "Error, retry to input the command");
+                        //String json = gson.toJson(text, TextMessage.class);
+                        //out.println(json);
                     }
 
                 } else System.out.println("null cmd");
@@ -321,7 +321,7 @@ public class EchoServerClientHandler extends Thread {
      * Sends to the client the info of every player
      */
     public void sendAllPlayers(Command command) {
-        player.sendToClient("player", game.sendAllPlayers());
+        player.sendToClient("allPlayers", game.sendAllPlayers());
     }
 
     /**

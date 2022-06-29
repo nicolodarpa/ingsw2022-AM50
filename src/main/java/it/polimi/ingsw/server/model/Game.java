@@ -458,7 +458,7 @@ public class Game {
      *
      * @return a JSON formatted as a string.
      */
-    public String sendHelp(){
+    public String sendHelp() {
         ArrayList<GameInfoStatus> gameInfoStatuses = new ArrayList<>();
         gameInfoStatuses.add(new GameInfoStatus(phase, currentPlayer, round, numberOfPlayers));
         Gson gson = new Gson();
@@ -902,15 +902,18 @@ public class Game {
      * Fill up cloudCard with 3 or 4 students each depending on the number of players
      */
     private void cloudCardFill(CloudCard cloudCard) {
-        if (numberOfPlayers == 2) {
-            for (int i = 0; i < 3; i++) {
-                cloudCard.addStudent(studentsBag.casualExtraction());
-            }
-        } else {
-            for (int i = 0; i < 4; i++) {
-                cloudCard.addStudent(studentsBag.casualExtraction());
+        if (cloudCard.getStudents().isEmpty()) {
+            if (numberOfPlayers == 2) {
+                for (int i = 0; i < 3; i++) {
+                    cloudCard.addStudent(studentsBag.casualExtraction());
+                }
+            } else {
+                for (int i = 0; i < 4; i++) {
+                    cloudCard.addStudent(studentsBag.casualExtraction());
+                }
             }
         }
+
     }
 
     /**

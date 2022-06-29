@@ -338,7 +338,10 @@ public class ClientOut extends Thread {
     private void printDashboard() {
         DashboardStatus[] dashboardStatuses = gson.fromJson(message.message, DashboardStatus[].class);
         for (DashboardStatus dashboardStatus : dashboardStatuses) {
-            System.out.println("============");
+            System.out.println("""
+
+                    ============
+                    """);
             System.out.println("Dashboard of " + dashboardStatus.nameOwner);
             System.out.print("Hall: ");
             for (String student : dashboardStatus.studentsHall) {
@@ -364,7 +367,7 @@ public class ClientOut extends Thread {
                 System.out.print("| ");
             }
             System.out.println(" ");
-            System.out.println("Towers available: " + dashboardStatus.towers);
+            System.out.println(dashboardStatus.towerColor + " towers available: " + dashboardStatus.towers);
 
 
         }
@@ -388,7 +391,7 @@ public class ClientOut extends Thread {
     }
 
     /**
-     * Prints the basic information of the player like the username, available moves of mother nature and the coins available.
+     * Prints basic information of the player like the username, available moves of mother nature and the coins available.
      */
     private void printPlayer() {
         PlayersStatus[] playersStatuses = gson.fromJson(message.message, PlayersStatus[].class);
@@ -404,7 +407,7 @@ public class ClientOut extends Thread {
     private void printGameInfo() {
         GameInfoStatus[] gameInfoStatuses = gson.fromJson(message.message, GameInfoStatus[].class);
         for (GameInfoStatus gameInfoStatus : gameInfoStatuses) {
-            System.out.println(YELLOW + "\n-Round: " + gameInfoStatus.round + "\n-Actual Player: " + gameInfoStatus.actualPlayer + "\n-Phase: " + gameInfoStatus.phase + ANSI_RESET);
+            System.out.println(YELLOW + "-Round: " + gameInfoStatus.round + " -Actual Player: " + gameInfoStatus.actualPlayer + " -Phase: " + gameInfoStatus.phase + ANSI_RESET);
         }
     }
 

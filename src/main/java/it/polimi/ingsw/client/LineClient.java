@@ -67,7 +67,7 @@ public class LineClient {
     }
 
     /**
-     * Clears the console and prints player information
+     * Clears the console and prints player and game information
      */
     public static void clearConsole() {
         try {
@@ -81,6 +81,8 @@ public class LineClient {
         }
         System.out.println(ANSI_PRIMARY + "====Eriantys CLI Client====" + ANSI_RESET);
         clientInput.sendString("player", "");
+        clientInput.sendString("gameInfo", "");
+
     }
 
 
@@ -348,7 +350,7 @@ public class LineClient {
         clientInput.sendString("hall", "");
         String indexStudent = inputInt();
 
-        while (Integer.parseInt(indexStudent) > 7 || Integer.parseInt(indexStudent) < 1) {
+        while (Integer.parseInt(indexStudent) > 9 || Integer.parseInt(indexStudent) < 1) {
             System.out.println("Input a valid index");
             indexStudent = inputInt();
         }
