@@ -103,6 +103,7 @@ public class EchoServerClientHandler extends Thread {
         commandMap.put("singleIsland", this::sendSingleIsland);
         commandMap.put("cardsPlayed", this::sendCardsPlayed);
         commandMap.put("enemyDashboard", this::sendEnemyDashboard);
+        commandMap.put("help", this::sendHelp);
 
 
         try {
@@ -329,6 +330,10 @@ public class EchoServerClientHandler extends Thread {
     public void sendGameInfo(Command command) {
         player.sendToClient("gameInfo", game.sendGameInfo());
     }
+
+    /**
+     * Sends to the sends the client some tips to play the game
+     */public void sendHelp(Command command){player.sendToClient("help", game.sendHelp());}
 
     /**
      * Sends to the client the deck of character card

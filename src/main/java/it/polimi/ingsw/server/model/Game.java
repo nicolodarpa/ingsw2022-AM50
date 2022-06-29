@@ -454,6 +454,18 @@ public class Game {
     }
 
     /**
+     * Sends to client a JSON formatted string with the status of the game.
+     *
+     * @return a JSON formatted as a string.
+     */
+    public String sendHelp(){
+        ArrayList<GameInfoStatus> gameInfoStatuses = new ArrayList<>();
+        gameInfoStatuses.add(new GameInfoStatus(phase, currentPlayer, round, numberOfPlayers));
+        Gson gson = new Gson();
+        return gson.toJson(gameInfoStatuses);
+    }
+
+    /**
      * Sends to client a JSON formatted string with the status of the assistant cards' deck.
      *
      * @return a JSON formatted as a string.

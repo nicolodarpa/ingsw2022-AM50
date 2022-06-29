@@ -33,6 +33,8 @@ public class DashboardController implements Initializable, DisplayLabel {
 
     public Pane anchor;
 
+    public Button helpButton;
+
     @FXML
     private Label movesAvailableCounter, movesOfMn, username, roundCounter, actualPlayerLabel, students, wallet;
 
@@ -582,6 +584,7 @@ public class DashboardController implements Initializable, DisplayLabel {
         commandHashMap.put("confirmation", this::manageConfirmation);
         commandHashMap.put("warning", this::printWarning);
         commandHashMap.put("notify", this::printNotify);
+        commandHashMap.put("help", this::printHelp);
         commandHashMap.put("endGame", this::endGame);
         commandHashMap.put("msg", this::printMessage);
         commandHashMap.put("dashboard", this::setDashboard);
@@ -678,6 +681,26 @@ public class DashboardController implements Initializable, DisplayLabel {
             enablePlayAssistantCardButton();
         }
         refreshGUI();
+    }
+
+
+    /**
+     * Displays an alert that prints some tips to play the game.
+     */
+    private void printHelp(){
+        int studentsMoves = 0;
+        GameInfoStatus gameInfoStatus = gson.fromJson(message.message, GameInfoStatus[].class)[0];
+
+        if(gameInfoStatus.numberOfPlayer == 2)
+            studentsMoves = 3;
+        else if(gameInfoStatus.numberOfPlayer == 3)
+            studentsMoves = 4;
+
+        if(Objects.equals(gameInfoStatus.phase, "Planning phase"))
+            AlertHelper.showAlert(Alert.AlertType.CONFIRMATION, classRoom.getScene().getWindow(), "Planning phase", "Play an assistant card to determine your turn order and available Mother Nature moves");
+        else if(Objects.equals(gameInfoStatus.phase, "Action phase")){
+            AlertHelper.showAlert(Alert.AlertType.CONFIRMATION, classRoom.getScene().getWindow(), "Action phase", "1. Select " + studentsMoves + " student from your to move to your classroom or to islands \n\n2. Move Mother Nature on an island of your choice \n\n3. Choose a cloud card");
+        }
     }
 
     /**
@@ -1484,6 +1507,11 @@ public class DashboardController implements Initializable, DisplayLabel {
     @FXML
     public void setDashboardButtonText(Button button, String name) {
         button.setText("view " + name + " dashboard");
+    }
+
+    @FXML
+    public void sendHelp(){
+        clientInput.sendString("help", "");
     }
 
     /**

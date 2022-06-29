@@ -14,6 +14,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 
 import java.util.HashMap;
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 
 /**
@@ -94,6 +95,7 @@ public class ClientOut extends Thread {
         commandHashMap.put("gameInfo", this::printGameInfo);
         commandHashMap.put("cardsPlayed", this::printCardsPlayed);
         commandHashMap.put("enemyDashboard", this::printDashboard);
+        commandHashMap.put("help", this::printHelp);
     }
 
 
@@ -151,6 +153,25 @@ public class ClientOut extends Thread {
         for (DeckStatus deckStatus : deckStatusArrayList) {
             System.out.println(deckStatus.id + "-" + deckStatus.color + ": " + deckStatus.playerName);
         }
+    }
+
+    private void printHelp(){
+        int studentsMoves = 0;
+        GameInfoStatus gameInfoStatus = gson.fromJson(message.message, GameInfoStatus[].class)[0];
+
+        if(gameInfoStatus.numberOfPlayer == 2)
+            studentsMoves = 3;
+        else if(gameInfoStatus.numberOfPlayer == 3)
+            studentsMoves = 4;
+
+        if(Objects.equals(gameInfoStatus.phase, "Planning phase"))
+            System.out.println("Play an assistant card to determine your turn order and available Mother Nature moves");
+        else if(Objects.equals(gameInfoStatus.phase, "Action phase")){
+            System.out.println("1.Select " + studentsMoves + " student from your to move to your classroom or to islands");
+            System.out.println("2.Move Mother Nature on an island of your choice");
+            System.out.println("3.Choose a cloud card");
+        }
+
     }
 
 
