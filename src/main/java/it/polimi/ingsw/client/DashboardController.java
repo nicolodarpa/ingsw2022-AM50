@@ -760,6 +760,7 @@ public class DashboardController implements Initializable, DisplayLabel {
     /**
      * Displays in a label some info of game like the # of round and the actual player.
      */
+    @FXML
     private void setUpGameInfo() {
         GameInfoStatus gameInfoStatus = gson.fromJson(message.message, GameInfoStatus[].class)[0];
         displayLabel("Round #", roundCounter, gameInfoStatus.round);
@@ -1461,8 +1462,8 @@ public class DashboardController implements Initializable, DisplayLabel {
      * @param name   is the dashboard's owner,
      */
     @FXML
-    private void setDashboardButtonText(Button button, String name) {
-        button.setText("view " + name + " dashboard");
+    public void setDashboardButtonText(Button button, String name) {
+        button.setText("View " + name + " dashboard");
     }
 
     @FXML

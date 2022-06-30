@@ -29,9 +29,9 @@
           <ImageView fx:id="card1" fitHeight="294.0" fitWidth="150.0" layoutX="28.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
 
     </ImageView>
-         <Text fx:id="label1" disable="true" layoutX="51.0" layoutY="390.0" text="" wrappingWidth="100.0">
+         <Text fx:id="label1" disable="true" layoutX="56.0" layoutY="420.0" text="" wrappingWidth="100.0">
             <font>
-               <Font name="Papyrus Condensed" size="15.0" />
+               <Font name="Papyrus" size="15.0" />
             </font></Text>
          <RadioButton fx:id="radio1" layoutX="92.0" layoutY="330.0" mnemonicParsing="false" selected="true" />
       </children>
@@ -42,9 +42,9 @@
 
 
     </ImageView>
-         <Text fx:id="label2" disable="true" layoutX="53.0" layoutY="390.0" text="" wrappingWidth="100.0">
+         <Text fx:id="label2" disable="true" layoutX="56.0" layoutY="420.0" text="" wrappingWidth="100.0">
             <font>
-               <Font name="Papyrus Condensed" size="15.0" />
+               <Font name="Papyrus" size="15.0" />
             </font></Text>
          <RadioButton fx:id="radio2" layoutX="92.0" layoutY="330.0" mnemonicParsing="false" />
       </children>
@@ -54,28 +54,28 @@
           <ImageView fx:id="card3" fitHeight="294.0" fitWidth="150.0" layoutX="28.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
 
     </ImageView>
-         <Text fx:id="label3" disable="true" layoutX="53.0" layoutY="390.0" text="" wrappingWidth="100.0">
+         <Text fx:id="label3" disable="true" layoutX="56.0" layoutY="420.0" text="" wrappingWidth="100.0">
             <font>
-               <Font name="Papyrus Condensed" size="15.0" />
+               <Font name="Papyrus" size="15.0" />
             </font></Text>
          <RadioButton fx:id="radio3" layoutX="92.0" layoutY="330.0" mnemonicParsing="false" />
       </children>
    </Pane>
    <Pane prefHeight="200.0" prefWidth="200.0" GridPane.rowSpan="2">
       <children>
-         <Button fx:id="playButton" layoutX="53.0" layoutY="404.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="100.0" text="Play">
+         <Button fx:id="playButton" layoutX="80.0" layoutY="402.0" mnemonicParsing="false" text="Play">
             <font>
-               <Font name="Papyrus Condensed" size="18.0" />
+               <Font name="Papyrus" size="15.0" />
             </font></Button>
          <ChoiceBox fx:id="colorsBox" layoutX="53.0" layoutY="117.0" prefHeight="25.0" prefWidth="100.0" />
          <ChoiceBox fx:id="islandsBox" layoutX="53.0" layoutY="217.0" prefHeight="25.0" prefWidth="100.0" />
          <Text layoutX="53.0" layoutY="103.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Color:">
             <font>
-               <Font name="Papyrus Condensed" size="18.0" />
+               <Font name="Papyrus" size="15.0" />
             </font></Text>
          <Text layoutX="57.0" layoutY="205.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Island:">
             <font>
-               <Font name="Papyrus Condensed" size="18.0" />
+               <Font name="Papyrus" size="15.0" />
             </font></Text>
       </children>
    </Pane>

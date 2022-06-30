@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.effect.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.shape.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.Blend?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
 
-<Pane fx:id="anchor" maxHeight="810.0" maxWidth="1270.0" minHeight="810.0" minWidth="1270.0" prefHeight="810.0" prefWidth="1270.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.DashboardController">
+<Pane fx:id="anchor" maxHeight="810.0" maxWidth="1270.0" minHeight="810.0" minWidth="1270.0" prefHeight="810.0" prefWidth="1270.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.DashboardController">
    <children>
       <ImageView fitHeight="215.0" fitWidth="500.0" layoutX="363.0" layoutY="531.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fitHeight="215.0" fitWidth="500.0" layoutX="363.0" layoutY="531.0">
@@ -19,14 +23,14 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </ImageView>
-      <Label fx:id="movesAvailableCounter" layoutX="477.0" layoutY="10.0" styleClass="Label" text="Moves available: ">
+      <Label fx:id="movesAvailableCounter" layoutX="898.0" layoutY="-5.0" styleClass="Label" text="Moves available: ">
          <font>
-            <Font name="Papyrus Condensed" size="18.0" />
+            <Font name="Papyrus" size="18.0" />
          </font>
       </Label>
-      <Label fx:id="roundCounter" layoutX="719.0" layoutY="10.0" styleClass="Label" text="Round #: ">
+      <Label fx:id="roundCounter" layoutX="238.0" layoutY="-5.0" styleClass="Label" text="Round #: ">
          <font>
-            <Font name="Papyrus Condensed" size="18.0" />
+            <Font name="Papyrus" size="18.0" />
          </font>
       </Label>
       <Circle fx:id="studentPosition1" fill="#1f93ff04" layoutX="418.0" layoutY="567.0" onMouseClicked="#getIndex" radius="10.0" strokeType="INSIDE">
@@ -175,19 +179,19 @@
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Rectangle>
-      <Label fx:id="movesOfMn" layoutX="260.0" layoutY="10.0" styleClass="Label" text="Moves of MN : ">
+      <Label fx:id="movesOfMn" layoutX="718.0" layoutY="-5.0" styleClass="Label" text="Moves of MN : ">
          <font>
-            <Font name="Papyrus Condensed" size="18.0" />
+            <Font name="Papyrus" size="18.0" />
          </font>
       </Label>
-      <Label fx:id="username" layoutX="22.0" layoutY="10.0" prefHeight="42.0" prefWidth="212.0" styleClass="Label" text="Username: ">
+      <Label fx:id="username" layoutX="13.0" layoutY="-5.0" styleClass="Label" text="Username: ">
          <font>
-            <Font name="Papyrus Condensed" size="18.0" />
+            <Font name="Papyrus" size="18.0" />
          </font>
       </Label>
-      <Label fx:id="actualPlayerLabel" layoutX="1005.0" layoutY="10.0" styleClass="Label" text="Actual Player:">
+      <Label fx:id="actualPlayerLabel" layoutX="358.0" layoutY="-5.0" styleClass="Label" text="Actual Player:">
          <font>
-            <Font size="18.0" />
+            <Font name="Papyrus" size="18.0" />
          </font>
       </Label>
       <ImageView fx:id="Island1" fitHeight="150.0" fitWidth="150.0" layoutX="5.0" layoutY="196.0" onMouseClicked="#moveStudentToIsland">
@@ -408,91 +412,91 @@
       <Circle fx:id="student4CC3" fill="1f93ff04" layoutX="733.0" layoutY="316.0" radius="10.0" stroke="BLACK" strokeType="INSIDE" />
       <Button fx:id="info0" layoutX="60.0" layoutY="330.0" mnemonicParsing="false" onAction="#showStudentsIsland0" text="Info">
          <font>
-            <Font name="Papyrus Condensed" size="16.0" />
+            <Font name="Papyrus" size="16.0" />
          </font>
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
       <Button fx:id="info1" layoutX="156.0" layoutY="205.0" mnemonicParsing="false" onAction="#showStudentsIsland1" text="Info">
          <font>
-            <Font name="Papyrus Condensed" size="16.0" />
+            <Font name="Papyrus" size="16.0" />
          </font>
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
       <Button fx:id="info2" layoutX="329.0" layoutY="205.0" mnemonicParsing="false" onAction="#showStudentsIsland2" text="Info">
          <font>
-            <Font name="Papyrus Condensed" size="16.0" />
+            <Font name="Papyrus" size="16.0" />
          </font>
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
       <Button fx:id="info3" layoutX="511.0" layoutY="205.0" mnemonicParsing="false" onAction="#showStudentsIsland3" text="Info">
          <font>
-            <Font name="Papyrus Condensed" size="16.0" />
+            <Font name="Papyrus" size="16.0" />
          </font>
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
       <Button fx:id="info4" layoutX="683.0" layoutY="205.0" mnemonicParsing="false" onAction="#showStudentsIsland4" text="Info">
          <font>
-            <Font name="Papyrus Condensed" size="16.0" />
+            <Font name="Papyrus" size="16.0" />
          </font>
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
       <Button fx:id="info5" layoutX="860.0" layoutY="205.0" mnemonicParsing="false" onAction="#showStudentsIsland5" text="Info">
          <font>
-            <Font name="Papyrus Condensed" size="16.0" />
+            <Font name="Papyrus" size="16.0" />
          </font>
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
       <Button fx:id="info6" layoutX="986.0" layoutY="330.0" mnemonicParsing="false" onAction="#showStudentsIsland6" text="Info">
          <font>
-            <Font name="Papyrus Condensed" size="16.0" />
+            <Font name="Papyrus" size="16.0" />
          </font>
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
       <Button fx:id="info7" layoutX="867.0" layoutY="478.0" mnemonicParsing="false" onAction="#showStudentsIsland7" text="Info">
          <font>
-            <Font name="Papyrus Condensed" size="16.0" />
+            <Font name="Papyrus" size="16.0" />
          </font>
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
       <Button fx:id="info8" layoutX="692.0" layoutY="478.0" mnemonicParsing="false" onAction="#showStudentsIsland8" text="Info">
          <font>
-            <Font name="Papyrus Condensed" size="16.0" />
+            <Font name="Papyrus" size="16.0" />
          </font>
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
       <Button fx:id="info9" layoutX="513.0" layoutY="477.0" mnemonicParsing="false" onAction="#showStudentsIsland9" text="Info">
          <font>
-            <Font name="Papyrus Condensed" size="16.0" />
+            <Font name="Papyrus" size="16.0" />
          </font>
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
       <Button fx:id="info10" layoutX="335.0" layoutY="478.0" mnemonicParsing="false" onAction="#showStudentsIsland10" text="Info">
          <font>
-            <Font name="Papyrus Condensed" size="16.0" />
+            <Font name="Papyrus" size="16.0" />
          </font>
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
-      <Button fx:id="info11" layoutX="161.0" layoutY="478.0" mnemonicParsing="false" onAction="#showStudentsIsland11" prefHeight="35.0" prefWidth="50.0" text="Info">
+      <Button fx:id="info11" layoutX="161.0" layoutY="478.0" mnemonicParsing="false" onAction="#showStudentsIsland11" prefHeight="46.0" prefWidth="49.1875" text="Info">
          <font>
-            <Font name="Papyrus Condensed" size="16.0" />
+            <Font name="Papyrus" size="16.0" />
          </font>
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
-      <Label fx:id="wallet" layoutX="18.0" layoutY="60.0" styleClass="Label" text="Wallet:">
+      <Label fx:id="wallet" layoutX="1099.0" layoutY="-4.0" styleClass="Label" text="Wallet:">
          <font>
-            <Font name="Papyrus Condensed" size="18.0" />
+            <Font name="Papyrus" size="18.0" />
          </font>
       </Label>
       <ButtonBar layoutX="17.0" layoutY="756.0" prefHeight="42.0" prefWidth="1236.0">
@@ -500,7 +504,7 @@
             <Button fx:id="characterCardButton" mnemonicParsing="false" onAction="#setCharacterCardsPage" prefHeight="35.0" prefWidth="178.0" text="Play Character Card">
       
                <font>
-                  <Font name="Papyrus Condensed" size="16.0" />
+                  <Font name="Papyrus" size="16.0" />
                </font>
                <cursor>
                   <Cursor fx:constant="HAND" />
@@ -509,7 +513,7 @@
             <Button fx:id="assistantCardButton" mnemonicParsing="false" onAction="#setAssistantCardsPage" prefHeight="35.0" prefWidth="160.0" text="Play Assistant Card">
       
                                              <font>
-                  <Font name="Papyrus Condensed" size="16.0" />
+                  <Font name="Papyrus" size="16.0" />
                </font>
                <cursor>
                   <Cursor fx:constant="HAND" />
@@ -517,23 +521,23 @@
             </Button>
             <Button fx:id="dashboardButton1" mnemonicParsing="false" onAction="#setPlayerDashboardOne" prefHeight="35.0" prefWidth="213.0" text="View enemyOne dashboard">
                <font>
-                  <Font name="Papyrus Condensed" size="16.0" />
+                  <Font name="Papyrus" size="16.0" />
                </font>
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <Button fx:id="dashboardButton2" mnemonicParsing="false" onAction="#setPlayerDashboardTwo" prefHeight="35.0" prefWidth="213.0" text="View enemyTwo dashboard">
-            <font>
-               <Font name="Papyrus Condensed" size="16.0" />
-            </font>
+            <Button fx:id="dashboardButton2" layoutX="765.0" layoutY="10.0" mnemonicParsing="false" onAction="#setPlayerDashboardTwo" prefHeight="35.0" prefWidth="213.0" text="View enemyTwo dashboard">
+               <font>
+                  <Font name="Papyrus" size="16.0" />
+               </font>
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
-         </Button>
+            </Button>
             <Button fx:id="helpButton" mnemonicParsing="false" onAction="#sendHelp" prefHeight="42.0" prefWidth="326.0" text="Hints">
                <font>
-                  <Font name="Papyrus Condensed" size="16.0" />
+                  <Font name="Papyrus" size="16.0" />
                </font>
             </Button>
          </buttons>
@@ -541,16 +545,15 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </ButtonBar>
-      <Label fx:id="students" layoutX="18.0" layoutY="550.0" styleClass="Label">
+      <Label fx:id="students" layoutX="18.0" layoutY="550.0">
          <font>
-            <Font name="Papyrus Condensed" size="18.0" />
+            <Font name="Papyrus" size="18.0" />
          </font>
       </Label>
-      <Label fx:id="phaseLabel" layoutX="817.0" layoutY="10.0" prefHeight="42.0" prefWidth="150.0" styleClass="Label">
+      <Label fx:id="phaseLabel" layoutX="881.0" layoutY="697.0" styleClass="Label" text="Label">
          <font>
-            <Font name="Papyrus Condensed" size="18.0" />
-         </font>
-      </Label>
+            <Font size="18.0" />
+         </font></Label>
 
    </children>
 </Pane>
