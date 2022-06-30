@@ -147,7 +147,7 @@ public class AssistantCardController implements Initializable, DisplayLabel {
                 String otherPlayerUsername = playersStatus.name;
                 String orderCard = String.valueOf(playersStatus.order);
                 String movesOfMN = String.valueOf(playersStatus.movesOfMN);
-                displayLabel("username: " + otherPlayerUsername, label.get(i), "\nhas played the card of order : " + orderCard + "\nhas moves of MN: " + movesOfMN);
+                displayLabel("Username " + otherPlayerUsername, label.get(i), "\nhas played the card of order : " + orderCard + "\nhas moves of MN: " + movesOfMN);
                 i++;
             }
         }

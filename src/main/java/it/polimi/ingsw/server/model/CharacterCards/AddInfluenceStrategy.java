@@ -18,7 +18,7 @@ public class AddInfluenceStrategy extends CharacterCardStrategy {
 
 
     /**
-     * Adds 2 points to teh current player influence points
+     * Adds 2 points to the current player influence points
      */
     public void effect() {
         currentPlayer.setInfluencePoint(currentPlayer.getInfluencePoint() + 2);
