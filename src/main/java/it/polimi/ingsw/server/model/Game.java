@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.model;
 
 import com.google.gson.Gson;
+import it.polimi.ingsw.client.IdCloudCards;
 import it.polimi.ingsw.comunication.*;
 import it.polimi.ingsw.server.model.CharacterCards.CharacterCardStrategy;
 
