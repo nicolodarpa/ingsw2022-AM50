@@ -14,7 +14,7 @@ public class Dashboard {
     /**
      * Represents the classroom of students in the dashboard with a matrix of 5 row and 10 columns.
      */
-    private Student[][] classroom = new Student[5][10];
+    private final Student[][] classroom = new Student[5][10];
 
     /**
      * Represents the hall in the dashboard with an array.
@@ -24,7 +24,7 @@ public class Dashboard {
     /**
      * Represents the teacherTable in the dashboard with an array of 5 position.
      */
-    private Teacher[] teacherTable = new Teacher[5];
+    private final Teacher[] teacherTable = new Teacher[5];
 
     /**
      * Represents the position of the towers in the dashboard with an array list.
@@ -32,7 +32,7 @@ public class Dashboard {
     private ArrayList<Tower> towers = new ArrayList<>();
 
 
-    private boolean[][] coinPos = new boolean[5][10];
+    private final boolean[][] coinPos = new boolean[5][10];
 
     /**
      * Is the number of students in the hall.

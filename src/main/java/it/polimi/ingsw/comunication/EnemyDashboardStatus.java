@@ -5,18 +5,53 @@ import it.polimi.ingsw.server.model.Student;
 import it.polimi.ingsw.server.model.Teacher;
 import it.polimi.ingsw.server.model.TowerColor;
 
+/**
+ * Template class to encode and decode json with the status of the enemy dashboard
+ */
 public class EnemyDashboardStatus {
 
+    /**
+     * Name of the enemy
+     */
     public String nameOwner;
+
+
+    /**
+     * Two-dimensional array which represents the student in the classrooms
+     */
     public String[][] studentsClassroom = new String[5][10];
+
+    /**
+     * Represents the student in the hall with the students color code
+     */
     public String[] studentsHall;
+
+    /**
+     * Represents the student in the hall with the students color name
+     */
     public String[] studentsHallColors;
 
+    /**
+     * Represents the teachers assigned to a player
+     */
     public String[] teacherTable = new String[5];
+
+    /**
+     * Number of tower available
+     */
     public int towers;
+
+    /**
+     * Color assigned to the player
+     */
     public TowerColor towerColor = null;
 
 
+    /**
+     * Gets
+     * @param nameOwner player name associated to the dashboard
+     * @param dashboard dashboard to get values from
+     */
     public EnemyDashboardStatus(String nameOwner, Dashboard dashboard) {
         this.nameOwner = nameOwner;
         Student[][] classroom = dashboard.getClassroom();

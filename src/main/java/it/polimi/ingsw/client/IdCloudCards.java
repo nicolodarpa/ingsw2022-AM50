@@ -1,8 +1,11 @@
-package it.polimi.ingsw.server.model;
+package it.polimi.ingsw.client;
 
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * Randomly extracts the ids of the cloud cards to represent them randomly in the GUI
+ */
 public class IdCloudCards {
     private final int numberOfTotalCloudCards = 4;
     private final ArrayList<Integer> idOfCloudCards = new ArrayList<>(numberOfTotalCloudCards);

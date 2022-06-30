@@ -973,7 +973,6 @@ public class DashboardController implements Initializable, DisplayLabel {
         for (int i = 0; i < numberOfIslands; i++) {
 
             studentsColorOrdinal = island[i].studentColorOrdinal;
-            //System.out.println(studentsColorOrdinal);
             towerColor = island[i].towerColor;
             towerNumber = island[i].towerNumber;
             presenceMN = island[i].presenceMN;
@@ -1094,7 +1093,6 @@ public class DashboardController implements Initializable, DisplayLabel {
     @FXML
     private void moveMNToIslands(MouseEvent event) {
         indexIsland = MnIslandPosition.indexOf((Rectangle) event.getSource());
-        //System.out.println(indexIsland + " MnIslandPosition");
         clientInput.sendString("moveMN", String.valueOf(indexIsland + 1));
         if (movesOfStudent != 0) {
             disableMNIslandPosition();

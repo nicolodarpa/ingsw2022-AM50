@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.model;
 
 import com.google.gson.Gson;
+import it.polimi.ingsw.client.IdCloudCards;
 import it.polimi.ingsw.comunication.*;
 import it.polimi.ingsw.server.model.CharacterCards.CharacterCardStrategy;
 
@@ -113,6 +114,10 @@ public class Game {
     public Game() {
     }
 
+    /**
+     * assigns the moves of the students in the action phase via moves according to how many players there are and creates the 4 decks
+     * @param numberOfPlayers is the number of players in the match
+     */
     public Game(int numberOfPlayers) {
         if (numberOfPlayers == 2) {
             MOVES = 3;
@@ -874,6 +879,11 @@ public class Game {
     }
 
 
+    /**
+     * player chooses a cloud card, if the choice is successful the students are transferred from the cloud card to the player's hall.
+     * @param indexCloudCard is the cloud card chosen
+     * @param player is who is playing
+     */
     public void chooseCloudCard(int indexCloudCard, Player player) {
         ArrayList<Student> students;
         try {
