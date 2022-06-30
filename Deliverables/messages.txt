@@ -4,33 +4,22 @@
 MOVE STUDENTS TO ISLAND:
 
 Client---->Server
-String "move student to island"
+Command("move student to island", "indexHall", "indexIsland")
 
 <-----
 on ok 
-{"type":msg,
-"text":"Select student from hall to move to Island"}
-
-Client---->Server
-int studentPosition
-
-<-----
-on ok
-{"type": msg, "text" : "Select Island"}
-
-Client---->Server
-int index
-
-<-----
-on ok
-{"type": hall, "text" : sendHall}
-{"type" island, "text" : sendIslands}
+sendToClient("hall", sendHall}
+sendToClient("islands", sendIslands}
 
 
 <-----
-on error
-{"type":msg, "text":"select a valid student"}
-{"type": hall, "text" : sendHall}
+on error (if input is a null student or invalid island index)
+sendToClient("error","Error moving student to island")
+
+<-----
+on error (if the command is sent before play an assistant card)
+sendToClient("error", " Before move students to island, you have to play an assistant card! ")
+
 
 
 
@@ -43,24 +32,21 @@ on error
 MOVE STUDENT TO CLASSROOM:
 
 Client---->Server
-String "move student to classroom"
+Command("move student to classroom", "indexHall")
+
 
 <-----
 on ok
-{"type":msg, "text":"Select student from hall to move to Classroom"}
+sendToClient("dashboard", sendSingleDashboard}
 
-Client---->Server
-int studentPosition
 
 <-----
-on ok
-{"type": dashboard, "text" : sendDashboard}
+on error (if input is a null student or invalid hall's index)
+sendToClient("error","Error moving student to classroom")
 
 <-----
-on error
-{"type":msg, "text":"select a valid student"}
-{"type": dashboard, "text" : sendDashboard}
-
+on error (if the command is sent before play an assistant card)
+sendToClient("error", " Before move students to classroom, you have to play an assistant card! ")
 
 
 
@@ -72,48 +58,61 @@ on error
 PLAY ASSISTANT CARD:
 
 Client---->Server
-String "play assistant card"
+Command("play assistant card", "orderOfCard")
+
 
 <----
 on ok
-{"type" : msg, "text" : "choose an assistant card"}
+{"msg","played card " + orderOfCard + "\n value: " + order + "\n moves of MN available: " + movesOfMN"}
 
-Client---->Server
-int cardNumber
-
-<----
-on ok
-{"type":msg,
-"text", "Assistant Card played, you can move MN by # moves"}
 
 <----
 on error
-{"type":msg,
-"text":"Assistant Card already played by another player, chose a different one"}
+sendToClient("error", "card not available")
+
+<----
+on error (if the player has already played the card
+sendToClient("error", "You already played this card")
+
+<----
+on error (if the card was already played by another player)
+sendToClient("error", "Assistant card already played by another player")
+
 
 
 PLAY SPECIAL CARD:
 
 Client---->Server
-String "play special card"
+Command("play character card", "indexOfTheCard", "")
 
-<----
-{"type" : msg, "text" : "choose a special card"}
-
-Client--->Server
-int indexOfSpecialCard
 
 <----
 on ok
-{"type":msg, "text": print cardEffect}
+sentToAllClient("msg", currentPlayer.getName() + " has played the card " + characterCard.getName())
+
+
 
 <----
 on error
-{"type":msg, "text":"invalid index"}
+sendToClient("error", "You don't have enough coins to play this card")
+
+
+
+Client---->Server
+Command("play character card", "indexOfTheCard", "islandIndex")
 
 <----
 on error
-{"type":msg, "text":"you don't have enough money in your wallet to play this card"}
+sendToClient("error", "Error selecting island");
+
+
+Client---->Server
+Command("play character card", "indexOfTheCard", "pawnColor")
+
+<----
+on error
+sendToClient("error", "Error selecting color");
+
 
 
 
@@ -127,21 +126,20 @@ on error
 MOVE MOTHER NATURE:
 
 Client---->Server
-String move MN
+Command("move mn", "destinationIslandIndex")
 
-<----
-{"type" : msg, "text" : "select destination island"}
-
-Client---->Server
-int indexIsland
 
 <----
 on ok
-{"type":island, "text": sendIsland}
+sendToClient("islands", "sendIslands")
 
 <----
-on error
-{"type":msg, "text":"to many moves, you can move mother nature of n moves"}
+on error (if player trys to move mother nature in planning phase, or before he finished his student's moves.
+sendToClient("error", " You can't move mother nature now! ")
+
+<----
+on error(if the destination island is too far away from the player's mother nature moves)
+sendToClient("error", "error, you can move mother nature of " + player.getMovesOfMN() + " moves")
 
 
 
@@ -155,29 +153,20 @@ on error
 CHOOSE CLOUD CARD:
 
 Client---->Server
-String "choose cloud card"
+Command("choose cc", "indexOfCloudCard")
 
-<----
-{"type": cloudcard, "text" : sendCloudCards}
-
-Client---->Server
-
-int indexOfCloudCard
 
 <----
 on ok
-{"type": dashboard, "text" : sendDashboard}
+sendToClient("cloudCards", "sendCloudCards")
 
 <----
-on error
-{"type":msg, "text":"invalid index"}
+on error(if the player trys to choose a cloud card in planning phase, or before he has moved mother nature)
+sendToClient("error", "You can't choose a cloud card now")
 
-
-LISTA MESSAGGI INVIATI SERVER ----> CLIENT:
-
-{"type" : msg, "text" : "your turn started"}
-
-{"type" : msg, "text" : "not your turn"} /* viene inviato nel caso un giocatore provi ad inviare messaggi quando non è il suo turno */
+<----
+on error (if the cloud cards index is not valid or the cloud card is already chosen by another player)
+sendToClient("error", "Error, choose a valid cloud card")
 
 
 
