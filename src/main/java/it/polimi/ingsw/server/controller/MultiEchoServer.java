@@ -1,10 +1,13 @@
 package it.polimi.ingsw.server.controller;
 
 import it.polimi.ingsw.server.model.Game;
+import org.apache.maven.settings.Server;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 
@@ -29,7 +32,7 @@ public class MultiEchoServer {
      * Creates the gameArrayList that contains every active game managed by the server
      * For every accepted connection create a new {@link  EchoServerClientHandler} that manages the connection with a single client
      */
-    public void startServer() {
+    public void startServer() throws UnknownHostException {
         System.out.println("====Eriantys CLI Server====");
         ArrayList<Game> gameArrayList = new ArrayList<>();
         ServerSocket serverSocket;
@@ -39,6 +42,7 @@ public class MultiEchoServer {
             System.out.println(e.getMessage());
             return;
         }
+        System.out.println("Ip: " + InetAddress.getLocalHost());
         System.out.println("Server ready on port: " + port);
 
         while (true) {

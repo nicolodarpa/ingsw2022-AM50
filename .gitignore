@@ -4,3 +4,4 @@
 /out/
 /src/main/java/META-INF/
 /shade/
+/dependency-reduced-pom.xml

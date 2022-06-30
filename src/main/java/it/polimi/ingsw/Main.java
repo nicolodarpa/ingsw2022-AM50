@@ -4,6 +4,7 @@ import it.polimi.ingsw.client.ClientGUI;
 import it.polimi.ingsw.client.LineClient;
 import it.polimi.ingsw.server.controller.MultiEchoServer;
 
+import java.net.UnknownHostException;
 import java.util.Objects;
 
 
@@ -12,7 +13,7 @@ import java.util.Objects;
  * Manages command line arguments and start the correct class
  */
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws UnknownHostException {
         int port = getPort(args);
         String ip = getIp(args);
         if (args.length > 0) {
@@ -34,7 +35,7 @@ public class Main {
     /**
      * Starts server
      */
-    private static void startServer(int port) {
+    private static void startServer(int port) throws UnknownHostException {
         MultiEchoServer echoServer = new MultiEchoServer(port);
         echoServer.startServer();
     }
@@ -58,7 +59,7 @@ public class Main {
             client.startClient();
 
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            System.err.println("Error starting the client");
         }
     }
 
@@ -71,7 +72,12 @@ public class Main {
     private static int getPort(String[] args) {
         for (int i = 0; i < args.length; i++) {
             if (Objects.equals(args[i], "-p")) {
-                return Integer.parseInt(args[i + 1]);
+                try {
+                    return Integer.parseInt(args[i + 1]);
+                } catch (Exception e){
+                    System.out.println("Error input port, trying with default port 1337");
+                }
+
             }
         }
         return 1337;
