@@ -19,6 +19,8 @@ public class Game {
      * MOVES indicates how many students, player can move in action phase, is 3 or 4 based on the number of the players in the match.
      */
     public static int MOVES;
+
+    private static final int disconnectionTimeout = 10000;
     private String gameStatus = "Waiting for players";
 
     /**
@@ -116,6 +118,7 @@ public class Game {
 
     /**
      * assigns the moves of the students in the action phase via moves according to how many players there are and creates the 4 decks
+     *
      * @param numberOfPlayers is the number of players in the match
      */
     public Game(int numberOfPlayers) {
@@ -224,7 +227,7 @@ public class Game {
         if (plist.getActivePlayers() == 1) {
             try {
                 plist.notifyAllClients("notify", "waiting for reconnection");
-                Thread.sleep(10000);
+                Thread.sleep(disconnectionTimeout);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
@@ -780,7 +783,7 @@ public class Game {
                     p.sendToClient("notify", "Your turn started, play an assistant card");
                     setCurrentPlayer(p);
                     System.out.println(currentPlayer.getName() + " turn");
-                    plist.notifyAllClients("gameInfo",sendGameInfo());
+                    plist.notifyAllClients("gameInfo", sendGameInfo());
                     return;
                 }
             }
@@ -798,7 +801,7 @@ public class Game {
             if (temp != null) {
                 setCurrentPlayer(temp);
                 temp.sendToClient("notify", "Your turn started");
-                plist.notifyAllClients("gameInfo",sendGameInfo());
+                plist.notifyAllClients("gameInfo", sendGameInfo());
                 System.out.println(currentPlayer.getName() + " turn");
             } else nextPhase();
 
@@ -881,8 +884,9 @@ public class Game {
 
     /**
      * player chooses a cloud card, if the choice is successful the students are transferred from the cloud card to the player's hall.
+     *
      * @param indexCloudCard is the cloud card chosen
-     * @param player is who is playing
+     * @param player         is who is playing
      */
     public void chooseCloudCard(int indexCloudCard, Player player) {
         ArrayList<Student> students;

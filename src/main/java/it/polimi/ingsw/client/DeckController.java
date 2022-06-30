@@ -3,6 +3,8 @@ package it.polimi.ingsw.client;
 import com.google.gson.Gson;
 import it.polimi.ingsw.comunication.DeckStatus;
 import it.polimi.ingsw.comunication.TextMessage;
+
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -11,6 +13,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
@@ -20,12 +23,16 @@ import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
+
+
 /**
  * Controller for deck.fxml
  */
 public class DeckController implements Initializable, DisplayLabel {
 
 
+    @FXML
+    private Pane anchor;
     @FXML
     private Label deck1Owner;
     @FXML
@@ -35,6 +42,10 @@ public class DeckController implements Initializable, DisplayLabel {
     @FXML
     private Label deck4Owner;
 
+    /**
+     * Flag to stop the thread
+     */
+    private boolean exit;
 
     /**
      * Asks the server for the list of assistant card decks and sets the name of the player if a deck has already been chosen
@@ -46,14 +57,16 @@ public class DeckController implements Initializable, DisplayLabel {
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        ClientInput.getInstance().sendString("sendAssistantDecks", "");
-        TextMessage message = ClientInput.getInstance().readLine();
+        ClientInput clientInput = ClientInput.getInstance();
+        clientInput.sendString("sendAssistantDecks", "");
+        TextMessage response = clientInput.readLine();
         Gson gson = new Gson();
-        DeckStatus[] deckStatusArrayList = gson.fromJson(message.message, DeckStatus[].class);
+        DeckStatus[] deckStatusArrayList = gson.fromJson(response.message, DeckStatus[].class);
         deck1Owner.setText(deckStatusArrayList[0].playerName);
         deck2Owner.setText(deckStatusArrayList[1].playerName);
         deck3Owner.setText(deckStatusArrayList[2].playerName);
         deck4Owner.setText(deckStatusArrayList[3].playerName);
+
     }
 
     /**
@@ -68,6 +81,8 @@ public class DeckController implements Initializable, DisplayLabel {
         stage.setScene(scene);
         stage.setMaximized(true);
         stage.show();
+
+
     }
 
 
@@ -80,18 +95,46 @@ public class DeckController implements Initializable, DisplayLabel {
     @FXML
     private void alertChosenDeck(ActionEvent actionEvent) throws IOException {
         Window window = ((Node) actionEvent.getSource()).getScene().getWindow();
-        do {
-            TextMessage message = ClientInput.getInstance().readLine();
-            if (!Objects.equals(message, null))
-                if (Objects.equals(message.type, "notify") && !message.message.contains("logged in")) {
-                    AlertHelper.showAlert(Alert.AlertType.INFORMATION, window, "Turn Notification", message.message);
-                    setTable(actionEvent);
-                    break;
-                } else if (Objects.equals(message.type, "error")) {
-                    AlertHelper.showAlert(Alert.AlertType.WARNING, window, "Invalid Deck", message.message);
-                    break;
+
+        ClientInput clientInput = ClientInput.getInstance();
+        Thread readThread = new Thread(() -> {
+            exit = false;
+            while (!exit) {
+                TextMessage message = clientInput.readLine();
+                if (message != null) {
+                    Platform.runLater(() -> {
+                        if (Objects.equals(message.type, "confirmation") && Objects.equals(message.context, "chooseDeck")) {
+                            AlertHelper.showAlert(Alert.AlertType.INFORMATION, window, "Deck", message.message);
+                            anchor.setDisable(true);
+                        } else if (Objects.equals(message.type, "notify") && !message.message.contains("logged in")) {
+                            AlertHelper.showAlert(Alert.AlertType.INFORMATION, window, "Turn Notification", message.message);
+                            try {
+                                setTable(actionEvent);
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                            exit= true;
+                        } else if (Objects.equals(message.type, "error")) {
+                            anchor.setDisable(false);
+                            AlertHelper.showAlert(Alert.AlertType.WARNING, window, "Invalid Deck", message.message);
+                            exit = true;
+                        } else if (Objects.equals(message.type, "quit")) {
+                            anchor.setDisable(true);
+                            AlertHelper.showAlert(Alert.AlertType.ERROR, window, "Connection error", "Error connecting to the server, please close the application");
+                            exit = true;
+
+                        }
+                    });
                 }
-        } while (true);
+                try {
+                    Thread.sleep(400);
+
+                } catch (InterruptedException e) {
+                    System.out.println("Thread stopped");
+                }
+            }
+        });
+        readThread.start();
     }
 
 
@@ -102,8 +145,7 @@ public class DeckController implements Initializable, DisplayLabel {
      */
     @FXML
     private void chooseDeck1(ActionEvent actionEvent) throws IOException {
-        ClientInput.getInstance().sendString("chooseDeck", String.valueOf(1));
-        alertChosenDeck(actionEvent);
+        chooseDeck(actionEvent, 1);
     }
 
     /**
@@ -113,8 +155,7 @@ public class DeckController implements Initializable, DisplayLabel {
      */
     @FXML
     private void chooseDeck2(ActionEvent actionEvent) throws IOException {
-        ClientInput.getInstance().sendString("chooseDeck", String.valueOf(2));
-        alertChosenDeck(actionEvent);
+        chooseDeck(actionEvent, 2);
     }
 
     /**
@@ -124,8 +165,7 @@ public class DeckController implements Initializable, DisplayLabel {
      */
     @FXML
     private void chooseDeck3(ActionEvent actionEvent) throws IOException {
-        ClientInput.getInstance().sendString("chooseDeck", String.valueOf(3));
-        alertChosenDeck(actionEvent);
+        chooseDeck(actionEvent, 3);
     }
 
     /**
@@ -135,9 +175,12 @@ public class DeckController implements Initializable, DisplayLabel {
      */
     @FXML
     private void chooseDeck4(ActionEvent actionEvent) throws IOException {
-        ClientInput.getInstance().sendString("chooseDeck", String.valueOf(4));
-        alertChosenDeck(actionEvent);
+        chooseDeck(actionEvent, 4);
     }
 
+    private void chooseDeck(ActionEvent actionEvent, int i) throws IOException {
+        ClientInput.getInstance().sendString("chooseDeck", String.valueOf(i));
+        alertChosenDeck(actionEvent);
+    }
 }
 

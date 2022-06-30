@@ -320,7 +320,10 @@ public class DashboardController implements Initializable, DisplayLabel {
     private static final String[] colors = {"green", "red", "yellow", "magenta", "cyan"};
     private TextMessage message;
     private final HashMap<String, Command> commandHashMap = new HashMap<>();
-    private Thread readThread;
+    /**
+     * Flag to stop the thread
+     */
+    private boolean exit;
 
     @Override
     public void displayLabel(@NotNull String text, Label label, String textLabel) {
@@ -550,8 +553,9 @@ public class DashboardController implements Initializable, DisplayLabel {
         setUpIslandInfoButton();
 
 
-        readThread = new Thread(() -> {
-            while (true) {
+        Thread readThread = new Thread(() -> {
+            exit = false;
+            while (!exit) {
                 message = clientInput.readLine();
                 if (message != null) {
                     Platform.runLater(() -> {
@@ -566,7 +570,7 @@ public class DashboardController implements Initializable, DisplayLabel {
                     Thread.sleep(400);
 
                 } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
+                    System.out.println("Thread stopped");
                 }
             }
         });
@@ -675,9 +679,10 @@ public class DashboardController implements Initializable, DisplayLabel {
      * Closes the application
      */
     private void quit() {
-
-        AlertHelper.showAlert(Alert.AlertType.ERROR, anchor.getScene().getWindow(), "Connection error", "Error connecting to the server");
-        System.exit(0);
+        stopThread();
+        AlertHelper.showAlert(Alert.AlertType.ERROR, anchor.getScene().getWindow(), "Connection error", "Error connecting to the server, please close the application");
+        anchor.setDisable(true);
+        //System.exit(0);
         //System.exit(0); exit program after closing the alert
     }
 
@@ -1483,9 +1488,13 @@ public class DashboardController implements Initializable, DisplayLabel {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("endGame.fxml"));
         fxmlLoader.setController(controller);
         Scene scene = new Scene(fxmlLoader.load());
-        readThread.interrupt();
+        stopThread();
         stage.setScene(scene);
         stage.show();
+    }
+
+    private void stopThread(){
+        exit = true;
     }
 }
 
