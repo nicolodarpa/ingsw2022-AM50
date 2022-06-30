@@ -17,7 +17,7 @@ public class CharacterInfluenceStrategy extends CharacterCardStrategy {
      */
     public CharacterInfluenceStrategy() {
         setCost(3);
-        setEffectOfTheCard("With this card you have to choose one color of the students which will not be considered for the influence. (select a PawnColor before playing this card)");
+        setEffectOfTheCard("With this card you have to choose one color of the students which will not be considered for the influence. (Select the PawnColor before playing this card)");
         setName("wizard");
     }
 
