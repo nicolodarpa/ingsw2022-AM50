@@ -19,9 +19,10 @@ import java.util.*;
 /**
  * Controller of enemyDashboard.fxml
  */
-public class DashboardEnemyController implements  Initializable,DisplayLabel{
+public class DashboardEnemyController implements Initializable, DisplayLabel {
 
-    public Pane anchor;
+    @FXML
+    private Pane anchor;
     /**
      * Positions of the student in the hall
      */
@@ -71,7 +72,7 @@ public class DashboardEnemyController implements  Initializable,DisplayLabel{
      * It's a label that show the username of the dashboard
      */
     @FXML
-    private final Label username = new Label();
+    private  Label username;
 
     private EnemyDashboardStatus dashboardStatus;
 
@@ -256,7 +257,7 @@ public class DashboardEnemyController implements  Initializable,DisplayLabel{
      * By a Json formatted string sent by the server, it sets the students' and teachers' images in the  dashboard and the tower images.
      */
     private void setDashboardPlayer() {
-        displayLabel("username", username, dashboardStatus.nameOwner);
+        username.setText("Username: " + dashboardStatus.nameOwner);
         String[] hall = dashboardStatus.studentsHallColors;
         String[][] classroom = dashboardStatus.studentsClassroom;
         String[] teachers = dashboardStatus.teacherTable;
@@ -277,7 +278,7 @@ public class DashboardEnemyController implements  Initializable,DisplayLabel{
      *                  the root object was not localized.
      */
     @Override
-    public synchronized void initialize(URL location, ResourceBundle resources) {
+    public void initialize(URL location, ResourceBundle resources) {
         setUpNameColor();
         setUpClassroom();
         setUpProfessorPositions();
