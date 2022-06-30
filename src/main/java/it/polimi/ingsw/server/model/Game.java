@@ -890,6 +890,7 @@ public class Game {
                 player.setHasPlayed(true);
                 player.sendToClient("dashboard", sendPlayerDashboard(player));
                 calculateCurrentPlayer();
+                player.sendToClient("notify", "Well done! Now it's " + currentPlayer.getName() + " turn");
             } else
                 player.sendToClient("error", "Cloud card already chosen by another player");
         } catch (Exception ignored) {
@@ -972,6 +973,7 @@ public class Game {
         }
         player.playAssistantCard(cardNumber);
         calculateCurrentPlayer();
+        player.sendToClient("notify", "Now it's " + currentPlayer.getName() + " turn");
 
         if (player.deckSize()) { //return 1 if the player has finished his cards
             plist.notifyAllClients("notify", "This is the last turn");

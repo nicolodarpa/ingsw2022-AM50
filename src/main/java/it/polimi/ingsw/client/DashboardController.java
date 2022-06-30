@@ -674,7 +674,7 @@ public class DashboardController implements Initializable, DisplayLabel {
      * Refreshes the GUI with the current game's status sent by the server.
      */
     private void refreshGUI() {
-        for (String s : Arrays.asList("singleDashboard", "islands", "player","allPlayers", "gameInfo", "sendCloudCards", "sendCharacterCardDeck", "enemyDashboard")) {
+        for (String s : Arrays.asList( "enemyDashboard", "gameInfo", "islands", "player", "allPlayers", "singleDashboard", "sendCloudCards", "sendCharacterCardDeck")) {
             clientInput.sendString(s, "");
         }
     }
@@ -707,8 +707,8 @@ public class DashboardController implements Initializable, DisplayLabel {
 
         if (Objects.equals(gameInfoStatus.phase, "Planning phase"))
             AlertHelper.showAlert(Alert.AlertType.CONFIRMATION, classRoom.getScene().getWindow(), "Planning phase", "Play an assistant card to determine your turn order and available Mother Nature moves");
-        else if (Objects.equals(gameInfoStatus.phase, "Action phase")) {
-            AlertHelper.showAlert(Alert.AlertType.CONFIRMATION, classRoom.getScene().getWindow(), "Action phase", "1. Select " + studentsMoves + " student from your to move to your classroom or to islands \n\n2. Move Mother Nature on an island of your choice \n\n3. Choose a cloud card");
+        else if(Objects.equals(gameInfoStatus.phase, "Action phase")){
+            AlertHelper.showAlert(Alert.AlertType.CONFIRMATION, classRoom.getScene().getWindow(), "Action phase", "1. Select " + studentsMoves + " student from your hall to move to your classroom or to islands \n\n2. Move Mother Nature on an island of your choice \n\n3. Choose a cloud card");
         }
     }
 

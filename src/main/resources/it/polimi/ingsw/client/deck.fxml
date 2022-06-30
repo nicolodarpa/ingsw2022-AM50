@@ -29,35 +29,35 @@
 
    <Label fx:id="choose" layoutX="224.0" layoutY="21.0" text="Choose your Deck" textAlignment="CENTER">
       <font>
-         <Font name="Apple Chancery" size="24.0" />
+         <Font name="Papyrus Condensed" size="26.0" />
       </font>
    </Label>
 
 
-   <Button fx:id="chooseDeck1" layoutX="27.0" layoutY="313.0" mnemonicParsing="false" onAction="#chooseDeck1" text="Wizard sorcerer">
+   <Button fx:id="chooseDeck1" layoutX="35.0" layoutY="313.0" mnemonicParsing="false" onAction="#chooseDeck1" text="Wizard sorcerer">
       <font>
-         <Font name="Apple Chancery" size="13.0" />
+         <Font name="Papyrus Condensed" size="14.0" />
       </font>
       <cursor>
          <Cursor fx:constant="HAND" />
       </cursor></Button>
-   <Button fx:id="chooseDeck2" layoutX="181.0" layoutY="313.0" mnemonicParsing="false" onAction="#chooseDeck2" text="Magician king">
+   <Button fx:id="chooseDeck2" layoutX="188.0" layoutY="313.0" mnemonicParsing="false" onAction="#chooseDeck2" text="Magician king">
       <font>
-         <Font name="Apple Chancery" size="13.0" />
+         <Font name="Papyrus Condensed" size="14.0" />
       </font>
       <cursor>
          <Cursor fx:constant="HAND" />
       </cursor></Button>
-   <Button fx:id="chooseDeck3" layoutX="337.0" layoutY="313.0" mnemonicParsing="false" onAction="#chooseDeck3" text="Fairy wizard">
+   <Button fx:id="chooseDeck3" layoutX="342.0" layoutY="313.0" mnemonicParsing="false" onAction="#chooseDeck3" text="Fairy wizard">
       <font>
-         <Font name="Apple Chancery" size="13.0" />
+         <Font name="Papyrus Condensed" size="14.0" />
       </font>
       <cursor>
          <Cursor fx:constant="HAND" />
       </cursor></Button>
-   <Button fx:id="chooseDeck4" layoutX="472.0" layoutY="313.0" mnemonicParsing="false" onAction="#chooseDeck4" text="Wise magician">
+   <Button fx:id="chooseDeck4" layoutX="482.0" layoutY="313.0" mnemonicParsing="false" onAction="#chooseDeck4" text="Wise magician">
       <font>
-         <Font name="Apple Chancery" size="13.0" />
+         <Font name="Papyrus Condensed" size="14.0" />
       </font>
       <cursor>
          <Cursor fx:constant="HAND" />
