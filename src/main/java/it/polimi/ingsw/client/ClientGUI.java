@@ -42,7 +42,7 @@ public class ClientGUI extends Application {
         Image icon = new Image(String.valueOf(getClass().getClassLoader().getResource("images/LOGO CRANIO CREATIONS_bianco.png")));
 
         stage.getIcons().add(icon);
-        stage.setTitle("Eryantis GUI");
+        stage.setTitle("Eriantys GUI");
         stage.setScene(scene);
         stage.show();
 

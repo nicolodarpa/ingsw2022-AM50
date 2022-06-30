@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane fx:id="anchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1080.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" >
+<Pane fx:id="anchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1080.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <ImageView fx:id="card1" fitHeight="199.995" fitWidth="135.99" layoutX="146.0" layoutY="155.0">
         </ImageView>
@@ -19,72 +19,72 @@
         </ImageView>
       <ImageView fx:id="card5" fitHeight="199.995" fitWidth="135.99" layoutX="798.0" layoutY="155.0">
          </ImageView>
-      <Button fx:id="playCard1" layoutX="186.0" layoutY="378.0" mnemonicParsing="false"  text="Choose ">
+      <Button fx:id="playCard1" layoutX="186.0" layoutY="378.0" mnemonicParsing="false" text="Choose ">
          <font>
-            <Font name="Papyrus Condensed" size="14.0" />
+            <Font name="Papyrus" size="14.0" />
          </font>
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
-      <Button fx:id="playCard2" layoutX="351.0" layoutY="378.0" mnemonicParsing="false"  text="Choose">
+      <Button fx:id="playCard2" layoutX="351.0" layoutY="378.0" mnemonicParsing="false" text="Choose">
          <font>
-            <Font name="Papyrus Condensed" size="14.0" />
+            <Font name="Papyrus" size="14.0" />
          </font>
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
-      <Button fx:id="playCard3" layoutX="513.0" layoutY="377.0" mnemonicParsing="false"  text="Choose">
+      <Button fx:id="playCard3" layoutX="513.0" layoutY="377.0" mnemonicParsing="false" text="Choose">
          <font>
-            <Font name="Papyrus Condensed" size="14.0" />
+            <Font name="Papyrus" size="14.0" />
          </font>
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
-      <Button fx:id="playCard4" layoutX="665.0" layoutY="377.0" mnemonicParsing="false"  text="Choose">
+      <Button fx:id="playCard4" layoutX="665.0" layoutY="377.0" mnemonicParsing="false" text="Choose">
          <font>
-            <Font name="Papyrus Condensed" size="14.0" />
+            <Font name="Papyrus" size="14.0" />
          </font>
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
-      <Button fx:id="playCard5" layoutX="831.0" layoutY="377.0" mnemonicParsing="false"  text="Choose">
+      <Button fx:id="playCard5" layoutX="831.0" layoutY="377.0" mnemonicParsing="false" text="Choose">
          <font>
-            <Font name="Papyrus Condensed" size="14.0" />
+            <Font name="Papyrus" size="14.0" />
          </font>
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
-      <Button fx:id="playCard6" layoutX="186.0" layoutY="646.0" mnemonicParsing="false"  text="Choose ">
+      <Button fx:id="playCard6" layoutX="186.0" layoutY="646.0" mnemonicParsing="false" text="Choose ">
          <font>
-            <Font name="Papyrus Condensed" size="14.0" />
+            <Font name="Papyrus" size="14.0" />
          </font>
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
-      <Button fx:id="playCard7" layoutX="351.0" layoutY="646.0" mnemonicParsing="false"  text="Choose">
+      <Button fx:id="playCard7" layoutX="351.0" layoutY="646.0" mnemonicParsing="false" text="Choose">
          <font>
-            <Font name="Papyrus Condensed" size="14.0" />
+            <Font name="Papyrus" size="14.0" />
          </font>
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
-      <Button fx:id="playCard8" layoutX="513.0" layoutY="646.0" mnemonicParsing="false"  text="Choose">
+      <Button fx:id="playCard8" layoutX="513.0" layoutY="646.0" mnemonicParsing="false" text="Choose">
          <font>
-            <Font name="Papyrus Condensed" size="14.0" />
+            <Font name="Papyrus" size="14.0" />
          </font>
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
-      <Button fx:id="playCard9" layoutX="676.0" layoutY="646.0" mnemonicParsing="false"  text="Choose">
+      <Button fx:id="playCard9" layoutX="676.0" layoutY="646.0" mnemonicParsing="false" text="Choose">
          <font>
-            <Font name="Papyrus Condensed" size="14.0" />
+            <Font name="Papyrus" size="14.0" />
          </font>
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
       <Button fx:id="playCard10" layoutX="847.0" layoutY="646.0" mnemonicParsing="false" text="Choose">
          <font>
-            <Font name="Papyrus Condensed" size="14.0" />
+            <Font name="Papyrus" size="14.0" />
          </font>
          <cursor>
             <Cursor fx:constant="HAND" />
@@ -101,10 +101,18 @@
         </ImageView>
       <Label fx:id="yourDeck" layoutX="486.0" layoutY="61.0" text="Your Deck" textFill="#0839cd">
          <font>
-            <Font name="Papyrus Condensed" size="25.0" />
+            <Font name="Papyrus" size="25.0" />
          </font>
       </Label>
-      <Label fx:id="otherPlayer" layoutX="682.0" layoutY="64.0" />
-      <Label fx:id="otherPlayer2" layoutX="874.0" layoutY="64.0" />
+      <Label fx:id="otherPlayer" layoutX="665.0" layoutY="40.0">
+         <font>
+            <Font name="Papyrus" size="15.0" />
+         </font>
+      </Label>
+      <Label fx:id="otherPlayer2" layoutX="874.0" layoutY="40.0" >
+         <font>
+            <Font name="Papyrus" size="15.0" />
+         </font>
+      </Label>
    </children>
 </Pane>

@@ -8,63 +8,75 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane fx:id="anchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.DeckController">
+<Pane fx:id="anchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1080.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.DeckController">
 
 
-   <ImageView fitHeight="200.0" fitWidth="131.0" layoutX="13.0" layoutY="82.0">
+   <ImageView fitHeight="300.0" fitWidth="196.5" layoutX="37.0" layoutY="161.0">
       <Image url="@../../../../assets/CarteTOT_back_1@3x.png" />
    </ImageView>
 
-   <ImageView fitHeight="200.0" fitWidth="131.0" layoutX="161.0" layoutY="82.0">
+   <ImageView fitHeight="300.0" fitWidth="196.5" layoutX="297.0" layoutY="161.0">
 
       <Image url="@../../../../assets/CarteTOT_back_2@3x.png" />
    </ImageView>
-   <ImageView fitHeight="200.0" fitWidth="131.0" layoutX="312.0" layoutY="82.0">
+   <ImageView fitHeight="300.0" fitWidth="196.5" layoutX="570.0" layoutY="161.0">
       <Image url="@../../../../assets/CarteTOT_back_3@3x.png" />
    </ImageView>
 
-   <ImageView fitHeight="200.0" fitWidth="131.0" layoutX="455.0" layoutY="82.0">
+   <ImageView fitHeight="300.0" fitWidth="196.5" layoutX="847.0" layoutY="161.0">
       <Image url="@../../../../assets/CarteTOT_back_4@3x.png" />
    </ImageView>
 
-   <Label fx:id="choose" layoutX="224.0" layoutY="21.0" text="Choose your Deck" textAlignment="CENTER">
+   <Label fx:id="choose" layoutX="431.0" layoutY="49.0" text="Choose your Deck" textAlignment="CENTER">
       <font>
-         <Font name="Papyrus Condensed" size="26.0" />
+         <Font name="Papyrus" size="26.0" />
       </font>
    </Label>
 
 
-   <Button fx:id="chooseDeck1" layoutX="35.0" layoutY="313.0" mnemonicParsing="false" onAction="#chooseDeck1" text="Wizard sorcerer">
+   <Button fx:id="chooseDeck1" layoutX="87.0" layoutY="540.0" mnemonicParsing="false" onAction="#chooseDeck1" text="Wizard sorcerer">
       <font>
-         <Font name="Papyrus Condensed" size="14.0" />
+         <Font name="Papyrus" size="14.0" />
       </font>
       <cursor>
          <Cursor fx:constant="HAND" />
       </cursor></Button>
-   <Button fx:id="chooseDeck2" layoutX="188.0" layoutY="313.0" mnemonicParsing="false" onAction="#chooseDeck2" text="Magician king">
+   <Button fx:id="chooseDeck2" layoutX="353.0" layoutY="540.0" mnemonicParsing="false" onAction="#chooseDeck2" text="Magician king">
       <font>
-         <Font name="Papyrus Condensed" size="14.0" />
+         <Font name="Papyrus" size="14.0" />
       </font>
       <cursor>
          <Cursor fx:constant="HAND" />
       </cursor></Button>
-   <Button fx:id="chooseDeck3" layoutX="342.0" layoutY="313.0" mnemonicParsing="false" onAction="#chooseDeck3" text="Fairy wizard">
+   <Button fx:id="chooseDeck3" layoutX="622.0" layoutY="540.0" mnemonicParsing="false" onAction="#chooseDeck3" text="Fairy wizard">
       <font>
-         <Font name="Papyrus Condensed" size="14.0" />
+         <Font name="Papyrus" size="14.0" />
       </font>
       <cursor>
          <Cursor fx:constant="HAND" />
       </cursor></Button>
-   <Button fx:id="chooseDeck4" layoutX="482.0" layoutY="313.0" mnemonicParsing="false" onAction="#chooseDeck4" text="Wise magician">
+   <Button fx:id="chooseDeck4" layoutX="890.0" layoutY="540.0" mnemonicParsing="false" onAction="#chooseDeck4" text="Wise magician">
       <font>
-         <Font name="Papyrus Condensed" size="14.0" />
+         <Font name="Papyrus" size="14.0" />
       </font>
       <cursor>
          <Cursor fx:constant="HAND" />
       </cursor></Button>
-   <Label fx:id="deck1Owner" layoutX="64.0" layoutY="289.0" text="Label" />
-   <Label fx:id="deck2Owner" layoutX="211.0" layoutY="289.0" text="Label" />
-   <Label fx:id="deck3Owner" layoutX="362.0" layoutY="289.0" text="Label" />
-   <Label fx:id="deck4Owner" layoutX="505.0" layoutY="289.0" text="Label" />
+   <Label fx:id="deck1Owner" layoutX="127.0" layoutY="492.0" text="Label" textAlignment="CENTER">
+      <font>
+         <Font name="Papyrus" size="15.0" />
+      </font></Label>
+   <Label fx:id="deck2Owner" layoutX="389.0" layoutY="492.0" text="Label" textAlignment="CENTER">
+      <font>
+         <Font name="Papyrus" size="15.0" />
+      </font></Label>
+   <Label fx:id="deck3Owner" layoutX="651.0" layoutY="492.0" text="Label" textAlignment="CENTER">
+      <font>
+         <Font name="Papyrus" size="15.0" />
+      </font></Label>
+   <Label fx:id="deck4Owner" layoutX="928.0" layoutY="492.0" text="Label" textAlignment="CENTER">
+      <font>
+         <Font name="Papyrus" size="15.0" />
+      </font></Label>
 
 </Pane>

@@ -107,7 +107,7 @@
         <Rectangle fx:id="classRoom" arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="215.0" layoutX="136.0" layoutY="94.0" stroke="TRANSPARENT" strokeType="INSIDE" width="253.0" />
         <Label fx:id="username" layoutX="15.0" layoutY="10.0" styleClass="Label" text="Username: ">
             <font>
-                <Font size="16.0" />
+                <Font name="Papyrus" size="16.0" />
             </font>
         </Label>
     </children>
