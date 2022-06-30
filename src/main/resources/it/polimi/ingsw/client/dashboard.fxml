@@ -23,12 +23,12 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </ImageView>
-      <Label fx:id="movesAvailableCounter" layoutX="898.0" layoutY="-5.0" text="Moves available: ">
+      <Label fx:id="movesAvailableCounter" layoutX="477.0" layoutY="10.0" styleClass="Label" text="Moves available: ">
          <font>
             <Font name="Papyrus Condensed" size="18.0" />
          </font>
       </Label>
-      <Label fx:id="roundCounter" layoutX="238.0" layoutY="-5.0" text="Round #: ">
+      <Label fx:id="roundCounter" layoutX="719.0" layoutY="10.0" styleClass="Label" text="Round #: ">
          <font>
             <Font name="Papyrus Condensed" size="18.0" />
          </font>
@@ -179,19 +179,19 @@
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Rectangle>
-      <Label fx:id="movesOfMn" layoutX="718.0" layoutY="-5.0" text="Moves of MN : ">
+      <Label fx:id="movesOfMn" layoutX="260.0" layoutY="10.0" styleClass="Label" text="Moves of MN : ">
          <font>
             <Font name="Papyrus Condensed" size="18.0" />
          </font>
       </Label>
-      <Label fx:id="username" layoutX="13.0" layoutY="-5.0" text="Username: ">
+      <Label fx:id="username" layoutX="22.0" layoutY="10.0" prefHeight="42.0" prefWidth="212.0" styleClass="Label" text="Username: ">
          <font>
             <Font name="Papyrus Condensed" size="18.0" />
          </font>
       </Label>
-      <Label fx:id="actualPlayerLabel" layoutX="358.0" layoutY="-5.0" text="Actual Player:">
+      <Label fx:id="actualPlayerLabel" layoutX="1005.0" layoutY="10.0" styleClass="Label" text="Actual Player:">
          <font>
-            <Font name="Papyrus Condensed" size="18.0" />
+            <Font size="18.0" />
          </font>
       </Label>
       <ImageView fx:id="Island1" fitHeight="150.0" fitWidth="150.0" layoutX="5.0" layoutY="196.0" onMouseClicked="#moveStudentToIsland">
@@ -487,14 +487,14 @@
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
-      <Button fx:id="info11" layoutX="161.0" layoutY="478.0" mnemonicParsing="false" onAction="#showStudentsIsland11" prefHeight="23.0" prefWidth="41.0" text="Info">
+      <Button fx:id="info11" layoutX="161.0" layoutY="478.0" mnemonicParsing="false" onAction="#showStudentsIsland11" prefHeight="35.0" prefWidth="50.0" text="Info">
          <font>
             <Font name="Papyrus Condensed" size="16.0" />
          </font>
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
-      <Label fx:id="wallet" layoutX="1099.0" layoutY="-4.0" text="Wallet:">
+      <Label fx:id="wallet" layoutX="18.0" layoutY="60.0" styleClass="Label" text="Wallet:">
          <font>
             <Font name="Papyrus Condensed" size="18.0" />
          </font>
@@ -545,7 +545,12 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </ButtonBar>
-      <Label layoutX="18.0" layoutY="550.0" text="Students:" fx:id="students">
+      <Label fx:id="students" layoutX="18.0" layoutY="550.0" styleClass="Label">
+         <font>
+            <Font name="Papyrus Condensed" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="phaseLabel" layoutX="843.0" layoutY="10.0" prefHeight="42.0" prefWidth="106.0" styleClass="Label">
          <font>
             <Font name="Papyrus Condensed" size="18.0" />
          </font>

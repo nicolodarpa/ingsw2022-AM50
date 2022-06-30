@@ -161,7 +161,7 @@ public class EchoServerClientHandler extends Thread {
      *
      * @return boolean value corresponding to the check result
      */
-    public boolean checkTurn() {
+    private boolean checkTurn() {
         if (player == game.getCurrentPlayer()) {
             return true;
         } else {
@@ -177,7 +177,7 @@ public class EchoServerClientHandler extends Thread {
      *
      * @param command message payload received from the client, contains the desired number of player
      */
-    public void newGame(Command command) {
+    private void newGame(Command command) {
         System.out.println("New game for " + command.value1);
         int num = Integer.parseInt(command.value1);
         TextMessage textMessage;
@@ -200,7 +200,7 @@ public class EchoServerClientHandler extends Thread {
      *
      * @param command message payload received from the client
      */
-    public void avlGames(Command command) {
+    private void avlGames(Command command) {
         gameArrayList.removeIf(game -> Objects.equals(game.getGameStatus(), "ENDED"));
         ArrayList<GameStatus> list = new ArrayList<>();
         int gameId = 0;
@@ -225,7 +225,7 @@ public class EchoServerClientHandler extends Thread {
      *
      * @param command message payload received from the client, contains the index of the selected game as value1
      */
-    public void joinGame(Command command) {
+    private void joinGame(Command command) {
         System.out.println("join game");
         TextMessage textMessage;
         try {
@@ -251,7 +251,7 @@ public class EchoServerClientHandler extends Thread {
      * @param command message payload received from the client, contains the player's username as value1
      * @throws IOException If an exception occurred setting up the PrinterWriter
      */
-    public void login(Command command) throws IOException {
+    private void login(Command command) throws IOException {
         String json;
         String name = command.value1.trim();
         if (name.isEmpty()) {
@@ -291,7 +291,7 @@ public class EchoServerClientHandler extends Thread {
     /**
      * Calls the Game class to assign the selected deck to a player
      */
-    public void chooseDeck(Command command) {
+    private void chooseDeck(Command command) {
         String numDeck = command.value1;
         try {
             game.chooseDeck(Integer.parseInt(numDeck), player);
@@ -306,46 +306,49 @@ public class EchoServerClientHandler extends Thread {
     /**
      * Sends to the client the list of assistants card decks
      */
-    public void sendAssistantDecks(Command command) {
+    private void sendAssistantDecks(Command command) {
         player.sendToClient("assistantDecks", game.sendDeck());
     }
 
     /**
      * Sends to the client the info about the player
      */
-    public void sendPlayerInfo(Command command) {
+    private void sendPlayerInfo(Command command) {
         player.sendToClient("player", game.sendPlayer(player));
     }
 
     /**
      * Sends to the client the info of every player
      */
-    public void sendAllPlayers(Command command) {
+    private void sendAllPlayers(Command command) {
         player.sendToClient("allPlayers", game.sendAllPlayers());
     }
 
     /**
      * Sends to the client the info about the current game
      */
-    public void sendGameInfo(Command command) {
+    private void sendGameInfo(Command command) {
         player.sendToClient("gameInfo", game.sendGameInfo());
     }
 
     /**
      * Sends to the sends the client some tips to play the game
-     */public void sendHelp(Command command){player.sendToClient("help", game.sendHelp());}
+     */
+    private void sendHelp(Command command) {
+        player.sendToClient("help", game.sendHelp());
+    }
 
     /**
      * Sends to the client the deck of character card
      */
-    public void sendCharacterCardDeck(Command command) {
+    private void sendCharacterCardDeck(Command command) {
         player.sendToClient("characterCards", game.sendCharacterCardsDeck());
     }
 
     /**
      * Sends to client the list of available assistant cards in his deck
      */
-    public void sendAssistantCardDeck(Command command) {
+    private void sendAssistantCardDeck(Command command) {
         for (AssistantCard assistantCard : player.getDeck().getCardsList()) {
             if (!game.checkLastPlayedAssistant(assistantCard.getOrder()))
                 player.sendToClient("warning", assistantCard.order() + ") order: " + assistantCard.getOrder() + " and #" + assistantCard.getMoveOfMN() + " moves of MN available");
@@ -355,7 +358,7 @@ public class EchoServerClientHandler extends Thread {
     /**
      * Sends to the client a message with the state of the islands
      */
-    public void sendIslands(Command command) {
+    private void sendIslands(Command command) {
         player.sendToClient("islands", game.sendIslands());
     }
 
@@ -369,28 +372,28 @@ public class EchoServerClientHandler extends Thread {
     /**
      * Sends to the client a message with the state of the dashboard of every player
      */
-    public void sendDashboard(Command command) {
+    private void sendDashboard(Command command) {
         player.sendToClient("dashboard", game.sendDashboard());
     }
 
     /**
      * Sends to the client a message with the state of the dashboard of the player
      */
-    public void sendSingleDashboard(Command command) {
+    private void sendSingleDashboard(Command command) {
         player.sendToClient("dashboard", game.sendPlayerDashboard(player));
     }
 
     /**
      * Sends to the client a message with the state of the dashboard of the enemies
      */
-    public void sendEnemyDashboard(Command command) {
+    private void sendEnemyDashboard(Command command) {
         player.sendToClient("enemyDashboard", game.sendEnemyDashboard(player));
     }
 
     /**
      * Sends to the client a message with the state of the cloud cards
      */
-    public void sendCloudCards(Command command) {
+    private void sendCloudCards(Command command) {
         player.sendToClient("cloudCard", game.sendCloudCards());
     }
 
@@ -398,7 +401,7 @@ public class EchoServerClientHandler extends Thread {
     /**
      * Sends to the client a message with the state of the islands
      */
-    public void sendCardsPlayed(Command command) {
+    private void sendCardsPlayed(Command command) {
         player.sendToClient("cardsPlayed", game.sendPlayer(player));
     }
 
@@ -408,7 +411,7 @@ public class EchoServerClientHandler extends Thread {
      * @param command message payload received from the client, contains the card's index as value1
      *                and an optional argument as value2 for special cards' effects
      */
-    public void playCharacterCard(Command command) {
+    private void playCharacterCard(Command command) {
         if (!checkTurn()) {
             return;
         }
@@ -455,7 +458,7 @@ public class EchoServerClientHandler extends Thread {
      * @param command message payload received from the client, contains the index of the island
      */
 
-    public void sendSingleIsland(Command command) {
+    private void sendSingleIsland(Command command) {
         int indexIsland = Integer.parseInt(command.value1);
         try {
             player.sendToClient("singleIsland", game.sendSingleIsland(game.getIslands().get(indexIsland - 1)));
@@ -472,7 +475,7 @@ public class EchoServerClientHandler extends Thread {
      *
      * @param command message payload received from the client, contains the index of the chosen student to move from the hall
      */
-    public void playAssistantCard(Command command) {
+    private void playAssistantCard(Command command) {
         final String invalidCardError = "Error, invalid card number. Please retry";
 
         if (game.getPhase() == 1) {
@@ -503,7 +506,7 @@ public class EchoServerClientHandler extends Thread {
      *
      * @param command message payload received from the client, contains the index of the chosen student to move from the hall
      */
-    public void moveStudentToIsland(Command command) {
+    private void moveStudentToIsland(Command command) {
         if (game.getPhase() == 0) {
             player.sendToClient("error", " Before move students to island, you have to play an assistant card! ");
             return;
@@ -532,7 +535,7 @@ public class EchoServerClientHandler extends Thread {
      *
      * @param command message payload received from the client, contains the index of the chosen student to move from the hall
      */
-    public void moveStudentToClassroom(Command command) {
+    private void moveStudentToClassroom(Command command) {
         if (game.getPhase() == 0) {
             player.sendToClient("error", " Before move students to classroom, you have to play an assistant card! ");
             return;
@@ -554,7 +557,7 @@ public class EchoServerClientHandler extends Thread {
     /**
      * Sends an error message to the client regarding student selection from the hall
      */
-    public void errorSelectionNotify() {
+    private void errorSelectionNotify() {
         player.sendToClient("error", "select a valid student");
     }
 
@@ -567,7 +570,7 @@ public class EchoServerClientHandler extends Thread {
      *
      * @param command message payload received from the client, contains the index of the chosen cloud card
      */
-    public void moveMotherNature(Command command) {
+    private void moveMotherNature(Command command) {
         if (game.getPhase() == 0 || player.getMovesOfStudents() > 0) {
             player.sendToClient("error", " You can't move mother nature now! ");
             return;

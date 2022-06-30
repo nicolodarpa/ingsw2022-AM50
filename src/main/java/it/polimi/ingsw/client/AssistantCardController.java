@@ -50,7 +50,7 @@ public class AssistantCardController implements Initializable, DisplayLabel {
      * ArrayList of all the ImageViews
      */
 
-    public ArrayList<ImageView> assistantCards = new ArrayList<>();
+    private final ArrayList<ImageView> assistantCards = new ArrayList<>();
 
     /**
      * Decode incoming messages from string to json
@@ -100,9 +100,6 @@ public class AssistantCardController implements Initializable, DisplayLabel {
      * Sends a message to the server asking for the player status that contains the list of assistant cards played.
      */
     private void setAssistantCardsImages() {
-        //ClientInput.getInstance().sendString("player", "");
-        //TextMessage message = ClientInput.getInstance().readLine();
-        //PlayersStatus playersStatus = gson.fromJson(message.message, PlayersStatus[].class)[0];
         ArrayList<Integer> cardsPlayed = playerStatus.cardsPlayed;
         int j;
 
@@ -141,11 +138,7 @@ public class AssistantCardController implements Initializable, DisplayLabel {
      */
 
     private void printCardChosenByOther() {
-        //ClientInput.getInstance().sendString("player", "");
-        //PlayersStatus player = gson.fromJson(ClientInput.getInstance().readLine().message, PlayersStatus[].class)[0];
         String name1 = playerStatus.name;
-        //ClientInput.getInstance().sendString("allPlayers", "");
-        //PlayersStatus[] players = gson.fromJson(ClientInput.getInstance().readLine().message, PlayersStatus[].class);
         int i = 0;
 
         for (PlayersStatus playersStatus : players) {
@@ -164,55 +157,58 @@ public class AssistantCardController implements Initializable, DisplayLabel {
     /**
      * Closes the window of assistant cards.
      */
-    public void closePage(ActionEvent actionEvent) {
+    private void closePage(ActionEvent actionEvent) {
         Window window = ((Node) actionEvent.getSource()).getScene().getWindow();
         window.hide();
     }
 
-    public void playAssistantCard1(ActionEvent actionEvent) {
+    @FXML
+    private void playAssistantCard1(ActionEvent actionEvent) {
         playAssistantCard(1, actionEvent);
     }
 
-
-    public void playAssistantCard2(ActionEvent actionEvent) {
+    @FXML
+    private void playAssistantCard2(ActionEvent actionEvent) {
         playAssistantCard(2, actionEvent);
     }
 
-
-    public void playAssistantCard3(ActionEvent actionEvent) {
+    @FXML
+    private void playAssistantCard3(ActionEvent actionEvent) {
         playAssistantCard(3, actionEvent);
     }
 
-
-    public void playAssistantCard4(ActionEvent actionEvent) {
+    @FXML
+    private void playAssistantCard4(ActionEvent actionEvent) {
         playAssistantCard(4, actionEvent);
     }
 
-
-    public void playAssistantCard5(ActionEvent actionEvent) {
+    @FXML
+    private void playAssistantCard5(ActionEvent actionEvent) {
         playAssistantCard(5, actionEvent);
     }
 
-
-    public void playAssistantCard6(ActionEvent actionEvent) {
+    @FXML
+    private void playAssistantCard6(ActionEvent actionEvent) {
         playAssistantCard(6, actionEvent);
     }
 
-
-    public void playAssistantCard7(ActionEvent actionEvent) {
+    @FXML
+    private void playAssistantCard7(ActionEvent actionEvent) {
         playAssistantCard(7, actionEvent);
     }
 
-    public void playAssistantCard8(ActionEvent actionEvent) {
+    @FXML
+    private void playAssistantCard8(ActionEvent actionEvent) {
         playAssistantCard(8, actionEvent);
     }
 
-    public void playAssistantCard9(ActionEvent actionEvent) {
+    @FXML
+    private void playAssistantCard9(ActionEvent actionEvent) {
         playAssistantCard(9, actionEvent);
     }
 
-
-    public void playAssistantCard10(ActionEvent actionEvent) {
+    @FXML
+    private void playAssistantCard10(ActionEvent actionEvent) {
         playAssistantCard(10, actionEvent);
     }
 

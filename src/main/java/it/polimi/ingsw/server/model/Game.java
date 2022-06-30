@@ -56,12 +56,7 @@ public class Game {
      * They are 3 id for the CloudCards.
      * {@link IdCloudCards}
      */
-    private IdCloudCards idCloudCards = new IdCloudCards();
-
-    /**
-     * An array of the id of the CloudCards in the game.
-     */
-    private ArrayList<Integer> idCloudCardsInGame = new ArrayList<>();
+    private final IdCloudCards idCloudCards = new IdCloudCards();
 
     /**
      * A hash map that contains all the four decks.
@@ -574,8 +569,7 @@ public class Game {
      */
     private void cloudCardCreation() {
         idCloudCards.extractRandomCard(numberOfPlayers);
-        idCloudCardsInGame = idCloudCards.getIdOfCloudCardsInGame();
-
+        ArrayList<Integer> idCloudCardsInGame = idCloudCards.getIdOfCloudCardsInGame();
         if (numberOfPlayers == 2) {
             for (int i = 0; i < 2; i++) {
                 cloudCards.add(new CloudCard(numberOfPlayers, idCloudCardsInGame.get(i)));
@@ -781,6 +775,7 @@ public class Game {
                     p.sendToClient("notify", "Your turn started, play an assistant card");
                     setCurrentPlayer(p);
                     System.out.println(currentPlayer.getName() + " turn");
+                    plist.notifyAllClients("gameInfo",sendGameInfo());
                     return;
                 }
             }
@@ -798,6 +793,7 @@ public class Game {
             if (temp != null) {
                 setCurrentPlayer(temp);
                 temp.sendToClient("notify", "Your turn started");
+                plist.notifyAllClients("gameInfo",sendGameInfo());
                 System.out.println(currentPlayer.getName() + " turn");
             } else nextPhase();
 
@@ -817,7 +813,7 @@ public class Game {
             for (Player p : plist.getPlayers()) {
                 p.setHasPlayed(false);
             }
-            plist.notifyAllClients("notify", "Action phase");
+            //plist.notifyAllClients("notify", "Action phase");
             phase = 1;
         } else if (phase == 1) {
             for (Player p : plist.getPlayers()) {
@@ -830,7 +826,7 @@ public class Game {
                 calculateWinner();
                 return;
             }
-            plist.notifyAllClients("notify", "Planning phase");
+            //plist.notifyAllClients("notify", "Planning phase");
             for (CloudCard c : cloudCards)
                 cloudCardFill(c);
             phase = 0;
@@ -890,7 +886,7 @@ public class Game {
                 player.setHasPlayed(true);
                 player.sendToClient("dashboard", sendPlayerDashboard(player));
                 calculateCurrentPlayer();
-                player.sendToClient("notify", "Well done! Now it's " + currentPlayer.getName() + " turn");
+                //player.sendToClient("notify", "Well done! Now it's " + currentPlayer.getName() + " turn");
             } else
                 player.sendToClient("error", "Cloud card already chosen by another player");
         } catch (Exception ignored) {
@@ -973,7 +969,7 @@ public class Game {
         }
         player.playAssistantCard(cardNumber);
         calculateCurrentPlayer();
-        player.sendToClient("notify", "Now it's " + currentPlayer.getName() + " turn");
+        //player.sendToClient("notify", "Now it's " + currentPlayer.getName() + " turn");
 
         if (player.deckSize()) { //return 1 if the player has finished his cards
             plist.notifyAllClients("notify", "This is the last turn");

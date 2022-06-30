@@ -189,7 +189,7 @@ public class Dashboard {
      *                   || studentColor.equals(MAGENTA) )
      * @return the last student
      */
-    public Student findLastStudent(PawnColor studentColor) {
+    private Student findLastStudent(PawnColor studentColor) {
         int position = 0;
         Student lastStudent = null;
         try {

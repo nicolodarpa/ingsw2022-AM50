@@ -27,13 +27,13 @@ public class DeckController implements Initializable, DisplayLabel {
 
 
     @FXML
-    protected Label deck1Owner;
+    private Label deck1Owner;
     @FXML
-    protected Label deck2Owner;
+    private Label deck2Owner;
     @FXML
-    protected Label deck3Owner;
+    private Label deck3Owner;
     @FXML
-    protected Label deck4Owner;
+    private Label deck4Owner;
 
 
     /**

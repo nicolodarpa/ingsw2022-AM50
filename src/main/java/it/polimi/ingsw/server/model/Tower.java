@@ -12,17 +12,17 @@ public class Tower {
     /**
      * The color code of white
      */
-    public static final String ANSI_WHITE = "\u001B[37m";
+    private static final String ANSI_WHITE = "\u001B[37m";
 
     /**
      * The color code of black
      */
-    public static final String ANSI_BLACK = "\u001B[30m";
+    private static final String ANSI_BLACK = "\u001B[30m";
 
     /**
      * The color code of grey
      */
-    public static final String ANSI_RESET = "\u001B[0m";
+    private static   final String ANSI_RESET = "\u001B[0m";
 
     public Tower(TowerColor color) {
         this.color = color;

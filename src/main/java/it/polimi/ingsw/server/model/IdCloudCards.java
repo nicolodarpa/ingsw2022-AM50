@@ -29,7 +29,7 @@ public class IdCloudCards {
      * @param numberOfCloudCardsInTheGame is the number of the CloudCards that are on the game.
      */
     public void extractRandomCard(int numberOfCloudCardsInTheGame) {
-        ArrayList<Integer> cloudCardPlayed = getRandomNonRepeatingIntegers(numberOfCloudCardsInTheGame, 0, 3);
+        ArrayList<Integer> cloudCardPlayed = getRandomNonRepeatingIntegers(numberOfCloudCardsInTheGame);
         for (Integer integer : cloudCardPlayed) {
             idOfCloudCardsInGame.add(getIdCloudCard(integer));
         }
@@ -38,11 +38,11 @@ public class IdCloudCards {
     /**
      * extract randomly 3 different numbers
      */
-    private static ArrayList<Integer> getRandomNonRepeatingIntegers(int size, int min, int max) {
+    private static ArrayList<Integer> getRandomNonRepeatingIntegers(int size) {
         ArrayList<Integer> numbers = new ArrayList<>();
         Random random = new Random();
         while (numbers.size() < size) {
-            int randomNumber = random.nextInt((max - min) + 1) + min;
+            int randomNumber = random.nextInt((3) + 1);
             if (!numbers.contains(randomNumber)) {
                 numbers.add(randomNumber);
             }

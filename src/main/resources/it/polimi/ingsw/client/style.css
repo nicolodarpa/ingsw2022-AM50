@@ -1,4 +1,11 @@
-#anchor{
-    -fx-background-color: linear-gradient(to top right,#20B2AA,#fcc200);
+#anchor {
+    -fx-background-color: linear-gradient(to top right, #20B2AA, #fcc200);
+}
+
+.Label {
+    -fx-background-color: #a9def9;
+    -fx-background-radius: 11;
+    -fx-label-padding: 2;
+    -fx-font-family: Papyrus;
 }
 

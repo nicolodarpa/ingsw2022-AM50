@@ -46,12 +46,12 @@ public class Island {
     /**
      * The list of students on the island.
      */
-    private ArrayList<Student> studentList = new ArrayList<>();
+    private final ArrayList<Student> studentList = new ArrayList<>();
 
     /**
      * The list of tower on the island.
      */
-    private ArrayList<Tower> towerArrayList = new ArrayList<>();
+    private final ArrayList<Tower> towerArrayList = new ArrayList<>();
 
     /**
      * The player that conquer and then owns the island.
@@ -179,7 +179,7 @@ public class Island {
         this.block = block;
     }
 
-    public boolean isBlocked(){
+    public boolean isBlocked() {
         return block;
     }
 
@@ -234,12 +234,11 @@ public class Island {
         try {
             final Dashboard ownerDashboard = owner.getDashboard();
             final int size = ownerDashboard.getTowers().size();
-            if(size != 1){
+            if (size != 1) {
                 Tower ownerTower = ownerDashboard.getTowers().get(size - 1); // takes the last tower of the towersList
-                ownerDashboard.removeTower(size-1);
+                ownerDashboard.removeTower(size - 1);
                 addTowerToIsland(ownerTower);
-            }
-            else{
+            } else {
                 towerFinished();
                 Tower ownerTower = ownerDashboard.getTowers().get(0); // takes the last tower of the towersList
                 ownerDashboard.removeTower(0);
@@ -255,7 +254,7 @@ public class Island {
     /**
      * It sets true if one player finished his tower.
      */
-    public void towerFinished(){
+    public void towerFinished() {
         this.towerFinished = true;
     }
 
@@ -263,13 +262,14 @@ public class Island {
     /**
      * @return true if one player finished his tower.
      */
-    public boolean getTowerFinished(){
+    public boolean getTowerFinished() {
         return towerFinished;
     }
 
 
     /**
      * Adds one tower to the island.
+     *
      * @param tower is the tower to add.
      */
     public void addTowerToIsland(Tower tower) {
@@ -281,12 +281,13 @@ public class Island {
      * Calculates the influence of each player on the considered island
      * The influence depends on the number of students of one color and also the towers on the island.
      * towerMultiplier is 1 in normal condition and is 0 when a player play a special card that changes the influence of the towers on the island.
+     *
      * @param players are the players in game.
      */
 
     public boolean calculateInfluence(PlayersList players) {
         int towerInfluencePoint = 0;
-        if (block){
+        if (block) {
             setBlock(false);
             return false;
 
@@ -298,7 +299,7 @@ public class Island {
             TowerColor towerColorOfPlayer = dashboardTemp.getTowers().get(0).getColor();
             if (towerColor == towerColorOfPlayer && towerArrayList.size() > 0) {
                 towerInfluencePoint++;
-                p.setInfluencePoint(p.getInfluencePoint() + (towerInfluencePoint*towerMultiplier));
+                p.setInfluencePoint(p.getInfluencePoint() + (towerInfluencePoint * towerMultiplier));
             }
         }
 
@@ -312,6 +313,7 @@ public class Island {
 
     /**
      * Sets the point of influence of the player considered.
+     *
      * @param p is the player that we are considering.
      */
     private void setInfluencePoints(Player p) {
@@ -319,7 +321,7 @@ public class Island {
         Dashboard dashboardTemp = p.getDashboard();
         for (int i = 0; i < dashboardTemp.getTeacherTable().length; i++) {
             if (dashboardTemp.getTeacherTable()[i] != null) {
-                colorStudent[i] = countStudentOfAColor(dashboardTemp.getTeacherTable()[i].getColor())*PawnColor.values()[i].getInfluenceMultiplier();
+                colorStudent[i] = countStudentOfAColor(dashboardTemp.getTeacherTable()[i].getColor()) * PawnColor.values()[i].getInfluenceMultiplier();
             }
         }
         p.setInfluencePoint(p.getInfluencePoint() + IntStream.of(colorStudent).sum());
@@ -327,6 +329,7 @@ public class Island {
 
     /**
      * Calculates the points of influence of each player, then it assigns the island to respective owner and in that case it adds a tower from owner's dashboard to island.
+     *
      * @param playersList are the players in game.
      */
     private void calcInfluencePoints(PlayersList playersList) {
@@ -372,9 +375,9 @@ public class Island {
      * When two or more islands are connected together,
      * there are more than one tower on it, so when the island's owner changes, this method with the for loop removes all the towers
      */
-    private void removePreviousOwnerTower(){
-        if(towerArrayList.size() > 0){
-            for(int towerPosition = 0; towerPosition < towerArrayList.size(); towerPosition++){ //this forLoop removes all the towers.
+    private void removePreviousOwnerTower() {
+        if (towerArrayList.size() > 0) {
+            for (int towerPosition = 0; towerPosition < towerArrayList.size(); towerPosition++) { //this forLoop removes all the towers.
                 owner.getDashboard().addTowerFromIsland(towerColor);
                 towerArrayList.remove(towerPosition);
             }

@@ -407,7 +407,7 @@ public class ClientOut extends Thread {
     private void printGameInfo() {
         GameInfoStatus[] gameInfoStatuses = gson.fromJson(message.message, GameInfoStatus[].class);
         for (GameInfoStatus gameInfoStatus : gameInfoStatuses) {
-            System.out.println(YELLOW + "-Round: " + gameInfoStatus.round + " -Actual Player: " + gameInfoStatus.actualPlayer + " -Phase: " + gameInfoStatus.phase + ANSI_RESET);
+            System.out.println(GREEN+ gameInfoStatus.phase + YELLOW + " -Actual Player: " + gameInfoStatus.actualPlayer + ANSI_RESET );
         }
     }
 

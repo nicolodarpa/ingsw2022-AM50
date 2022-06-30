@@ -31,17 +31,17 @@ import java.util.*;
  */
 public class DashboardController implements Initializable, DisplayLabel {
 
-    public Pane anchor;
+    @FXML
+    private Pane anchor;
 
-    public Button helpButton;
 
     @FXML
-    private Label movesAvailableCounter, movesOfMn, username, roundCounter, actualPlayerLabel, students, wallet;
+    private Label movesAvailableCounter, movesOfMn, username, roundCounter, actualPlayerLabel, students, wallet, phaseLabel;
 
     @FXML
-    private Button assistantCardButton = new Button();
+    private Button assistantCardButton, helpButton;
 
-    int movesOfMN, movesOfStudent;
+    private int movesOfMN, movesOfStudent;
 
     /**
      * Positions of the student in the hall
@@ -57,121 +57,121 @@ public class DashboardController implements Initializable, DisplayLabel {
      * Positions of the teachers on the dashboard
      */
     @FXML
-    private Circle professorPosition1 = new Circle(), professorPosition2 = new Circle(), professorPosition3 = new Circle(), professorPosition4 = new Circle(), professorPosition5 = new Circle();
+    private Circle professorPosition1, professorPosition2, professorPosition3, professorPosition4, professorPosition5;
     /**
      * Positions of the green students on the dashboard's classroom.
      */
     @FXML
-    private Circle greenPosition1 = new Circle(), greenPosition2 = new Circle(), greenPosition3 = new Circle(), greenPosition4 = new Circle(), greenPosition5 = new Circle(), greenPosition6 = new Circle(), greenPosition7 = new Circle(), greenPosition8 = new Circle(), greenPosition9 = new Circle(), greenPosition10 = new Circle();
+    private Circle greenPosition1, greenPosition2, greenPosition3, greenPosition4, greenPosition5, greenPosition6, greenPosition7, greenPosition8, greenPosition9, greenPosition10;
 
     /**
      * Positions of the red students on the dashboard's classroom.
      */
     @FXML
-    private Circle redPosition1 = new Circle(), redPosition2 = new Circle(), redPosition3 = new Circle(), redPosition4 = new Circle(), redPosition5 = new Circle(), redPosition6 = new Circle(), redPosition7 = new Circle(), redPosition8 = new Circle(), redPosition9 = new Circle(), redPosition10 = new Circle();
+    private Circle redPosition1, redPosition2, redPosition3, redPosition4, redPosition5, redPosition6, redPosition7, redPosition8, redPosition9, redPosition10;
 
     /**
      * Positions of the yellow students on the dashboard's classroom.
      */
     @FXML
-    private Circle yellowPosition1 = new Circle(), yellowPosition2 = new Circle(), yellowPosition3 = new Circle(), yellowPosition4 = new Circle(), yellowPosition5 = new Circle(), yellowPosition6 = new Circle(), yellowPosition7 = new Circle(), yellowPosition8 = new Circle(), yellowPosition9 = new Circle(), yellowPosition10 = new Circle();
+    private Circle yellowPosition1, yellowPosition2, yellowPosition3, yellowPosition4, yellowPosition5, yellowPosition6, yellowPosition7, yellowPosition8, yellowPosition9, yellowPosition10;
 
     /**
      * Positions of the magenta students son the dashboard's classroom.
      */
     @FXML
-    private Circle magentaPosition1 = new Circle(), magentaPosition2 = new Circle(), magentaPosition3 = new Circle(), magentaPosition4 = new Circle(), magentaPosition5 = new Circle(), magentaPosition6 = new Circle(), magentaPosition7 = new Circle(), magentaPosition8 = new Circle(), magentaPosition9 = new Circle(), magentaPosition10 = new Circle();
+    private Circle magentaPosition1, magentaPosition2, magentaPosition3, magentaPosition4, magentaPosition5, magentaPosition6, magentaPosition7, magentaPosition8, magentaPosition9, magentaPosition10;
 
     /**
      * Positions of the cyan students on the dashboard's classroom.
      */
     @FXML
-    private Circle cyanPosition1 = new Circle(), cyanPosition2 = new Circle(), cyanPosition3 = new Circle(), cyanPosition4 = new Circle(), cyanPosition5 = new Circle(), cyanPosition6 = new Circle(), cyanPosition7 = new Circle(), cyanPosition8 = new Circle(), cyanPosition9 = new Circle(), cyanPosition10 = new Circle();
+    private Circle cyanPosition1, cyanPosition2, cyanPosition3, cyanPosition4, cyanPosition5, cyanPosition6, cyanPosition7, cyanPosition8, cyanPosition9, cyanPosition10;
 
     /**
      * It's the area of the classroom.
      */
     @FXML
-    private Rectangle classRoom = new Rectangle();
+    private Rectangle classRoom;
 
     /**
      * Positions of the islands when MotherNature is moved.
      */
     @FXML
-    private Rectangle MNIsland1 = new Rectangle(), MNIsland2 = new Rectangle(), MNIsland3 = new Rectangle(), MNIsland4 = new Rectangle(), MNIsland5 = new Rectangle(), MNIsland6 = new Rectangle(), MNIsland7 = new Rectangle(), MNIsland8 = new Rectangle(), MNIsland9 = new Rectangle(), MNIsland10 = new Rectangle(), MNIsland11 = new Rectangle(), MNIsland12 = new Rectangle();
+    private Rectangle MNIsland1, MNIsland2, MNIsland3, MNIsland4, MNIsland5, MNIsland6, MNIsland7, MNIsland8, MNIsland9, MNIsland10, MNIsland11, MNIsland12;
 
     /**
      * ImageView of the images of the islands.
      */
     @FXML
 
-    private ImageView Island1 = new ImageView(), Island2 = new ImageView(), Island3 = new ImageView(), Island4 = new ImageView(), Island5 = new ImageView(), Island6 = new ImageView(), Island7 = new ImageView(), Island8 = new ImageView(), Island9 = new ImageView(), Island10 = new ImageView(), Island11 = new ImageView(), Island12 = new ImageView();
+    private ImageView Island1, Island2, Island3, Island4, Island5, Island6, Island7, Island8, Island9, Island10, Island11, Island12;
 
     /**
      * Positions of the green students on each island.
      */
     @FXML
-    private Circle greenStudentIsland1 = new Circle(), greenStudentIsland2 = new Circle(), greenStudentIsland3 = new Circle(), greenStudentIsland4 = new Circle(), greenStudentIsland5 = new Circle(), greenStudentIsland6 = new Circle(), greenStudentIsland7 = new Circle(), greenStudentIsland8 = new Circle(), greenStudentIsland9 = new Circle(), greenStudentIsland10 = new Circle(), greenStudentIsland11 = new Circle(), greenStudentIsland12 = new Circle();
+    private Circle greenStudentIsland1, greenStudentIsland2, greenStudentIsland3, greenStudentIsland4, greenStudentIsland5, greenStudentIsland6, greenStudentIsland7, greenStudentIsland8, greenStudentIsland9, greenStudentIsland10, greenStudentIsland11, greenStudentIsland12;
 
     /**
      * Positions of the red students on each island.
      */
     @FXML
-    private Circle redStudentIsland1 = new Circle(), redStudentIsland2 = new Circle(), redStudentIsland3 = new Circle(), redStudentIsland4 = new Circle(), redStudentIsland5 = new Circle(), redStudentIsland6 = new Circle(), redStudentIsland7 = new Circle(), redStudentIsland8 = new Circle(), redStudentIsland9 = new Circle(), redStudentIsland10 = new Circle(), redStudentIsland11 = new Circle(), redStudentIsland12 = new Circle();
+    private Circle redStudentIsland1, redStudentIsland2, redStudentIsland3, redStudentIsland4, redStudentIsland5, redStudentIsland6, redStudentIsland7, redStudentIsland8, redStudentIsland9, redStudentIsland10, redStudentIsland11, redStudentIsland12;
 
     /**
      * Positions of the yellow students on each island.
      */
     @FXML
-    private Circle yellowStudentIsland1 = new Circle(), yellowStudentIsland2 = new Circle(), yellowStudentIsland3 = new Circle(), yellowStudentIsland4 = new Circle(), yellowStudentIsland5 = new Circle(), yellowStudentIsland6 = new Circle(), yellowStudentIsland7 = new Circle(), yellowStudentIsland8 = new Circle(), yellowStudentIsland9 = new Circle(), yellowStudentIsland10 = new Circle(), yellowStudentIsland11 = new Circle(), yellowStudentIsland12 = new Circle();
+    private Circle yellowStudentIsland1, yellowStudentIsland2, yellowStudentIsland3, yellowStudentIsland4, yellowStudentIsland5, yellowStudentIsland6, yellowStudentIsland7, yellowStudentIsland8, yellowStudentIsland9, yellowStudentIsland10, yellowStudentIsland11, yellowStudentIsland12;
 
     /**
      * Positions of the magenta students on each island.
      */
     @FXML
-    private Circle magentaStudentIsland1 = new Circle(), magentaStudentIsland2 = new Circle(), magentaStudentIsland3 = new Circle(), magentaStudentIsland4 = new Circle(), magentaStudentIsland5 = new Circle(), magentaStudentIsland6 = new Circle(), magentaStudentIsland7 = new Circle(), magentaStudentIsland8 = new Circle(), magentaStudentIsland9 = new Circle(), magentaStudentIsland10 = new Circle(), magentaStudentIsland11 = new Circle(), magentaStudentIsland12 = new Circle();
+    private Circle magentaStudentIsland1, magentaStudentIsland2, magentaStudentIsland3, magentaStudentIsland4, magentaStudentIsland5, magentaStudentIsland6, magentaStudentIsland7, magentaStudentIsland8, magentaStudentIsland9, magentaStudentIsland10, magentaStudentIsland11, magentaStudentIsland12;
 
     /**
      * Positions of the cyan students on each island.
      */
     @FXML
-    private Circle cyanStudentIsland1 = new Circle(), cyanStudentIsland2 = new Circle(), cyanStudentIsland3 = new Circle(), cyanStudentIsland4 = new Circle(), cyanStudentIsland5 = new Circle(), cyanStudentIsland6 = new Circle(), cyanStudentIsland7 = new Circle(), cyanStudentIsland8 = new Circle(), cyanStudentIsland9 = new Circle(), cyanStudentIsland10 = new Circle(), cyanStudentIsland11 = new Circle(), cyanStudentIsland12 = new Circle();
+    private Circle cyanStudentIsland1, cyanStudentIsland2, cyanStudentIsland3, cyanStudentIsland4, cyanStudentIsland5, cyanStudentIsland6, cyanStudentIsland7, cyanStudentIsland8, cyanStudentIsland9, cyanStudentIsland10 = new Circle(), cyanStudentIsland11 = new Circle(), cyanStudentIsland12 = new Circle();
 
     /**
      * Positions of Mother Nature on each island.
      */
     @FXML
-    private ImageView MNPosition1 = new ImageView(), MNPosition2 = new ImageView(), MNPosition3 = new ImageView(), MNPosition4 = new ImageView(), MNPosition5 = new ImageView(), MNPosition6 = new ImageView(), MNPosition7 = new ImageView(), MNPosition8 = new ImageView(), MNPosition9 = new ImageView(), MNPosition10 = new ImageView(), MNPosition11 = new ImageView(), MNPosition12 = new ImageView();
+    private ImageView MNPosition1, MNPosition2, MNPosition3, MNPosition4, MNPosition5, MNPosition6, MNPosition7, MNPosition8, MNPosition9, MNPosition10, MNPosition11, MNPosition12;
 
     /**
      * Positions of the towers on each island.
      */
     @FXML
-    private ImageView towerIsland1 = new ImageView(), towerIsland2 = new ImageView(), towerIsland3 = new ImageView(), towerIsland4 = new ImageView(), towerIsland5 = new ImageView(), towerIsland6 = new ImageView(), towerIsland7 = new ImageView(), towerIsland8 = new ImageView(), towerIsland9 = new ImageView(), towerIsland10 = new ImageView(), towerIsland11 = new ImageView(), towerIsland12 = new ImageView();
+    private ImageView towerIsland1, towerIsland2, towerIsland3, towerIsland4, towerIsland5, towerIsland6, towerIsland7, towerIsland8, towerIsland9, towerIsland10, towerIsland11, towerIsland12;
 
     /**
      * Positions of the CloudCard.
      */
     @FXML
-    private Circle cloudCard1 = new Circle(), cloudCard2 = new Circle(), cloudCard3 = new Circle();
+    private Circle cloudCard1, cloudCard2, cloudCard3;
 
     /**
      * Positions of the students on the CloudCard 1.
      */
     @FXML
-    private Circle student1CC1 = new Circle(), student2CC1 = new Circle(), student3CC1 = new Circle(), student4CC1 = new Circle();
+    private Circle student1CC1, student2CC1, student3CC1, student4CC1;
 
     /**
      * Positions of the students on the CloudCard 2.
      */
     @FXML
-    private Circle student1CC2 = new Circle(), student2CC2 = new Circle(), student3CC2 = new Circle(), student4CC2 = new Circle();
+    private Circle student1CC2, student2CC2, student3CC2, student4CC2;
 
     /**
      * Positions of the students on the CloudCard 3.
      */
     @FXML
-    private Circle student1CC3 = new Circle(), student2CC3 = new Circle(), student3CC3 = new Circle(), student4CC3 = new Circle();
+    private Circle student1CC3, student2CC3, student3CC3, student4CC3;
 
     /**
      * It's an array of all the button of the islands.
@@ -183,74 +183,7 @@ public class DashboardController implements Initializable, DisplayLabel {
      * Button to show the info of island 1.
      */
     @FXML
-    private Button info0 = new Button();
-
-    /**
-     * Button shows the info of island 2.
-     */
-    @FXML
-    private Button info1 = new Button();
-
-    /**
-     * Button shows the info of island 3.
-     */
-    @FXML
-    private Button info2 = new Button();
-
-    /**
-     * Button shows the info of island 4.
-     */
-    @FXML
-    private Button info3 = new Button();
-
-    /**
-     * Button shows the info of island 5.
-     */
-    @FXML
-    private Button info4 = new Button();
-
-    /**
-     * Button shows the info of island 6.
-     */
-    @FXML
-    private Button info5 = new Button();
-
-    /**
-     * Button shows the info of island 7.
-     */
-    @FXML
-    private Button info6 = new Button();
-
-    /**
-     * Button shows the info of island 8.
-     */
-    @FXML
-    private Button info7 = new Button();
-
-    /**
-     * Button shows the info of island 9.
-     */
-    @FXML
-    private Button info8 = new Button();
-
-    /**
-     * Button shows the info of island 10.
-     */
-    @FXML
-    private Button info9 = new Button();
-
-    /**
-     * Button shows the info of island 11.
-     */
-    @FXML
-    private Button info10 = new Button();
-
-    /**
-     * Button shows the info of island 12.
-     */
-    @FXML
-    private Button info11 = new Button();
-
+    private Button info0, info1, info2, info3, info4, info5, info6, info7, info8, info9, info10, info11;
 
     private int index = -1, indexIsland, indexMN;
 
@@ -350,16 +283,10 @@ public class DashboardController implements Initializable, DisplayLabel {
     private final ArrayList<Rectangle> MnIslandPosition = new ArrayList<>(12);
 
     /**
-     * A button that allow you to watch the second player's dashboard.
+     * Buttons to view enemies' dashboard.
      */
     @FXML
-    private Button dashboardButton1;
-
-    /**
-     * A button that allow you to watch the third player's dashboard.
-     */
-    @FXML
-    private Button dashboardButton2;
+    private Button dashboardButton1, dashboardButton2;
 
     /**
      * An array of the CharacterCards in the game.
@@ -393,6 +320,7 @@ public class DashboardController implements Initializable, DisplayLabel {
     private static final String[] colors = {"green", "red", "yellow", "magenta", "cyan"};
     private TextMessage message;
     private final HashMap<String, Command> commandHashMap = new HashMap<>();
+    private Thread readThread;
 
     @Override
     public void displayLabel(@NotNull String text, Label label, String textLabel) {
@@ -430,7 +358,7 @@ public class DashboardController implements Initializable, DisplayLabel {
      *
      * @param cloudCardsStatus list of cloud cards statuses
      */
-    public void setUpCloudCards(CloudCardStatus[] cloudCardsStatus) {
+    private void setUpCloudCards(CloudCardStatus[] cloudCardsStatus) {
         int id = 0;
         int i = 0;
         for (CloudCardStatus cardsStatus : cloudCardsStatus) {
@@ -542,7 +470,7 @@ public class DashboardController implements Initializable, DisplayLabel {
      * Adds the Circle studentPosition# to the arrayList 'studentPosition'.
      * 'studentPosition' is the array of the students on the hall of tha dashboard.
      */
-    public void setUpHallPosition() {
+    private void setUpHallPosition() {
         studentsPosition.addAll(Arrays.asList(studentPosition1, studentPosition2, studentPosition3, studentPosition4, studentPosition5, studentPosition6, studentPosition7, studentPosition8, studentPosition9));
     }
 
@@ -550,14 +478,14 @@ public class DashboardController implements Initializable, DisplayLabel {
      * Adds the Circle professorPosition# to the arrayList 'professorPosition'.
      * 'professorPosition' is the array of the teachers on the TeacherTable of tha dashboard.
      */
-    public void setUpProfessorPositions() {
+    private void setUpProfessorPositions() {
         professorsPosition.addAll(Arrays.asList(professorPosition1, professorPosition2, professorPosition3, professorPosition4, professorPosition5));
     }
 
     /**
      * Sets all the arraylist of the dashboard's classroom.
      */
-    public void setUpClassroom() {
+    private void setUpClassroom() {
         setUpColorPosition(greenPositions, greenPosition1, greenPosition2, greenPosition3, greenPosition4, greenPosition5, greenPosition6, greenPosition7, greenPosition8, greenPosition9, greenPosition10);
         setUpColorPosition(magentaPositions, magentaPosition1, magentaPosition2, magentaPosition3, magentaPosition4, magentaPosition5, magentaPosition6, magentaPosition7, magentaPosition8, magentaPosition9, magentaPosition10);
         setUpColorPosition(yellowPositions, yellowPosition1, yellowPosition2, yellowPosition3, yellowPosition4, yellowPosition5, yellowPosition6, yellowPosition7, yellowPosition8, yellowPosition9, yellowPosition10);
@@ -568,7 +496,7 @@ public class DashboardController implements Initializable, DisplayLabel {
     /**
      * Sets all th arraylist of each color of the students on each island.
      */
-    public void setUpColorPositionOnTheIslands() {
+    private void setUpColorPositionOnTheIslands() {
         setUpColorPositionIslands(greenStudentIsland, greenStudentIsland1, greenStudentIsland2, greenStudentIsland3, greenStudentIsland4, greenStudentIsland5, greenStudentIsland6, greenStudentIsland7, greenStudentIsland8, greenStudentIsland9, greenStudentIsland10, greenStudentIsland11, greenStudentIsland12);
         setUpColorPositionIslands(redStudentIsland, redStudentIsland1, redStudentIsland2, redStudentIsland3, redStudentIsland4, redStudentIsland5, redStudentIsland6, redStudentIsland7, redStudentIsland8, redStudentIsland9, redStudentIsland10, redStudentIsland11, redStudentIsland12);
         setUpColorPositionIslands(yellowStudentIsland, yellowStudentIsland1, yellowStudentIsland2, yellowStudentIsland3, yellowStudentIsland4, yellowStudentIsland5, yellowStudentIsland6, yellowStudentIsland7, yellowStudentIsland8, yellowStudentIsland9, yellowStudentIsland10, yellowStudentIsland11, yellowStudentIsland12);
@@ -622,7 +550,7 @@ public class DashboardController implements Initializable, DisplayLabel {
         setUpIslandInfoButton();
 
 
-        Thread readThread = new Thread(() -> {
+        readThread = new Thread(() -> {
             while (true) {
                 message = clientInput.readLine();
                 if (message != null) {
@@ -643,6 +571,7 @@ public class DashboardController implements Initializable, DisplayLabel {
             }
         });
         readThread.start();
+        clientInput.sendString("gameInfo", "");
         refreshGUI();
     }
 
@@ -674,7 +603,7 @@ public class DashboardController implements Initializable, DisplayLabel {
      * Refreshes the GUI with the current game's status sent by the server.
      */
     private void refreshGUI() {
-        for (String s : Arrays.asList( "enemyDashboard", "gameInfo", "islands", "player", "allPlayers", "singleDashboard", "sendCloudCards", "sendCharacterCardDeck")) {
+        for (String s : Arrays.asList("singleDashboard", "islands", "player", "allPlayers", "sendCloudCards", "sendCharacterCardDeck", "enemyDashboard")) {
             clientInput.sendString(s, "");
         }
     }
@@ -686,10 +615,12 @@ public class DashboardController implements Initializable, DisplayLabel {
         AlertHelper.showAlert(Alert.AlertType.CONFIRMATION, classRoom.getScene().getWindow(), "Notify", message.message);
         if (Objects.equals(message.message, "Action phase")) {
             disablePlayAssistantCardButton();
+            refreshGUI();
         } else if (Objects.equals(message.message, "Planning phase")) {
             enablePlayAssistantCardButton();
+            refreshGUI();
         }
-        refreshGUI();
+        //refreshGUI();
     }
 
 
@@ -707,7 +638,7 @@ public class DashboardController implements Initializable, DisplayLabel {
 
         if (Objects.equals(gameInfoStatus.phase, "Planning phase"))
             AlertHelper.showAlert(Alert.AlertType.CONFIRMATION, classRoom.getScene().getWindow(), "Planning phase", "Play an assistant card to determine your turn order and available Mother Nature moves");
-        else if(Objects.equals(gameInfoStatus.phase, "Action phase")){
+        else if (Objects.equals(gameInfoStatus.phase, "Action phase")) {
             AlertHelper.showAlert(Alert.AlertType.CONFIRMATION, classRoom.getScene().getWindow(), "Action phase", "1. Select " + studentsMoves + " student from your hall to move to your classroom or to islands \n\n2. Move Mother Nature on an island of your choice \n\n3. Choose a cloud card");
         }
     }
@@ -745,6 +676,7 @@ public class DashboardController implements Initializable, DisplayLabel {
      */
     private void quit() {
 
+        AlertHelper.showAlert(Alert.AlertType.ERROR, anchor.getScene().getWindow(), "Connection error", "Error connecting to the server");
         System.exit(0);
         //System.exit(0); exit program after closing the alert
     }
@@ -769,7 +701,7 @@ public class DashboardController implements Initializable, DisplayLabel {
                     studentNumber.append("#").append(numberOfStudentsOfColor[i]).append(" ").append(PawnColor.values()[i].getName()).append(" ");
                 }
             }
-            displayLabel("Students on island#" + id, students, "\nDimension: " + dimension + "\nOwner: " + owner + "\nStudents: " + studentNumber + "\nTower: #" + towerNumber);
+            displayLabel("Island id", students, id + "\nDimension: " + dimension + "\nOwner: " + owner + "\nStudents: " + studentNumber + "\nTower: #" + towerNumber);
         }
     }
 
@@ -820,7 +752,7 @@ public class DashboardController implements Initializable, DisplayLabel {
         displayLabel("Moves of students", movesAvailableCounter, String.valueOf(movesOfStudent));
     }
 
-    private void setUpAllPlayersInfo(){
+    private void setUpAllPlayersInfo() {
         allPlayers = gson.fromJson(message.message, PlayersStatus[].class);
     }
 
@@ -832,9 +764,18 @@ public class DashboardController implements Initializable, DisplayLabel {
         GameInfoStatus gameInfoStatus = gson.fromJson(message.message, GameInfoStatus[].class)[0];
         displayLabel("Round #", roundCounter, gameInfoStatus.round);
         displayLabel("Actual Player", actualPlayerLabel, gameInfoStatus.actualPlayer);
+        phaseLabel.setText(gameInfoStatus.phase);
         if (gameInfoStatus.numberOfPlayer < 3) {
             dashboardButton2.setDisable(true);
             dashboardButton2.setVisible(false);
+        }
+        //AlertHelper.showAlert(Alert.AlertType.CONFIRMATION, classRoom.getScene().getWindow(), "Notify", gameInfoStatus.phase);
+        if (Objects.equals(gameInfoStatus.phase, "Action phase")) {
+            disablePlayAssistantCardButton();
+            refreshGUI();
+        } else if (Objects.equals(gameInfoStatus.phase, "Planning phase")) {
+            enablePlayAssistantCardButton();
+            refreshGUI();
         }
 
     }
@@ -845,7 +786,7 @@ public class DashboardController implements Initializable, DisplayLabel {
      * @param towersNumber number of towers available to the player
      * @param towerColor   color of the towers
      */
-    public void setUpTowerImages(int towersNumber, TowerColor towerColor) {
+    private void setUpTowerImages(int towersNumber, TowerColor towerColor) {
         String color = towerColor.getName();
         int j = 0;
         Image imgTower = new Image(String.valueOf(getClass().getClassLoader().getResource("images/Tower/" + color + "_tower.png")));
@@ -868,7 +809,7 @@ public class DashboardController implements Initializable, DisplayLabel {
      *
      * @param colorPosition indicate the student's color of the row in the classroom
      */
-    public void setTransparentCircle(ArrayList<Circle> colorPosition) {
+    private void setTransparentCircle(ArrayList<Circle> colorPosition) {
         for (Circle circle : colorPosition) {
             circle.setFill(null);
             circle.setStroke(null);
@@ -932,7 +873,7 @@ public class DashboardController implements Initializable, DisplayLabel {
      *
      * @param teachers is a string with all the player's teacher.
      */
-    public void setUpProfessorImages(String[] teachers) {
+    private void setUpProfessorImages(String[] teachers) {
         int i = 0;
         for (String teacher : teachers) {
             if (teacher != null) {
@@ -947,7 +888,7 @@ public class DashboardController implements Initializable, DisplayLabel {
      *
      * @param hall is a string with all the students on the hall.
      */
-    public void setUpHallImages(String[] hall) {
+    private void setUpHallImages(String[] hall) {
         int i = 0;
         for (String colorOfStudent : hall) {
             if (colorOfStudent != null) {
@@ -991,7 +932,7 @@ public class DashboardController implements Initializable, DisplayLabel {
      *
      * @param numberOfIslands is the number of island that we have during the game.
      */
-    public void setIslandImages(int numberOfIslands) {
+    private void setIslandImages(int numberOfIslands) {
 
         int j = 0;
         int k = 1;
@@ -1021,7 +962,7 @@ public class DashboardController implements Initializable, DisplayLabel {
      *
      * @param island is an array of the islands in the game.
      */
-    public void setUpIsland(IslandStatus[] island) {
+    private void setUpIsland(IslandStatus[] island) {
         ArrayList<Integer> studentsColorOrdinal;
         boolean presenceMN;
         String towerColor;
@@ -1088,7 +1029,7 @@ public class DashboardController implements Initializable, DisplayLabel {
      * @param presenceMN gives us the information of the presence of Mother Nature.
      * @param idIsland   gives us the index of the island that we are considering.
      */
-    public void setUpMNOnTheIsland(boolean presenceMN, int idIsland) {
+    private void setUpMNOnTheIsland(boolean presenceMN, int idIsland) {
 
         int i = idIsland;
 
@@ -1116,7 +1057,7 @@ public class DashboardController implements Initializable, DisplayLabel {
      * @param towerNumber gives us the information if there are any tower.
      */
 
-    public void setUpTowerOnTheIsland(int idIsland, String towerColor, int towerNumber) {
+    private void setUpTowerOnTheIsland(int idIsland, String towerColor, int towerNumber) {
         resetTowerOnTheIsland(idIsland);
 
         int j = idIsland;
@@ -1140,7 +1081,7 @@ public class DashboardController implements Initializable, DisplayLabel {
      *
      * @param idIsland index of the island where the tower needs to be removed
      */
-    public void resetTowerOnTheIsland(int idIsland) {
+    private void resetTowerOnTheIsland(int idIsland) {
         towerIslands.get(idIsland).setImage(null);
     }
 
@@ -1151,7 +1092,7 @@ public class DashboardController implements Initializable, DisplayLabel {
      * @param event used to identify the clicked object
      */
     @FXML
-    public void moveMNToIslands(MouseEvent event) {
+    private void moveMNToIslands(MouseEvent event) {
         indexIsland = MnIslandPosition.indexOf((Rectangle) event.getSource());
         //System.out.println(indexIsland + " MnIslandPosition");
         clientInput.sendString("moveMN", String.valueOf(indexIsland + 1));
@@ -1300,7 +1241,8 @@ public class DashboardController implements Initializable, DisplayLabel {
      * @param event used to identify the clicked object
      */
 
-    public void getIndexMN(MouseEvent event) {
+    @FXML
+    private void getIndexMN(MouseEvent event) {
         int indexMNClicked = MNPositions.indexOf((ImageView) event.getSource());
         if (indexMNClicked == indexMN) {
             System.out.println(indexMN + " it's the position of MN");
@@ -1315,7 +1257,7 @@ public class DashboardController implements Initializable, DisplayLabel {
      * @param event used to identify the clicked object
      */
     @FXML
-    public void chooseCC(MouseEvent event) {
+    private void chooseCC(MouseEvent event) {
         int indexCloudCard = cloudCards.indexOf((Circle) event.getSource());
         System.out.println(indexCloudCard + " is the CC chosen");
         if (indexCloudCard != -1) {
@@ -1336,7 +1278,7 @@ public class DashboardController implements Initializable, DisplayLabel {
      * @param event used to identify the clicked object
      */
     @FXML
-    public void getIndex(MouseEvent event) {
+    private void getIndex(MouseEvent event) {
         index = studentsPosition.indexOf((Circle) event.getSource());
         System.out.println("student Position : " + index);
     }
@@ -1347,9 +1289,10 @@ public class DashboardController implements Initializable, DisplayLabel {
      * else disables all the islands and hall actions
      */
     @FXML
-    public void moveStudentToClassroom() {
+    private void moveStudentToClassroom() {
         if (movesOfStudent > 0) {
             sendMoveToClassroomCommand();
+            clientInput.sendString("player", "");
         } else if (movesOfStudent == 0) {
             disableIslandAndHall();
             enableMN();
@@ -1386,11 +1329,13 @@ public class DashboardController implements Initializable, DisplayLabel {
      * @param mouseEvent used to identify the clicked object
      */
     @FXML
-    public void moveStudentToIsland(MouseEvent mouseEvent) {
+    private void moveStudentToIsland(MouseEvent mouseEvent) {
         indexIsland = Islands.indexOf((ImageView) mouseEvent.getSource());
         System.out.println(indexIsland);
         if (movesOfStudent > 0) {
             sendMoveToIslandCommand();
+            clientInput.sendString("singleDashboard", "");
+            clientInput.sendString("player", "");
         } else {
             disableIslandAndHall();
             enableMN();
@@ -1402,9 +1347,8 @@ public class DashboardController implements Initializable, DisplayLabel {
      * sends to echoServer the command "moveStudentToClassroom" and the index of the students in the hall.
      */
     @FXML
-    public void sendMoveToClassroomCommand() {
+    private void sendMoveToClassroomCommand() {
         clientInput.sendString("moveStudentToClassroom", String.valueOf(index + 1));
-        refreshGUI();
     }
 
 
@@ -1412,9 +1356,8 @@ public class DashboardController implements Initializable, DisplayLabel {
      * sends to echoServer the command "moveStudentToIsland" and the index of the students in the hall, and the index of the student's destination island.
      */
     @FXML
-    public void sendMoveToIslandCommand() {
+    private void sendMoveToIslandCommand() {
         clientInput.sendString("moveStudentToIsland", String.valueOf(index + 1), String.valueOf(indexIsland + 1));
-        refreshGUI();
     }
 
 
@@ -1520,12 +1463,12 @@ public class DashboardController implements Initializable, DisplayLabel {
      * @param name   is the dashboard's owner,
      */
     @FXML
-    public void setDashboardButtonText(Button button, String name) {
+    private void setDashboardButtonText(Button button, String name) {
         button.setText("view " + name + " dashboard");
     }
 
     @FXML
-    public void sendHelp() {
+    private void sendHelp() {
         clientInput.sendString("help", "");
     }
 
@@ -1541,6 +1484,7 @@ public class DashboardController implements Initializable, DisplayLabel {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("endGame.fxml"));
         fxmlLoader.setController(controller);
         Scene scene = new Scene(fxmlLoader.load());
+        readThread.interrupt();
         stage.setScene(scene);
         stage.show();
     }
