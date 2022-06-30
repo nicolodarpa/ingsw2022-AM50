@@ -15,15 +15,24 @@ public class IslandStatus {
     public boolean islandConquered;
 
     public int dimension;
+
     public String owner;
     public boolean presenceMN;
     public int idGroup;
-    //public ArrayList<String> students = new ArrayList<>();
 
+    /**
+     * is an array of integers where each number inside it is associated with the order (in the PawnColor class) of the student's color {@link it.polimi.ingsw.server.model.PawnColor}
+     */
     public ArrayList<Integer> studentColorOrdinal = new ArrayList<>();
 
+    /**
+     * The colors of the students on the island.
+     */
     public ArrayList<String> colors = new ArrayList<>();
 
+    /**
+     * Number of towers on the island.
+     */
     public int towerNumber;
     public String towerColor;
 

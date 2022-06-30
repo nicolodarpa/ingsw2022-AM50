@@ -9,7 +9,7 @@ public class CloudCard {
     /**
      * It's the Id of the CloudCard.
      */
-    private int id;
+    private final int id;
 
     /**
      * The students on the cloud card

@@ -15,6 +15,9 @@ import java.net.URL;
 import java.util.*;
 
 
+/**
+ * Controller of enemyDashboard.fxml
+ */
 public class DashboardEnemyController implements  Initializable,DisplayLabel{
 
     public Pane anchor;
