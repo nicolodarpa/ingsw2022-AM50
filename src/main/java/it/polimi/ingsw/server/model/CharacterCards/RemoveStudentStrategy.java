@@ -15,7 +15,7 @@ public class RemoveStudentStrategy extends CharacterCardStrategy {
      */
     public RemoveStudentStrategy() {
         setCost(3);
-        setEffectOfTheCard(" With this card you choose a color of the students and every player (even you) has to put in the BagStudents 3 students of that color from each Hall.(select a PawnColor before play this card) ");
+        setEffectOfTheCard(" With this card you choose a color of the students and every player (even you) has to put in the BagStudents 3 students of that color from each Hall.(select a PawnColor before playing this card) ");
         setName("thief");
     }
 
