@@ -565,7 +565,7 @@ public class DashboardController implements Initializable, DisplayLabel {
                             throw new RuntimeException(e);
                         }
                     });
-                }
+                } else quit();
                 try {
                     Thread.sleep(400);
 

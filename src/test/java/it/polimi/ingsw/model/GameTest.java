@@ -400,35 +400,48 @@ public class GameTest {
         Player player_two = gameTest.getPlist().getPlayers().get(1);
         Player player_three = gameTest.getPlist().getPlayers().get(2);
 
-        //add two students of the same color to the classroom of the first player.
+        //adds two CYAN students of the same color to the classroom of player_one.
         player_one.getDashboard().addStudentToClassroom(new Student(PawnColor.CYAN));
         player_one.getDashboard().addStudentToClassroom(new Student(PawnColor.CYAN));
-        gameTest.assignTeacher();
 
-        assertEquals(player_one.getDashboard().getTeacherTable()[PawnColor.CYAN.ordinal()].getColor(), PawnColor.CYAN);
+        //adds one GREEN students to the classroom of player_one.
+        player_one.getDashboard().addStudentToClassroom(new Student(PawnColor.GREEN));
+        gameTest.assignTeacher(PawnColor.CYAN);
+        gameTest.assignTeacher(PawnColor.GREEN);
+
+
+        //checks that CYAN, GREEN teachers have been assigned to player_one
+        assertNotNull(player_one.getDashboard().getTeacherTable()[PawnColor.CYAN.ordinal()]);
+        assertNotNull(player_one.getDashboard().getTeacherTable()[PawnColor.GREEN.ordinal()]);
+
 
         //add three students of the same color to the classroom of the second player.
         player_two.getDashboard().addStudentToClassroom(new Student(PawnColor.CYAN));
         player_two.getDashboard().addStudentToClassroom(new Student(PawnColor.CYAN));
         player_two.getDashboard().addStudentToClassroom(new Student(PawnColor.CYAN));
-        gameTest.assignTeacher();
+        gameTest.assignTeacher(PawnColor.CYAN);
 
-        assertEquals(player_two.getDashboard().getTeacherTable()[PawnColor.CYAN.ordinal()].getColor(), PawnColor.CYAN);
+        //checks that CYAN teacher  has been moved from player_one to player_two
+        assertNull(player_one.getDashboard().getTeacherTable()[PawnColor.CYAN.ordinal()]);
+        assertNotNull(player_two.getDashboard().getTeacherTable()[PawnColor.CYAN.ordinal()]);
 
         //add four students of the same color to the classroom of the third player.
         player_three.getDashboard().addStudentToClassroom(new Student(PawnColor.CYAN));
         player_three.getDashboard().addStudentToClassroom(new Student(PawnColor.CYAN));
         player_three.getDashboard().addStudentToClassroom(new Student(PawnColor.CYAN));
         player_three.getDashboard().addStudentToClassroom(new Student(PawnColor.CYAN));
-        gameTest.assignTeacher();
+        gameTest.assignTeacher(PawnColor.CYAN);
 
-        assertEquals(player_three.getDashboard().getTeacherTable()[PawnColor.CYAN.ordinal()].getColor(), PawnColor.CYAN);
+        //checks that CYAN teacher has been moved from player_one to player_two
+        assertNotNull(player_three.getDashboard().getTeacherTable()[PawnColor.CYAN.ordinal()]);
 
         // player two and three have the same number of cyan students
         player_two.getDashboard().addStudentToClassroom(new Student(PawnColor.CYAN));
-        gameTest.assignTeacher();
+        gameTest.assignTeacher(PawnColor.CYAN);
 
-        assertEquals(player_three.getDashboard().getTeacherTable()[PawnColor.CYAN.ordinal()].getColor(), PawnColor.CYAN);
+        //checks that CYAN teacher hasn't moved from player_one to player_two
+        assertNull(player_two.getDashboard().getTeacherTable()[PawnColor.CYAN.ordinal()]);
+        assertNotNull(player_three.getDashboard().getTeacherTable()[PawnColor.CYAN.ordinal()]);
 
 
         player_one.getDashboard().drawDashboard();
@@ -835,7 +848,7 @@ public class GameTest {
      */
     @Test
     @DisplayName("Test play assistant card")
-    public void testPlayAssistant(){
+    public void testPlayAssistant() {
 
         gameTest = new Game(3);
 
@@ -845,36 +858,34 @@ public class GameTest {
         Player p1 = gameTest.getPlist().getPlayerByName("ale");
         Player p2 = gameTest.getPlist().getPlayerByName("nic");
         Player p3 = gameTest.getPlist().getPlayerByName("jaz");
-        gameTest.chooseDeck(1,p1);
-        gameTest.chooseDeck(2,p2);
-        gameTest.chooseDeck(3,p3);
+        gameTest.chooseDeck(1, p1);
+        gameTest.chooseDeck(2, p2);
+        gameTest.chooseDeck(3, p3);
 
-        assertEquals(0,gameTest.getPhase());
-        assertTrue(gameTest.playAssistantCard(p1,1));
-        assertEquals(1,p1.getMovesOfMN());
-        assertFalse(gameTest.playAssistantCard(p2,1));
-        assertTrue(gameTest.playAssistantCard(p2,2));
-        assertFalse(gameTest.playAssistantCard(p3,2));
-        assertEquals(0,p3.getMovesOfMN());
-        assertTrue(gameTest.playAssistantCard(p2,4));
-
-
+        assertEquals(0, gameTest.getPhase());
+        assertTrue(gameTest.playAssistantCard(p1, 1));
+        assertEquals(1, p1.getMovesOfMN());
+        assertFalse(gameTest.playAssistantCard(p2, 1));
+        assertTrue(gameTest.playAssistantCard(p2, 2));
+        assertFalse(gameTest.playAssistantCard(p3, 2));
+        assertEquals(0, p3.getMovesOfMN());
+        assertTrue(gameTest.playAssistantCard(p2, 4));
 
 
     }
 
     @Test
     @DisplayName("Test phase change")
-    public void testNextPhase(){
+    public void testNextPhase() {
         gameTest = new Game(2);
 
         LoginManager.login("ale", gameTest);
         LoginManager.login("nic", gameTest);
 
         gameTest.nextPhase();
-        assertEquals(1,gameTest.getPhase());
+        assertEquals(1, gameTest.getPhase());
         gameTest.nextPhase();
-        assertEquals(0,gameTest.getPhase());
+        assertEquals(0, gameTest.getPhase());
     }
 
 

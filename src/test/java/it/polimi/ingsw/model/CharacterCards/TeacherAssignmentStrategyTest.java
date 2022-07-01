@@ -68,13 +68,21 @@ public class TeacherAssignmentStrategyTest {
         Player player_two = gameTest.getPlist().getPlayers().get(1);
         card.setCurrentPlayer(player_one);
         player_two.getDashboard().addStudentToClassroom(new Student(PawnColor.RED));
+        gameTest.assignTeacher(PawnColor.RED);
+        assertNotNull(player_two.getDashboard().getTeacherTable()[PawnColor.RED.ordinal()]);
+
         player_one.getDashboard().addStudentToClassroom(new Student(PawnColor.RED));
-        gameTest.assignTeacher();
+        gameTest.assignTeacher(PawnColor.RED);
         assertNull(player_one.getDashboard().getTeacherTable()[PawnColor.RED.ordinal()]);
+        assertNotNull(player_two.getDashboard().getTeacherTable()[PawnColor.RED.ordinal()]);
+
+
         card.effect();
         player_two.getDashboard().addStudentToClassroom(new Student(PawnColor.GREEN));
+        gameTest.assignTeacher(PawnColor.GREEN);
+        assertNotNull(player_two.getDashboard().getTeacherTable()[PawnColor.GREEN.ordinal()]);
         player_one.getDashboard().addStudentToClassroom(new Student(PawnColor.GREEN));
-        gameTest.assignTeacher();
+        gameTest.assignTeacher(PawnColor.GREEN);
         assertNotNull(player_one.getDashboard().getTeacherTable()[PawnColor.GREEN.ordinal()]);
         assertNull(player_two.getDashboard().getTeacherTable()[PawnColor.GREEN.ordinal()]);
         player_one.getDashboard().drawDashboard();
@@ -97,19 +105,44 @@ public class TeacherAssignmentStrategyTest {
         Player player_two = gameTest.getPlist().getPlayers().get(1);
         Player player_three = gameTest.getPlist().getPlayers().get(2);
         card.setCurrentPlayer(player_one);
+
         player_two.getDashboard().addStudentToClassroom(new Student(PawnColor.RED));
-        gameTest.assignTeacher();
-        player_one.getDashboard().addStudentToClassroom(new Student(PawnColor.RED));
-        player_three.getDashboard().addStudentToClassroom(new Student(PawnColor.RED));
+        gameTest.assignTeacher(PawnColor.RED);
         assertNotNull(player_two.getDashboard().getTeacherTable()[PawnColor.RED.ordinal()]);
-        assertNull(player_one.getDashboard().getTeacherTable()[PawnColor.RED.ordinal()]);
-        card.effect();
-        player_two.getDashboard().addStudentToClassroom(new Student(PawnColor.GREEN));
+
+        player_three.getDashboard().addStudentToClassroom(new Student(PawnColor.RED));
+        gameTest.assignTeacher(PawnColor.RED);
+        assertNull(player_three.getDashboard().getTeacherTable()[PawnColor.RED.ordinal()]);
+
+        player_three.getDashboard().addStudentToClassroom(new Student(PawnColor.GREEN));
+        gameTest.assignTeacher(PawnColor.GREEN);
+        assertNotNull(player_three.getDashboard().getTeacherTable()[PawnColor.GREEN.ordinal()]);
+
         player_one.getDashboard().addStudentToClassroom(new Student(PawnColor.GREEN));
-        gameTest.assignTeacher();
-        assertNotNull(player_one.getDashboard().getTeacherTable()[PawnColor.GREEN.ordinal()]);
+        gameTest.assignTeacher(PawnColor.GREEN);
+        assertNull(player_one.getDashboard().getTeacherTable()[PawnColor.GREEN.ordinal()]);
+
+        card.effect();
+
+        player_one.getDashboard().addStudentToClassroom(new Student(PawnColor.RED));
+        gameTest.assignTeacher(PawnColor.RED);
         assertNotNull(player_one.getDashboard().getTeacherTable()[PawnColor.RED.ordinal()]);
-        assertNull(player_two.getDashboard().getTeacherTable()[PawnColor.GREEN.ordinal()]);
         assertNull(player_two.getDashboard().getTeacherTable()[PawnColor.RED.ordinal()]);
+        assertNull(player_three.getDashboard().getTeacherTable()[PawnColor.RED.ordinal()]);
+
+
+        gameTest.assignTeacher(PawnColor.CYAN);
+        assertNull(player_one.getDashboard().getTeacherTable()[PawnColor.CYAN.ordinal()]);
+
+
+
+
+        player_one.getDashboard().drawDashboard();
+        player_two.getDashboard().drawDashboard();
+        player_three.getDashboard().drawDashboard();
     }
+
+
+
+
 }

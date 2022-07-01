@@ -385,11 +385,13 @@ public class Player {
      */
     public boolean moveStudentToClassroom(int position, Game game) {
         try{
-            if (dashboard.getHall()[position] != null && movesOfStudents>0 ) {
+            PawnColor color = dashboard.getHall()[position].color;
+            if ( color != null && movesOfStudents>0 ) {
                 dashboard.moveStudentToClassroom(position);
                 dashboard.addCoin(wallet);
                 movesOfStudents--;
-                game.assignTeacher();
+                game.assignTeacher(color);
+                //game.assignTeacher();
                 return true;
             } else {
                 sendToClient("error","Error moving student to classroom");
