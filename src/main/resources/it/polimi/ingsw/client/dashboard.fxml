@@ -12,7 +12,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<Pane fx:id="anchor" maxHeight="810.0" maxWidth="1270.0" minHeight="810.0" minWidth="1270.0" prefHeight="810.0" prefWidth="1270.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.DashboardController">
+<Pane fx:id="anchor" maxHeight="810.0" maxWidth="1270.0" minHeight="900.0" minWidth="1350.0" prefHeight="950.0" prefWidth="1400.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.DashboardController">
    <children>
       <ImageView fitHeight="215.0" fitWidth="500.0" layoutX="363.0" layoutY="531.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fitHeight="215.0" fitWidth="500.0" layoutX="363.0" layoutY="531.0">
@@ -545,7 +545,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </ButtonBar>
-      <Label fx:id="students" layoutX="18.0" layoutY="550.0">
+      <Label fx:id="students" layoutX="18.0" styleClass="Label" layoutY="550.0">
          <font>
             <Font name="Papyrus" size="18.0" />
          </font>

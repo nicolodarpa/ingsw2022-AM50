@@ -1477,23 +1477,16 @@ public class DashboardController implements Initializable, DisplayLabel {
     }
 
     /**
-     * Shows the end game page
+     * Shows the end game message, stops the thread
      *
-     * @throws IOException If an exception occurred loading the scene
      */
-    private void endGame() throws IOException {
-        EndGameController controller = new EndGameController();
-        controller.setText(message.message);
-        Stage stage = (Stage) anchor.getScene().getWindow();
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("endGame.fxml"));
-        fxmlLoader.setController(controller);
-        Scene scene = new Scene(fxmlLoader.load());
+    private void endGame() {
         stopThread();
-        stage.setScene(scene);
-        stage.show();
+        AlertHelper.showAlert(Alert.AlertType.CONFIRMATION, anchor.getScene().getWindow(), "Game finished", message.message + "\nPlease close the application");
+        anchor.setDisable(true);
     }
 
-    private void stopThread(){
+    private void stopThread() {
         exit = true;
     }
 }

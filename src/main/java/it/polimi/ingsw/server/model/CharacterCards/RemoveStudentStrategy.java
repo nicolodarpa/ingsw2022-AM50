@@ -1,8 +1,12 @@
 package it.polimi.ingsw.server.model.CharacterCards;
 
+import com.google.gson.Gson;
+import it.polimi.ingsw.comunication.DashboardStatus;
 import it.polimi.ingsw.server.model.Dashboard;
 import it.polimi.ingsw.server.model.Player;
 import it.polimi.ingsw.server.model.Student;
+
+import java.util.ArrayList;
 
 /**
  * Removes 3 students of one color from each player's dashboard
@@ -28,6 +32,10 @@ public class RemoveStudentStrategy extends CharacterCardStrategy {
         for (Player player : playersList.getPlayers()) {
             Dashboard dashboard = player.getDashboard();
             removeStudent(dashboard);
+            ArrayList<DashboardStatus> statusList = new ArrayList<>();
+            statusList.add(new DashboardStatus(player.getName(), dashboard));
+            Gson gson = new Gson();
+            player.sendToClient("dashboard", gson.toJson(statusList));
         }
         addCost();
     }

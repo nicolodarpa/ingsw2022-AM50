@@ -79,7 +79,9 @@ public class DeckController implements Initializable, DisplayLabel {
         Scene scene = new Scene(fxmlLoader.load(), 810.0, 1270.0);
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         stage.setScene(scene);
-        stage.setMaximized(true);
+        stage.setHeight(900.);
+        stage.setWidth(1400.0);
+        //stage.setMaximized(true);
         stage.show();
 
 
@@ -90,10 +92,9 @@ public class DeckController implements Initializable, DisplayLabel {
      * Reads the response from the server after choosing a deck.
      * If the response is positive the dashboard view is shown else an error alert pops up
      *
-     * @throws IOException If loading the scene an exception occurred
      */
     @FXML
-    private void alertChosenDeck(ActionEvent actionEvent) throws IOException {
+    private void alertChosenDeck(ActionEvent actionEvent) {
         Window window = ((Node) actionEvent.getSource()).getScene().getWindow();
 
         ClientInput clientInput = ClientInput.getInstance();

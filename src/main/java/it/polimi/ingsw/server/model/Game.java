@@ -646,7 +646,7 @@ public class Game {
         }
         /* if there are only 3 groups of islands the game has to finish */
         if (islands.size() < 4) {
-            plist.notifyAllClients("notify", "the game has finished");
+            plist.notifyAllClients("notify", "Only three groups of islands");
             calculateWinner();
         }
 
@@ -891,18 +891,24 @@ public class Game {
     public void chooseCloudCard(int indexCloudCard, Player player) {
         ArrayList<Student> students;
         try {
-            if (cloudCards.get(indexCloudCard - 1).getStudents().size() != 0) {
-                students = cloudCards.get(indexCloudCard - 1).getAllStudents();
-                Dashboard actualDashboard = player.getDashboard();
-                for (Student s : students)
-                    actualDashboard.addStudentToHall(s);
-                notifyAllClients("cloudCard", sendCloudCards());
+            if (!studentsBag.endOfStudents()){
+                if (cloudCards.get(indexCloudCard - 1).getStudents().size() != 0) {
+                    students = cloudCards.get(indexCloudCard - 1).getAllStudents();
+                    Dashboard actualDashboard = player.getDashboard();
+                    for (Student s : students)
+                        actualDashboard.addStudentToHall(s);
+                    notifyAllClients("cloudCard", sendCloudCards());
+                    player.setHasPlayed(true);
+                    player.sendToClient("dashboard", sendPlayerDashboard(player));
+                    calculateCurrentPlayer();
+                } else
+                    player.sendToClient("error", "Cloud card already chosen by another player");
+            } else {
                 player.setHasPlayed(true);
-                player.sendToClient("dashboard", sendPlayerDashboard(player));
+                player.sendToClient("notify", "Student bag is empty, no more students");
                 calculateCurrentPlayer();
-                //player.sendToClient("notify", "Well done! Now it's " + currentPlayer.getName() + " turn");
-            } else
-                player.sendToClient("error", "Cloud card already chosen by another player");
+            }
+
         } catch (Exception ignored) {
         }
 
@@ -913,17 +919,20 @@ public class Game {
      * Fill up cloudCard with 3 or 4 students each depending on the number of players
      */
     private void cloudCardFill(CloudCard cloudCard) {
-        if (cloudCard.getStudents().isEmpty()) {
-            if (numberOfPlayers == 2) {
-                for (int i = 0; i < 3; i++) {
-                    cloudCard.addStudent(studentsBag.casualExtraction());
-                }
-            } else {
-                for (int i = 0; i < 4; i++) {
-                    cloudCard.addStudent(studentsBag.casualExtraction());
+        if (!studentsBag.endOfStudents()){
+            if (cloudCard.getStudents().isEmpty()) {
+                if (numberOfPlayers == 2) {
+                    for (int i = 0; i < 3; i++) {
+                        cloudCard.addStudent(studentsBag.casualExtraction());
+                    }
+                } else {
+                    for (int i = 0; i < 4; i++) {
+                        cloudCard.addStudent(studentsBag.casualExtraction());
+                    }
                 }
             }
         }
+
 
     }
 
