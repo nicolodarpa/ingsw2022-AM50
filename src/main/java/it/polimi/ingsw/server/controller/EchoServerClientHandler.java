@@ -254,6 +254,12 @@ public class EchoServerClientHandler extends Thread {
     private void login(Command command) throws IOException {
         String json;
         String name = command.value1.trim();
+        if (Objects.equals(game.getGameStatus(), "ENDED")){
+            TextMessage text = new TextMessage("error", "login01", "One player logged out during setup, game ended.");
+            json = gson.toJson(text, TextMessage.class);
+            out.println(json);
+            return;
+        }
         if (name.isEmpty()) {
             TextMessage text = new TextMessage("error", "login02", "Username cannot be empty");
             json = gson.toJson(text, TextMessage.class);

@@ -54,11 +54,11 @@ public class ClientGUI extends Application {
             } else
                 try {
                     ClientInput.getInstance().sendString("quit", "");
-
+                    System.exit(0);
                 } catch (Exception e) {
                     stage.close();
                 }
-            System.exit(0);
+
         });
 
     }

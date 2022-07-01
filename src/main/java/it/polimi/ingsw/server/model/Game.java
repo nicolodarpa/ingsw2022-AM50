@@ -199,6 +199,7 @@ public class Game {
      * Start a new game, notify all the clients connected and sets the actual player.
      */
     public void startGame() {
+        gameStatus = "STARTED";
         System.out.println("Game starting");
         plist.notifyAllClients("startGame", "Game started");
         calculateCurrentPlayer();
@@ -224,7 +225,10 @@ public class Game {
      */
     public void removePlayer(Player player) {
         plist.removePlayer(player);
-        if (plist.getActivePlayers() == 1) {
+         if (!Objects.equals(gameStatus, "STARTED")) {
+            notifyAllClients("endGame",player.getName()+ " left during game setup.\nGame ended");
+            endOfGame();
+        } else if (plist.getActivePlayers() == 1) {
             try {
                 plist.notifyAllClients("error", "waiting for reconnection");
                 Thread.sleep(disconnectionTimeout);
@@ -237,7 +241,7 @@ public class Game {
         } else if (plist.getActivePlayers() == 0) {
             System.out.println("Game end, all players disconnected");
             endOfGame();
-        } else if (player == currentPlayer) calculateCurrentPlayer();
+        }  else if (player == currentPlayer) calculateCurrentPlayer();
     }
 
     /**

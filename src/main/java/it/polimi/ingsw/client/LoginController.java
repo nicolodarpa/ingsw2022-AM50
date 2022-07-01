@@ -76,6 +76,8 @@ public class LoginController {
             AlertHelper.showAlert(Alert.AlertType.CONFIRMATION, window, "Login", message.message);
             if (Objects.equals(message.context, "login")) {
                 setChoosingDeckPage(actionEvent);
+            } else if (Objects.equals(message.context, "login01")) {
+                setSelectionFormController(actionEvent);
             } else setDashboardPage(actionEvent);
         }
     }

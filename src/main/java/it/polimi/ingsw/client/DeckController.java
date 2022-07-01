@@ -93,7 +93,7 @@ public class DeckController implements Initializable, DisplayLabel {
                         } else if (Objects.equals(message.type, "quit")) {
                             quit();
                         } else if (Objects.equals(message.type, "endGame")) {
-                            AlertHelper.showAlert(Alert.AlertType.INFORMATION, anchor.getScene().getWindow(), "Every other player disconnected", message.message + "\nPlease close the application");
+                            AlertHelper.showAlert(Alert.AlertType.INFORMATION, anchor.getScene().getWindow(),"Please close the application" ,message.message);
                             anchor.setDisable(true);
                             exit = true;
                         }
