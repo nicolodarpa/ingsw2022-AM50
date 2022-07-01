@@ -266,7 +266,7 @@ public class EchoServerClientHandler extends Thread {
                 player.setOut(out);
                 player.setSocket(socket);
                 if (player.getDeck() != null) {
-                    player.sendToClient("confirmation", "logBack", "Welcome back" + player.getName());
+                    player.sendToClient("confirmation", "logBack", "Welcome back " + player.getName());
                 } else player.sendToClient("confirmation", "login", "Welcome " + player.getName());
 
                 return;
