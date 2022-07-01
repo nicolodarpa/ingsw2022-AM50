@@ -132,7 +132,7 @@ public class EchoServerClientHandler extends Thread {
             in.close();
         } catch (Exception e) {
             System.out.println("Client disconnected");
-            if (game != null) game.removePlayer(player);
+            if (game != null && player!=null) game.removePlayer(player);
 
 
         }
