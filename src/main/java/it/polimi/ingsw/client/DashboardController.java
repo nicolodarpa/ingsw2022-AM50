@@ -78,7 +78,7 @@ public class DashboardController implements Initializable, DisplayLabel {
     private Circle yellowPosition1, yellowPosition2, yellowPosition3, yellowPosition4, yellowPosition5, yellowPosition6, yellowPosition7, yellowPosition8, yellowPosition9, yellowPosition10;
 
     /**
-     * Positions of the magenta students son the dashboard's classroom.
+     * Positions of the magenta students on the dashboard's classroom.
      */
     @FXML
     private Circle magentaPosition1, magentaPosition2, magentaPosition3, magentaPosition4, magentaPosition5, magentaPosition6, magentaPosition7, magentaPosition8, magentaPosition9, magentaPosition10;
