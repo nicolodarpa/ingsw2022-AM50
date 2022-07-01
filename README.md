@@ -13,7 +13,7 @@
 ## Documentation:
 
 ### You can find all the documentation in the links below:
-- ### [JavaDoc documentation](https://nicolodarpa.github.io/JavaDocFinale/)
+- ### [JavaDoc documentation](https://nicolodarpa.github.io/javaDocAM50/)
 - ### [Game Tutorial CLI version](https://github.com/nicolodarpa/ingsw2022-AM50/blob/master/Deliverables/GameTutorial.pdf)
 - ### [Game Tutorial GUI version](https://github.com/nicolodarpa/ingsw2022-AM50/blob/master/Deliverables/GuideEriantysGUI.pdf)
 
