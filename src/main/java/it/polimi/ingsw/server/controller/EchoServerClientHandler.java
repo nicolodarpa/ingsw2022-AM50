@@ -598,9 +598,9 @@ public class EchoServerClientHandler extends Thread {
      */
     private void chooseCC(Command command) {
         final String invalidCloudCardError = " Error, choose a valid cloud card ";
-        if (game.getPhase() == 0 || player.getMovesOfStudents() > 0) {
+        if (game.getPhase() == 0 || player.getMovesOfStudents() > 0 || player.getMovesOfMN() != 0) {
             player.sendToClient("error", "You can't choose a cloud card now");
-        } else if (checkTurn() && game.getPhase() == 1) {
+        } else if (checkTurn() && game.getPhase() == 1 && player.getMovesOfMN() == 0) {
             int cloudCardIndex = Integer.parseInt(command.value1);
             if (cloudCardIndex > game.getCloudCards().size() || cloudCardIndex < 0) {
                 player.sendToClient("error", invalidCloudCardError);
