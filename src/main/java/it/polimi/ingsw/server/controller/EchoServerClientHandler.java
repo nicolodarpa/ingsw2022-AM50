@@ -260,8 +260,8 @@ public class EchoServerClientHandler extends Thread {
             out.println(json);
             return;
         }
-        if (name.isEmpty()) {
-            TextMessage text = new TextMessage("error", "login02", "Username cannot be empty");
+        if (name.isEmpty() || name.length()>7) {
+            TextMessage text = new TextMessage("error", "login02", "Username cannot be empty or longer than 7 characters");
             json = gson.toJson(text, TextMessage.class);
             out.println(json);
             return;
