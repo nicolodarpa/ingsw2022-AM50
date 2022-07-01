@@ -20,6 +20,8 @@ public class IslandStatus {
     public boolean presenceMN;
     public int idGroup;
 
+    public boolean isBlocked;
+
     /**
      * is an array of integers where each number inside it is associated with the order (in the PawnColor class) of the student's color {@link it.polimi.ingsw.server.model.PawnColor}
      */
@@ -50,6 +52,7 @@ public class IslandStatus {
         this.presenceMN = island.getPresenceMN();
         this.towerNumber = island.getTowerNumber();
         this.towerColor = String.valueOf(island.getTowerColor());
+        this.isBlocked = island.isBlocked();
         ArrayList<Student> studentArrayList = island.getStudents();
         for (Student student : studentArrayList) {
             if (student!=null){

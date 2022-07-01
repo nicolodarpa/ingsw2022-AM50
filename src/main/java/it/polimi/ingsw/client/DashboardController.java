@@ -700,6 +700,7 @@ public class DashboardController implements Initializable, DisplayLabel {
             String dimension = String.valueOf(island.dimension);
             String owner = island.owner;
             String towerNumber = String.valueOf(island.towerNumber);
+            boolean isBlocked = island.isBlocked;
             StringBuilder studentNumber = new StringBuilder();
             int[] numberOfStudentsOfColor = new int[PawnColor.numberOfColors];
             for (int i = 0; i < PawnColor.numberOfColors; i++) {
@@ -708,7 +709,7 @@ public class DashboardController implements Initializable, DisplayLabel {
                     studentNumber.append("#").append(numberOfStudentsOfColor[i]).append(" ").append(PawnColor.values()[i].getName()).append(" ");
                 }
             }
-            displayLabel("Island id", students, id + "\nDimension: " + dimension + "\nOwner: " + owner + "\nStudents: " + studentNumber + "\nTower: #" + towerNumber);
+            displayLabel("Island id", students, id + (isBlocked ? " blocked " : "") + "\nDimension: " + dimension + "\nOwner: " + owner + "\nStudents: " + studentNumber + "\nTower: #" + towerNumber);
         }
     }
 
