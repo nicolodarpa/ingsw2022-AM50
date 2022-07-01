@@ -14,8 +14,8 @@
 
 <Pane fx:id="anchor" maxHeight="810.0" maxWidth="1270.0" minHeight="900.0" minWidth="1350.0" prefHeight="950.0" prefWidth="1400.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.DashboardController">
    <children>
-      <ImageView fitHeight="215.0" fitWidth="500.0" layoutX="443.0" layoutY="527.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fitHeight="215.0" fitWidth="500.0" layoutX="443.0" layoutY="527.0">
+      <ImageView fitHeight="215.0" fitWidth="500.0" layoutX="543.0" layoutY="537.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fitHeight="215.0" fitWidth="500.0" layoutX="543.0" layoutY="537.0">
          <image>
             <Image url="@../../../../assets/Plancia_DEF2.png" />
          </image>
@@ -33,149 +33,149 @@
             <Font name="Papyrus" size="18.0" />
          </font>
       </Label>
-      <Circle fx:id="studentPosition1" fill="#1f93ff04" layoutX="498.0" layoutY="563.0" onMouseClicked="#getIndex" radius="10.0" strokeType="INSIDE">
+      <Circle fx:id="studentPosition1" fill="#1f93ff04" layoutX="598.0" layoutY="573.0" onMouseClicked="#getIndex" radius="10.0" strokeType="INSIDE">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
          <effect>
             <Blend />
          </effect></Circle>
-      <Circle fx:id="studentPosition2" fill="#1f93ff04" layoutX="469.0" layoutY="600.0" onMouseClicked="#getIndex" radius="10.0" strokeType="INSIDE">
+      <Circle fx:id="studentPosition2" fill="#1f93ff04" layoutX="569.0" layoutY="610.0" onMouseClicked="#getIndex" radius="10.0" strokeType="INSIDE">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
          <effect>
             <Blend />
          </effect></Circle>
-      <Circle fx:id="studentPosition3" fill="#1f93ff04" layoutX="498.0" layoutY="598.0" onMouseClicked="#getIndex" radius="10.0" strokeType="INSIDE">
+      <Circle fx:id="studentPosition3" fill="#1f93ff04" layoutX="598.0" layoutY="608.0" onMouseClicked="#getIndex" radius="10.0" strokeType="INSIDE">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
          <effect>
             <Blend />
          </effect></Circle>
-      <Circle fx:id="studentPosition4" fill="#1f93ff04" layoutX="469.0" layoutY="634.0" onMouseClicked="#getIndex" radius="10.0" strokeType="INSIDE">
+      <Circle fx:id="studentPosition4" fill="#1f93ff04" layoutX="569.0" layoutY="644.0" onMouseClicked="#getIndex" radius="10.0" strokeType="INSIDE">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
          <effect>
             <Blend />
          </effect></Circle>
-      <Circle fx:id="studentPosition5" fill="#1f93ff04" layoutX="498.0" layoutY="634.0" onMouseClicked="#getIndex" radius="10.0" strokeType="INSIDE">
+      <Circle fx:id="studentPosition5" fill="#1f93ff04" layoutX="598.0" layoutY="644.0" onMouseClicked="#getIndex" radius="10.0" strokeType="INSIDE">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
          <effect>
             <Blend />
          </effect></Circle>
-      <Circle fx:id="studentPosition6" fill="#1f93ff04" layoutX="469.0" layoutY="669.0" onMouseClicked="#getIndex" radius="10.0" strokeType="INSIDE">
+      <Circle fx:id="studentPosition6" fill="#1f93ff04" layoutX="569.0" layoutY="679.0" onMouseClicked="#getIndex" radius="10.0" strokeType="INSIDE">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
          <effect>
             <Blend />
          </effect></Circle>
-      <Circle fx:id="studentPosition7" fill="#1f93ff04" layoutX="498.0" layoutY="669.0" onMouseClicked="#getIndex" radius="10.0" strokeType="INSIDE">
+      <Circle fx:id="studentPosition7" fill="#1f93ff04" layoutX="598.0" layoutY="679.0" onMouseClicked="#getIndex" radius="10.0" strokeType="INSIDE">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
          <effect>
             <Blend />
          </effect></Circle>
-      <Circle fx:id="studentPosition8" disable="true" fill="#1f93ff04" layoutX="469.0" layoutY="704.0" onMouseClicked="#getIndex" radius="10.0" stroke="#e5e5e500" strokeType="INSIDE">
+      <Circle fx:id="studentPosition8" disable="true" fill="#1f93ff04" layoutX="569.0" layoutY="714.0" onMouseClicked="#getIndex" radius="10.0" stroke="#e5e5e500" strokeType="INSIDE">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
          <effect>
             <Blend />
          </effect></Circle>
-      <Circle fx:id="studentPosition9" disable="true" fill="#1f93ff04" layoutX="499.0" layoutY="704.0" onMouseClicked="#getIndex" radius="10.0" stroke="#e5e5e500" strokeType="INSIDE">
+      <Circle fx:id="studentPosition9" disable="true" fill="#1f93ff04" layoutX="599.0" layoutY="714.0" onMouseClicked="#getIndex" radius="10.0" stroke="#e5e5e500" strokeType="INSIDE">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
          <effect>
             <Blend />
          </effect></Circle>
-      <ImageView fx:id="towerPosition1" fitHeight="50.0" fitWidth="28.0" layoutX="848.0" layoutY="544.0">
+      <ImageView fx:id="towerPosition1" fitHeight="50.0" fitWidth="28.0" layoutX="948.0" layoutY="554.0">
       </ImageView>
 
-      <ImageView fx:id="towerPosition2" fitHeight="50.0" fitWidth="28.0" layoutX="886.0" layoutY="544.0">
+      <ImageView fx:id="towerPosition2" fitHeight="50.0" fitWidth="28.0" layoutX="986.0" layoutY="554.0">
       </ImageView>
 
-      <ImageView fx:id="towerPosition3" fitHeight="50.0" fitWidth="28.0" layoutX="848.0" layoutY="584.0">
+      <ImageView fx:id="towerPosition3" fitHeight="50.0" fitWidth="28.0" layoutX="948.0" layoutY="594.0">
       </ImageView>
 
-      <ImageView fx:id="towerPosition4" fitHeight="50.0" fitWidth="28.0" layoutX="886.0" layoutY="584.0">
+      <ImageView fx:id="towerPosition4" fitHeight="50.0" fitWidth="28.0" layoutX="986.0" layoutY="594.0">
       </ImageView>
 
-      <ImageView fx:id="towerPosition5" fitHeight="50.0" fitWidth="28.0" layoutX="848.0" layoutY="618.0">
+      <ImageView fx:id="towerPosition5" fitHeight="50.0" fitWidth="28.0" layoutX="948.0" layoutY="628.0">
       </ImageView>
 
-      <ImageView fx:id="towerPosition6" fitHeight="50.0" fitWidth="28.0" layoutX="886.0" layoutY="618.0">
+      <ImageView fx:id="towerPosition6" fitHeight="50.0" fitWidth="28.0" layoutX="986.0" layoutY="628.0">
       </ImageView>
 
-      <ImageView fx:id="towerPosition7" fitHeight="50.0" fitWidth="28.0" layoutX="848.0" layoutY="653.0">
+      <ImageView fx:id="towerPosition7" fitHeight="50.0" fitWidth="28.0" layoutX="948.0" layoutY="663.0">
       </ImageView>
 
-      <ImageView fx:id="towerPosition8" fitHeight="50.0" fitWidth="28.0" layoutX="886.0" layoutY="653.0">
+      <ImageView fx:id="towerPosition8" fitHeight="50.0" fitWidth="28.0" layoutX="986.0" layoutY="663.0">
       </ImageView>
 
-      <Circle fx:id="professorPosition1" fill="DODGERBLUE" layoutX="807.0" layoutY="566.0" radius="15.0" strokeType="INSIDE" />
-      <Circle fx:id="professorPosition2" fill="DODGERBLUE" layoutX="807.0" layoutY="600.0" radius="15.0" strokeType="INSIDE" />
-      <Circle fx:id="professorPosition4" fill="DODGERBLUE" layoutX="807.0" layoutY="668.0" radius="15.0" strokeType="INSIDE" />
-      <Circle fx:id="professorPosition3" fill="DODGERBLUE" layoutX="807.0" layoutY="634.0" radius="15.0" strokeType="INSIDE" />
-      <Circle fx:id="professorPosition5" fill="DODGERBLUE" layoutX="807.0" layoutY="702.0" radius="15.0" strokeType="INSIDE" />
-      <Circle fx:id="greenPosition1" fill="DODGERBLUE" layoutX="546.0" layoutY="566.0" radius="12.0" strokeType="INSIDE" />
-      <Circle fx:id="greenPosition2" fill="DODGERBLUE" layoutX="569.0" layoutY="566.0" radius="12.0" strokeType="INSIDE" />
-      <Circle fx:id="greenPosition3" fill="DODGERBLUE" layoutX="593.0" layoutY="566.0" radius="12.0" strokeType="INSIDE" />
-      <Circle fx:id="greenPosition4" fill="DODGERBLUE" layoutX="617.0" layoutY="566.0" radius="12.0" strokeType="INSIDE" />
-      <Circle fx:id="greenPosition5" fill="DODGERBLUE" layoutX="641.0" layoutY="566.0" radius="12.0" strokeType="INSIDE" />
-      <Circle fx:id="greenPosition6" fill="DODGERBLUE" layoutX="665.0" layoutY="566.0" radius="12.0" strokeType="INSIDE" />
-      <Circle fx:id="greenPosition7" fill="DODGERBLUE" layoutX="689.0" layoutY="566.0" radius="12.0" strokeType="INSIDE" />
-      <Circle fx:id="greenPosition8" fill="DODGERBLUE" layoutX="713.0" layoutY="566.0" radius="12.0" strokeType="INSIDE" />
-      <Circle fx:id="greenPosition9" fill="DODGERBLUE" layoutX="737.0" layoutY="566.0" radius="12.0" strokeType="INSIDE" />
-      <Circle fx:id="greenPosition10" fill="DODGERBLUE" layoutX="761.0" layoutY="566.0" radius="12.0" strokeType="INSIDE" />
-      <Circle fx:id="redPosition1" fill="DODGERBLUE" layoutX="547.0" layoutY="601.0" radius="12.0" strokeType="INSIDE" />
-      <Circle fx:id="redPosition2" fill="DODGERBLUE" layoutX="571.0" layoutY="601.0" radius="12.0" strokeType="INSIDE" />
-      <Circle fx:id="redPosition3" fill="DODGERBLUE" layoutX="595.0" layoutY="601.0" radius="12.0" strokeType="INSIDE" />
-      <Circle fx:id="redPosition4" fill="DODGERBLUE" layoutX="619.0" layoutY="601.0" radius="12.0" strokeType="INSIDE" />
-      <Circle fx:id="redPosition5" fill="DODGERBLUE" layoutX="643.0" layoutY="601.0" radius="12.0" strokeType="INSIDE" />
-      <Circle fx:id="redPosition6" fill="DODGERBLUE" layoutX="667.0" layoutY="601.0" radius="12.0" strokeType="INSIDE" />
-      <Circle fx:id="redPosition7" fill="DODGERBLUE" layoutX="691.0" layoutY="601.0" radius="12.0" strokeType="INSIDE" />
-      <Circle fx:id="redPosition8" fill="DODGERBLUE" layoutX="715.0" layoutY="601.0" radius="12.0" strokeType="INSIDE" />
-      <Circle fx:id="redPosition9" fill="DODGERBLUE" layoutX="739.0" layoutY="601.0" radius="12.0" strokeType="INSIDE" />
-      <Circle fx:id="redPosition10" fill="DODGERBLUE" layoutX="763.0" layoutY="601.0" radius="12.0" strokeType="INSIDE" />
-      <Circle fx:id="yellowPosition1" fill="DODGERBLUE" layoutX="547.0" layoutY="636.0" radius="12.0" strokeType="INSIDE" />
-      <Circle fx:id="yellowPosition2" fill="DODGERBLUE" layoutX="571.0" layoutY="636.0" radius="12.0" strokeType="INSIDE" />
-      <Circle fx:id="yellowPosition3" fill="DODGERBLUE" layoutX="595.0" layoutY="636.0" radius="12.0" strokeType="INSIDE" />
-      <Circle fx:id="yellowPosition4" fill="DODGERBLUE" layoutX="619.0" layoutY="636.0" radius="12.0" strokeType="INSIDE" />
-      <Circle fx:id="yellowPosition5" fill="DODGERBLUE" layoutX="643.0" layoutY="636.0" radius="12.0" strokeType="INSIDE" />
-      <Circle fx:id="yellowPosition6" fill="DODGERBLUE" layoutX="667.0" layoutY="636.0" radius="12.0" strokeType="INSIDE" />
-      <Circle fx:id="yellowPosition7" fill="DODGERBLUE" layoutX="691.0" layoutY="636.0" radius="12.0" strokeType="INSIDE" />
-      <Circle fx:id="yellowPosition8" fill="DODGERBLUE" layoutX="715.0" layoutY="636.0" radius="12.0" strokeType="INSIDE" />
-      <Circle fx:id="yellowPosition9" fill="DODGERBLUE" layoutX="739.0" layoutY="636.0" radius="12.0" strokeType="INSIDE" />
-      <Circle fx:id="yellowPosition10" fill="DODGERBLUE" layoutX="763.0" layoutY="636.0" radius="12.0" strokeType="INSIDE" />
-      <Circle fx:id="magentaPosition1" fill="DODGERBLUE" layoutX="547.0" layoutY="671.0" radius="12.0" strokeType="INSIDE" />
-      <Circle fx:id="magentaPosition2" fill="DODGERBLUE" layoutX="571.0" layoutY="671.0" radius="12.0" strokeType="INSIDE" />
-      <Circle fx:id="magentaPosition3" fill="DODGERBLUE" layoutX="595.0" layoutY="671.0" radius="12.0" strokeType="INSIDE" />
-      <Circle fx:id="magentaPosition4" fill="DODGERBLUE" layoutX="619.0" layoutY="671.0" radius="12.0" strokeType="INSIDE" />
-      <Circle fx:id="magentaPosition5" fill="DODGERBLUE" layoutX="643.0" layoutY="671.0" radius="12.0" strokeType="INSIDE" />
-      <Circle fx:id="magentaPosition6" fill="DODGERBLUE" layoutX="667.0" layoutY="671.0" radius="12.0" strokeType="INSIDE" />
-      <Circle fx:id="magentaPosition7" fill="DODGERBLUE" layoutX="691.0" layoutY="671.0" radius="12.0" strokeType="INSIDE" />
-      <Circle fx:id="magentaPosition8" fill="DODGERBLUE" layoutX="715.0" layoutY="671.0" radius="12.0" strokeType="INSIDE" />
-      <Circle fx:id="magentaPosition9" fill="DODGERBLUE" layoutX="739.0" layoutY="671.0" radius="12.0" strokeType="INSIDE" />
-      <Circle fx:id="magentaPosition10" fill="DODGERBLUE" layoutX="763.0" layoutY="671.0" radius="12.0" strokeType="INSIDE" />
-      <Circle fx:id="cyanPosition1" fill="DODGERBLUE" layoutX="547.0" layoutY="706.0" radius="12.0" strokeType="INSIDE" />
-      <Circle fx:id="cyanPosition2" fill="DODGERBLUE" layoutX="571.0" layoutY="706.0" radius="12.0" strokeType="INSIDE" />
-      <Circle fx:id="cyanPosition3" fill="DODGERBLUE" layoutX="595.0" layoutY="706.0" radius="12.0" strokeType="INSIDE" />
-      <Circle fx:id="cyanPosition4" fill="DODGERBLUE" layoutX="619.0" layoutY="706.0" radius="12.0" strokeType="INSIDE" />
-      <Circle fx:id="cyanPosition5" fill="DODGERBLUE" layoutX="643.0" layoutY="706.0" radius="12.0" strokeType="INSIDE" />
-      <Circle fx:id="cyanPosition6" fill="DODGERBLUE" layoutX="667.0" layoutY="706.0" radius="12.0" strokeType="INSIDE" />
-      <Circle fx:id="cyanPosition7" fill="DODGERBLUE" layoutX="691.0" layoutY="706.0" radius="12.0" strokeType="INSIDE" />
-      <Circle fx:id="cyanPosition8" fill="DODGERBLUE" layoutX="715.0" layoutY="706.0" radius="12.0" strokeType="INSIDE" />
-      <Circle fx:id="cyanPosition9" fill="DODGERBLUE" layoutX="739.0" layoutY="706.0" radius="12.0" strokeType="INSIDE" />
-      <Circle fx:id="cyanPosition10" fill="DODGERBLUE" layoutX="763.0" layoutY="706.0" radius="12.0" strokeType="INSIDE" />
-      <Rectangle fx:id="classRoom" arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="215.0" layoutX="529.0" layoutY="529.0" onMouseClicked="#moveStudentToClassroom" stroke="TRANSPARENT" strokeType="INSIDE" width="253.0">
+      <Circle fx:id="professorPosition1" fill="DODGERBLUE" layoutX="907.0" layoutY="576.0" radius="15.0" strokeType="INSIDE" />
+      <Circle fx:id="professorPosition2" fill="DODGERBLUE" layoutX="907.0" layoutY="610.0" radius="15.0" strokeType="INSIDE" />
+      <Circle fx:id="professorPosition4" fill="DODGERBLUE" layoutX="907.0" layoutY="678.0" radius="15.0" strokeType="INSIDE" />
+      <Circle fx:id="professorPosition3" fill="DODGERBLUE" layoutX="907.0" layoutY="644.0" radius="15.0" strokeType="INSIDE" />
+      <Circle fx:id="professorPosition5" fill="DODGERBLUE" layoutX="907.0" layoutY="712.0" radius="15.0" strokeType="INSIDE" />
+      <Circle fx:id="greenPosition1" fill="DODGERBLUE" layoutX="646.0" layoutY="576.0" radius="12.0" strokeType="INSIDE" />
+      <Circle fx:id="greenPosition2" fill="DODGERBLUE" layoutX="669.0" layoutY="576.0" radius="12.0" strokeType="INSIDE" />
+      <Circle fx:id="greenPosition3" fill="DODGERBLUE" layoutX="693.0" layoutY="576.0" radius="12.0" strokeType="INSIDE" />
+      <Circle fx:id="greenPosition4" fill="DODGERBLUE" layoutX="717.0" layoutY="576.0" radius="12.0" strokeType="INSIDE" />
+      <Circle fx:id="greenPosition5" fill="DODGERBLUE" layoutX="741.0" layoutY="576.0" radius="12.0" strokeType="INSIDE" />
+      <Circle fx:id="greenPosition6" fill="DODGERBLUE" layoutX="765.0" layoutY="576.0" radius="12.0" strokeType="INSIDE" />
+      <Circle fx:id="greenPosition7" fill="DODGERBLUE" layoutX="789.0" layoutY="576.0" radius="12.0" strokeType="INSIDE" />
+      <Circle fx:id="greenPosition8" fill="DODGERBLUE" layoutX="813.0" layoutY="576.0" radius="12.0" strokeType="INSIDE" />
+      <Circle fx:id="greenPosition9" fill="DODGERBLUE" layoutX="837.0" layoutY="576.0" radius="12.0" strokeType="INSIDE" />
+      <Circle fx:id="greenPosition10" fill="DODGERBLUE" layoutX="861.0" layoutY="576.0" radius="12.0" strokeType="INSIDE" />
+      <Circle fx:id="redPosition1" fill="DODGERBLUE" layoutX="647.0" layoutY="611.0" radius="12.0" strokeType="INSIDE" />
+      <Circle fx:id="redPosition2" fill="DODGERBLUE" layoutX="671.0" layoutY="611.0" radius="12.0" strokeType="INSIDE" />
+      <Circle fx:id="redPosition3" fill="DODGERBLUE" layoutX="695.0" layoutY="611.0" radius="12.0" strokeType="INSIDE" />
+      <Circle fx:id="redPosition4" fill="DODGERBLUE" layoutX="719.0" layoutY="611.0" radius="12.0" strokeType="INSIDE" />
+      <Circle fx:id="redPosition5" fill="DODGERBLUE" layoutX="743.0" layoutY="611.0" radius="12.0" strokeType="INSIDE" />
+      <Circle fx:id="redPosition6" fill="DODGERBLUE" layoutX="767.0" layoutY="611.0" radius="12.0" strokeType="INSIDE" />
+      <Circle fx:id="redPosition7" fill="DODGERBLUE" layoutX="791.0" layoutY="611.0" radius="12.0" strokeType="INSIDE" />
+      <Circle fx:id="redPosition8" fill="DODGERBLUE" layoutX="815.0" layoutY="611.0" radius="12.0" strokeType="INSIDE" />
+      <Circle fx:id="redPosition9" fill="DODGERBLUE" layoutX="839.0" layoutY="611.0" radius="12.0" strokeType="INSIDE" />
+      <Circle fx:id="redPosition10" fill="DODGERBLUE" layoutX="863.0" layoutY="611.0" radius="12.0" strokeType="INSIDE" />
+      <Circle fx:id="yellowPosition1" fill="DODGERBLUE" layoutX="647.0" layoutY="646.0" radius="12.0" strokeType="INSIDE" />
+      <Circle fx:id="yellowPosition2" fill="DODGERBLUE" layoutX="671.0" layoutY="646.0" radius="12.0" strokeType="INSIDE" />
+      <Circle fx:id="yellowPosition3" fill="DODGERBLUE" layoutX="695.0" layoutY="646.0" radius="12.0" strokeType="INSIDE" />
+      <Circle fx:id="yellowPosition4" fill="DODGERBLUE" layoutX="719.0" layoutY="646.0" radius="12.0" strokeType="INSIDE" />
+      <Circle fx:id="yellowPosition5" fill="DODGERBLUE" layoutX="743.0" layoutY="646.0" radius="12.0" strokeType="INSIDE" />
+      <Circle fx:id="yellowPosition6" fill="DODGERBLUE" layoutX="767.0" layoutY="646.0" radius="12.0" strokeType="INSIDE" />
+      <Circle fx:id="yellowPosition7" fill="DODGERBLUE" layoutX="791.0" layoutY="646.0" radius="12.0" strokeType="INSIDE" />
+      <Circle fx:id="yellowPosition8" fill="DODGERBLUE" layoutX="815.0" layoutY="646.0" radius="12.0" strokeType="INSIDE" />
+      <Circle fx:id="yellowPosition9" fill="DODGERBLUE" layoutX="839.0" layoutY="646.0" radius="12.0" strokeType="INSIDE" />
+      <Circle fx:id="yellowPosition10" fill="DODGERBLUE" layoutX="863.0" layoutY="646.0" radius="12.0" strokeType="INSIDE" />
+      <Circle fx:id="magentaPosition1" fill="DODGERBLUE" layoutX="647.0" layoutY="681.0" radius="12.0" strokeType="INSIDE" />
+      <Circle fx:id="magentaPosition2" fill="DODGERBLUE" layoutX="671.0" layoutY="681.0" radius="12.0" strokeType="INSIDE" />
+      <Circle fx:id="magentaPosition3" fill="DODGERBLUE" layoutX="695.0" layoutY="681.0" radius="12.0" strokeType="INSIDE" />
+      <Circle fx:id="magentaPosition4" fill="DODGERBLUE" layoutX="719.0" layoutY="681.0" radius="12.0" strokeType="INSIDE" />
+      <Circle fx:id="magentaPosition5" fill="DODGERBLUE" layoutX="743.0" layoutY="681.0" radius="12.0" strokeType="INSIDE" />
+      <Circle fx:id="magentaPosition6" fill="DODGERBLUE" layoutX="767.0" layoutY="681.0" radius="12.0" strokeType="INSIDE" />
+      <Circle fx:id="magentaPosition7" fill="DODGERBLUE" layoutX="791.0" layoutY="681.0" radius="12.0" strokeType="INSIDE" />
+      <Circle fx:id="magentaPosition8" fill="DODGERBLUE" layoutX="815.0" layoutY="681.0" radius="12.0" strokeType="INSIDE" />
+      <Circle fx:id="magentaPosition9" fill="DODGERBLUE" layoutX="839.0" layoutY="681.0" radius="12.0" strokeType="INSIDE" />
+      <Circle fx:id="magentaPosition10" fill="DODGERBLUE" layoutX="863.0" layoutY="681.0" radius="12.0" strokeType="INSIDE" />
+      <Circle fx:id="cyanPosition1" fill="DODGERBLUE" layoutX="647.0" layoutY="716.0" radius="12.0" strokeType="INSIDE" />
+      <Circle fx:id="cyanPosition2" fill="DODGERBLUE" layoutX="671.0" layoutY="716.0" radius="12.0" strokeType="INSIDE" />
+      <Circle fx:id="cyanPosition3" fill="DODGERBLUE" layoutX="695.0" layoutY="716.0" radius="12.0" strokeType="INSIDE" />
+      <Circle fx:id="cyanPosition4" fill="DODGERBLUE" layoutX="719.0" layoutY="716.0" radius="12.0" strokeType="INSIDE" />
+      <Circle fx:id="cyanPosition5" fill="DODGERBLUE" layoutX="743.0" layoutY="716.0" radius="12.0" strokeType="INSIDE" />
+      <Circle fx:id="cyanPosition6" fill="DODGERBLUE" layoutX="767.0" layoutY="716.0" radius="12.0" strokeType="INSIDE" />
+      <Circle fx:id="cyanPosition7" fill="DODGERBLUE" layoutX="791.0" layoutY="716.0" radius="12.0" strokeType="INSIDE" />
+      <Circle fx:id="cyanPosition8" fill="DODGERBLUE" layoutX="815.0" layoutY="716.0" radius="12.0" strokeType="INSIDE" />
+      <Circle fx:id="cyanPosition9" fill="DODGERBLUE" layoutX="839.0" layoutY="716.0" radius="12.0" strokeType="INSIDE" />
+      <Circle fx:id="cyanPosition10" fill="DODGERBLUE" layoutX="863.0" layoutY="716.0" radius="12.0" strokeType="INSIDE" />
+      <Rectangle fx:id="classRoom" arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="215.0" layoutX="629.0" layoutY="539.0" onMouseClicked="#moveStudentToClassroom" stroke="TRANSPARENT" strokeType="INSIDE" width="253.0">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Rectangle>
@@ -550,7 +550,7 @@
             <Font name="Papyrus" size="18.0" />
          </font>
       </Label>
-      <Label fx:id="phaseLabel" layoutX="961.0" layoutY="693.0" styleClass="Label" text="Label">
+      <Label fx:id="phaseLabel" layoutX="1061.0" layoutY="703.0" styleClass="Label" text="Label">
          <font>
             <Font size="18.0" />
          </font></Label>
