@@ -3,13 +3,14 @@ package it.polimi.ingsw.client;
 import com.google.gson.Gson;
 import it.polimi.ingsw.comunication.GameStatus;
 import it.polimi.ingsw.comunication.TextMessage;
+import it.polimi.ingsw.server.model.Game;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 
@@ -42,12 +43,19 @@ public class SelectionFormController implements Initializable {
     @FXML
     private Button startGame;
 
+    private boolean exit;
+
+    private TextMessage message;
+
+    private final ClientInput clientInput = ClientInput.getInstance();
+
     @FXML
     private GridPane anchor;
 
 
     /**
      * Gets the list of available games from the server, sets a listens to the gamesList ListView
+     * Starts a thread that reads incoming messages from the server
      *
      * @param url            The location used to resolve relative paths for the root object, or
      *                       {@code null} if the location is not known.
@@ -56,8 +64,47 @@ public class SelectionFormController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        refreshGames();
+
+        Gson gson = new Gson();
+
         gamesList.getSelectionModel().selectedItemProperty().addListener((observableValue, s, t1) -> selectedGame = String.valueOf(gamesList.getSelectionModel().getSelectedIndex()));
+        Thread readThread = new Thread(() -> {
+            exit = false;
+            while (!exit) {
+                message = clientInput.readLine();
+                if (message != null) {
+                    Platform.runLater(() -> {
+                        switch (message.type) {
+                            case "avlGames" -> {
+                                gamesList.getItems().clear();
+                                GameStatus[] gameStatuses = gson.fromJson(message.message, GameStatus[].class);
+                                for (GameStatus gameStatus : gameStatuses) {
+                                    gamesList.getItems().add("-" + gameStatus.gameId + ": " + gameStatus.currentNumber + "/" + gameStatus.totalPlayers + " players:" + gameStatus.playersName);
+                                }
+                            }
+                            case "confirmation" -> {
+                                AlertHelper.showAlert(Alert.AlertType.CONFIRMATION, anchor.getScene().getWindow(), "Confirmation", message.message);
+                                exit = true;
+                            }
+                            case "quit" -> {
+                                exit = true;
+                                AlertHelper.showAlert(Alert.AlertType.ERROR, anchor.getScene().getWindow(), "Connection error", "Error connecting to the server, please close the application");
+                                anchor.setDisable(true);
+                            }
+                        }
+                    });
+                }
+                try {
+                    Thread.sleep(400);
+
+                } catch (InterruptedException e) {
+                    System.out.println("Thread stopped");
+                }
+            }
+        });
+        readThread.start();
+        refreshGames();
+
     }
 
 
@@ -74,7 +121,6 @@ public class SelectionFormController implements Initializable {
         }
         System.out.println("start new game, #p :" + numberOfPlayers);
         ClientInput.getInstance().sendString("newGame", String.valueOf(numberOfPlayers));
-        TextMessage response = getServerMessage();
         setLoginPage(actionEvent);
     }
 
@@ -84,10 +130,7 @@ public class SelectionFormController implements Initializable {
      */
     @FXML
     protected void joinGameButton(ActionEvent actionEvent) throws IOException {
-        Window window = ((Node) actionEvent.getSource()).getScene().getWindow();
         ClientInput.getInstance().sendString("joinGame", selectedGame);
-        TextMessage message = getServerMessage();
-        AlertHelper.showAlert(Alert.AlertType.CONFIRMATION, window, "Game", message.message);
         setLoginPage(actionEvent);
 
     }
@@ -99,28 +142,21 @@ public class SelectionFormController implements Initializable {
      */
     @FXML
     private void refreshGames() {
-        ClientInput.getInstance().sendString("avlGames", "");
-        TextMessage response = getServerMessage();
-        Gson gson = new Gson();
-        if (Objects.equals(response.type, "avlGames")) {
-            gamesList.getItems().clear();
-            GameStatus[] gameStatuses = gson.fromJson(response.message, GameStatus[].class);
-            for (GameStatus gameStatus : gameStatuses) {
-                gamesList.getItems().add("-" + gameStatus.gameId + ": " + gameStatus.currentNumber + "/" + gameStatus.totalPlayers + " players:" + gameStatus.playersName);
-            }
-        }
-
+        clientInput.sendString("avlGames", "");
     }
+
 
     /**
      * Gets a message from the server via {@link ClientInput}.
      * If the message received indicates a connection error calls closeWindow
+     *
      * @return the message from the server as a {@link TextMessage}
      */
     private TextMessage getServerMessage() {
         TextMessage response = ClientInput.getInstance().readLine();
         if (Objects.equals(response.type, "quit")) {
-            closeWindow();
+            AlertHelper.showAlert(Alert.AlertType.ERROR, anchor.getScene().getWindow(), "Connection error", "Error connecting to the server, please close the application");
+            anchor.setDisable(true);
         }
         return response;
     }

@@ -102,9 +102,9 @@ public final class ClientInput {
             Gson gson = new Gson();
             return gson.fromJson(msg, TextMessage.class);
         } catch (IOException e) {
-            System.out.println("No connection to the server");
+            return new TextMessage("quit","No connection to the server");
+            //System.out.println("No connection to the server");
         }
-        return new TextMessage("quit","No connection to the server");
     }
 
 

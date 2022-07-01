@@ -30,6 +30,7 @@ public class LoginController {
 
     /**
      * Load and shows the scene for deck selection
+     *
      * @param actionEvent action event of the button
      * @throws IOException If loading the scene an exception occurred
      */
@@ -44,6 +45,7 @@ public class LoginController {
 
     /**
      * Load and shows the dashboard scene
+     *
      * @param actionEvent action event of the button
      * @throws IOException If loading the scene an exception occurred
      */
@@ -56,8 +58,6 @@ public class LoginController {
     }
 
 
-
-
     /**
      * Send a message to the server to log in with the username typed by the user.
      * Shows an error alert if the response from the server is negative
@@ -68,11 +68,13 @@ public class LoginController {
         ClientInput.getInstance().sendString("login", name);
         Window window = ((Node) actionEvent.getSource()).getScene().getWindow();
         TextMessage message = ClientInput.getInstance().readLine();
-        if (!Objects.equals(message.type, "confirmation")) {
+        if (Objects.equals(message.type, "quit")) {
+            AlertHelper.showAlert(Alert.AlertType.ERROR, window, "Connection error", "Error connecting to the server, please close the application");
+        } else if (!Objects.equals(message.type, "confirmation")) {
             AlertHelper.showAlert(Alert.AlertType.WARNING, window, "Login", message.message);
-        } else{
+        } else {
             AlertHelper.showAlert(Alert.AlertType.CONFIRMATION, window, "Login", message.message);
-            if (Objects.equals(message.context, "login")){
+            if (Objects.equals(message.context, "login")) {
                 setChoosingDeckPage(actionEvent);
             } else setDashboardPage(actionEvent);
 
@@ -82,6 +84,7 @@ public class LoginController {
 
     /**
      * Load the selection form scene
+     *
      * @throws IOException If loading the scene an exception occurred
      */
     @FXML

@@ -562,10 +562,11 @@ public class DashboardController implements Initializable, DisplayLabel {
                         try {
                             commandHashMap.get(message.type).runCommand();
                         } catch (IOException e) {
+                            System.out.println("Error calling method");
                             throw new RuntimeException(e);
                         }
                     });
-                } else quit();
+                } else Platform.runLater(this::quit);
                 try {
                     Thread.sleep(400);
 
@@ -679,9 +680,9 @@ public class DashboardController implements Initializable, DisplayLabel {
      * Closes the application
      */
     private void quit() {
-        stopThread();
         AlertHelper.showAlert(Alert.AlertType.ERROR, anchor.getScene().getWindow(), "Connection error", "Error connecting to the server, please close the application");
         anchor.setDisable(true);
+        stopThread();
         //System.exit(0);
         //System.exit(0); exit program after closing the alert
     }
