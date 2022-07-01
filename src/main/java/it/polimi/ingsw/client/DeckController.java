@@ -47,6 +47,7 @@ public class DeckController implements Initializable, DisplayLabel {
      */
     private boolean exit;
 
+
     /**
      * Asks the server for the list of assistant card decks and sets the name of the player if a deck has already been chosen
      *
@@ -66,6 +67,43 @@ public class DeckController implements Initializable, DisplayLabel {
         deck2Owner.setText(deckStatusArrayList[1].playerName);
         deck3Owner.setText(deckStatusArrayList[2].playerName);
         deck4Owner.setText(deckStatusArrayList[3].playerName);
+        Thread readThread = new Thread(() -> {
+            exit = false;
+            while (!exit) {
+                TextMessage message = clientInput.readLine();
+                if (message != null) {
+                    Platform.runLater(() -> {
+                        if (Objects.equals(message.type, "confirmation") && Objects.equals(message.context, "chooseDeck")) {
+                            AlertHelper.showAlert(Alert.AlertType.INFORMATION, anchor.getScene().getWindow(), "Deck", message.message + "\nNow wait for your turn to begin!");
+                            anchor.setDisable(true);
+                        } else if (Objects.equals(message.type, "notify") && !message.message.contains("logged in")) {
+                            AlertHelper.showAlert(Alert.AlertType.INFORMATION, anchor.getScene().getWindow(), "Turn Notification", message.message);
+                            try {
+                                setTable();
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                            exit= true;
+                        } else if (Objects.equals(message.type, "error")  && Objects.equals(message.context, "chooseDeck")) {
+                            anchor.setDisable(false);
+                            AlertHelper.showAlert(Alert.AlertType.WARNING, anchor.getScene().getWindow(), "Invalid Deck", message.message);
+                            exit = true;
+                        } else if (Objects.equals(message.type, "quit")) {
+                            quit();
+                        } else {
+                            AlertHelper.showAlert(Alert.AlertType.INFORMATION, anchor.getScene().getWindow(), message.type, message.message);
+                        }
+                    });
+                }else Platform.runLater(this::quit);
+                try {
+                    Thread.sleep(400);
+
+                } catch (InterruptedException e) {
+                    System.out.println("Thread stopped");
+                }
+            }
+        });
+        readThread.start();
 
     }
 
@@ -74,10 +112,10 @@ public class DeckController implements Initializable, DisplayLabel {
      *
      * @throws IOException If loading the scene an exception occurred
      */
-    private void setTable(ActionEvent actionEvent) throws IOException {
+    private void setTable() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("dashboard.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 810.0, 1270.0);
-        Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+        Stage stage = (Stage) anchor.getScene().getWindow();
         stage.setScene(scene);
         stage.setHeight(900.);
         stage.setWidth(1400.0);
@@ -97,42 +135,7 @@ public class DeckController implements Initializable, DisplayLabel {
     private void alertChosenDeck(ActionEvent actionEvent) {
         Window window = ((Node) actionEvent.getSource()).getScene().getWindow();
 
-        ClientInput clientInput = ClientInput.getInstance();
-        Thread readThread = new Thread(() -> {
-            exit = false;
-            while (!exit) {
-                TextMessage message = clientInput.readLine();
-                if (message != null) {
-                    Platform.runLater(() -> {
-                        if (Objects.equals(message.type, "confirmation") && Objects.equals(message.context, "chooseDeck")) {
-                            AlertHelper.showAlert(Alert.AlertType.INFORMATION, window, "Deck", message.message + "\nNow wait for your turn to begin!");
-                            anchor.setDisable(true);
-                        } else if (Objects.equals(message.type, "notify") && !message.message.contains("logged in")) {
-                            AlertHelper.showAlert(Alert.AlertType.INFORMATION, window, "Turn Notification", message.message);
-                            try {
-                                setTable(actionEvent);
-                            } catch (IOException e) {
-                                throw new RuntimeException(e);
-                            }
-                            exit= true;
-                        } else if (Objects.equals(message.type, "error")) {
-                            anchor.setDisable(false);
-                            AlertHelper.showAlert(Alert.AlertType.WARNING, window, "Invalid Deck", message.message);
-                            exit = true;
-                        } else if (Objects.equals(message.type, "quit")) {
-                           quit();
-                        }
-                    });
-                }else Platform.runLater(this::quit);
-                try {
-                    Thread.sleep(400);
 
-                } catch (InterruptedException e) {
-                    System.out.println("Thread stopped");
-                }
-            }
-        });
-        readThread.start();
     }
 
 

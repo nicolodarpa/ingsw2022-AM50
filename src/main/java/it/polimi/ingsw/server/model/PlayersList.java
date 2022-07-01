@@ -59,7 +59,7 @@ public class PlayersList {
     public void removePlayer(Player player) {
         //players.remove(player);
         player.setActive(false);
-        notifyAllClients("notify", player.getName() + " logged out");
+        notifyAllClients("error", player.getName() + " logged out");
         System.out.println(player.getName() + " logged out");
     }
 

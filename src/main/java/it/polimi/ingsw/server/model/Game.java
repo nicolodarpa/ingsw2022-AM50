@@ -226,7 +226,7 @@ public class Game {
         plist.removePlayer(player);
         if (plist.getActivePlayers() == 1) {
             try {
-                plist.notifyAllClients("notify", "waiting for reconnection");
+                plist.notifyAllClients("error", "waiting for reconnection");
                 Thread.sleep(disconnectionTimeout);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);

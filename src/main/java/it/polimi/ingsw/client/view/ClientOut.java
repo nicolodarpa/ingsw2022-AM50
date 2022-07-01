@@ -298,7 +298,7 @@ public class ClientOut extends Thread {
             line.append("----------------");
             if (islandStatus.presenceMN) {
                 id.append(String.format("%s" + YELLOW + " %-" + SPACE + "s" + ANSI_RESET + " %s", "|", "Id #: " + islandStatus.id, "|"));
-            } else id.append(String.format("%s %-" + SPACE + "s %s", "|", "Id #: " + islandStatus.id + (islandStatus.isBlocked ? " blocked" : ""), "|"));
+            } else id.append(String.format("%s %-" + SPACE + "s %s", "|", "Id #: " + islandStatus.id + (islandStatus.isBlocked ? " blck" : ""), "|"));
             dim.append(String.format("%s %-" + SPACE + "s %s", "|", "Dim: " + islandStatus.dimension, "|"));
             owner.append(String.format("%s %-" + SPACE + "s %s", "|", "Own: " + islandStatus.owner, "|"));
             towers.append(String.format("%s %-" + SPACE + "s %s", "|", "Twrs #:" + islandStatus.towerNumber, "|"));
