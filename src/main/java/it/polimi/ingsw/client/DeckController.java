@@ -9,20 +9,19 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
+
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import javafx.stage.Window;
+
 
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
-
 
 
 /**
@@ -50,7 +49,7 @@ public class DeckController implements Initializable, DisplayLabel {
 
     /**
      * Asks the server for the list of assistant card decks and sets the name of the player if a deck has already been chosen
-     *
+     * Starts a thead listening for incoming messages
      * @param url            The location used to resolve relative paths for the root object, or
      *                       {@code null} if the location is not known.
      * @param resourceBundle The resources used to localize the root object, or {@code null} if
@@ -80,21 +79,26 @@ public class DeckController implements Initializable, DisplayLabel {
                             AlertHelper.showAlert(Alert.AlertType.INFORMATION, anchor.getScene().getWindow(), "Turn Notification", message.message);
                             try {
                                 setTable();
+                                exit = true;
                             } catch (IOException e) {
                                 throw new RuntimeException(e);
                             }
-                            exit= true;
-                        } else if (Objects.equals(message.type, "error")  && Objects.equals(message.context, "chooseDeck")) {
-                            anchor.setDisable(false);
-                            AlertHelper.showAlert(Alert.AlertType.WARNING, anchor.getScene().getWindow(), "Invalid Deck", message.message);
-                            exit = true;
+                        } else if (Objects.equals(message.type, "error")) {
+                            if (Objects.equals(message.context, "chooseDeck")) {
+                                anchor.setDisable(false);
+                                AlertHelper.showAlert(Alert.AlertType.WARNING, anchor.getScene().getWindow(), "Invalid Deck", message.message);
+                            } else {
+                                AlertHelper.showAlert(Alert.AlertType.ERROR, anchor.getScene().getWindow(), "Error", message.message);
+                            }
                         } else if (Objects.equals(message.type, "quit")) {
                             quit();
-                        } else {
-                            AlertHelper.showAlert(Alert.AlertType.INFORMATION, anchor.getScene().getWindow(), message.type, message.message);
+                        } else if (Objects.equals(message.type, "endGame")) {
+                            AlertHelper.showAlert(Alert.AlertType.INFORMATION, anchor.getScene().getWindow(), "Every other player disconnected", message.message + "\nPlease close the application");
+                            anchor.setDisable(true);
+                            exit = true;
                         }
                     });
-                }else Platform.runLater(this::quit);
+                } else Platform.runLater(this::quit);
                 try {
                     Thread.sleep(400);
 
@@ -119,76 +123,56 @@ public class DeckController implements Initializable, DisplayLabel {
         stage.setScene(scene);
         stage.setHeight(900.);
         stage.setWidth(1400.0);
-        //stage.setMaximized(true);
         stage.show();
 
 
     }
 
-
-    /**
-     * Reads the response from the server after choosing a deck.
-     * If the response is positive the dashboard view is shown else an error alert pops up
-     *
-     */
-    @FXML
-    private void alertChosenDeck(ActionEvent actionEvent) {
-        Window window = ((Node) actionEvent.getSource()).getScene().getWindow();
-
-
-    }
-
-
-    private void quit(){
+    private void quit() {
         exit = true;
         anchor.setDisable(true);
-        AlertHelper.showAlert(Alert.AlertType.ERROR, anchor.getScene().getWindow(), "Connection error", "Error connecting to the server, please close the application");
+        AlertHelper.showAlert(Alert.AlertType.ERROR, anchor.getScene().getWindow(), "Server connection error", "Server unreachable, please close the application");
     }
 
 
     /**
      * Selects deck 1
      *
-     * @throws IOException If loading the scene an exception occurred
      */
     @FXML
-    private void chooseDeck1(ActionEvent actionEvent) throws IOException {
+    private void chooseDeck1(ActionEvent actionEvent) {
         chooseDeck(actionEvent, 1);
     }
 
     /**
      * Selects deck 2
      *
-     * @throws IOException If loading the scene an exception occurred
      */
     @FXML
-    private void chooseDeck2(ActionEvent actionEvent) throws IOException {
+    private void chooseDeck2(ActionEvent actionEvent) {
         chooseDeck(actionEvent, 2);
     }
 
     /**
      * Selects deck 3
      *
-     * @throws IOException If loading the scene an exception occurred
      */
     @FXML
-    private void chooseDeck3(ActionEvent actionEvent) throws IOException {
+    private void chooseDeck3(ActionEvent actionEvent) {
         chooseDeck(actionEvent, 3);
     }
 
     /**
      * Selects deck 4
      *
-     * @throws IOException If loading the scene an exception occurred
      */
     @FXML
-    private void chooseDeck4(ActionEvent actionEvent) throws IOException {
+    private void chooseDeck4(ActionEvent actionEvent) {
         chooseDeck(actionEvent, 4);
     }
 
-    private void chooseDeck(ActionEvent actionEvent, int i) throws IOException {
+    private void chooseDeck(ActionEvent actionEvent, int i) {
         ClientInput.getInstance().sendString("chooseDeck", String.valueOf(i));
-        alertChosenDeck(actionEvent);
     }
 }
 

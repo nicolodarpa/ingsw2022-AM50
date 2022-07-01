@@ -45,11 +45,11 @@ All the model has classes' coverage at 100%.
 #### Coverage criteria: code lines
 
 
-| Package      |  Tested Class  |    Coverage     |
-|:-------------|:--------------:|:---------------:|
-| Model        | Global Package | 1038/1099 (94%) |
-| Server       | Login Manager  |   16/18 (88%)   |
-| Communication | Global Package |  98/162 (60%)   |
+| Package           |  Tested Class  |    Coverage     |
+|:------------------|:--------------:|:---------------:|
+| Server/Model      | Global Package | 1004/1057 (94%) |
+| Server/Controller | Login Manager  |  11/11 (100%)   |
+| Communication     | Global Package |  98/157 (62%)   |
 
 
 

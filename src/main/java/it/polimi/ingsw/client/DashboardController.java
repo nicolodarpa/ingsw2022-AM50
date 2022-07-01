@@ -564,7 +564,6 @@ public class DashboardController implements Initializable, DisplayLabel {
                             commandHashMap.get(message.type).runCommand();
                         } catch (IOException e) {
                             System.out.println("Error calling method");
-                            quit();
                         }
                     });
                 } else Platform.runLater(this::quit);
@@ -681,9 +680,10 @@ public class DashboardController implements Initializable, DisplayLabel {
      * Closes the application
      */
     private void quit() {
-        AlertHelper.showAlert(Alert.AlertType.ERROR, anchor.getScene().getWindow(), "Connection error", "Error connecting to the server, please close the application");
-        anchor.setDisable(true);
         stopThread();
+        AlertHelper.showAlert(Alert.AlertType.ERROR, anchor.getScene().getWindow(), "Server connection error", "Server unreachable, please close the application");
+        anchor.setDisable(true);
+
         //System.exit(0);
         //System.exit(0); exit program after closing the alert
     }
