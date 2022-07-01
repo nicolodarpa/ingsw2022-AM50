@@ -105,7 +105,7 @@ public class DeckController implements Initializable, DisplayLabel {
                 if (message != null) {
                     Platform.runLater(() -> {
                         if (Objects.equals(message.type, "confirmation") && Objects.equals(message.context, "chooseDeck")) {
-                            AlertHelper.showAlert(Alert.AlertType.INFORMATION, window, "Deck", message.message);
+                            AlertHelper.showAlert(Alert.AlertType.INFORMATION, window, "Deck", message.message + "\nNow wait for your turn to begin!");
                             anchor.setDisable(true);
                         } else if (Objects.equals(message.type, "notify") && !message.message.contains("logged in")) {
                             AlertHelper.showAlert(Alert.AlertType.INFORMATION, window, "Turn Notification", message.message);
@@ -120,13 +120,10 @@ public class DeckController implements Initializable, DisplayLabel {
                             AlertHelper.showAlert(Alert.AlertType.WARNING, window, "Invalid Deck", message.message);
                             exit = true;
                         } else if (Objects.equals(message.type, "quit")) {
-                            anchor.setDisable(true);
-                            AlertHelper.showAlert(Alert.AlertType.ERROR, window, "Connection error", "Error connecting to the server, please close the application");
-                            exit = true;
-
+                           quit();
                         }
                     });
-                }
+                }else Platform.runLater(this::quit);
                 try {
                     Thread.sleep(400);
 
@@ -136,6 +133,13 @@ public class DeckController implements Initializable, DisplayLabel {
             }
         });
         readThread.start();
+    }
+
+
+    private void quit(){
+        exit = true;
+        anchor.setDisable(true);
+        AlertHelper.showAlert(Alert.AlertType.ERROR, anchor.getScene().getWindow(), "Connection error", "Error connecting to the server, please close the application");
     }
 
 

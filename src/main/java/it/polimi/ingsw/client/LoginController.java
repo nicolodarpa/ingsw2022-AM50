@@ -77,7 +77,6 @@ public class LoginController {
             if (Objects.equals(message.context, "login")) {
                 setChoosingDeckPage(actionEvent);
             } else setDashboardPage(actionEvent);
-
         }
     }
 

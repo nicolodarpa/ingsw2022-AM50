@@ -3,6 +3,7 @@ package it.polimi.ingsw.client;
 import com.google.gson.Gson;
 import it.polimi.ingsw.comunication.*;
 import it.polimi.ingsw.server.model.PawnColor;
+import it.polimi.ingsw.server.model.Player;
 import it.polimi.ingsw.server.model.TowerColor;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -563,17 +564,17 @@ public class DashboardController implements Initializable, DisplayLabel {
                             commandHashMap.get(message.type).runCommand();
                         } catch (IOException e) {
                             System.out.println("Error calling method");
-                            throw new RuntimeException(e);
+                            quit();
                         }
                     });
                 } else Platform.runLater(this::quit);
                 try {
-                    Thread.sleep(400);
+                        Thread.sleep(400);
 
-                } catch (InterruptedException e) {
-                    System.out.println("Thread stopped");
+                    } catch (InterruptedException e) {
+                        System.out.println("Thread stopped");
+                    }
                 }
-            }
         });
         readThread.start();
         clientInput.sendString("gameInfo", "");

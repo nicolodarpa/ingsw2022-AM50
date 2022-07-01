@@ -86,14 +86,12 @@ public class SelectionFormController implements Initializable {
                                 AlertHelper.showAlert(Alert.AlertType.CONFIRMATION, anchor.getScene().getWindow(), "Confirmation", message.message);
                                 exit = true;
                             }
-                            case "quit" -> {
-                                exit = true;
-                                AlertHelper.showAlert(Alert.AlertType.ERROR, anchor.getScene().getWindow(), "Connection error", "Error connecting to the server, please close the application");
-                                anchor.setDisable(true);
-                            }
+                            case "quit" ->
+                              closeWindow();
+
                         }
                     });
-                }
+                }else Platform.runLater(this::closeWindow);
                 try {
                     Thread.sleep(400);
 
@@ -165,9 +163,9 @@ public class SelectionFormController implements Initializable {
      * Shows an alert and close the window
      */
     private void closeWindow() {
-        Window window = anchor.getScene().getWindow();
-        AlertHelper.showAlert(Alert.AlertType.ERROR, window, "Connection error", "No connection to the server. Closing...");
-        System.exit(0);
+        exit = true;
+        AlertHelper.showAlert(Alert.AlertType.ERROR, anchor.getScene().getWindow(), "Connection error", "Error connecting to the server, please close the application");
+        anchor.setDisable(true);
     }
 
     /**
