@@ -8,6 +8,9 @@ import it.polimi.ingsw.server.model.StudentsBag;
 
 import java.util.ArrayList;
 
+/**
+ * It's an abstract class that implement the strategy of the Character Cards.
+ */
 public abstract class CharacterCardStrategy {
 
     /**
